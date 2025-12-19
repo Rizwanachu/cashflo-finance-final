@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light theme variables */
+  --app-bg: #F8FAFC;
+  --card-bg: #FFFFFF;
+  --sidebar-bg: #F1F5F9;
+  --hover-surface: #E2E8F0;
+  --primary-text: #0F172A;
+  --secondary-text: #475569;
+  --muted-text: #64748B;
+  --disabled-text: #94A3B8;
+  --default-border: #E2E8F0;
+  --subtle-divider: #CBD5E1;
+  --brand-primary: #10B981;
+  --brand-hover: #059669;
+  --brand-soft-bg: #D1FAE5;
+  --success: #16A34A;
+  --warning: #F59E0B;
+  --error: #DC2626;
+}
+
+.dark {
+  /* Dark theme variables */
+  --app-bg: #020617;
+  --card-bg: #0F172A;
+  --sidebar-bg: #020617;
+  --hover-surface: #1E293B;
+  --primary-text: #F8FAFC;
+  --secondary-text: #CBD5E1;
+  --muted-text: #94A3B8;
+  --disabled-text: #64748B;
+  --default-border: #334155;
+  --subtle-divider: #1E293B;
+  --brand-primary: #34D399;
+  --brand-hover: #10B981;
+  --brand-soft-bg: rgba(16, 185, 129, 0.15);
+  --success: #22C55E;
+  --warning: #FBBF24;
+  --error: #F87171;
+}
+
+html {
+  /* Safe area for iOS */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--primary-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  @apply antialiased;
+}
+
+input,
+select,
+button,
+textarea {
+  font-family: inherit;
+}
+
+/* Custom scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.7);
+  border-radius: 999px;
+}
+
+/* Privacy mode blur */
+.privacy-blur {
+  filter: blur(8px);
+  transition: filter 0.3s ease;
+}
+
+/* Safe area padding for bottom navigation */
+.safe-area-pb {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+/* Disable transitions on page load */
+.no-transitions * {
+  transition: none !important;
+}
+
+/* Better focus states */
+:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* Form inputs */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+}
+
+
+
