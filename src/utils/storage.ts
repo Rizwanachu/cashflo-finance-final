@@ -46,18 +46,16 @@ export function safeSet<T>(key: string, value: T): void {
   if (typeof window === "undefined") return;
   
   try {
-    // Create backup of existing data
-    const existing = window.localStorage.getItem(key);
-    if (existing) {
-      try {
-        window.localStorage.setItem(key + BACKUP_SUFFIX, existing);
-      } catch {
-        // Ignore backup failure
-      }
-    }
-    
     // Save new data
-    window.localStorage.setItem(key, JSON.stringify(value));
+    const stringified = JSON.stringify(value);
+    window.localStorage.setItem(key, stringified);
+    
+    // Create backup of new successful save
+    try {
+      window.localStorage.setItem(key + BACKUP_SUFFIX, stringified);
+    } catch {
+      // Ignore backup failure
+    }
   } catch (error) {
     console.warn(`Failed to save ${key} to localStorage`, error);
   }

@@ -41,6 +41,21 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
   // Persist transactions
   useEffect(() => {
     saveTransactions(transactions);
+    
+    // Explicitly sync for mobile browsers on visibility change
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        saveTransactions(transactions);
+      }
+    };
+    
+    window.addEventListener('pagehide', () => saveTransactions(transactions));
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      window.removeEventListener('pagehide', () => saveTransactions(transactions));
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [transactions]);
 
   // Persist recurring transactions
