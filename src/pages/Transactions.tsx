@@ -147,13 +147,22 @@ const TransactionsPage: React.FC = () => {
                 pushToast("No transactions to export.", "warning");
                 return;
               }
+              if (!isProUser && transactions.length > 50) {
+                setLockedFeature("CSV export for more than 50 transactions");
+                setShowGoProModal(true);
+                return;
+              }
               exportTransactionsToCsv(transactions, currency);
               pushToast("CSV exported successfully.", "success");
             }}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
+              !isProUser && transactions.length > 50
+                ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+                : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+            }`}
           >
             <span>📄</span>
-            <span className="hidden sm:inline">Export CSV</span>
+            <span className="hidden sm:inline">{!isProUser && transactions.length > 50 ? `CSV (${transactions.length})` : "Export CSV"}</span>
           </button>
           <button
             type="button"
