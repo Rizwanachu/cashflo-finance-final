@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { useTransactionsContext } from "../context/TransactionsContext";
 import { usePro } from "../context/ProContext";
 import CategoryBreakdownChart from "../components/charts/CategoryBreakdownChart";
@@ -16,43 +16,16 @@ const AnalyticsPage: React.FC = () => {
   const { theme } = useTheme();
   const { pushToast } = useToast();
   const { isProUser, setShowGoProModal, setLockedFeature } = usePro();
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Detect if we're in dark mode (considering system preference and HTML class)
-  useEffect(() => {
-    const updateDarkMode = () => {
-      if (theme === "dark") {
-        setIsDarkMode(true);
-      } else if (theme === "light") {
-        setIsDarkMode(false);
-      } else {
-        // System mode - check HTML element for dark class first, then OS preference
-        const htmlElement = document.documentElement;
-        if (htmlElement.classList.contains("dark")) {
-          setIsDarkMode(true);
-        } else {
-          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          setIsDarkMode(prefersDark);
-        }
-      }
-    };
-
-    // Run immediately
-    updateDarkMode();
-
-    // Also listen for system theme changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    mediaQuery.addEventListener("change", updateDarkMode);
-
-    // Listen for class changes on html element
-    const observer = new MutationObserver(updateDarkMode);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateDarkMode);
-      observer.disconnect();
-    };
-  }, [theme]);
+  // Compute effective dark mode - checks actual HTML state
+  const isDarkMode =
+    theme === "dark" ? true :
+    theme === "light" ? false :
+    // System mode - check HTML class (most accurate)
+    typeof window !== "undefined" && document.documentElement.classList.contains("dark") ? true :
+    // Fallback to prefers-color-scheme
+    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? true :
+    false;
 
   return (
     <div className="space-y-4">
