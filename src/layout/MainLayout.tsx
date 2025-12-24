@@ -29,19 +29,19 @@ const MainLayout: React.FC = () => {
     <div className="min-h-screen flex transition-colors bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50">
       <Sidebar />
       <main className="flex-1 flex flex-col">
-        <header className="h-16 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 md:px-8 justify-between bg-transparent">
-          <div className="flex items-center gap-3 md:hidden">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-sm">
+        <header className="h-16 border-b border-slate-200 dark:border-slate-800 flex items-center px-3 sm:px-4 md:px-8 justify-between bg-transparent">
+          <div className="flex items-center gap-2 md:hidden min-w-0">
+            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white font-bold shadow-sm shrink-0">
               C
             </div>
-            <div>
-              <h1 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+            <div className="min-w-0">
+              <h1 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50 truncate">
                 Spendory
               </h1>
             </div>
           </div>
           <div className="hidden md:block" />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Notification Bell */}
             <div className="relative">
               <button
@@ -65,7 +65,7 @@ const MainLayout: React.FC = () => {
                     className="fixed inset-0 z-30" 
                     onClick={() => setShowNotifications(false)}
                   />
-                  <div className="absolute right-0 top-full mt-2 w-80 max-h-96 overflow-y-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40">
+                  <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 max-h-96 overflow-y-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40 max-sm:left-0 max-sm:-right-0 max-sm:mx-2">
                     <div className="p-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                       <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
                         Notifications
@@ -170,16 +170,16 @@ const MainLayout: React.FC = () => {
             >
               <span className="text-sm">{resolvedTheme === "dark" ? "☀️" : "🌙"}</span>
             </button>
-            <div className="hidden sm:flex items-center">
+            <div className="hidden xs:flex items-center">
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-                className="rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-2 sm:px-3 py-1.5 text-xs text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
-                <option value="USD">$ USD</option>
-                <option value="EUR">€ EUR</option>
-                <option value="INR">₹ INR</option>
-                <option value="GBP">£ GBP</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="INR">INR</option>
+                <option value="GBP">GBP</option>
               </select>
             </div>
           </div>
@@ -223,7 +223,7 @@ const MainLayout: React.FC = () => {
           </div>
         </nav>
 
-        <div className="flex-1 overflow-y-auto px-4 md:px-8 py-6 pb-20 md:pb-8">
+        <div className="flex-1 overflow-y-auto px-3 sm:px-4 md:px-8 py-4 sm:py-6 pb-20 md:pb-8">
           <Outlet />
         </div>
       </main>

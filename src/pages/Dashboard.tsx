@@ -97,8 +97,8 @@ const Dashboard: React.FC = () => {
         </Card>
 
         {/* Empty charts */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch">
-          <Card className="xl:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 items-stretch">
+          <Card className="md:col-span-2 lg:col-span-2">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
@@ -160,9 +160,9 @@ const Dashboard: React.FC = () => {
       )}
       <SummaryCards transactions={transactions} />
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch">
-        <Card className="xl:col-span-2 bg-emerald-500 dark:bg-emerald-400 text-white border-0">
-          <div className="flex items-center justify-between mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 items-stretch">
+        <Card className="md:col-span-2 lg:col-span-2 bg-emerald-500 dark:bg-emerald-400 text-white border-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
             <div>
               <div className="text-xs uppercase tracking-wide text-white/90">
                 Spending
@@ -171,7 +171,7 @@ const Dashboard: React.FC = () => {
                 Overview of this week&apos;s expenses
               </div>
             </div>
-            <span className="text-[11px] px-2 py-1 rounded-full bg-white/20 border border-white/30 text-white">
+            <span className="text-[11px] px-2 py-1 rounded-full bg-white/20 border border-white/30 text-white w-fit">
               Last 7 days
             </span>
           </div>
@@ -181,7 +181,7 @@ const Dashboard: React.FC = () => {
         </Card>
 
         <Card>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-3">
             <div>
               <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
                 Portfolio
@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
                 Cash position
               </div>
             </div>
-            <span className="inline-flex px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 text-[11px] font-medium">
+            <span className="inline-flex px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 text-[11px] font-medium w-fit">
               +3.1% vs last month
             </span>
           </div>
@@ -200,10 +200,10 @@ const Dashboard: React.FC = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Card className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-3">
-            <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <Card className="md:col-span-2 lg:col-span-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
+            <div className="min-w-0">
               <h3 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-slate-50">
                 Recent transactions
               </h3>
@@ -211,11 +211,11 @@ const Dashboard: React.FC = () => {
                 Latest activity across your accounts
               </p>
             </div>
-            <div className="inline-flex rounded-full bg-slate-100 dark:bg-slate-800 p-1 text-[11px]">
+            <div className="inline-flex rounded-full bg-slate-100 dark:bg-slate-800 p-1 text-[11px] w-fit">
               <button
                 type="button"
                 onClick={() => setSortNewest(true)}
-                className={`px-2.5 py-0.5 rounded-full ${
+                className={`px-2 sm:px-2.5 py-0.5 rounded-full text-nowrap ${
                   sortNewest
                     ? "bg-white dark:bg-slate-700 shadow text-slate-900 dark:text-slate-50"
                     : "text-slate-500 dark:text-slate-400"
@@ -226,7 +226,7 @@ const Dashboard: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSortNewest(false)}
-                className={`px-2.5 py-0.5 rounded-full ${
+                className={`px-2 sm:px-2.5 py-0.5 rounded-full text-nowrap ${
                   !sortNewest
                     ? "bg-white dark:bg-slate-700 shadow text-slate-900 dark:text-slate-50"
                     : "text-slate-500 dark:text-slate-400"
