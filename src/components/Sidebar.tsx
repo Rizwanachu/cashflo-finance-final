@@ -108,7 +108,7 @@ const Sidebar: React.FC = () => {
             onClick={() => setShowGoProModal(true)}
             className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm"
           >
-            ⭐ Go Pro
+            ⭐ Spendory Pro
           </button>
         </div>
       )}
