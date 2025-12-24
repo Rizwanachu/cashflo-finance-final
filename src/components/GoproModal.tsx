@@ -7,7 +7,7 @@ interface GoproModalProps {
   feature?: string;
 }
 
-const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/ncp/payment/VZ7W9AU2K8UNJ";
+const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/ncp/payment/YBDH6PMKW462W";
 
 const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => {
   const { isProUser, unlockPro, setShowGoProModal } = usePro();
