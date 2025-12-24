@@ -53,6 +53,8 @@ const TransactionForm: React.FC<Props> = ({
   const [category, setCategory] = useState<TransactionCategory>("food");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
+  const [tagsInput, setTagsInput] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [errors, setErrors] = useState<Errors>({});
 
   useEffect(() => {
@@ -62,6 +64,8 @@ const TransactionForm: React.FC<Props> = ({
       setCategory(editingTransaction.category);
       setDate(editingTransaction.date);
       setDescription(editingTransaction.description);
+      setTags(editingTransaction.tags || []);
+      setTagsInput(editingTransaction.tags?.join(", ") || "");
       setErrors({});
     } else {
       const today = new Date().toISOString().slice(0, 10);
@@ -70,6 +74,8 @@ const TransactionForm: React.FC<Props> = ({
       setCategory("groceries");
       setDate(today);
       setDescription("");
+      setTags([]);
+      setTagsInput("");
       setErrors({});
     }
   }, [editingTransaction]);
@@ -93,6 +99,18 @@ const TransactionForm: React.FC<Props> = ({
     return Object.keys(next).length === 0;
   };
 
+  const handleAddTag = (tagText: string) => {
+    const trimmed = tagText.trim();
+    if (trimmed && !tags.includes(trimmed)) {
+      setTags([...tags, trimmed]);
+      setTagsInput("");
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((t) => t !== tagToRemove));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -102,7 +120,8 @@ const TransactionForm: React.FC<Props> = ({
       category,
       date,
       description: description.trim(),
-      currency
+      currency,
+      tags: tags.length > 0 ? tags : undefined
     });
     if (!editingTransaction) {
       const today = new Date().toISOString().slice(0, 10);
@@ -111,6 +130,8 @@ const TransactionForm: React.FC<Props> = ({
       setCategory("groceries");
       setDate(today);
       setDescription("");
+      setTags([]);
+      setTagsInput("");
     }
   };
 
@@ -222,6 +243,48 @@ const TransactionForm: React.FC<Props> = ({
         {errors.description && (
           <p className="text-[11px] text-rose-500 dark:text-rose-400">{errors.description}</p>
         )}
+      </div>
+      <div className="space-y-1">
+        <label className="text-xs text-slate-600 dark:text-slate-400">Tags (optional)</label>
+        <div className="flex gap-2 flex-wrap">
+          {tags.map((tag) => (
+            <div
+              key={tag}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-medium"
+            >
+              <span>{tag}</span>
+              <button
+                type="button"
+                onClick={() => handleRemoveTag(tag)}
+                className="hover:text-emerald-900 dark:hover:text-emerald-200 font-bold"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={tagsInput}
+            onChange={(e) => setTagsInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === ",") {
+                e.preventDefault();
+                handleAddTag(tagsInput);
+              }
+            }}
+            placeholder="Add tag and press Enter..."
+            className="flex-1 rounded-xl bg-white dark:bg-slate-800/70 border border-slate-200 dark:border-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          />
+          <button
+            type="button"
+            onClick={() => handleAddTag(tagsInput)}
+            className="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-medium hover:bg-emerald-200 dark:hover:bg-emerald-500/30"
+          >
+            Add
+          </button>
+        </div>
       </div>
       <div className="flex justify-end pt-1">
           <button

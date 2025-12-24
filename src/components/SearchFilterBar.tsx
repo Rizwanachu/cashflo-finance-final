@@ -7,7 +7,10 @@ interface SearchFilterBarProps {
   onDateRangeChange: (startDate: string | null, endDate: string | null) => void;
   onCategoryChange: (category: TransactionCategory | null) => void;
   onTypeChange: (type: TransactionType | "all") => void;
+  onTagChange?: (tag: string | null) => void;
+  availableTags?: string[];
   resultCount: number;
+  isProUser?: boolean;
 }
 
 const categoryLabels: Record<TransactionCategory, string> = {
@@ -37,7 +40,10 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
   onDateRangeChange,
   onCategoryChange,
   onTypeChange,
-  resultCount
+  onTagChange,
+  availableTags,
+  resultCount,
+  isProUser
 }) => {
   const [searchText, setSearchText] = useState("");
   const [minAmount, setMinAmount] = useState("");
@@ -46,6 +52,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState<TransactionCategory | null>(null);
   const [type, setType] = useState<TransactionType | "all">("all");
+  const [tag, setTag] = useState<string | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleSearchChange = (value: string) => {
@@ -89,6 +96,11 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
     onTypeChange(value);
   };
 
+  const handleTagChange = (value: string | null) => {
+    setTag(value);
+    onTagChange?.(value);
+  };
+
   const hasActiveFilters =
     searchText ||
     minAmount ||
@@ -96,7 +108,8 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
     startDate ||
     endDate ||
     category ||
-    type !== "all";
+    type !== "all" ||
+    tag;
 
   const handleClearFilters = () => {
     setSearchText("");
@@ -106,11 +119,13 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
     setEndDate("");
     setCategory(null);
     setType("all");
+    setTag(null);
     onSearchChange("");
     onAmountChange(null, null);
     onDateRangeChange(null, null);
     onCategoryChange(null);
     onTypeChange("all");
+    onTagChange?.(null);
   };
 
   return (
@@ -238,6 +253,27 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
               />
             </div>
           </div>
+
+          {/* Tag Filter (Pro Feature) */}
+          {isProUser && availableTags && availableTags.length > 0 && (
+            <div>
+              <label className="text-xs text-slate-600 dark:text-slate-400 block mb-1.5">
+                Tags (Pro)
+              </label>
+              <select
+                value={tag || ""}
+                onChange={(e) => handleTagChange(e.target.value || null)}
+                className="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              >
+                <option value="">All Tags</option>
+                {availableTags.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       )}
 

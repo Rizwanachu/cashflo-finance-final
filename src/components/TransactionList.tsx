@@ -64,6 +64,18 @@ const TransactionList: React.FC<Props> = ({
                 <div className="font-medium text-slate-900 dark:text-slate-50">
                   {t.description}
                 </div>
+                {t.tags && t.tags.length > 0 && (
+                  <div className="flex gap-1 flex-wrap mt-1.5">
+                    {t.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="inline-flex px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-[10px] font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <div className="md:hidden text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   {categoryLabel[t.category] ?? t.category} •{" "}
                   {formatDate(t.date)}

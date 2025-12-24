@@ -32,4 +32,5 @@ export interface Transaction {
   currency: string;
   recurringRuleId?: string;
   isRecurring?: boolean;
+  tags?: string[];
 }

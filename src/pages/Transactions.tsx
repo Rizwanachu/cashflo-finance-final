@@ -27,6 +27,16 @@ const TransactionsPage: React.FC = () => {
   const [endDate, setEndDate] = useState<string | null>(null);
   const [category, setCategory] = useState<TransactionCategory | null>(null);
   const [type, setType] = useState<TransactionType | "all">("all");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
+  // Get all unique tags (Pro feature)
+  const availableTags = useMemo(() => {
+    const tags = new Set<string>();
+    transactions.forEach((t) => {
+      t.tags?.forEach((tag) => tags.add(tag));
+    });
+    return Array.from(tags).sort();
+  }, [transactions]);
 
   const filtered = useMemo(() => {
     let result = transactions;
@@ -65,8 +75,13 @@ const TransactionsPage: React.FC = () => {
       result = result.filter((t) => t.date <= endDate);
     }
 
+    // Tag filter (Pro feature)
+    if (selectedTag && isProUser) {
+      result = result.filter((t) => t.tags?.includes(selectedTag));
+    }
+
     return result;
-  }, [transactions, type, category, searchText, minAmount, maxAmount, startDate, endDate]);
+  }, [transactions, type, category, searchText, minAmount, maxAmount, startDate, endDate, selectedTag, isProUser]);
 
   const handleSubmit = (tx: Omit<Transaction, "id">) => {
     if (editing) {
@@ -112,7 +127,10 @@ const TransactionsPage: React.FC = () => {
         }}
         onCategoryChange={setCategory}
         onTypeChange={setType}
+        onTagChange={setSelectedTag}
+        availableTags={availableTags}
         resultCount={filtered.length}
+        isProUser={isProUser}
       />
       
       <div className="flex items-center justify-between mt-2 gap-2 flex-wrap">
