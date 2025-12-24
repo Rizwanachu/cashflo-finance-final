@@ -1,0 +1,175 @@
+You are a senior full-stack React + TypeScript engineer.
+
+This app is a privacy-first finance dashboard built with:
+- React + TypeScript
+- Vite
+- Tailwind
+- LocalStorage only
+- Deployed on Netlify / Vercel
+- No backend
+- No signup
+- PayPal for Pro (lifetime)
+
+There are CRITICAL PRODUCTION ISSUES that must be FIXED correctly.
+
+====================================================
+ISSUE 1: DATA LOSS AFTER REFRESH / REOPEN
+====================================================
+
+Problem:
+After deployment, user data disappears after refresh or reopening the app.
+The app behaves like first launch again.
+
+Root causes to check and FIX:
+- localStorage keys being overwritten on mount
+- State initialized incorrectly
+- useEffect clearing data unintentionally
+- Multiple storage keys used inconsistently
+- JSON parse failures resetting state
+- SSR / hydration mismatch (Netlify/Vercel)
+
+REQUIREMENTS:
+1. Create a SINGLE storage utility:
+   - safeGet(key, fallback)
+   - safeSet(key, value)
+
+2. Never overwrite localStorage unless user explicitly:
+   - Adds data
+   - Deletes data
+   - Resets app
+
+3. Initialize all state using lazy initializers:
+   useState(() => safeGet("key", default))
+
+4. Wrap all JSON.parse in try/catch
+   - If corrupted, restore from backup
+
+5. Add automatic local backup:
+   - cashflo_data
+   - cashflo_data_backup
+
+6. Ensure:
+   - Refresh does NOT clear data
+   - Closing browser does NOT clear data
+   - Reopening days later still works
+   - Offline mode works
+
+DO NOT reset data on:
+- theme change
+- currency change
+- navigation
+- onboarding completion
+
+====================================================
+ISSUE 2: PAYPAL BUTTON OPENS BROKEN PAGE
+====================================================
+
+Current issue:
+Clicking “💳 Pay once. Use forever.” opens a broken PayPal profile page.
+
+PayPal account email:
+rizwanachoo123@gmail.com
+
+FIX THIS PROPERLY:
+
+1. Use PayPal.me payment link
+2. Create a valid link format:
+   https://www.paypal.me/<username>/<amount>
+
+3. Use example:
+   https://www.paypal.me/rizwanachoo123/9.99
+
+4. Open link in new tab safely:
+   - target="_blank"
+   - rel="noopener noreferrer"
+
+5. Button copy:
+   “Pay once. Use forever.”
+
+6. Add note under button:
+   “After payment, you’ll receive an unlock code.”
+
+====================================================
+ISSUE 3: UNLOCK CODE SECURITY (NO SHARING)
+====================================================
+
+Current issue:
+One unlock code can be shared with others.
+
+FIX: UNIQUE PER-USER UNLOCK SYSTEM
+(No backend allowed)
+
+IMPLEMENT THIS:
+
+1. On first app load:
+   - Generate a unique device ID
+   - Save as:
+     cashflo_device_id
+
+   Example:
+   crypto.randomUUID()
+
+2. Unlock codes must be:
+   - Single-use
+   - Bound to device ID
+
+3. Create a predefined unlock map:
+   Example structure:
+
+   {
+     "CODE-AB12": "device-id-xyz",
+     "CODE-CD34": "device-id-abc"
+   }
+
+4. Unlock logic:
+   - If code exists AND
+   - Code is not already used OR matches same device
+   → Unlock Pro
+
+5. If code already used on another device:
+   - Show error:
+     “This code is already used on another device.”
+
+6. Save:
+   cashflo_pro = true
+   cashflo_pro_device = device_id
+
+7. On app load:
+   - If device_id matches stored pro device
+   → Pro remains unlocked
+
+====================================================
+ISSUE 4: PAYMENT FLOW UX
+====================================================
+
+Improve clarity (no backend):
+
+1. Payment steps UI:
+   Step 1: Pay via PayPal
+   Step 2: Receive unlock code
+   Step 3: Enter code to unlock
+
+2. Add helper text:
+   - “Your unlock is permanent on this device”
+   - “No account required”
+
+====================================================
+FINAL REQUIREMENTS
+====================================================
+
+- No backend
+- No signup
+- No ads
+- Fully offline compatible
+- Works on Netlify / Vercel
+- Data NEVER disappears
+- PayPal link always works
+- Unlock codes cannot be shared
+- Clean TypeScript
+- Clean Tailwind UI
+- No console errors
+
+Proceed step-by-step.
+Apply fixes directly to the existing codebase.
+Do NOT rewrite the app.
+Fix only what is necessary.
