@@ -72,7 +72,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
 
         <div className="space-y-4 mb-6">
           <a
-            href="https://paypal.me/cashflo"
+            href="https://paypal.me/rizwanachoo123"
             target="_blank"
             rel="noopener noreferrer"
             className="block w-full px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition-colors text-center"
