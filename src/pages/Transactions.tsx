@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { useTransactionsContext } from "../context/TransactionsContext";
-import { Transaction } from "../types";
+import { Transaction, TransactionCategory, TransactionType } from "../types";
 import TransactionForm from "../components/TransactionForm";
 import TransactionList from "../components/TransactionList";
+import SearchFilterBar from "../components/SearchFilterBar";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useToast } from "../context/ToastContext";
@@ -17,12 +18,55 @@ const TransactionsPage: React.FC = () => {
   const { pushToast } = useToast();
   const { isProUser, setShowGoProModal, setLockedFeature } = usePro();
   const [editing, setEditing] = useState<Transaction | null>(null);
-  const [filter, setFilter] = useState<"all" | "income" | "expense">("all");
+  
+  // Search and filter states
+  const [searchText, setSearchText] = useState("");
+  const [minAmount, setMinAmount] = useState<number | null>(null);
+  const [maxAmount, setMaxAmount] = useState<number | null>(null);
+  const [startDate, setStartDate] = useState<string | null>(null);
+  const [endDate, setEndDate] = useState<string | null>(null);
+  const [category, setCategory] = useState<TransactionCategory | null>(null);
+  const [type, setType] = useState<TransactionType | "all">("all");
 
   const filtered = useMemo(() => {
-    if (filter === "all") return transactions;
-    return transactions.filter((t) => t.type === filter);
-  }, [transactions, filter]);
+    let result = transactions;
+
+    // Type filter
+    if (type !== "all") {
+      result = result.filter((t) => t.type === type);
+    }
+
+    // Category filter
+    if (category) {
+      result = result.filter((t) => t.category === category);
+    }
+
+    // Search by description (case-insensitive)
+    if (searchText.trim()) {
+      const lowerSearch = searchText.toLowerCase();
+      result = result.filter((t) =>
+        t.description.toLowerCase().includes(lowerSearch)
+      );
+    }
+
+    // Amount range filter
+    if (minAmount !== null) {
+      result = result.filter((t) => t.amount >= minAmount);
+    }
+    if (maxAmount !== null) {
+      result = result.filter((t) => t.amount <= maxAmount);
+    }
+
+    // Date range filter
+    if (startDate) {
+      result = result.filter((t) => t.date >= startDate);
+    }
+    if (endDate) {
+      result = result.filter((t) => t.date <= endDate);
+    }
+
+    return result;
+  }, [transactions, type, category, searchText, minAmount, maxAmount, startDate, endDate]);
 
   const handleSubmit = (tx: Omit<Transaction, "id">) => {
     if (editing) {
@@ -54,6 +98,23 @@ const TransactionsPage: React.FC = () => {
         editingTransaction={editing ?? undefined}
         onCancelEdit={() => setEditing(null)}
       />
+      
+      {/* Search and Filter Bar */}
+      <SearchFilterBar
+        onSearchChange={setSearchText}
+        onAmountChange={(min, max) => {
+          setMinAmount(min);
+          setMaxAmount(max);
+        }}
+        onDateRangeChange={(start, end) => {
+          setStartDate(start);
+          setEndDate(end);
+        }}
+        onCategoryChange={setCategory}
+        onTypeChange={setType}
+        resultCount={filtered.length}
+      />
+      
       <div className="flex items-center justify-between mt-2 gap-2 flex-wrap">
         <h2 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-slate-50">
           Transaction history
@@ -98,41 +159,6 @@ const TransactionsPage: React.FC = () => {
             <span>📑</span>
             <span className="hidden sm:inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
           </button>
-          <div className="inline-flex rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-1 text-[11px]">
-          <button
-            type="button"
-            className={`px-2.5 py-1 rounded-full transition-colors ${
-              filter === "all"
-                ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-50 shadow-sm"
-                : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50"
-            }`}
-            onClick={() => setFilter("all")}
-          >
-            All
-          </button>
-          <button
-            type="button"
-            className={`px-2.5 py-1 rounded-full transition-colors ${
-              filter === "income"
-                ? "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-                : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50"
-            }`}
-            onClick={() => setFilter("income")}
-          >
-            Income
-          </button>
-          <button
-            type="button"
-            className={`px-2.5 py-1 rounded-full transition-colors ${
-              filter === "expense"
-                ? "bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400"
-                : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50"
-            }`}
-            onClick={() => setFilter("expense")}
-          >
-            Expenses
-          </button>
-          </div>
         </div>
       </div>
       <TransactionList
