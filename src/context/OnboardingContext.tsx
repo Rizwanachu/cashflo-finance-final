@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { safeGet, safeSet, safeRemove } from "../utils/storage";
 
 interface OnboardingContextValue {
   isOnboardingComplete: boolean;
@@ -15,25 +16,22 @@ const ONBOARDING_KEY = "spendory_onboarding_complete";
 export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
+  const [isOnboardingComplete, setIsOnboardingComplete] = useState(() =>
+    safeGet<boolean>(ONBOARDING_KEY, false)
+  );
 
+  // Persist onboarding state
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(ONBOARDING_KEY);
-      setIsOnboardingComplete(stored === "true");
-    } catch {
-      setIsOnboardingComplete(false);
-    }
-  }, []);
+    safeSet(ONBOARDING_KEY, isOnboardingComplete);
+  }, [isOnboardingComplete]);
 
   const completeOnboarding = () => {
     setIsOnboardingComplete(true);
-    window.localStorage.setItem(ONBOARDING_KEY, "true");
   };
 
   const resetOnboarding = () => {
     setIsOnboardingComplete(false);
-    window.localStorage.removeItem(ONBOARDING_KEY);
+    safeRemove(ONBOARDING_KEY);
   };
 
   return (

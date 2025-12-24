@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getThemeColors, ThemeMode } from "../theme/theme";
+import { safeGet, safeSet } from "../utils/storage";
 
 type Theme = ThemeMode | "system";
 
@@ -24,23 +25,11 @@ function getSystemTheme(): ThemeMode {
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [theme, setThemeState] = useState<Theme>("system");
+  const [theme, setThemeState] = useState<Theme>(() => {
+    const stored = safeGet<Theme>(THEME_KEY, "system");
+    return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+  });
   const [resolvedTheme, setResolvedTheme] = useState<ThemeMode>("dark");
-
-  // Load theme from localStorage on mount
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const stored = window.localStorage.getItem(THEME_KEY) as Theme | null;
-      if (stored === "light" || stored === "dark" || stored === "system") {
-        setThemeState(stored);
-      } else {
-        setThemeState("system");
-      }
-    } catch {
-      setThemeState("system");
-    }
-  }, []);
 
   // Resolve theme (system -> light/dark)
   useEffect(() => {
@@ -81,12 +70,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Persist theme
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      window.localStorage.setItem(THEME_KEY, theme);
-    } catch {
-      // ignore
-    }
+    safeSet(THEME_KEY, theme);
   }, [theme]);
 
   const setTheme = (newTheme: Theme) => {
@@ -115,5 +99,3 @@ export function useTheme(): ThemeContextValue {
   }
   return ctx;
 }
-
-

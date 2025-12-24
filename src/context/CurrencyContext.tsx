@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { safeGet, safeSet } from "../utils/storage";
 
 export interface CurrencyInfo {
   code: string;
@@ -62,19 +63,14 @@ const CURRENCY_MAP = new Map(CURRENCIES.map(c => [c.code, c]));
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [currency, setCurrencyState] = useState<CurrencyCode>("USD");
+  const [currency, setCurrencyState] = useState<CurrencyCode>(() => {
+    const stored = safeGet<CurrencyCode>(CURRENCY_KEY, "USD");
+    return CURRENCY_MAP.has(stored) ? stored : "USD";
+  });
 
+  // Persist currency choice
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const stored = window.localStorage.getItem(CURRENCY_KEY) as CurrencyCode | null;
-    if (stored && CURRENCY_MAP.has(stored)) {
-      setCurrencyState(stored);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(CURRENCY_KEY, currency);
+    safeSet(CURRENCY_KEY, currency);
   }, [currency]);
 
   const setCurrency = (code: CurrencyCode) => {

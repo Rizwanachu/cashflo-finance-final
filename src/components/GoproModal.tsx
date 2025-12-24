@@ -12,6 +12,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
   const [unlockCode, setUnlockCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [step, setStep] = useState<"payment" | "unlock">("payment");
 
   if (!isOpen) return null;
 
@@ -24,7 +25,8 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
       return;
     }
 
-    if (unlockPro(unlockCode)) {
+    const result = unlockPro(unlockCode);
+    if (result.success) {
       setSuccessMessage("✓ Pro unlocked! You now have access to all features.");
       setUnlockCode("");
       setTimeout(() => {
@@ -32,7 +34,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
         onClose();
       }, 1500);
     } else {
-      setErrorMessage("Invalid unlock code. Please check and try again.");
+      setErrorMessage(result.message);
       setUnlockCode("");
     }
   };
@@ -70,62 +72,103 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
           </ul>
         </div>
 
-        <div className="space-y-4 mb-6">
-          <a
-            href="https://paypal.me/rizwanachoo123"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition-colors text-center"
-          >
-            💳 Pay once. Use forever.
-          </a>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200 dark:border-slate-700"></div>
+        {/* Payment Flow Steps */}
+        <div className="mb-6">
+          <div className="flex gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-4">
+            <div className={`flex-1 text-center pb-2 border-b-2 ${step === "payment" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700"}`}>
+              Step 1: Pay
             </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="px-2 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400">
-                Have an unlock code?
-              </span>
+            <div className={`flex-1 text-center pb-2 border-b-2 ${step === "unlock" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700"}`}>
+              Step 2: Unlock
             </div>
           </div>
 
-          <div className="space-y-2">
-            <input
-              type="text"
-              value={unlockCode}
-              onChange={(e) => {
-                setUnlockCode(e.target.value);
-                setErrorMessage("");
-                setSuccessMessage("");
-              }}
-              placeholder="Enter unlock code"
-              className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
-            />
-            <button
-              onClick={handleUnlock}
-              className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
-            >
-              Restore Purchase
-            </button>
-          </div>
+          {step === "payment" && (
+            <div className="space-y-4">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Click the button below to complete your one-time payment via PayPal.
+              </p>
+              <a
+                href="https://www.paypal.me/rizwanachoo123/9.99"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  // After user returns from PayPal, they'll have the unlock code
+                  setTimeout(() => setStep("unlock"), 500);
+                }}
+                className="block w-full px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition-colors text-center"
+              >
+                💳 Pay once. Use forever. ($9.99)
+              </a>
 
-          {errorMessage && (
-            <p className="text-xs text-red-500 dark:text-red-400 text-center">
-              {errorMessage}
-            </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 text-center bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                💡 After payment, you'll receive an unlock code via email.
+              </p>
+            </div>
           )}
-          {successMessage && (
-            <p className="text-xs text-emerald-600 dark:text-emerald-400 text-center font-medium">
-              {successMessage}
-            </p>
+
+          {step === "unlock" && (
+            <div className="space-y-4">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Enter the unlock code you received after payment.
+              </p>
+              <div className="space-y-2">
+                <input
+                  type="text"
+                  value={unlockCode}
+                  onChange={(e) => {
+                    setUnlockCode(e.target.value);
+                    setErrorMessage("");
+                    setSuccessMessage("");
+                  }}
+                  placeholder="Enter unlock code"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                />
+                <button
+                  onClick={handleUnlock}
+                  className="w-full px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+                >
+                  Unlock Pro
+                </button>
+              </div>
+
+              <button
+                onClick={() => setStep("payment")}
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
+              >
+                ← Back to Payment
+              </button>
+
+              {errorMessage && (
+                <p className="text-xs text-red-500 dark:text-red-400 text-center">
+                  {errorMessage}
+                </p>
+              )}
+              {successMessage && (
+                <p className="text-xs text-emerald-600 dark:text-emerald-400 text-center font-medium">
+                  {successMessage}
+                </p>
+              )}
+            </div>
           )}
+        </div>
+
+        {/* Helper Text */}
+        <div className="space-y-2 border-t border-slate-200 dark:border-slate-700 pt-4">
+          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+            ✓ Your unlock is permanent on this device
+          </p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+            ✓ No account required
+          </p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+            ✓ Works offline
+          </p>
         </div>
 
         <button
           onClick={onClose}
-          className="w-full px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 text-sm font-medium transition-colors"
+          className="w-full px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 text-sm font-medium transition-colors mt-4"
         >
           Continue free
         </button>
