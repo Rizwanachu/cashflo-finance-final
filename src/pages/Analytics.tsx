@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { useTransactionsContext } from "../context/TransactionsContext";
 import { usePro } from "../context/ProContext";
 import CategoryBreakdownChart from "../components/charts/CategoryBreakdownChart";
@@ -16,6 +16,31 @@ const AnalyticsPage: React.FC = () => {
   const { theme } = useTheme();
   const { pushToast } = useToast();
   const { isProUser, setShowGoProModal, setLockedFeature } = usePro();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Detect if we're in dark mode (considering system preference)
+  useEffect(() => {
+    const updateDarkMode = () => {
+      if (theme === "dark") {
+        setIsDarkMode(true);
+      } else if (theme === "light") {
+        setIsDarkMode(false);
+      } else {
+        // System mode - check OS preference
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setIsDarkMode(prefersDark);
+      }
+    };
+
+    updateDarkMode();
+
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => updateDarkMode();
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [theme]);
 
   return (
     <div className="space-y-4">
@@ -81,7 +106,10 @@ const AnalyticsPage: React.FC = () => {
       {/* Monthly & Yearly Summaries (Pro Feature) */}
       <div className="relative">
         {!isProUser && (
-          <div className="absolute inset-0 bg-black/40 dark:bg-black/60 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer"
+          <div
+            className={`absolute inset-0 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer ${
+              isDarkMode ? "bg-black/60" : "bg-black/40"
+            }`}
             onClick={() => {
               setLockedFeature("Time-based insights");
               setShowGoProModal(true);
@@ -99,7 +127,10 @@ const AnalyticsPage: React.FC = () => {
       {/* Tag Summary (Pro Feature) */}
       <div className="relative">
         {!isProUser && (
-          <div className="absolute inset-0 bg-black/40 dark:bg-black/60 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer"
+          <div
+            className={`absolute inset-0 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer ${
+              isDarkMode ? "bg-black/60" : "bg-black/40"
+            }`}
             onClick={() => {
               setLockedFeature("Tag Analytics");
               setShowGoProModal(true);
