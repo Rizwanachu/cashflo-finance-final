@@ -7,18 +7,7 @@ interface GoproModalProps {
   feature?: string;
 }
 
-// TODO: Replace with actual PayPal Payment Link
-// Steps to create PayPal Payment Link:
-// 1. Log in to PayPal.com with rizwanachoo123@gmail.com
-// 2. Go to Tools > Payment Links
-// 3. Create a new Payment Link with:
-//    - Amount: $9.99
-//    - Currency: USD
-//    - Product name: "Cash-Style Pro – Lifetime Unlock"
-//    - One-time payment (no subscription)
-//    - Return URL: https://yourdomain.com/success?payment_id=PAYID
-// 4. Copy the link and replace below
-const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/paypalme/rizwanachoo123/9.99";
+const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/ncp/payment/VZ7W9AU2K8UNJ";
 
 const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => {
   const { isProUser, unlockPro, setShowGoProModal } = usePro();
