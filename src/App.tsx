@@ -10,6 +10,7 @@ import Settings from "./pages/Settings";
 import Pricing from "./pages/Pricing";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Success from "./pages/Success";
 import Onboarding from "./components/Onboarding";
 import { useOnboarding } from "./context/OnboardingContext";
 
@@ -20,6 +21,10 @@ const App: React.FC = () => {
     <>
       {!isOnboardingComplete && <Onboarding />}
       <Routes>
+        {/* Success page - not wrapped in MainLayout */}
+        <Route path="/success" element={<Success />} />
+        
+        {/* Main app routes */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
@@ -37,7 +42,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-
-
-

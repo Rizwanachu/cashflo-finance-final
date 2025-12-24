@@ -7,6 +7,19 @@ interface GoproModalProps {
   feature?: string;
 }
 
+// TODO: Replace with actual PayPal Payment Link
+// Steps to create PayPal Payment Link:
+// 1. Log in to PayPal.com with rizwanachoo123@gmail.com
+// 2. Go to Tools > Payment Links
+// 3. Create a new Payment Link with:
+//    - Amount: $9.99
+//    - Currency: USD
+//    - Product name: "Cash-Style Pro – Lifetime Unlock"
+//    - One-time payment (no subscription)
+//    - Return URL: https://yourdomain.com/success?payment_id=PAYID
+// 4. Copy the link and replace below
+const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/paypalme/rizwanachoo123/9.99";
+
 const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => {
   const { isProUser, unlockPro, setShowGoProModal } = usePro();
   const [unlockCode, setUnlockCode] = useState("");
@@ -89,20 +102,16 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
                 Click the button below to complete your one-time payment via PayPal.
               </p>
               <a
-                href="https://www.paypal.me/rizwanachoo123/9.99"
+                href={PAYPAL_PAYMENT_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => {
-                  // After user returns from PayPal, they'll have the unlock code
-                  setTimeout(() => setStep("unlock"), 500);
-                }}
                 className="block w-full px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition-colors text-center"
               >
                 💳 Pay once. Use forever. ($9.99)
               </a>
 
               <p className="text-xs text-slate-500 dark:text-slate-400 text-center bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-                💡 After payment, you'll receive an unlock code via email.
+                💡 After payment, you'll be redirected to get your unlock code.
               </p>
             </div>
           )}
