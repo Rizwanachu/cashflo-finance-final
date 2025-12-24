@@ -17,6 +17,7 @@ const MainLayout: React.FC = () => {
   const { notifications, unreadCount, markAsRead, markAllAsRead, clearAll } = useNotifications();
   const { showGoProModal, setShowGoProModal, lockedFeature } = usePro();
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const baseClass =
     "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-[11px] font-medium transition-colors";
@@ -220,6 +221,62 @@ const MainLayout: React.FC = () => {
               <span className="text-[13px]">⚙️</span>
               <span>Settings</span>
             </NavLink>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className={`${inactive}`}
+              >
+                <span className="text-[13px]">⋯</span>
+                <span>More</span>
+              </button>
+              {showMobileMenu && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-30" 
+                    onClick={() => setShowMobileMenu(false)}
+                  />
+                  <div className="absolute bottom-12 right-0 w-48 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40">
+                    <NavLink
+                      to="/analytics"
+                      onClick={() => setShowMobileMenu(false)}
+                      className={({ isActive }) => 
+                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-slate-800 ${
+                          isActive 
+                            ? "text-emerald-600 dark:text-emerald-400 font-medium" 
+                            : "text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+                        }`
+                      }
+                    >
+                      📊 Analytics
+                    </NavLink>
+                    <NavLink
+                      to="/pricing"
+                      onClick={() => setShowMobileMenu(false)}
+                      className={({ isActive }) => 
+                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-slate-800 ${
+                          isActive 
+                            ? "text-emerald-600 dark:text-emerald-400 font-medium" 
+                            : "text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+                        }`
+                      }
+                    >
+                      💰 Pricing
+                    </NavLink>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowGoProModal(true);
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full px-4 py-3 text-sm text-left bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-medium rounded-b-xl transition-all"
+                    >
+                      ⭐ Go Pro
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </nav>
 
