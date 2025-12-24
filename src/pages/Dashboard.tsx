@@ -7,6 +7,7 @@ import SummaryCards from "../components/SummaryCards";
 import BudgetOverview from "../components/BudgetOverview";
 import WeeklySpendingChart from "../components/charts/WeeklySpendingChart";
 import MonthlySpendingChart from "../components/charts/MonthlySpendingChart";
+import FreeLimitsBanner from "../components/FreeLimitsBanner";
 import { Card, ChartContainer } from "../components/Card";
 import { Transaction } from "../types";
 import { formatCurrencyWithPrivacy } from "../utils/privacy";
@@ -70,6 +71,7 @@ const Dashboard: React.FC = () => {
   if (isFirstTimeUser) {
     return (
       <div className="space-y-5">
+        <FreeLimitsBanner />
         <SummaryCards transactions={transactions} />
         
         {/* Welcome CTA */}
@@ -136,6 +138,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-5">
+      <FreeLimitsBanner />
       <SummaryCards transactions={transactions} />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch">

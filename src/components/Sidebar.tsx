@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { usePro } from "../context/ProContext";
 
 const Sidebar: React.FC = () => {
+  const { isProUser, setShowGoProModal } = usePro();
   const baseClass =
     "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors";
   const inactive =
@@ -90,9 +92,32 @@ const Sidebar: React.FC = () => {
           <span>Pricing</span>
         </NavLink>
       </nav>
-      <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-        <div>Today</div>
-        <div>
+
+      {!isProUser && (
+        <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-800">
+          <button
+            onClick={() => setShowGoProModal(true)}
+            className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm"
+          >
+            ⭐ Go Pro
+          </button>
+        </div>
+      )}
+
+      <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+        <NavLink
+          to="/privacy"
+          className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50"
+        >
+          Privacy
+        </NavLink>
+        <NavLink
+          to="/terms"
+          className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50"
+        >
+          Terms
+        </NavLink>
+        <div className="text-slate-400 dark:text-slate-500">
           {new Date().toLocaleDateString(undefined, {
             weekday: "short",
             month: "short",

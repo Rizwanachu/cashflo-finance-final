@@ -8,20 +8,31 @@ import Recurring from "./pages/Recurring";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
 import Pricing from "./pages/Pricing";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Onboarding from "./components/Onboarding";
+import { useOnboarding } from "./context/OnboardingContext";
 
 const App: React.FC = () => {
+  const { isOnboardingComplete } = useOnboarding();
+
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/transactions" element={<Transactions />} />
-        <Route path="/budgets" element={<Budgets />} />
-        <Route path="/recurring" element={<Recurring />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/pricing" element={<Pricing />} />
-      </Route>
-    </Routes>
+    <>
+      {!isOnboardingComplete && <Onboarding />}
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/budgets" element={<Budgets />} />
+          <Route path="/recurring" element={<Recurring />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
 

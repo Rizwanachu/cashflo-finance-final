@@ -14,6 +14,9 @@ import { ToastProvider } from "./context/ToastContext";
 import { RecurringProvider } from "./context/RecurringContext";
 import { NotificationsProvider } from "./context/NotificationsContext";
 import { ProProvider } from "./context/ProContext";
+import { OnboardingProvider } from "./context/OnboardingContext";
+import { FreeLimitsProvider } from "./context/FreeLimitsContext";
+import { AnalyticsProvider } from "./context/AnalyticsContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -22,21 +25,27 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <CurrencyProvider>
           <PrivacyProvider>
             <NotificationsProvider>
-            <AccountsProvider>
-              <CategoriesProvider>
-                <TransactionsProvider>
-                  <BudgetProvider>
-                    <RecurringProvider>
-                      <ToastProvider>
-                        <BrowserRouter>
-                          <App />
-                        </BrowserRouter>
-                      </ToastProvider>
-                    </RecurringProvider>
-                  </BudgetProvider>
-                </TransactionsProvider>
-              </CategoriesProvider>
-            </AccountsProvider>
+              <AccountsProvider>
+                <CategoriesProvider>
+                  <TransactionsProvider>
+                    <FreeLimitsProvider>
+                      <BudgetProvider>
+                        <RecurringProvider>
+                          <ToastProvider>
+                            <AnalyticsProvider>
+                              <OnboardingProvider>
+                                <BrowserRouter>
+                                  <App />
+                                </BrowserRouter>
+                              </OnboardingProvider>
+                            </AnalyticsProvider>
+                          </ToastProvider>
+                        </RecurringProvider>
+                      </BudgetProvider>
+                    </FreeLimitsProvider>
+                  </TransactionsProvider>
+                </CategoriesProvider>
+              </AccountsProvider>
             </NotificationsProvider>
           </PrivacyProvider>
         </CurrencyProvider>
