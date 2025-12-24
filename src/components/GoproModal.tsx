@@ -85,11 +85,13 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
               Pro Benefits:
             </h3>
             <ul className="space-y-2 text-sm text-emerald-800 dark:text-emerald-200">
-              <li>✓ PDF & CSV export</li>
+              <li>✓ CSV & PDF export</li>
               <li>✓ Advanced analytics</li>
+              <li>✓ Budget tracking</li>
               <li>✓ App lock & privacy mode</li>
-              <li>✓ Priority future features</li>
-              <li>✓ Pay once, use forever</li>
+              <li>✓ Financial goals</li>
+              <li>✓ Unlimited usage & Priority support</li>
+              <li>✓ All future updates included</li>
             </ul>
           </div>
 
