@@ -4,6 +4,7 @@ import { Transaction, TransactionCategory, TransactionType } from "../types";
 import TransactionForm from "../components/TransactionForm";
 import TransactionList from "../components/TransactionList";
 import SearchFilterBar from "../components/SearchFilterBar";
+import CsvImport from "../components/CsvImport";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useToast } from "../context/ToastContext";
@@ -28,6 +29,7 @@ const TransactionsPage: React.FC = () => {
   const [category, setCategory] = useState<TransactionCategory | null>(null);
   const [type, setType] = useState<TransactionType | "all">("all");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [showCsvImport, setShowCsvImport] = useState(false);
 
   // Get all unique tags (Pro feature)
   const availableTags = useMemo(() => {
@@ -165,7 +167,8 @@ const TransactionsPage: React.FC = () => {
                 pushToast("No transactions to export.", "warning");
                 return;
               }
-              exportTransactionsToPdf(transactions, currency, theme);
+              const themeMode = theme === "system" ? "light" : theme;
+              exportTransactionsToPdf(transactions, currency, themeMode);
               pushToast("PDF exported successfully.", "success");
             }}
             className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
@@ -177,8 +180,21 @@ const TransactionsPage: React.FC = () => {
             <span>📑</span>
             <span className="hidden sm:inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
           </button>
+          <button
+            type="button"
+            onClick={() => setShowCsvImport(!showCsvImport)}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 text-xs font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+          >
+            <span>📥</span>
+            <span className="hidden sm:inline">Import CSV</span>
+          </button>
         </div>
       </div>
+
+      {showCsvImport && (
+        <CsvImport onImportComplete={() => setShowCsvImport(false)} />
+      )}
+
       <TransactionList
         transactions={filtered}
         onEdit={handleEdit}
