@@ -1,6 +1,6 @@
 export type TransactionType = "income" | "expense";
 
-export type TransactionCategory = string; // Now supports custom categories
+export type TransactionCategory = string;
 
 export type AccountType = "cash" | "bank" | "credit" | "savings" | "investment";
 
@@ -13,10 +13,12 @@ export interface Account {
 }
 
 export interface RecurringRule {
+  id: string;
   frequency: "daily" | "weekly" | "monthly";
-  interval: number; // e.g., every 2 weeks = interval: 2
-  endDate?: string; // ISO YYYY-MM-DD, optional
-  lastGenerated?: string; // ISO YYYY-MM-DD, last time we generated
+  interval: number;
+  dayOfMonth?: number;
+  endDate?: string;
+  lastGenerated?: string;
 }
 
 export interface Transaction {
@@ -24,14 +26,10 @@ export interface Transaction {
   type: TransactionType;
   amount: number;
   category: TransactionCategory;
-  date: string; // ISO YYYY-MM-DD
+  date: string;
   description: string;
   accountId: string;
   currency: string;
-  recurringRuleId?: string; // If this is part of a recurring transaction
-  isRecurring?: boolean; // If this was auto-generated
+  recurringRuleId?: string;
+  isRecurring?: boolean;
 }
-
-
-
-

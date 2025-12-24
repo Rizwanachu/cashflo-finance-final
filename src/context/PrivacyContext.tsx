@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { safeGet, safeSet } from "../utils/storage";
 
 interface PrivacyContextValue {
   privacyMode: boolean;
@@ -12,23 +13,12 @@ const PRIVACY_KEY = "ledgerly-privacy-mode-v1";
 export const PrivacyProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [privacyMode, setPrivacyMode] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      const stored = window.localStorage.getItem(PRIVACY_KEY);
-      return stored === "true";
-    } catch {
-      return false;
-    }
-  });
+  const [privacyMode, setPrivacyMode] = useState<boolean>(() =>
+    safeGet<boolean>(PRIVACY_KEY, false)
+  );
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      window.localStorage.setItem(PRIVACY_KEY, String(privacyMode));
-    } catch {
-      // ignore
-    }
+    safeSet(PRIVACY_KEY, privacyMode);
   }, [privacyMode]);
 
   const togglePrivacyMode = () => {
@@ -49,4 +39,3 @@ export function usePrivacy(): PrivacyContextValue {
   }
   return ctx;
 }
-

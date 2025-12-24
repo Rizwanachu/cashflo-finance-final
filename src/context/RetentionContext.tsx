@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useTransactionsContext } from "./TransactionsContext";
+import { safeGet, safeSet } from "../utils/storage";
 
 interface RetentionContextValue {
   daysOpened: number;
@@ -30,31 +31,22 @@ export const RetentionProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Initialize and update retention
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(RETENTION_KEY);
-      const data: RetentionData = stored
-        ? JSON.parse(stored)
-        : {
-            daysOpened: 1,
-            lastOpenDate: new Date().toISOString().slice(0, 10),
-            transactionDates: []
-          };
-
-      const today = new Date().toISOString().slice(0, 10);
-      if (data.lastOpenDate !== today) {
-        data.daysOpened += 1;
-        data.lastOpenDate = today;
-      }
-
-      setRetention(data);
-      window.localStorage.setItem(RETENTION_KEY, JSON.stringify(data));
-    } catch {
-      setRetention({
-        daysOpened: 1,
-        lastOpenDate: new Date().toISOString().slice(0, 10),
-        transactionDates: []
-      });
+    const defaultData: RetentionData = {
+      daysOpened: 1,
+      lastOpenDate: new Date().toISOString().slice(0, 10),
+      transactionDates: []
+    };
+    
+    const stored = safeGet<RetentionData>(RETENTION_KEY, defaultData);
+    const today = new Date().toISOString().slice(0, 10);
+    
+    if (stored.lastOpenDate !== today) {
+      stored.daysOpened += 1;
+      stored.lastOpenDate = today;
     }
+
+    setRetention(stored);
+    safeSet(RETENTION_KEY, stored);
   }, []);
 
   // Track transaction dates

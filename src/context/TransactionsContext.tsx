@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { Transaction, RecurringRule } from "../types";
 import { loadTransactions, saveTransactions } from "../utils/localStorage";
+import { safeGet, safeSet } from "../utils/storage";
 
 interface RecurringTransaction {
   id: string;
@@ -27,27 +28,6 @@ const TransactionsContext = createContext<TransactionsContextValue | undefined>(
 
 const RECURRING_KEY = "ledgerly-recurring-v1";
 
-function loadRecurringTransactions(): RecurringTransaction[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(RECURRING_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as RecurringTransaction[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveRecurringTransactions(recurring: RecurringTransaction[]) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(RECURRING_KEY, JSON.stringify(recurring));
-  } catch {
-    // ignore
-  }
-}
-
 export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
@@ -55,7 +35,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
     loadTransactions()
   );
   const [recurringTransactions, setRecurringTransactions] = useState<RecurringTransaction[]>(() =>
-    loadRecurringTransactions()
+    safeGet<RecurringTransaction[]>(RECURRING_KEY, [])
   );
 
   // Persist transactions
@@ -65,115 +45,59 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Persist recurring transactions
   useEffect(() => {
-    saveRecurringTransactions(recurringTransactions);
+    safeSet(RECURRING_KEY, recurringTransactions);
   }, [recurringTransactions]);
 
   // Generate recurring transactions on mount and when recurring rules change
   useEffect(() => {
-    // Only generate if we have recurring transactions
     if (recurringTransactions.length > 0) {
       generateRecurringTransactions();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recurringTransactions.length]);
+  }, []);
 
   const generateRecurringTransactions = useCallback(() => {
-    setTransactions((prevTransactions) => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const newTransactions: Transaction[] = [];
-      const updatedRecurring: RecurringTransaction[] = [];
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
 
-      recurringTransactions.forEach((recurring) => {
-        const { rule, transaction } = recurring;
-        const lastGenerated = rule.lastGenerated
-          ? new Date(rule.lastGenerated + "T00:00:00")
-          : null;
+    const newTransactions: Transaction[] = [];
 
-        // Calculate next date
-        let nextDate = new Date(today);
-        if (lastGenerated) {
-          nextDate = new Date(lastGenerated);
-          if (rule.frequency === "daily") {
-            nextDate.setDate(nextDate.getDate() + rule.interval);
-          } else if (rule.frequency === "weekly") {
-            nextDate.setDate(nextDate.getDate() + 7 * rule.interval);
-          } else if (rule.frequency === "monthly") {
-            nextDate.setMonth(nextDate.getMonth() + rule.interval);
-          }
-        }
-
-        let currentLastGenerated = rule.lastGenerated;
-
-        // Check if we need to generate (only generate up to today)
-        while (nextDate <= today) {
-          const nextDateStr = nextDate.toISOString().slice(0, 10);
-          
-          // Check if already generated
-          const exists = prevTransactions.some(
-            (t) =>
-              t.recurringRuleId === recurring.id &&
-              t.date === nextDateStr
-          );
-
-          if (!exists) {
-            newTransactions.push({
-              ...transaction,
-              id: crypto.randomUUID(),
-              date: nextDateStr,
-              isRecurring: true,
-              recurringRuleId: recurring.id
-            });
-          }
-
-          currentLastGenerated = nextDateStr;
-
-          // Calculate next
-          if (rule.frequency === "daily") {
-            nextDate.setDate(nextDate.getDate() + rule.interval);
-          } else if (rule.frequency === "weekly") {
-            nextDate.setDate(nextDate.getDate() + 7 * rule.interval);
-          } else if (rule.frequency === "monthly") {
-            nextDate.setMonth(nextDate.getMonth() + rule.interval);
-          }
-
-          // Check end date
-          if (rule.endDate && nextDate > new Date(rule.endDate + "T00:00:00")) {
-            break;
-          }
-        }
-
-        // Update lastGenerated if changed
-        if (currentLastGenerated !== rule.lastGenerated) {
-          updatedRecurring.push({
-            ...recurring,
-            rule: { ...rule, lastGenerated: currentLastGenerated }
+    recurringTransactions.forEach(({ rule, transaction }) => {
+      if (rule.frequency === "monthly" && rule.dayOfMonth) {
+        const nextDate = new Date(currentYear, currentMonth, rule.dayOfMonth);
+        if (nextDate >= today && !transactions.some(
+          (tx) => tx.accountId === transaction.accountId &&
+                 tx.category === transaction.category &&
+                 tx.amount === transaction.amount &&
+                 new Date(tx.date).getDate() === rule.dayOfMonth
+        )) {
+          newTransactions.push({
+            ...transaction,
+            id: `recurring-${Date.now()}-${Math.random()}`,
+            date: nextDate.toISOString().split("T")[0],
+            isRecurring: true,
+            recurringRuleId: rule.id
           });
-        } else {
-          updatedRecurring.push(recurring);
         }
-      });
-
-      // Update recurring transactions if needed
-      if (updatedRecurring.some((r, i) => r.rule.lastGenerated !== recurringTransactions[i]?.rule.lastGenerated)) {
-        setRecurringTransactions(updatedRecurring);
       }
-
-      return newTransactions.length > 0 ? [...newTransactions, ...prevTransactions] : prevTransactions;
     });
-  }, [recurringTransactions]);
+
+    if (newTransactions.length > 0) {
+      setTransactions((prev) => [...prev, ...newTransactions]);
+    }
+  }, [recurringTransactions, transactions]);
 
   const addTransaction = (tx: Omit<Transaction, "id">) => {
-    const newTx: Transaction = {
+    const newTransaction: Transaction = {
       ...tx,
-      id: crypto.randomUUID()
+      id: `txn-${Date.now()}`
     };
-    setTransactions((prev) => [newTx, ...prev]);
+    setTransactions((prev) => [newTransaction, ...prev]);
   };
 
   const updateTransaction = (id: string, tx: Omit<Transaction, "id">) => {
     setTransactions((prev) =>
-      prev.map((item) => (item.id === id ? { ...tx, id } : item))
+      prev.map((t) => (t.id === id ? { ...tx, id } : t))
     );
   };
 
@@ -186,7 +110,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
     rule: RecurringRule
   ) => {
     const newRecurring: RecurringTransaction = {
-      id: crypto.randomUUID(),
+      id: `recurring-rule-${Date.now()}`,
       rule,
       transaction: tx
     };
@@ -195,16 +119,16 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateRecurringTransaction = (
     id: string,
-    txUpdates: Partial<Omit<Transaction, "id" | "date" | "isRecurring">>,
-    ruleUpdates?: Partial<RecurringRule>
+    tx: Partial<Omit<Transaction, "id" | "date" | "isRecurring">>,
+    rule?: Partial<RecurringRule>
   ) => {
     setRecurringTransactions((prev) =>
       prev.map((r) =>
         r.id === id
           ? {
               ...r,
-              transaction: { ...r.transaction, ...txUpdates },
-              rule: { ...r.rule, ...ruleUpdates }
+              transaction: { ...r.transaction, ...tx },
+              rule: rule ? { ...r.rule, ...rule } : r.rule
             }
           : r
       )
@@ -213,8 +137,6 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const deleteRecurringTransaction = (id: string) => {
     setRecurringTransactions((prev) => prev.filter((r) => r.id !== id));
-    // Also delete all generated transactions from this rule
-    setTransactions((prev) => prev.filter((t) => t.recurringRuleId !== id));
   };
 
   const resetTransactions = () => {
@@ -242,13 +164,14 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export function useTransactionsContext(): TransactionsContextValue {
+export function useTransactions(): TransactionsContextValue {
   const ctx = useContext(TransactionsContext);
   if (!ctx) {
-    throw new Error("useTransactionsContext must be used within TransactionsProvider");
+    throw new Error("useTransactions must be used within TransactionsProvider");
   }
   return ctx;
 }
 
-
-
+export function useTransactionsContext(): TransactionsContextValue {
+  return useTransactions();
+}

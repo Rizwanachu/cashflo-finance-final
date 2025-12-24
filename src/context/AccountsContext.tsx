@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Account, AccountType } from "../types";
+import { safeGet, safeSet } from "../utils/storage";
 
 interface AccountsContextValue {
   accounts: Account[];
@@ -14,7 +15,6 @@ const AccountsContext = createContext<AccountsContextValue | undefined>(undefine
 
 const ACCOUNTS_KEY = "ledgerly-accounts-v1";
 
-// Default accounts created only when user adds first transaction
 const defaultAccounts: Account[] = [
   {
     id: "acc-cash",
@@ -39,64 +39,37 @@ const defaultAccounts: Account[] = [
   }
 ];
 
-/**
- * Load accounts from LocalStorage.
- * Returns default accounts structure (no balances) for first-time users.
- */
-function loadAccounts(): Account[] {
-  if (typeof window === "undefined") return defaultAccounts;
-  try {
-    const raw = window.localStorage.getItem(ACCOUNTS_KEY);
-    if (!raw) {
-      // First time - return defaults but don't save yet
-      return defaultAccounts;
-    }
-    const parsed = JSON.parse(raw) as Account[];
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      return defaultAccounts;
-    }
-    return parsed;
-  } catch {
-    return defaultAccounts;
-  }
-}
-
-function saveAccounts(accounts: Account[]) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
-  } catch {
-    // ignore
-  }
-}
-
 export const AccountsProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [accounts, setAccounts] = useState<Account[]>(() => loadAccounts());
+  const [accounts, setAccounts] = useState<Account[]>(() => {
+    const stored = safeGet<Account[]>(ACCOUNTS_KEY, []);
+    return stored.length > 0 ? stored : defaultAccounts;
+  });
 
   useEffect(() => {
-    saveAccounts(accounts);
+    safeSet(ACCOUNTS_KEY, accounts);
   }, [accounts]);
 
   const addAccount = (account: Omit<Account, "id" | "balance">) => {
     const newAccount: Account = {
       ...account,
-      id: crypto.randomUUID(),
+      id: `acc-${Date.now()}`,
       balance: 0
     };
     setAccounts((prev) => [...prev, newAccount]);
   };
 
-  const updateAccount = (id: string, updates: Partial<Omit<Account, "id" | "balance">>) => {
+  const updateAccount = (
+    id: string,
+    account: Partial<Omit<Account, "id" | "balance">>
+  ) => {
     setAccounts((prev) =>
-      prev.map((acc) => (acc.id === id ? { ...acc, ...updates } : acc))
+      prev.map((acc) => (acc.id === id ? { ...acc, ...account } : acc))
     );
   };
 
   const deleteAccount = (id: string) => {
-    // Don't allow deleting if it's the last account
-    if (accounts.length <= 1) return;
     setAccounts((prev) => prev.filter((acc) => acc.id !== id));
   };
 
@@ -110,7 +83,14 @@ export const AccountsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AccountsContext.Provider
-      value={{ accounts, addAccount, updateAccount, deleteAccount, getAccount, resetAccounts }}
+      value={{
+        accounts,
+        addAccount,
+        updateAccount,
+        deleteAccount,
+        getAccount,
+        resetAccounts
+      }}
     >
       {children}
     </AccountsContext.Provider>
@@ -124,4 +104,3 @@ export function useAccounts(): AccountsContextValue {
   }
   return ctx;
 }
-

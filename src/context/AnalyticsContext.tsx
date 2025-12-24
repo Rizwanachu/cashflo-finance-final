@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { safeGet, safeSet } from "../utils/storage";
 
 interface AnalyticsContextValue {
   analyticsEnabled: boolean;
@@ -15,26 +16,21 @@ const ANALYTICS_KEY = "spendory_analytics_enabled";
 export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [analyticsEnabled, setAnalyticsEnabledState] = useState(false);
+  const [analyticsEnabled, setAnalyticsEnabledState] = useState<boolean>(() =>
+    safeGet<boolean>(ANALYTICS_KEY, false)
+  );
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(ANALYTICS_KEY);
-      setAnalyticsEnabledState(stored === "true");
-    } catch {
-      setAnalyticsEnabledState(false);
-    }
-  }, []);
+    safeSet(ANALYTICS_KEY, analyticsEnabled);
+  }, [analyticsEnabled]);
 
   const setAnalyticsEnabled = (enabled: boolean) => {
     setAnalyticsEnabledState(enabled);
-    window.localStorage.setItem(ANALYTICS_KEY, enabled ? "true" : "false");
   };
 
   const trackEvent = (event: string, data?: Record<string, any>) => {
     if (!analyticsEnabled) return;
     
-    // Log locally only (privacy-first)
     const timestamp = new Date().toISOString();
     console.debug(`[Analytics] ${event}`, { timestamp, ...data });
   };

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { safeGet, safeSet } from "../utils/storage";
 
 export interface Category {
   id: string;
@@ -42,57 +43,29 @@ const defaultCategories: Category[] = [
   { id: "cat-other", name: "Other", icon: "📦", color: "#64748B", isDefault: true },
 ];
 
-/**
- * Load categories from LocalStorage.
- * Returns default categories for first-time users (no auto-save).
- */
-function loadCategories(): Category[] {
-  if (typeof window === "undefined") return defaultCategories;
-  try {
-    const raw = window.localStorage.getItem(CATEGORIES_KEY);
-    if (!raw) {
-      // First time - return defaults but don't save yet
-      return defaultCategories;
-    }
-    const parsed = JSON.parse(raw) as Category[];
-    if (!Array.isArray(parsed)) {
-      return defaultCategories;
-    }
-    // Merge with defaults to ensure defaults always exist
+export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
+  children
+}) => {
+  const [categories, setCategories] = useState<Category[]>(() => {
+    const stored = safeGet<Category[]>(CATEGORIES_KEY, []);
+    if (stored.length === 0) return defaultCategories;
     const merged = [...defaultCategories];
-    parsed.forEach((cat) => {
+    stored.forEach((cat) => {
       if (!cat.isDefault && !merged.find((c) => c.id === cat.id)) {
         merged.push(cat);
       }
     });
     return merged;
-  } catch {
-    return defaultCategories;
-  }
-}
-
-function saveCategories(categories: Category[]) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories));
-  } catch {
-    // ignore
-  }
-}
-
-export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
-  const [categories, setCategories] = useState<Category[]>(() => loadCategories());
+  });
 
   useEffect(() => {
-    saveCategories(categories);
+    safeSet(CATEGORIES_KEY, categories);
   }, [categories]);
 
   const addCategory = (category: Omit<Category, "id" | "isDefault">) => {
     const newCategory: Category = {
       ...category,
-      id: crypto.randomUUID(),
+      id: `cat-${Date.now()}`,
       isDefault: false
     };
     setCategories((prev) => [...prev, newCategory]);
@@ -105,8 +78,7 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const deleteCategory = (id: string) => {
-    // Don't allow deleting default categories
-    setCategories((prev) => prev.filter((cat) => cat.id !== id && cat.isDefault));
+    setCategories((prev) => prev.filter((cat) => cat.id !== id));
   };
 
   const getCategory = (id: string) => {
@@ -119,7 +91,14 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <CategoriesContext.Provider
-      value={{ categories, addCategory, updateCategory, deleteCategory, getCategory, resetCategories }}
+      value={{
+        categories,
+        addCategory,
+        updateCategory,
+        deleteCategory,
+        getCategory,
+        resetCategories
+      }}
     >
       {children}
     </CategoriesContext.Provider>
@@ -133,4 +112,3 @@ export function useCategories(): CategoriesContextValue {
   }
   return ctx;
 }
-
