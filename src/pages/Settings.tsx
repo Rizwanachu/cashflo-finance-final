@@ -377,7 +377,7 @@ const SettingsPage: React.FC = () => {
 
       <Card>
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-2">
-          About Cashflo
+          About Spendory
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400">
           Version 1.0.0 • Your personal finance tracker

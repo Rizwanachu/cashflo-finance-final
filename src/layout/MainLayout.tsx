@@ -36,7 +36,7 @@ const MainLayout: React.FC = () => {
             </div>
             <div>
               <h1 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50">
-                Cashflo
+                Spendory
               </h1>
             </div>
           </div>

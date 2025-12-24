@@ -1,7 +1,7 @@
-# Cashflo - Finance Tracker
+# Spendory - Finance Tracker
 
 ## Overview
-Cashflo is a personal finance tracking web application built with React and TypeScript. It helps users track their income, expenses, and manage budgets with an intuitive dashboard interface.
+Spendory is a personal finance tracking web application built with React and TypeScript. It helps users track their income, expenses, and manage budgets with an intuitive dashboard interface.
 
 ## Project Architecture
 

@@ -13,10 +13,10 @@ const Sidebar: React.FC = () => {
     <aside className="hidden md:flex w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 backdrop-blur-xl">
       <div className="px-6 py-6 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="Cashflo" className="h-9 w-9 rounded-lg shadow-sm" />
+          <img src="/logo.png" alt="Spendory" className="h-9 w-9 rounded-lg shadow-sm" />
           <div>
             <div className="text-base font-semibold tracking-tight text-slate-900 dark:text-slate-50">
-              Cashflo
+              Spendory
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400">
               Track effortlessly
