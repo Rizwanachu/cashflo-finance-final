@@ -47,7 +47,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
         <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-6 flex items-center justify-between">
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-              Go Pro
+              Spendory Pro
             </h2>
           </div>
           <div className="flex items-center gap-4">
