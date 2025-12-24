@@ -124,10 +124,6 @@ const Pricing: React.FC = () => {
 
         {/* Pro Plan */}
         <Card className="flex flex-col ring-2 ring-emerald-500/50">
-          <div className="inline-flex w-max mx-auto mb-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
-            ⭐ Recommended
-          </div>
-
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
               Pro
@@ -233,6 +229,10 @@ const Pricing: React.FC = () => {
               Upgrade to Pro
             </button>
           )}
+          
+          <div className="inline-flex w-max mx-auto mt-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
+            ⭐ Recommended
+          </div>
         </Card>
       </div>
 
