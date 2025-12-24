@@ -80,6 +80,18 @@ const Pricing: React.FC = () => {
                 <span className="text-emerald-500 text-xl">✓</span>
                 <div>
                   <p className="font-medium text-slate-900 dark:text-slate-50">
+                    Transaction categories
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Organize and track spending
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <span className="text-emerald-500 text-xl">✓</span>
+                <div>
+                  <p className="font-medium text-slate-900 dark:text-slate-50">
                     No signup required
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -163,6 +175,18 @@ const Pricing: React.FC = () => {
                 <span className="text-emerald-500 text-xl">✓</span>
                 <div>
                   <p className="font-medium text-slate-900 dark:text-slate-50">
+                    Budget tracking
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Set and monitor spending limits
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <span className="text-emerald-500 text-xl">✓</span>
+                <div>
+                  <p className="font-medium text-slate-900 dark:text-slate-50">
                     App lock & Privacy mode
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -175,10 +199,10 @@ const Pricing: React.FC = () => {
                 <span className="text-emerald-500 text-xl">✓</span>
                 <div>
                   <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Unlimited usage
+                    Financial goals
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    No limits, forever
+                    Track progress toward savings targets
                   </p>
                 </div>
               </div>
@@ -187,10 +211,10 @@ const Pricing: React.FC = () => {
                 <span className="text-emerald-500 text-xl">✓</span>
                 <div>
                   <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Priority future features
+                    Unlimited usage & Priority support
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Early access to updates
+                    No limits, forever + dedicated help
                   </p>
                 </div>
               </div>
