@@ -4,6 +4,7 @@ import { usePro } from "../context/ProContext";
 import CategoryBreakdownChart from "../components/charts/CategoryBreakdownChart";
 import MonthlyComparisonChart from "../components/charts/MonthlyComparisonChart";
 import TagSummary from "../components/TagSummary";
+import MonthlySummary from "../components/MonthlySummary";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useTheme } from "../context/ThemeContext";
@@ -75,6 +76,24 @@ const AnalyticsPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <CategoryBreakdownChart transactions={transactions} />
         <MonthlyComparisonChart transactions={transactions} />
+      </div>
+
+      {/* Monthly & Yearly Summaries (Pro Feature) */}
+      <div className="relative">
+        {!isProUser && (
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/50 to-slate-900/50 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer"
+            onClick={() => {
+              setLockedFeature("Time-based insights");
+              setShowGoProModal(true);
+            }}
+          >
+            <div className="text-center">
+              <p className="text-white font-semibold text-sm">⭐ Pro Feature</p>
+              <p className="text-white/80 text-xs mt-1">Upgrade to unlock time-based insights</p>
+            </div>
+          </div>
+        )}
+        <MonthlySummary transactions={transactions} />
       </div>
       
       {/* Tag Summary (Pro Feature) */}
