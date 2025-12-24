@@ -6,6 +6,8 @@ import { useCurrency, CurrencyCode } from "../context/CurrencyContext";
 import { usePrivacy } from "../context/PrivacyContext";
 import { useNotifications } from "../context/NotificationsContext";
 import { ToastViewport } from "../context/ToastContext";
+import GoproModal from "../components/GoproModal";
+import { usePro } from "../context/ProContext";
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ const MainLayout: React.FC = () => {
   const { currency, setCurrency } = useCurrency();
   const { privacyMode, togglePrivacyMode } = usePrivacy();
   const { notifications, unreadCount, markAsRead, markAllAsRead, clearAll } = useNotifications();
+  const { showGoProModal, setShowGoProModal, lockedFeature } = usePro();
   const [showNotifications, setShowNotifications] = useState(false);
 
   const baseClass =
@@ -225,6 +228,11 @@ const MainLayout: React.FC = () => {
         </div>
       </main>
       <ToastViewport />
+      <GoproModal
+        isOpen={showGoProModal}
+        onClose={() => setShowGoProModal(false)}
+        feature={lockedFeature}
+      />
     </div>
   );
 };

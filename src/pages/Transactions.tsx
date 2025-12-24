@@ -7,6 +7,7 @@ import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useToast } from "../context/ToastContext";
 import { useTheme } from "../context/ThemeContext";
+import { usePro } from "../context/ProContext";
 
 const TransactionsPage: React.FC = () => {
   const { transactions, addTransaction, updateTransaction, deleteTransaction } =
@@ -14,6 +15,7 @@ const TransactionsPage: React.FC = () => {
   const { currency } = useCurrency();
   const { theme } = useTheme();
   const { pushToast } = useToast();
+  const { isProUser, setShowGoProModal, setLockedFeature } = usePro();
   const [editing, setEditing] = useState<Transaction | null>(null);
   const [filter, setFilter] = useState<"all" | "income" | "expense">("all");
 
@@ -75,6 +77,11 @@ const TransactionsPage: React.FC = () => {
           <button
             type="button"
             onClick={() => {
+              if (!isProUser) {
+                setLockedFeature("PDF export");
+                setShowGoProModal(true);
+                return;
+              }
               if (transactions.length === 0) {
                 pushToast("No transactions to export.", "warning");
                 return;
@@ -82,10 +89,14 @@ const TransactionsPage: React.FC = () => {
               exportTransactionsToPdf(transactions, currency, theme);
               pushToast("PDF exported successfully.", "success");
             }}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
+              isProUser
+                ? "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                : "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+            }`}
           >
             <span>📑</span>
-            <span className="hidden sm:inline">Export PDF</span>
+            <span className="hidden sm:inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
           </button>
           <div className="inline-flex rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-1 text-[11px]">
           <button

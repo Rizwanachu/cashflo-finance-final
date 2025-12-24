@@ -13,13 +13,15 @@ import { PrivacyProvider } from "./context/PrivacyContext";
 import { ToastProvider } from "./context/ToastContext";
 import { RecurringProvider } from "./context/RecurringContext";
 import { NotificationsProvider } from "./context/NotificationsContext";
+import { ProProvider } from "./context/ProContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <CurrencyProvider>
-        <PrivacyProvider>
-          <NotificationsProvider>
+    <ProProvider>
+      <ThemeProvider>
+        <CurrencyProvider>
+          <PrivacyProvider>
+            <NotificationsProvider>
             <AccountsProvider>
               <CategoriesProvider>
                 <TransactionsProvider>
@@ -35,10 +37,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                 </TransactionsProvider>
               </CategoriesProvider>
             </AccountsProvider>
-          </NotificationsProvider>
-        </PrivacyProvider>
-      </CurrencyProvider>
-    </ThemeProvider>
+            </NotificationsProvider>
+          </PrivacyProvider>
+        </CurrencyProvider>
+      </ThemeProvider>
+    </ProProvider>
   </React.StrictMode>
 );
 

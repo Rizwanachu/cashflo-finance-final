@@ -80,6 +80,15 @@ const Sidebar: React.FC = () => {
           </span>
           <span>Settings</span>
         </NavLink>
+        <NavLink
+          to="/pricing"
+          className={({ isActive }) => (isActive ? active : inactive)}
+        >
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-slate-800 text-xs">
+            💰
+          </span>
+          <span>Pricing</span>
+        </NavLink>
       </nav>
       <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
         <div>Today</div>

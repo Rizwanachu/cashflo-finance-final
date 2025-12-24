@@ -7,6 +7,7 @@ import Budgets from "./pages/Budgets";
 import Recurring from "./pages/Recurring";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
+import Pricing from "./pages/Pricing";
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
         <Route path="/recurring" element={<Recurring />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/pricing" element={<Pricing />} />
       </Route>
     </Routes>
   );
