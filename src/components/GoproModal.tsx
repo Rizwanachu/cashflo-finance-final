@@ -55,11 +55,16 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
           </div>
         </div>
 
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
-          {feature
-            ? `Unlock ${feature} and all Pro features with a one-time payment.`
-            : "Unlock all Pro features with a one-time payment."}
-        </p>
+        <div className="mb-6 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+          <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-50 mb-2">
+            💰 Lifetime access. One-time payment.
+          </p>
+          <p className="text-xs text-emerald-800 dark:text-emerald-200">
+            {feature
+              ? `Unlock ${feature} and all Pro features permanently.`
+              : "Unlock all Pro features permanently."}
+          </p>
+        </div>
 
         <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 mb-6">
           <h3 className="text-sm font-semibold text-emerald-900 dark:text-emerald-50 mb-3">

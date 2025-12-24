@@ -40,9 +40,14 @@ const TagSummary: React.FC<TagSummaryProps> = ({ transactions }) => {
 
   return (
     <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
-      <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
-        Spending by Tag
-      </h3>
+      <div className="flex items-center gap-2 mb-4">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+          Spending by Tag
+        </h3>
+        <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded">
+          Pro
+        </span>
+      </div>
       <div className="space-y-3">
         {tagStats.map(([tag, stats]) => (
           <div key={tag} className="flex items-center justify-between">

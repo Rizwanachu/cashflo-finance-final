@@ -165,6 +165,14 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
       {/* Advanced Filters */}
       {showAdvanced && (
         <div className="space-y-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Advanced Filters</span>
+            {availableTags && availableTags.length > 0 && (
+              <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded">
+                Pro
+              </span>
+            )}
+          </div>
           {/* Type and Category */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
