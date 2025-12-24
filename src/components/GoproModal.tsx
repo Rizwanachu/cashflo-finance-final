@@ -43,44 +43,57 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-xl">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-            Go Pro
-          </h2>
-          <div className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 rounded-full">
-            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
-              Lifetime Access
-            </span>
+      <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col">
+        <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-6 flex items-center justify-between">
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+              Go Pro
+            </h2>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 rounded-full whitespace-nowrap">
+              <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                Lifetime Access
+              </span>
+            </div>
+            <button
+              onClick={onClose}
+              className="flex-shrink-0 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+              aria-label="Close"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
         </div>
+        <div className="p-8 space-y-6 flex-1 overflow-y-auto">
 
-        <div className="mb-6 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-          <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-50 mb-2">
-            💰 Lifetime access. One-time payment.
-          </p>
-          <p className="text-xs text-emerald-800 dark:text-emerald-200">
-            {feature
-              ? `Unlock ${feature} and all Pro features permanently.`
-              : "Unlock all Pro features permanently."}
-          </p>
-        </div>
+          <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+            <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-50 mb-2">
+              💰 Lifetime access. One-time payment.
+            </p>
+            <p className="text-xs text-emerald-800 dark:text-emerald-200">
+              {feature
+                ? `Unlock ${feature} and all Pro features permanently.`
+                : "Unlock all Pro features permanently."}
+            </p>
+          </div>
 
-        <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 mb-6">
-          <h3 className="text-sm font-semibold text-emerald-900 dark:text-emerald-50 mb-3">
-            Pro Benefits:
-          </h3>
-          <ul className="space-y-2 text-sm text-emerald-800 dark:text-emerald-200">
-            <li>✓ PDF & CSV export</li>
-            <li>✓ Advanced analytics</li>
-            <li>✓ App lock & privacy mode</li>
-            <li>✓ Priority future features</li>
-            <li>✓ Pay once, use forever</li>
-          </ul>
-        </div>
+          <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-emerald-900 dark:text-emerald-50 mb-3">
+              Pro Benefits:
+            </h3>
+            <ul className="space-y-2 text-sm text-emerald-800 dark:text-emerald-200">
+              <li>✓ PDF & CSV export</li>
+              <li>✓ Advanced analytics</li>
+              <li>✓ App lock & privacy mode</li>
+              <li>✓ Priority future features</li>
+              <li>✓ Pay once, use forever</li>
+            </ul>
+          </div>
 
-        {/* Payment Flow Steps */}
-        <div className="mb-6">
+          {/* Payment Flow Steps */}
           <div className="flex gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-4">
             <div className={`flex-1 text-center pb-2 border-b-2 ${step === "payment" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700"}`}>
               Step 1: Pay
@@ -154,31 +167,32 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
               )}
             </div>
           )}
+          <div />
+
+          {/* Helper Text */}
+          <div className="space-y-2 border-t border-slate-200 dark:border-slate-700 pt-4">
+            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+              ✓ Your unlock is permanent on this device
+            </p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+              ✓ No account required
+            </p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+              ✓ Works offline
+            </p>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="w-full px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 text-sm font-medium transition-colors"
+          >
+            Continue free
+          </button>
+
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+            Your data stays private. No cloud sync. Works offline.
+          </p>
         </div>
-
-        {/* Helper Text */}
-        <div className="space-y-2 border-t border-slate-200 dark:border-slate-700 pt-4">
-          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-            ✓ Your unlock is permanent on this device
-          </p>
-          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-            ✓ No account required
-          </p>
-          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-            ✓ Works offline
-          </p>
-        </div>
-
-        <button
-          onClick={onClose}
-          className="w-full px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 text-sm font-medium transition-colors mt-4"
-        >
-          Continue free
-        </button>
-
-        <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-4">
-          Your data stays private. No cloud sync. Works offline.
-        </p>
       </div>
     </div>
   );
