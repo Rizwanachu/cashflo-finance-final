@@ -88,10 +88,20 @@ const MonthlySummary: React.FC<Props> = ({ transactions }) => {
   const currencySymbol =
     currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : "£";
 
-  const bgColor = theme === "dark" ? "bg-slate-800" : "bg-slate-50";
-  const borderColor = theme === "dark" ? "border-slate-700" : "border-slate-200";
-  const textColor = theme === "dark" ? "text-slate-100" : "text-slate-900";
-  const labelColor = theme === "dark" ? "text-slate-400" : "text-slate-600";
+  // Compute effective dark mode - same logic as Analytics page
+  const isDarkMode =
+    theme === "dark" ? true :
+    theme === "light" ? false :
+    // System mode - check HTML class
+    typeof window !== "undefined" && document.documentElement.classList.contains("dark") ? true :
+    // Fallback to prefers-color-scheme
+    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? true :
+    false;
+
+  const bgColor = isDarkMode ? "bg-slate-800" : "bg-slate-50";
+  const borderColor = isDarkMode ? "border-slate-700" : "border-slate-200";
+  const textColor = isDarkMode ? "text-slate-100" : "text-slate-900";
+  const labelColor = isDarkMode ? "text-slate-400" : "text-slate-600";
 
   return (
     <div className="space-y-4">
@@ -139,7 +149,7 @@ const MonthlySummary: React.FC<Props> = ({ transactions }) => {
             <p className={`text-sm ${labelColor}`}>No transactions yet</p>
           ) : (
             summaries.map((summary, index) => (
-              <div key={index} className={`flex items-center justify-between py-2 px-2 rounded hover:${theme === "dark" ? "bg-slate-700/50" : "bg-slate-100/50"}`}>
+              <div key={index} className={`flex items-center justify-between py-2 px-2 rounded hover:${isDarkMode ? "bg-slate-700/50" : "bg-slate-100/50"}`}>
                 <div>
                   <p className={`text-sm font-medium ${textColor}`}>{summary.month}</p>
                   <div className="flex gap-4 text-xs mt-1">
