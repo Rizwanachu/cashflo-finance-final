@@ -9,6 +9,7 @@ import { AccountsProvider } from "./context/AccountsContext";
 import { CategoriesProvider } from "./context/CategoriesContext";
 import { TransactionsProvider } from "./context/TransactionsContext";
 import { BudgetProvider } from "./context/BudgetContext";
+import { GoalsProvider } from "./context/GoalsContext";
 import { PrivacyProvider } from "./context/PrivacyContext";
 import { ToastProvider } from "./context/ToastContext";
 import { RecurringProvider } from "./context/RecurringContext";
@@ -34,17 +35,19 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                       <FreeLimitsProvider>
                         <RetentionProvider>
                           <BudgetProvider>
-                            <RecurringProvider>
-                              <ToastProvider>
-                                <AnalyticsProvider>
-                                  <OnboardingProvider>
-                                    <BrowserRouter>
-                                      <App />
-                                    </BrowserRouter>
-                                  </OnboardingProvider>
-                                </AnalyticsProvider>
-                              </ToastProvider>
-                            </RecurringProvider>
+                            <GoalsProvider>
+                              <RecurringProvider>
+                                <ToastProvider>
+                                  <AnalyticsProvider>
+                                    <OnboardingProvider>
+                                      <BrowserRouter>
+                                        <App />
+                                      </BrowserRouter>
+                                    </OnboardingProvider>
+                                  </AnalyticsProvider>
+                                </ToastProvider>
+                              </RecurringProvider>
+                            </GoalsProvider>
                           </BudgetProvider>
                         </RetentionProvider>
                       </FreeLimitsProvider>

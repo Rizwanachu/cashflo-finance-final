@@ -56,6 +56,15 @@ const Sidebar: React.FC = () => {
           <span>Budgets</span>
         </NavLink>
         <NavLink
+          to="/goals"
+          className={({ isActive }) => (isActive ? active : inactive)}
+        >
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-slate-800 text-xs">
+            ⭐
+          </span>
+          <span>Goals</span>
+        </NavLink>
+        <NavLink
           to="/recurring"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
