@@ -18,7 +18,7 @@ const AnalyticsPage: React.FC = () => {
   const { isProUser, setShowGoProModal, setLockedFeature } = usePro();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Detect if we're in dark mode (considering system preference)
+  // Detect if we're in dark mode (considering system preference and HTML class)
   useEffect(() => {
     const updateDarkMode = () => {
       if (theme === "dark") {
@@ -26,20 +26,32 @@ const AnalyticsPage: React.FC = () => {
       } else if (theme === "light") {
         setIsDarkMode(false);
       } else {
-        // System mode - check OS preference
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        setIsDarkMode(prefersDark);
+        // System mode - check HTML element for dark class first, then OS preference
+        const htmlElement = document.documentElement;
+        if (htmlElement.classList.contains("dark")) {
+          setIsDarkMode(true);
+        } else {
+          const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          setIsDarkMode(prefersDark);
+        }
       }
     };
 
+    // Run immediately
     updateDarkMode();
 
-    // Listen for system theme changes
+    // Also listen for system theme changes
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = () => updateDarkMode();
-    mediaQuery.addEventListener("change", handleChange);
+    mediaQuery.addEventListener("change", updateDarkMode);
 
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    // Listen for class changes on html element
+    const observer = new MutationObserver(updateDarkMode);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateDarkMode);
+      observer.disconnect();
+    };
   }, [theme]);
 
   return (
