@@ -80,6 +80,18 @@ const Pricing: React.FC = () => {
                 <span className="text-emerald-500 text-xl">✓</span>
                 <div>
                   <p className="font-medium text-slate-900 dark:text-slate-50">
+                    CSV export
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Export data upto 50 transactions
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <span className="text-emerald-500 text-xl">✓</span>
+                <div>
+                  <p className="font-medium text-slate-900 dark:text-slate-50">
                     No signup required
                   </p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
