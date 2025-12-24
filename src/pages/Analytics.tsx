@@ -24,6 +24,11 @@ const AnalyticsPage: React.FC = () => {
           <button
             type="button"
             onClick={() => {
+              if (!isProUser) {
+                setLockedFeature("CSV export");
+                setShowGoProModal(true);
+                return;
+              }
               if (transactions.length === 0) {
                 pushToast("No transactions to export.", "warning");
                 return;
@@ -31,25 +36,39 @@ const AnalyticsPage: React.FC = () => {
               exportTransactionsToCsv(transactions, currency);
               pushToast("CSV exported successfully.", "success");
             }}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
+              isProUser
+                ? "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                : "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+            }`}
           >
             <span>📄</span>
-            <span className="hidden sm:inline">Export CSV</span>
+            <span className="hidden sm:inline">{isProUser ? "Export CSV" : "CSV (Pro)"}</span>
           </button>
           <button
             type="button"
             onClick={() => {
+              if (!isProUser) {
+                setLockedFeature("PDF export");
+                setShowGoProModal(true);
+                return;
+              }
               if (transactions.length === 0) {
                 pushToast("No transactions to export.", "warning");
                 return;
               }
-              exportTransactionsToPdf(transactions, currency, theme);
+              const themeMode = theme === "system" ? "light" : theme;
+              exportTransactionsToPdf(transactions, currency, themeMode);
               pushToast("PDF exported successfully.", "success");
             }}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
+              isProUser
+                ? "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                : "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+            }`}
           >
             <span>📑</span>
-            <span className="hidden sm:inline">Export PDF</span>
+            <span className="hidden sm:inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
           </button>
         </div>
       </div>
