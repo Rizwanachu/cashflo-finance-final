@@ -109,7 +109,7 @@ const Pricing: React.FC = () => {
 
         {/* Pro Plan */}
         <Card className="flex flex-col relative ring-2 ring-emerald-500/50">
-          <div className="absolute -top-4 left-6 bg-emerald-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute -top-4 left-6 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
             Recommended
           </div>
 
