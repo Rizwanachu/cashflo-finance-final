@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { useTransactionsContext } from "../context/TransactionsContext";
 import { useCurrency } from "../context/CurrencyContext";
 import { usePrivacy } from "../context/PrivacyContext";
+import { useRetention } from "../context/RetentionContext";
 import SummaryCards from "../components/SummaryCards";
 import BudgetOverview from "../components/BudgetOverview";
 import WeeklySpendingChart from "../components/charts/WeeklySpendingChart";
 import MonthlySpendingChart from "../components/charts/MonthlySpendingChart";
 import FreeLimitsBanner from "../components/FreeLimitsBanner";
+import ProUserDelight from "../components/ProUserDelight";
 import { Card, ChartContainer } from "../components/Card";
 import { Transaction } from "../types";
 import { formatCurrencyWithPrivacy } from "../utils/privacy";
@@ -16,6 +18,7 @@ const Dashboard: React.FC = () => {
   const { transactions } = useTransactionsContext();
   const { currency } = useCurrency();
   const { privacyMode } = usePrivacy();
+  const { getConsistencyMessage, consistencyBadge } = useRetention();
   const [sortNewest, setSortNewest] = useState(true);
 
   const recentTransactions = useMemo(() => {
@@ -71,6 +74,7 @@ const Dashboard: React.FC = () => {
   if (isFirstTimeUser) {
     return (
       <div className="space-y-5">
+        <ProUserDelight />
         <FreeLimitsBanner />
         <SummaryCards transactions={transactions} />
         
@@ -138,7 +142,22 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-5">
+      <ProUserDelight />
       <FreeLimitsBanner />
+      {consistencyBadge && (
+        <Card className="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-semibold text-slate-900 dark:text-slate-50">
+                {consistencyBadge}
+              </p>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                {getConsistencyMessage()}
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
       <SummaryCards transactions={transactions} />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 items-stretch">

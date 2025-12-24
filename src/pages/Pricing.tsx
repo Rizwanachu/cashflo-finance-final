@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { usePro } from "../context/ProContext";
+import SocialProofBanner from "../components/SocialProofBanner";
+import ShareButton from "../components/ShareButton";
 import { Card } from "../components/Card";
 
 const Pricing: React.FC = () => {
@@ -14,6 +16,7 @@ const Pricing: React.FC = () => {
 
   return (
     <div className="space-y-8 max-w-4xl">
+      <SocialProofBanner location="pricing" />
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4">
           Simple. Private. No ads. No signup.
@@ -259,6 +262,10 @@ const Pricing: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="text-center pt-4">
+        <ShareButton />
       </div>
     </div>
   );

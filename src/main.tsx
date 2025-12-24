@@ -17,40 +17,46 @@ import { ProProvider } from "./context/ProContext";
 import { OnboardingProvider } from "./context/OnboardingContext";
 import { FreeLimitsProvider } from "./context/FreeLimitsContext";
 import { AnalyticsProvider } from "./context/AnalyticsContext";
+import { RetentionProvider } from "./context/RetentionContext";
+import { LaunchModeProvider } from "./context/LaunchModeContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ProProvider>
-      <ThemeProvider>
-        <CurrencyProvider>
-          <PrivacyProvider>
-            <NotificationsProvider>
-              <AccountsProvider>
-                <CategoriesProvider>
-                  <TransactionsProvider>
-                    <FreeLimitsProvider>
-                      <BudgetProvider>
-                        <RecurringProvider>
-                          <ToastProvider>
-                            <AnalyticsProvider>
-                              <OnboardingProvider>
-                                <BrowserRouter>
-                                  <App />
-                                </BrowserRouter>
-                              </OnboardingProvider>
-                            </AnalyticsProvider>
-                          </ToastProvider>
-                        </RecurringProvider>
-                      </BudgetProvider>
-                    </FreeLimitsProvider>
-                  </TransactionsProvider>
-                </CategoriesProvider>
-              </AccountsProvider>
-            </NotificationsProvider>
-          </PrivacyProvider>
-        </CurrencyProvider>
-      </ThemeProvider>
-    </ProProvider>
+    <LaunchModeProvider>
+      <ProProvider>
+        <ThemeProvider>
+          <CurrencyProvider>
+            <PrivacyProvider>
+              <NotificationsProvider>
+                <AccountsProvider>
+                  <CategoriesProvider>
+                    <TransactionsProvider>
+                      <FreeLimitsProvider>
+                        <RetentionProvider>
+                          <BudgetProvider>
+                            <RecurringProvider>
+                              <ToastProvider>
+                                <AnalyticsProvider>
+                                  <OnboardingProvider>
+                                    <BrowserRouter>
+                                      <App />
+                                    </BrowserRouter>
+                                  </OnboardingProvider>
+                                </AnalyticsProvider>
+                              </ToastProvider>
+                            </RecurringProvider>
+                          </BudgetProvider>
+                        </RetentionProvider>
+                      </FreeLimitsProvider>
+                    </TransactionsProvider>
+                  </CategoriesProvider>
+                </AccountsProvider>
+              </NotificationsProvider>
+            </PrivacyProvider>
+          </CurrencyProvider>
+        </ThemeProvider>
+      </ProProvider>
+    </LaunchModeProvider>
   </React.StrictMode>
 );
 

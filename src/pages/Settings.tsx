@@ -10,8 +10,11 @@ import { useCategories } from "../context/CategoriesContext";
 import { useBudgets } from "../context/BudgetContext";
 import { useRecurring } from "../context/RecurringContext";
 import { useNotifications } from "../context/NotificationsContext";
+import { useAnalytics } from "../context/AnalyticsContext";
 import { exportBackup, importBackup, factoryReset, readBackupFile } from "../utils/backup";
 import { Card } from "../components/Card";
+import TrustAndPrivacy from "../components/TrustAndPrivacy";
+import DataOwnership from "../components/DataOwnership";
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,6 +28,7 @@ const SettingsPage: React.FC = () => {
   const { resetBudgets } = useBudgets();
   const { resetPayments } = useRecurring();
   const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications } = useNotifications();
+  const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showResetModal, setShowResetModal] = useState(false);
@@ -320,6 +324,31 @@ const SettingsPage: React.FC = () => {
           )}
         </div>
       </Card>
+
+      <Card>
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
+          Privacy & Analytics
+        </h3>
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-medium text-slate-900 dark:text-slate-50 flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={analyticsEnabled}
+                onChange={(e) => setAnalyticsEnabled(e.target.checked)}
+                className="rounded"
+              />
+              Optional Analytics
+            </label>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 ml-6">
+              Help improve the app by sharing usage data (disabled by default, local-only)
+            </p>
+          </div>
+        </div>
+      </Card>
+
+      <TrustAndPrivacy />
+      <DataOwnership />
 
       <Card>
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
