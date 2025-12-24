@@ -81,7 +81,7 @@ const AnalyticsPage: React.FC = () => {
       {/* Monthly & Yearly Summaries (Pro Feature) */}
       <div className="relative">
         {!isProUser && (
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/50 to-slate-900/50 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer"
+          <div className="absolute inset-0 bg-black/40 dark:bg-black/60 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer"
             onClick={() => {
               setLockedFeature("Time-based insights");
               setShowGoProModal(true);
@@ -99,7 +99,7 @@ const AnalyticsPage: React.FC = () => {
       {/* Tag Summary (Pro Feature) */}
       <div className="relative">
         {!isProUser && (
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/50 to-slate-900/50 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer"
+          <div className="absolute inset-0 bg-black/40 dark:bg-black/60 rounded-2xl z-10 flex items-center justify-center backdrop-blur-sm cursor-pointer"
             onClick={() => {
               setLockedFeature("Tag Analytics");
               setShowGoProModal(true);
