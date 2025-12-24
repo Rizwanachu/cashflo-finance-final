@@ -73,7 +73,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
         )) {
           newTransactions.push({
             ...transaction,
-            id: `recurring-${Date.now()}-${Math.random()}`,
+            id: `recurring-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
             date: nextDate.toISOString().split("T")[0],
             isRecurring: true,
             recurringRuleId: rule.id
@@ -90,7 +90,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
   const addTransaction = (tx: Omit<Transaction, "id">) => {
     const newTransaction: Transaction = {
       ...tx,
-      id: `txn-${Date.now()}`
+      id: `txn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     };
     setTransactions((prev) => [newTransaction, ...prev]);
   };
@@ -110,7 +110,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
     rule: RecurringRule
   ) => {
     const newRecurring: RecurringTransaction = {
-      id: `recurring-rule-${Date.now()}`,
+      id: `recurring-rule-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       rule,
       transaction: tx
     };
