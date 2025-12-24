@@ -1,0 +1,136 @@
+You are a senior product-focused full-stack React + TypeScript developer.
+
+The app already has:
+- Working Pro unlock system (PayPal + localStorage)
+- Pricing page
+- Pro feature locks
+- Privacy-first architecture
+- No signup, no ads, no backend
+
+Your task now is to PREPARE THIS APP FOR PUBLIC LAUNCH and MAXIMIZE CONVERSION.
+
+--------------------------------
+STEP 1: FREE PLAN LIMITS (SO PRO MAKES SENSE)
+--------------------------------
+
+Add soft limits to Free users (non-annoying):
+
+- Max 50 transactions total
+- Max 1 year of history visible
+- Advanced charts hidden
+- PDF export locked (already done)
+
+When limit is reached:
+- Show a friendly banner:
+  “You’ve reached the free limit. Upgrade to Pro to continue.”
+
+Do NOT block existing data.
+Do NOT delete user data.
+Do NOT force upgrade.
+
+--------------------------------
+STEP 2: ONBOARDING (FIRST-USE EXPERIENCE)
+--------------------------------
+
+Add a lightweight onboarding flow shown only once:
+
+- Welcome screen with:
+  Headline: “Track your money. Privately.”
+  Subtext: “No signup. No cloud. No ads.”
+
+- Explain 3 things:
+  1. Data stays on this device
+  2. Works offline
+  3. Pay once if you want Pro
+
+- Button: “Start using app”
+- Save `onboarding_complete = true` in localStorage
+
+--------------------------------
+STEP 3: SEO + SHAREABILITY
+--------------------------------
+
+Improve SEO for Netlify / Vercel:
+
+- Add proper meta tags:
+  - Title
+  - Description
+  - OpenGraph
+  - Twitter cards
+
+Example description:
+“Simple private finance tracker. No signup. No ads. Your data stays on your device.”
+
+Add:
+- `/privacy`
+- `/terms`
+(Simple static pages, human-readable, no legal jargon)
+
+--------------------------------
+STEP 4: CONVERSION IMPROVEMENTS
+--------------------------------
+
+Add these subtle conversion helpers:
+
+- “Go Pro” button in header (non-intrusive)
+- Small “Pro” badge on locked features
+- Pricing reminder after 7 days of use (once only)
+- Pricing reminder after user exports CSV 3 times
+
+All reminders must be dismissible forever.
+
+--------------------------------
+STEP 5: PRO VALUE REINFORCEMENT
+--------------------------------
+
+Every Pro screen should show:
+“Lifetime access. One-time payment.”
+
+Add a “Why Pro?” modal explaining:
+- Supports development
+- Keeps app ad-free
+- Funds future features
+- Still no tracking
+
+--------------------------------
+STEP 6: PRIVACY-SAFE ANALYTICS (OPTIONAL BUT IMPORTANT)
+--------------------------------
+
+Add OPTIONAL analytics toggle:
+
+- Track only:
+  - App opens
+  - Pro upgrade click
+  - Pro unlock success
+
+Rules:
+- Disabled by default
+- No third-party trackers
+- Stored locally only
+- User must opt-in
+
+--------------------------------
+STEP 7: POLISH & LAUNCH CHECK
+--------------------------------
+
+Final checks:
+- Mobile responsiveness
+- Light & dark mode contrast
+- No broken navigation
+- No console errors
+- Works after refresh
+- Works offline
+
+--------------------------------
+FINAL OUTPUT
+--------------------------------
+
+A launch-ready finance app that:
+- Converts Free → Pro naturally
+- Feels trustworthy
+- Is privacy-first
+- Is ready to share publicly
+- Can start making money immediately
+
+Implement everything cleanly using reusable components and Tailwind.
+Proceed step-by-step and apply changes directly to the existing codebase.
