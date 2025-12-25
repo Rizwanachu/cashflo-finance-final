@@ -66,7 +66,7 @@ const MainLayout: React.FC = () => {
                     className="fixed inset-0 z-30" 
                     onClick={() => setShowNotifications(false)}
                   />
-                  <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 max-h-96 overflow-y-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40 max-sm:left-0 max-sm:-right-0 max-sm:mx-2">
+                  <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 max-h-[80vh] sm:max-h-96 overflow-y-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40 max-sm:fixed max-sm:left-4 max-sm:right-4 max-sm:top-20 max-sm:w-auto max-sm:mt-0">
                     <div className="p-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                       <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
                         Notifications
