@@ -93,20 +93,24 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     
     // Check for Safari/iOS PWA specific support
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
     const isPWA = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true;
 
     // Log the detection for debugging (you can see this in your web inspector)
     console.log('Notification Check:', { 
       hasNotification: 'Notification' in window, 
-      isIOS, 
+      isIOS,
+      isAndroid,
       isPWA 
     });
 
     if (!('Notification' in window)) {
       if (isIOS && !isPWA) {
         alert("To enable notifications on iPhone:\n1. Tap the Share button (square with arrow)\n2. Tap 'Add to Home Screen'\n3. Open the app from your home screen.");
+      } else if (isAndroid && !isPWA) {
+        alert("To enable notifications on Android:\n1. Tap the three dots menu in Chrome\n2. Tap 'Install app' or 'Add to Home screen'\n3. Open the app from your home screen.");
       } else {
-        alert("Your browser/device doesn't support push notifications yet. Make sure you are using Safari and have added the app to your Home Screen.");
+        alert("Your browser/device doesn't support push notifications yet. Make sure you have added the app to your Home Screen.");
       }
       return;
     }
