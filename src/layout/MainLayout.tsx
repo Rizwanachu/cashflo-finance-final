@@ -221,13 +221,6 @@ const MainLayout: React.FC = () => {
               <span className="text-[13px]">🔄</span>
               <span>Recurring</span>
             </NavLink>
-            <NavLink
-              to="/settings"
-              className={({ isActive }) => (isActive ? active : inactive)}
-            >
-              <span className="text-[13px]">⚙️</span>
-              <span>Settings</span>
-            </NavLink>
             <div className="relative">
               <button
                 type="button"
@@ -244,6 +237,19 @@ const MainLayout: React.FC = () => {
                     onClick={() => setShowMobileMenu(false)}
                   />
                   <div className="absolute bottom-12 right-0 w-48 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40">
+                    <NavLink
+                      to="/settings"
+                      onClick={() => setShowMobileMenu(false)}
+                      className={({ isActive }) => 
+                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-slate-800 ${
+                          isActive 
+                            ? "text-emerald-600 dark:text-emerald-400 font-medium" 
+                            : "text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+                        }`
+                      }
+                    >
+                      ⚙️ Settings
+                    </NavLink>
                     <NavLink
                       to="/analytics"
                       onClick={() => setShowMobileMenu(false)}
