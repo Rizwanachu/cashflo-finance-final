@@ -496,7 +496,7 @@ const SettingsPage: React.FC = () => {
               <button
                 onClick={() => {
                   resetPro();
-                  pushToast("Pro status reset", "info");
+                  pushToast("Pro status reset", "success");
                 }}
                 className="w-full px-4 py-2 border border-red-200 text-red-600 text-xs font-medium rounded-lg hover:bg-red-50 transition-all"
               >

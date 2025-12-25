@@ -89,9 +89,26 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   const requestPermission = async () => {
-    if (typeof Notification === 'undefined') return;
-    const result = await Notification.requestPermission();
-    setPermissionStatus(result);
+    if (typeof Notification === 'undefined') {
+      console.warn('Notifications not supported in this browser');
+      return;
+    }
+    
+    try {
+      // Some browsers use callback, others use promise. We'll handle both.
+      const permission = await Notification.requestPermission();
+      setPermissionStatus(permission);
+      
+      if (permission === 'granted') {
+        // Send a test notification to confirm it's working
+        new Notification("Notifications Enabled", {
+          body: "You'll now receive alerts for budgets and payments.",
+          icon: "/logo.png"
+        });
+      }
+    } catch (err) {
+      console.error('Error requesting notification permission:', err);
+    }
   };
 
   const addNotification = useCallback((notification: Omit<Notification, "id" | "timestamp" | "read">) => {
