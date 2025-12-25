@@ -97,10 +97,16 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
 
           {/* Payment Flow Steps */}
           <div className="flex gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-4">
-            <div className={`flex-1 text-center pb-2 border-b-2 ${step === "payment" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700"}`}>
+            <div 
+              onClick={() => setStep("payment")}
+              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "payment" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200"}`}
+            >
               Step 1: Pay
             </div>
-            <div className={`flex-1 text-center pb-2 border-b-2 ${step === "unlock" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700"}`}>
+            <div 
+              onClick={() => setStep("unlock")}
+              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "unlock" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200"}`}
+            >
               Step 2: Unlock
             </div>
           </div>
