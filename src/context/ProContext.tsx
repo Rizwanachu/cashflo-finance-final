@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { safeGet, safeSet, safeRemove, getOrCreateDeviceId } from "../utils/storage";
+import { verifyUnlockCode } from "../utils/crypto";
 
 interface ProContextValue {
   isProUser: boolean;
@@ -9,6 +10,7 @@ interface ProContextValue {
   setShowGoProModal: (show: boolean) => void;
   lockedFeature?: string;
   setLockedFeature: (feature?: string) => void;
+  deviceId: string;
 }
 
 const ProContext = createContext<ProContextValue | undefined>(undefined);
@@ -16,75 +18,44 @@ const ProContext = createContext<ProContextValue | undefined>(undefined);
 const PRO_KEY = "cashflo_pro";
 const PRO_DEVICE_KEY = "cashflo_pro_device";
 
-// Device-locked unlock codes mapping
-// In production, this would be managed server-side, but for no-backend solution:
-// Each code is bound to a specific device ID
-const UNLOCK_CODES: Record<string, string> = {
-  "CASHFLO2025": "device_demo_1",
-  // Add more codes as needed for customer deliveries
-};
-
 export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [isProUser, setIsProUser] = useState(false);
   const [showGoProModal, setShowGoProModal] = useState(false);
   const [lockedFeature, setLockedFeature] = useState<string>();
+  const [deviceId, setDeviceId] = useState("");
 
   // Load Pro status from localStorage on mount
   useEffect(() => {
-    const deviceId = getOrCreateDeviceId();
+    const dId = getOrCreateDeviceId();
+    setDeviceId(dId);
     
     // Check if this device has pro unlocked
     const proDeviceId = safeGet<string>(PRO_DEVICE_KEY, "");
-    const isUnlocked = proDeviceId === deviceId;
+    const isUnlocked = proDeviceId === dId;
     
     setIsProUser(isUnlocked);
   }, []);
 
   const unlockPro = (code: string): { success: boolean; message: string } => {
-    const deviceId = getOrCreateDeviceId();
-    const upperCode = code.toUpperCase().trim();
+    const dId = getOrCreateDeviceId();
     
-    // Check if code exists
-    if (!UNLOCK_CODES[upperCode]) {
-      return {
-        success: false,
-        message: "Invalid unlock code. Please check and try again."
-      };
-    }
-    
-    const codeDeviceId = UNLOCK_CODES[upperCode];
-    
-    // Check if code is bound to a device
-    if (!codeDeviceId) {
-      return {
-        success: false,
-        message: "This unlock code is not valid."
-      };
-    }
-    
-    // Check if code already used on another device
-    if (codeDeviceId !== deviceId && codeDeviceId !== `device_demo_${Object.keys(UNLOCK_CODES).indexOf(upperCode) + 1}`) {
-      // Allow demo codes to work on any device for testing
-      const allowDemoMode = upperCode === "CASHFLO2025";
+    if (verifyUnlockCode(code, dId)) {
+      // Unlock Pro
+      setIsProUser(true);
+      safeSet(PRO_KEY, "true");
+      safeSet(PRO_DEVICE_KEY, dId);
       
-      if (!allowDemoMode && codeDeviceId !== "device_demo_1") {
-        return {
-          success: false,
-          message: "This code is already used on another device."
-        };
-      }
+      return {
+        success: true,
+        message: "Pro unlocked! You now have access to all features."
+      };
     }
-    
-    // Unlock Pro
-    setIsProUser(true);
-    safeSet(PRO_KEY, "true");
-    safeSet(PRO_DEVICE_KEY, deviceId);
     
     return {
-      success: true,
-      message: "Pro unlocked! You now have access to all features."
+      success: false,
+      message: "Invalid unlock code. Please check and try again."
     };
   };
 
@@ -103,7 +74,8 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
         showGoProModal,
         setShowGoProModal,
         lockedFeature,
-        setLockedFeature
+        setLockedFeature,
+        deviceId
       }}
     >
       {children}

@@ -11,6 +11,8 @@ import { useBudgets } from "../context/BudgetContext";
 import { useRecurring } from "../context/RecurringContext";
 import { useNotifications } from "../context/NotificationsContext";
 import { useAnalytics } from "../context/AnalyticsContext";
+import { usePro } from "../context/ProContext";
+import { generateUnlockCode } from "../utils/crypto";
 import { exportBackup, importBackup, factoryReset, readBackupFile } from "../utils/backup";
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
@@ -29,10 +31,28 @@ const SettingsPage: React.FC = () => {
   const { resetPayments } = useRecurring();
   const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications } = useNotifications();
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
+  const { deviceId, resetPro, isProUser } = usePro();
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showResetModal, setShowResetModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [simulatorClicks, setSimulatorClicks] = useState(0);
+  const [showSimulator, setShowSimulator] = useState(false);
+
+  const handleSimulatorClick = () => {
+    const newCount = simulatorClicks + 1;
+    setSimulatorClicks(newCount);
+    if (newCount === 5) {
+      setShowSimulator(true);
+      pushToast("Simulator mode enabled", "success");
+    }
+  };
+
+  const handleCopyCode = () => {
+    const code = generateUnlockCode(deviceId);
+    navigator.clipboard.writeText(code);
+    pushToast("Code copied to clipboard!", "success");
+  };
 
   const handleExportBackup = () => {
     try {
@@ -405,7 +425,7 @@ const SettingsPage: React.FC = () => {
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-2">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-2" onClick={handleSimulatorClick}>
           About Spendory
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -414,7 +434,50 @@ const SettingsPage: React.FC = () => {
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           All data is stored locally in your browser. No data is sent to any server.
         </p>
+        {deviceId && (
+          <p className="text-[10px] text-slate-400 dark:text-slate-600 mt-2">
+            Device ID: {deviceId}
+          </p>
+        )}
       </Card>
+
+      {showSimulator && (
+        <Card className="border-emerald-200 bg-emerald-50/30 dark:bg-emerald-950/10">
+          <h3 className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-4 flex items-center gap-2">
+            🚀 Admin Simulator
+          </h3>
+          <div className="space-y-4">
+            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-emerald-100 dark:border-emerald-800">
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                This simulates the code generation that would normally happen on your server after a successful PayPal payment.
+              </p>
+              <div className="flex flex-col gap-2">
+                <div className="text-sm font-mono bg-slate-100 dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700 break-all">
+                  {generateUnlockCode(deviceId)}
+                </div>
+                <button
+                  onClick={handleCopyCode}
+                  className="px-4 py-2 bg-emerald-500 text-white text-xs font-bold rounded-lg hover:bg-emerald-600 transition-all"
+                >
+                  Copy Unique Pro Code
+                </button>
+              </div>
+            </div>
+            
+            {isProUser && (
+              <button
+                onClick={() => {
+                  resetPro();
+                  pushToast("Pro status reset", "info");
+                }}
+                className="w-full px-4 py-2 border border-red-200 text-red-600 text-xs font-medium rounded-lg hover:bg-red-50 transition-all"
+              >
+                Reset Pro Status (for testing)
+              </button>
+            )}
+          </div>
+        </Card>
+      )}
 
       {showResetModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
