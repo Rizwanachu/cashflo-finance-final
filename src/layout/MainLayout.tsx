@@ -208,6 +208,13 @@ const MainLayout: React.FC = () => {
               <span>Budgets</span>
             </NavLink>
             <NavLink
+              to="/goals"
+              className={({ isActive }) => (isActive ? active : inactive)}
+            >
+              <span className="text-[13px]">⭐</span>
+              <span>Goals</span>
+            </NavLink>
+            <NavLink
               to="/recurring"
               className={({ isActive }) => (isActive ? active : inactive)}
             >
