@@ -92,14 +92,14 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     if (typeof window === 'undefined') return;
     
     // Check for Safari/iOS PWA specific support
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
 
-    if (typeof Notification === 'undefined') {
+    if (typeof Notification === 'undefined' || !('Notification' in window)) {
       if (isIOS && !isPWA) {
-        alert("To enable notifications on iPhone, please 'Add to Home Screen' first.");
+        alert("To enable notifications on iPhone:\n1. Tap the Share button (square with arrow)\n2. Tap 'Add to Home Screen'\n3. Open the app from your home screen.");
       } else {
-        alert("Notifications are not supported on this device/browser.");
+        alert("Your browser/device doesn't support push notifications yet. Make sure you are using Safari and have added the app to your Home Screen.");
       }
       return;
     }
