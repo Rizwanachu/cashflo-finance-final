@@ -93,9 +93,16 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     
     // Check for Safari/iOS PWA specific support
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone;
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone === true;
 
-    if (typeof Notification === 'undefined' || !('Notification' in window)) {
+    // Log the detection for debugging (you can see this in your web inspector)
+    console.log('Notification Check:', { 
+      hasNotification: 'Notification' in window, 
+      isIOS, 
+      isPWA 
+    });
+
+    if (!('Notification' in window)) {
       if (isIOS && !isPWA) {
         alert("To enable notifications on iPhone:\n1. Tap the Share button (square with arrow)\n2. Tap 'Add to Home Screen'\n3. Open the app from your home screen.");
       } else {
@@ -105,8 +112,16 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     
     try {
-      // iOS Safari requires a user gesture and specifically the PWA environment
-      const permission = await Notification.requestPermission();
+      // Use the older callback-based requestPermission first for better compatibility
+      const permission = await new Promise<NotificationPermission>((resolve) => {
+        const result = Notification.requestPermission((status) => {
+          resolve(status);
+        });
+        if (result && (result as any).then) {
+          (result as any).then(resolve);
+        }
+      });
+      
       setPermissionStatus(permission);
       
       if (permission === 'granted') {
