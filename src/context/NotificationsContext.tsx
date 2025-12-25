@@ -19,6 +19,8 @@ interface NotificationsContextValue {
   markAllAsRead: () => void;
   clearAll: () => void;
   resetNotifications: () => void;
+  requestPermission: () => Promise<void>;
+  permissionStatus: NotificationPermission;
 }
 
 const NotificationsContext = createContext<NotificationsContextValue | undefined>(undefined);
@@ -72,6 +74,9 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [notifications, setNotifications] = useState<Notification[]>(() => loadNotifications());
   const [enabled, setEnabledState] = useState<boolean>(() => loadEnabled());
+  const [permissionStatus, setPermissionStatus] = useState<NotificationPermission>(
+    typeof Notification !== 'undefined' ? Notification.permission : 'default'
+  );
 
   useEffect(() => {
     saveNotifications(notifications);
@@ -83,6 +88,12 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
+  const requestPermission = async () => {
+    if (typeof Notification === 'undefined') return;
+    const result = await Notification.requestPermission();
+    setPermissionStatus(result);
+  };
+
   const addNotification = useCallback((notification: Omit<Notification, "id" | "timestamp" | "read">) => {
     if (!enabled) return;
     
@@ -92,8 +103,22 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
       timestamp: new Date().toISOString(),
       read: false
     };
+
+    // Show system notification
+    if (permissionStatus === 'granted' && typeof Notification !== 'undefined') {
+      try {
+        new Notification(notification.title, {
+          body: notification.message,
+          icon: '/logo.png', // Ensure this path is correct
+          silent: false, // Use system default sound
+        });
+      } catch (err) {
+        console.error('System notification error:', err);
+      }
+    }
+
     setNotifications((prev) => [newNotification, ...prev].slice(0, 50)); // Keep max 50
-  }, [enabled]);
+  }, [enabled, permissionStatus]);
 
   const markAsRead = (id: string) => {
     setNotifications((prev) =>
@@ -129,7 +154,9 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
         markAsRead,
         markAllAsRead,
         clearAll,
-        resetNotifications
+        resetNotifications,
+        requestPermission,
+        permissionStatus
       }}
     >
       {children}

@@ -29,7 +29,7 @@ const SettingsPage: React.FC = () => {
   const { resetCategories } = useCategories();
   const { resetBudgets } = useBudgets();
   const { resetPayments } = useRecurring();
-  const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications } = useNotifications();
+  const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications, requestPermission, permissionStatus } = useNotifications();
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
   const { deviceId, resetPro, isProUser } = usePro();
   
@@ -271,7 +271,28 @@ const SettingsPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-slate-900 dark:text-slate-50 font-medium">
-                Enable Notifications
+                System Notifications
+              </div>
+              <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                {permissionStatus === 'granted' ? '✓ System notifications enabled' : 'Receive alerts on your device lock screen'}
+              </div>
+            </div>
+            {permissionStatus !== 'granted' ? (
+              <button
+                onClick={requestPermission}
+                className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg transition-colors"
+              >
+                Enable
+              </button>
+            ) : (
+              <span className="text-emerald-500 text-xs font-medium">Granted</span>
+            )}
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm text-slate-900 dark:text-slate-50 font-medium">
+                In-App Notifications
               </div>
               <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                 Get alerts for budgets and payments
