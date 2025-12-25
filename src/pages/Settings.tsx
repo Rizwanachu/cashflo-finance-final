@@ -40,9 +40,16 @@ const SettingsPage: React.FC = () => {
   const [showSimulator, setShowSimulator] = useState(false);
 
   const handleSimulatorClick = () => {
+    // Only allow simulator if user is already a Pro user or has a secret override
+    // For production, you might want to hide this behind a more secure check
     const newCount = simulatorClicks + 1;
     setSimulatorClicks(newCount);
     if (newCount === 5) {
+      if (!isProUser) {
+        pushToast("Pro features required for simulator access", "warning");
+        setSimulatorClicks(0);
+        return;
+      }
       setShowSimulator(true);
       pushToast("Simulator mode enabled", "success");
     }
