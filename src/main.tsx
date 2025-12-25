@@ -11,6 +11,7 @@ import { TransactionsProvider } from "./context/TransactionsContext";
 import { BudgetProvider } from "./context/BudgetContext";
 import { GoalsProvider } from "./context/GoalsContext";
 import { PrivacyProvider } from "./context/PrivacyContext";
+import { AppLockProvider } from "./context/AppLockContext";
 import { ToastProvider } from "./context/ToastContext";
 import { RecurringProvider } from "./context/RecurringContext";
 import { NotificationsProvider } from "./context/NotificationsContext";
@@ -28,7 +29,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <ThemeProvider>
           <CurrencyProvider>
             <PrivacyProvider>
-              <NotificationsProvider>
+              <AppLockProvider>
+                <NotificationsProvider>
                 <AccountsProvider>
                   <CategoriesProvider>
                     <TransactionsProvider>
@@ -54,7 +56,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                     </TransactionsProvider>
                   </CategoriesProvider>
                 </AccountsProvider>
-              </NotificationsProvider>
+                </NotificationsProvider>
+              </AppLockProvider>
             </PrivacyProvider>
           </CurrencyProvider>
         </ThemeProvider>

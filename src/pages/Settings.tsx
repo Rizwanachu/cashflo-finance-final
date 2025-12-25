@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { usePrivacy } from "../context/PrivacyContext";
+import { useAppLock } from "../context/AppLockContext";
 import { useCurrency, CurrencyCode } from "../context/CurrencyContext";
 import { useToast } from "../context/ToastContext";
 import { useTransactionsContext } from "../context/TransactionsContext";
@@ -22,8 +23,12 @@ const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { privacyMode, togglePrivacyMode } = usePrivacy();
+  const { isPinSet, setPin, removePin, lockApp } = useAppLock();
   const { currency, setCurrency } = useCurrency();
   const { pushToast } = useToast();
+  const [newPin, setNewPin] = useState("");
+  const [showPinSetup, setShowPinSetup] = useState(false);
+  const [confirmPin, setConfirmPin] = useState("");
   const { resetTransactions } = useTransactionsContext();
   const { resetAccounts } = useAccounts();
   const { resetCategories } = useCategories();
@@ -53,6 +58,44 @@ const SettingsPage: React.FC = () => {
       setShowSimulator(true);
       pushToast("Simulator mode enabled", "success");
     }
+  };
+
+  const handleSetPin = () => {
+    if (!newPin || !confirmPin) {
+      pushToast("Please enter PIN in both fields", "error");
+      return;
+    }
+    if (newPin !== confirmPin) {
+      pushToast("PINs do not match", "error");
+      return;
+    }
+    if (newPin.length < 4) {
+      pushToast("PIN must be at least 4 digits", "error");
+      return;
+    }
+    try {
+      setPin(newPin);
+      setNewPin("");
+      setConfirmPin("");
+      setShowPinSetup(false);
+      pushToast("PIN set successfully", "success");
+    } catch (error) {
+      pushToast("Failed to set PIN", "error");
+    }
+  };
+
+  const handleRemovePin = () => {
+    removePin();
+    pushToast("PIN removed", "success");
+  };
+
+  const handleLockApp = () => {
+    if (!isPinSet) {
+      pushToast("Please set a PIN first", "error");
+      return;
+    }
+    lockApp();
+    pushToast("App locked", "success");
   };
 
   const handleCopyCode = () => {
@@ -206,6 +249,90 @@ const SettingsPage: React.FC = () => {
           </div>
         </div>
       </Card>
+
+      {isProUser && (
+        <Card>
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
+            🔒 App Lock & PIN Protection
+          </h3>
+          <div className="space-y-4">
+            {!isPinSet ? (
+              <>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  Set up a PIN to lock your app and protect your financial data
+                </p>
+                <button
+                  onClick={() => setShowPinSetup(!showPinSetup)}
+                  className="w-full px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+                >
+                  Set PIN
+                </button>
+                {showPinSetup && (
+                  <div className="space-y-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                    <input
+                      type="password"
+                      placeholder="Enter PIN (4+ digits)"
+                      value={newPin}
+                      onChange={(e) => setNewPin(e.target.value.replace(/\D/g, ""))}
+                      maxLength={6}
+                      className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                    <input
+                      type="password"
+                      placeholder="Confirm PIN"
+                      value={confirmPin}
+                      onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, ""))}
+                      maxLength={6}
+                      className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          setShowPinSetup(false);
+                          setNewPin("");
+                          setConfirmPin("");
+                        }}
+                        className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSetPin}
+                        className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                  <p className="text-sm text-emerald-900 dark:text-emerald-50 font-medium">
+                    ✓ PIN is set
+                  </p>
+                  <p className="text-xs text-emerald-800 dark:text-emerald-200 mt-1">
+                    Your app is protected with PIN security
+                  </p>
+                </div>
+                <button
+                  onClick={handleLockApp}
+                  className="w-full px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors"
+                >
+                  🔐 Lock App Now
+                </button>
+                <button
+                  onClick={handleRemovePin}
+                  className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                >
+                  Remove PIN
+                </button>
+              </>
+            )}
+          </div>
+        </Card>
+      )}
 
       <Card>
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">

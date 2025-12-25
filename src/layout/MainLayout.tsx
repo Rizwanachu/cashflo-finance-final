@@ -4,9 +4,11 @@ import Sidebar from "../components/Sidebar";
 import { useTheme } from "../context/ThemeContext";
 import { useCurrency, CurrencyCode } from "../context/CurrencyContext";
 import { usePrivacy } from "../context/PrivacyContext";
+import { useAppLock } from "../context/AppLockContext";
 import { useNotifications } from "../context/NotificationsContext";
 import { ToastViewport } from "../context/ToastContext";
 import GoproModal from "../components/GoproModal";
+import AppLockModal from "../components/AppLockModal";
 import { usePro } from "../context/ProContext";
 
 const MainLayout: React.FC = () => {
@@ -18,6 +20,7 @@ const MainLayout: React.FC = () => {
   const { showGoProModal, setShowGoProModal, lockedFeature } = usePro();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { isAppLocked } = useAppLock();
 
   const baseClass =
     "flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl text-[10px] font-medium transition-colors min-w-0 flex-1";
@@ -302,6 +305,10 @@ const MainLayout: React.FC = () => {
         isOpen={showGoProModal}
         onClose={() => setShowGoProModal(false)}
         feature={lockedFeature}
+      />
+      <AppLockModal
+        isOpen={isAppLocked}
+        onUnlock={() => {}}
       />
     </div>
   );
