@@ -20,7 +20,7 @@ const MainLayout: React.FC = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const baseClass =
-    "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-[11px] font-medium transition-colors";
+    "flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl text-[10px] font-medium transition-colors min-w-0 flex-1";
   const inactive =
     baseClass + " text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-800";
   const active =
@@ -188,7 +188,7 @@ const MainLayout: React.FC = () => {
 
         {/* Mobile bottom navigation */}
         <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md z-20 safe-area-pb">
-          <div className="flex justify-around py-2 text-xs">
+          <div className="flex justify-between px-1 py-1 text-xs">
             <NavLink to="/" end className={({ isActive }) => (isActive ? active : inactive)}>
               <span className="text-[13px]">🏠</span>
               <span>Home</span>
