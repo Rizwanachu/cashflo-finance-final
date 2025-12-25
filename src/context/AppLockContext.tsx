@@ -20,7 +20,9 @@ const LOCK_STATUS_KEY = "ledgerly-app-locked-v1";
 export const AppLockProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [isAppLocked, setIsAppLocked] = useState(false);
+  const [isAppLocked, setIsAppLocked] = useState(() => 
+    safeGet<boolean>(LOCK_STATUS_KEY, false)
+  );
   const [pin, setPin] = useState<string | null>(null);
   const [isPinSet, setIsPinSet] = useState(false);
 
@@ -28,6 +30,11 @@ export const AppLockProvider: React.FC<{ children: React.ReactNode }> = ({
     const storedPin = safeGet<string | null>(PIN_KEY, null);
     setPin(storedPin);
     setIsPinSet(!!storedPin);
+    
+    // If PIN is set and we were locked, restore the locked state
+    if (storedPin && safeGet<boolean>(LOCK_STATUS_KEY, false)) {
+      setIsAppLocked(true);
+    }
   }, []);
 
   const handleSetPin = (newPin: string) => {
@@ -64,8 +71,9 @@ export const AppLockProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const toggleAppLock = () => {
     if (isPinSet) {
-      setIsAppLocked(prev => !prev);
-      safeSet(LOCK_STATUS_KEY, !isAppLocked);
+      const newLockState = !isAppLocked;
+      setIsAppLocked(newLockState);
+      safeSet(LOCK_STATUS_KEY, newLockState);
     }
   };
 
