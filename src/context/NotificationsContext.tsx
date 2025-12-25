@@ -89,18 +89,27 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   const requestPermission = async () => {
+    if (typeof window === 'undefined') return;
+    
+    // Check for Safari/iOS PWA specific support
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+
     if (typeof Notification === 'undefined') {
-      console.warn('Notifications not supported in this browser');
+      if (isIOS && !isPWA) {
+        alert("To enable notifications on iPhone, please 'Add to Home Screen' first.");
+      } else {
+        alert("Notifications are not supported on this device/browser.");
+      }
       return;
     }
     
     try {
-      // Some browsers use callback, others use promise. We'll handle both.
+      // iOS Safari requires a user gesture and specifically the PWA environment
       const permission = await Notification.requestPermission();
       setPermissionStatus(permission);
       
       if (permission === 'granted') {
-        // Send a test notification to confirm it's working
         new Notification("Notifications Enabled", {
           body: "You'll now receive alerts for budgets and payments.",
           icon: "/logo.png"
@@ -108,6 +117,14 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     } catch (err) {
       console.error('Error requesting notification permission:', err);
+      // Fallback for some older iOS versions
+      try {
+        Notification.requestPermission((result) => {
+          setPermissionStatus(result);
+        });
+      } catch (e) {
+        console.error('Callback fallback failed:', e);
+      }
     }
   };
 
