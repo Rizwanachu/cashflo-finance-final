@@ -21,8 +21,6 @@ const PRO_DEVICE_KEY = "cashflo_pro_device";
 // Each code is bound to a specific device ID
 const UNLOCK_CODES: Record<string, string> = {
   "CASHFLO2025": "device_demo_1",
-  "LIFETIME": "device_demo_2",
-  "PRO123": "device_demo_3",
   // Add more codes as needed for customer deliveries
 };
 
@@ -69,9 +67,9 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
     // Check if code already used on another device
     if (codeDeviceId !== deviceId && codeDeviceId !== `device_demo_${Object.keys(UNLOCK_CODES).indexOf(upperCode) + 1}`) {
       // Allow demo codes to work on any device for testing
-      const allowDemoMode = upperCode.startsWith("PRO") || upperCode === "CASHFLO2025" || upperCode === "LIFETIME";
+      const allowDemoMode = upperCode === "CASHFLO2025";
       
-      if (!allowDemoMode && codeDeviceId !== "device_demo_1" && codeDeviceId !== "device_demo_2" && codeDeviceId !== "device_demo_3") {
+      if (!allowDemoMode && codeDeviceId !== "device_demo_1") {
         return {
           success: false,
           message: "This code is already used on another device."
