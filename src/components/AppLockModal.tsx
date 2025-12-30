@@ -95,7 +95,7 @@ const AppLockModal: React.FC<AppLockModalProps> = ({ isOpen, onUnlock }) => {
           <button
             onClick={handleUnlock}
             disabled={enteredPin.length === 0}
-            className="flex-1 p-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 dark:disabled:bg-slate-700 text-white text-sm font-semibold transition-colors"
+            className="flex-1 p-3 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] disabled:bg-slate-300 dark:disabled:bg-slate-700 text-white text-sm font-semibold transition-colors"
           >
             Unlock
           </button>

@@ -131,3 +131,40 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-color: var(--default-border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
+
+/* Global button color override - all buttons use brand primary color */
+button:not([disabled]) {
+  --tw-bg-opacity: 1 !important;
+  background-color: var(--brand-primary) !important;
+}
+
+button:hover:not([disabled]) {
+  background-color: var(--brand-hover) !important;
+}
+
+/* Override Tailwind emerald classes */
+.bg-emerald-500 {
+  background-color: var(--brand-primary) !important;
+}
+
+.hover\:bg-emerald-600:hover {
+  background-color: var(--brand-hover) !important;
+}
+
+/* Override blue button classes */
+.bg-blue-600 {
+  background-color: var(--brand-primary) !important;
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: var(--brand-hover) !important;
+}
+
+/* Override green button classes */
+.bg-green-600 {
+  background-color: var(--brand-primary) !important;
+}
+
+.hover\:bg-green-700:hover {
+  background-color: var(--brand-hover) !important;
+}

@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
           </p>
           <Link
             to="/transactions"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-medium transition-colors"
           >
             <span>➕</span>
             <span>Add your first transaction</span>
@@ -161,7 +161,7 @@ const Dashboard: React.FC = () => {
       <SummaryCards transactions={transactions} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 items-stretch">
-        <Card className="md:col-span-2 lg:col-span-2 bg-emerald-500 dark:bg-emerald-400 text-white border-0">
+        <Card className="md:col-span-2 lg:col-span-2 bg-[var(--brand-primary)] dark:bg-emerald-400 text-white border-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
             <div>
               <div className="text-xs uppercase tracking-wide text-white/90">
@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
                 Cash position
               </div>
             </div>
-            <span className="inline-flex px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 text-[11px] font-medium w-fit">
+            <span className="inline-flex px-2 py-1 rounded-full bg-emerald-50 dark:bg-[var(--brand-primary)]/20 text-emerald-600 dark:text-emerald-300 text-[11px] font-medium w-fit">
               +3.1% vs last month
             </span>
           </div>
@@ -266,7 +266,7 @@ const Dashboard: React.FC = () => {
                       <span
                         className={`inline-flex px-2 py-0.5 rounded-full text-[10px] ${
                           t.type === "income"
-                            ? "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+                            ? "bg-emerald-100 dark:bg-[var(--brand-primary)]/20 text-emerald-600 dark:text-emerald-400"
                             : "bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-300"
                         }`}
                       >
@@ -314,7 +314,7 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <div className="w-20 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
-                  <div className="h-full w-3/4 bg-emerald-500 dark:bg-emerald-400" />
+                  <div className="h-full w-3/4 bg-[var(--brand-primary)] dark:bg-emerald-400" />
                 </div>
               </div>
             ))}

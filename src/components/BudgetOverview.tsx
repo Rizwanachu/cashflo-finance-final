@@ -67,7 +67,7 @@ const BudgetOverview: React.FC = () => {
   const alertColor = (usedPercent: number) => {
     if (usedPercent >= 100) return "bg-rose-500";
     if (usedPercent >= 80) return "bg-amber-400";
-    return "bg-emerald-500";
+    return "bg-[var(--brand-primary)]";
   };
 
   return (

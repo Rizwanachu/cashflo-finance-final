@@ -111,7 +111,7 @@ const GoalsPage: React.FC = () => {
             setLockedFeature("Financial goals");
             setShowGoProModal(true);
           }}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+          className="bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white font-semibold px-6 py-3 rounded-lg transition-colors"
         >
           ⭐ Upgrade to Pro
         </button>
@@ -127,7 +127,7 @@ const GoalsPage: React.FC = () => {
         </h1>
         <button
           onClick={() => handleOpenModal()}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+          className="bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white font-semibold px-4 py-2 rounded-lg transition-colors"
         >
           + New Goal
         </button>
@@ -197,7 +197,7 @@ const GoalsPage: React.FC = () => {
                     </div>
                     <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                       <div
-                        className="bg-emerald-500 h-2 rounded-full transition-all"
+                        className="bg-[var(--brand-primary)] h-2 rounded-full transition-all"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -263,7 +263,7 @@ const GoalsPage: React.FC = () => {
                   </button>
                   <button
                     onClick={() => updateGoalProgress(goal.id, 10)}
-                    className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg font-medium transition-colors"
+                    className="flex-1 bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white py-2 rounded-lg font-medium transition-colors"
                     title="Add $10 to progress"
                   >
                     +$10
@@ -391,7 +391,7 @@ const GoalsPage: React.FC = () => {
                 </button>
                 <button
                   onClick={handleSaveGoal}
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg font-medium transition-colors"
+                  className="flex-1 bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white py-2 rounded-lg font-medium transition-colors"
                 >
                   Save Goal
                 </button>

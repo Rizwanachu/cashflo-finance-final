@@ -120,7 +120,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
                 href={PAYPAL_PAYMENT_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition-colors text-center"
+                className="block w-full px-4 py-3 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-semibold transition-colors text-center"
               >
                 💳 Pay once. Use forever. ($9.99)
               </a>
@@ -150,7 +150,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
                 />
                 <button
                   onClick={handleUnlock}
-                  className="w-full px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+                  className="w-full px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-medium transition-colors"
                 >
                   Unlock Pro
                 </button>
