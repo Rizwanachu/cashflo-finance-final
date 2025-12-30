@@ -12,7 +12,8 @@ export type CurrencyCode =
   | "USD" | "EUR" | "INR" | "GBP" | "JPY" | "AUD" | "CAD" | "CHF" 
   | "CNY" | "SGD" | "AED" | "SAR" | "ZAR" | "NZD" | "SEK" | "NOK" 
   | "DKK" | "KRW" | "THB" | "MYR" | "PHP" | "IDR" | "BRL" | "MXN" 
-  | "TRY" | "PKR" | "BDT" | "LKR";
+  | "TRY" | "PKR" | "BDT" | "LKR" | "BGN" | "HRK" | "CZK" | "HUF" 
+  | "ISK" | "PLN" | "RON";
 
 interface CurrencyContextValue {
   currency: CurrencyCode;
@@ -55,7 +56,14 @@ const CURRENCIES: CurrencyInfo[] = [
   { code: "TRY", symbol: "₺", name: "Turkish Lira", country: "Turkey" },
   { code: "PKR", symbol: "₨", name: "Pakistani Rupee", country: "Pakistan" },
   { code: "BDT", symbol: "৳", name: "Bangladeshi Taka", country: "Bangladesh" },
-  { code: "LKR", symbol: "Rs", name: "Sri Lankan Rupee", country: "Sri Lanka" }
+  { code: "LKR", symbol: "Rs", name: "Sri Lankan Rupee", country: "Sri Lanka" },
+  { code: "BGN", symbol: "лв", name: "Bulgarian Lev", country: "Bulgaria" },
+  { code: "HRK", symbol: "kn", name: "Croatian Kuna", country: "Croatia" },
+  { code: "CZK", symbol: "Kč", name: "Czech Koruna", country: "Czech Republic" },
+  { code: "HUF", symbol: "Ft", name: "Hungarian Forint", country: "Hungary" },
+  { code: "ISK", symbol: "kr", name: "Icelandic Króna", country: "Iceland" },
+  { code: "PLN", symbol: "zł", name: "Polish Zloty", country: "Poland" },
+  { code: "RON", symbol: "lei", name: "Romanian Leu", country: "Romania" }
 ];
 
 const CURRENCY_MAP = new Map(CURRENCIES.map(c => [c.code, c]));

@@ -375,6 +375,13 @@ const SettingsPage: React.FC = () => {
             <option value="PKR">PKR - Pakistani Rupee</option>
             <option value="BDT">BDT - Bangladeshi Taka</option>
             <option value="LKR">LKR - Sri Lankan Rupee</option>
+            <option value="BGN">BGN - Bulgarian Lev</option>
+            <option value="HRK">HRK - Croatian Kuna</option>
+            <option value="CZK">CZK - Czech Koruna</option>
+            <option value="HUF">HUF - Hungarian Forint</option>
+            <option value="ISK">ISK - Icelandic Króna</option>
+            <option value="PLN">PLN - Polish Zloty</option>
+            <option value="RON">RON - Romanian Leu</option>
           </select>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
             All amounts are stored exactly as entered. Format only changes on display.
