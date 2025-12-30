@@ -65,19 +65,19 @@ const WeeklySpendingChart: React.FC<Props> = ({ transactions }) => {
         >
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke={resolvedTheme === "dark" ? "#1E293B" : "#E2E8F0"}
+            stroke={resolvedTheme === "dark" ? "#1F2A27" : "#E2E8F0"}
             vertical={false}
           />
           <XAxis
             dataKey="day"
-            stroke={resolvedTheme === "dark" ? "#CBD5E1" : "#334155"}
-            tick={{ fill: resolvedTheme === "dark" ? "#CBD5E1" : "#334155", fontSize: 11 }}
+            stroke={resolvedTheme === "dark" ? "#A8B8B2" : "#334155"}
+            tick={{ fill: resolvedTheme === "dark" ? "#A8B8B2" : "#334155", fontSize: 11 }}
             tickLine={false}
             tickMargin={8}
           />
           <YAxis
-            stroke={resolvedTheme === "dark" ? "#CBD5E1" : "#334155"}
-            tick={{ fill: resolvedTheme === "dark" ? "#CBD5E1" : "#334155", fontSize: 11 }}
+            stroke={resolvedTheme === "dark" ? "#A8B8B2" : "#334155"}
+            tick={{ fill: resolvedTheme === "dark" ? "#A8B8B2" : "#334155", fontSize: 11 }}
             tickLine={false}
             tickMargin={8}
             width={60}
@@ -89,16 +89,16 @@ const WeeklySpendingChart: React.FC<Props> = ({ transactions }) => {
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: resolvedTheme === "dark" ? "#020617" : "#FFFFFF",
+              backgroundColor: resolvedTheme === "dark" ? "#121817" : "#FFFFFF",
               border: `1px solid ${
-                resolvedTheme === "dark" ? "#334155" : "#CBD5E1"
+                resolvedTheme === "dark" ? "#1F2A27" : "#CBD5E1"
               }`,
               borderRadius: "0.75rem",
               fontSize: "0.75rem",
-              color: resolvedTheme === "dark" ? "#F8FAFC" : "#0F172A"
+              color: resolvedTheme === "dark" ? "#E6F1EC" : "#0F172A"
             }}
             itemStyle={{
-              color: resolvedTheme === "dark" ? "#F8FAFC" : "#0F172A"
+              color: resolvedTheme === "dark" ? "#E6F1EC" : "#0F172A"
             }}
             formatter={(value: number) =>
               `$${value.toLocaleString(undefined, {
@@ -115,7 +115,7 @@ const WeeklySpendingChart: React.FC<Props> = ({ transactions }) => {
           />
           <Bar
             dataKey="amount"
-            fill={resolvedTheme === "dark" ? "#F87171" : "#EF4444"}
+            fill={resolvedTheme === "dark" ? "#BFEBD6" : "#EF4444"}
             radius={[8, 8, 4, 4]}
           />
         </BarChart>

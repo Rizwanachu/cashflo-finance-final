@@ -61,31 +61,31 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
   }, [transactions]);
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 shadow-sm h-full">
+    <div className="rounded-2xl bg-white dark:bg-[var(--bg-tertiary)] border border-slate-200 dark:border-[var(--border-subtle)] p-4 shadow-sm h-full">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+        <h3 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-[var(--text-primary)]">
           Monthly income vs expenses
         </h3>
-        <span className="text-[11px] text-slate-500 dark:text-slate-400">Last 6 months</span>
+        <span className="text-[11px] text-slate-500 dark:text-[var(--text-muted)]">Last 6 months</span>
       </div>
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke={theme === "dark" ? "#1E293B" : "#E2E8F0"}
+              stroke={theme === "dark" ? "#1F2A27" : "#E2E8F0"}
               vertical={false}
             />
             <XAxis
               dataKey="month"
-              stroke={theme === "dark" ? "#CBD5E1" : "#334155"}
-              tick={{ fill: theme === "dark" ? "#CBD5E1" : "#334155" }}
+              stroke={theme === "dark" ? "#A8B8B2" : "#334155"}
+              tick={{ fill: theme === "dark" ? "#A8B8B2" : "#334155" }}
               tickLine={false}
               tickMargin={8}
             />
             <YAxis
-              stroke={theme === "dark" ? "#CBD5E1" : "#334155"}
-              tick={{ fill: theme === "dark" ? "#CBD5E1" : "#334155" }}
+              stroke={theme === "dark" ? "#A8B8B2" : "#334155"}
+              tick={{ fill: theme === "dark" ? "#A8B8B2" : "#334155" }}
               tickLine={false}
               tickMargin={8}
               tickFormatter={(value) =>
@@ -96,16 +96,16 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: theme === "dark" ? "#020617" : "#FFFFFF",
+                backgroundColor: theme === "dark" ? "#121817" : "#FFFFFF",
                 border: `1px solid ${
-                  theme === "dark" ? "#334155" : "#CBD5E1"
+                  theme === "dark" ? "#1F2A27" : "#CBD5E1"
                 }`,
                 borderRadius: "0.75rem",
                 fontSize: "0.75rem",
-                color: theme === "dark" ? "#F8FAFC" : "#0F172A"
+                color: theme === "dark" ? "#E6F1EC" : "#0F172A"
               }}
               itemStyle={{
-                color: theme === "dark" ? "#F8FAFC" : "#0F172A"
+                color: theme === "dark" ? "#E6F1EC" : "#0F172A"
               }}
               formatter={(value: number) =>
                 `$${value.toLocaleString(undefined, {
@@ -116,13 +116,13 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
             <Legend
               wrapperStyle={{
                 fontSize: "0.7rem",
-                color: theme === "dark" ? "#CBD5E1" : "#334155"
+                color: theme === "dark" ? "#A8B8B2" : "#334155"
               }}
             />
             <Line
               type="monotone"
               dataKey="income"
-              stroke={theme === "dark" ? "#34D399" : "#10B981"}
+              stroke={theme === "dark" ? "#BFEBD6" : "#10B981"}
               strokeWidth={2}
               dot={{ r: 3 }}
               activeDot={{ r: 5 }}
@@ -130,7 +130,7 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
             <Line
               type="monotone"
               dataKey="expenses"
-              stroke={theme === "dark" ? "#F87171" : "#EF4444"}
+              stroke={theme === "dark" ? "#6FBFA4" : "#EF4444"}
               strokeWidth={2}
               dot={{ r: 3 }}
               activeDot={{ r: 5 }}

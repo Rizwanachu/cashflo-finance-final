@@ -15,7 +15,7 @@ interface Props {
 }
 
 const LIGHT_COLORS = ["#10B981", "#EF4444", "#F59E0B", "#6366F1", "#0EA5E9"];
-const DARK_COLORS = ["#34D399", "#F87171", "#FBBF24", "#818CF8", "#38BDF8"];
+const DARK_COLORS = ["#BFEBD6", "#9FD9C0", "#6FBFA4", "#A8B8B2", "#8E9F99"];
 
 const categoryLabel: Record<string, string> = {
   rent: "Rent / Mortgage",
@@ -46,12 +46,12 @@ const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
   }, [transactions]);
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 shadow-sm h-full">
+    <div className="rounded-2xl bg-white dark:bg-[var(--bg-tertiary)] border border-slate-200 dark:border-[var(--border-subtle)] p-4 shadow-sm h-full">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+        <h3 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-[var(--text-primary)]">
           Category breakdown
         </h3>
-        <span className="text-[11px] text-slate-500 dark:text-slate-400">Expenses only</span>
+        <span className="text-[11px] text-slate-500 dark:text-[var(--text-muted)]">Expenses only</span>
       </div>
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
@@ -79,16 +79,16 @@ const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
             </Pie>
             <Tooltip
               contentStyle={{
-                backgroundColor: theme === "dark" ? "#020617" : "#FFFFFF",
+                backgroundColor: theme === "dark" ? "#121817" : "#FFFFFF",
                 border: `1px solid ${
-                  theme === "dark" ? "#334155" : "#CBD5E1"
+                  theme === "dark" ? "#1F2A27" : "#CBD5E1"
                 }`,
                 borderRadius: "0.75rem",
                 fontSize: "0.75rem",
-                color: theme === "dark" ? "#F8FAFC" : "#0F172A"
+                color: theme === "dark" ? "#E6F1EC" : "#0F172A"
               }}
               itemStyle={{
-                color: theme === "dark" ? "#F8FAFC" : "#0F172A"
+                color: theme === "dark" ? "#E6F1EC" : "#0F172A"
               }}
               formatter={(value: number) =>
                 `$${value.toLocaleString(undefined, {
@@ -99,7 +99,7 @@ const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
             <Legend
               wrapperStyle={{
                 fontSize: "0.7rem",
-                color: theme === "dark" ? "#CBD5E1" : "#334155"
+                color: theme === "dark" ? "#A8B8B2" : "#334155"
               }}
               iconType="circle"
               verticalAlign="bottom"
