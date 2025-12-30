@@ -21,9 +21,9 @@ export default {
         "ledger-border": "#E5E7EB",
         "ledger-divider": "#F0F1F3",
         
-        // Primary Brand (Mint green - matching logo)
-        "ledger-primary": "#26D0CE",
-        "ledger-primary-hover": "#0FB5B0",
+        // Primary Brand (Button color)
+        "ledger-primary": "#acdbb9",
+        "ledger-primary-hover": "#98d0a8",
         "ledger-primary-soft": "#E0F9F7",
         
         // Status Colors - Harmonious

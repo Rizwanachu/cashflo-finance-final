@@ -22,9 +22,9 @@ export const theme = {
     defaultBorder: "#E5E7EB",
     subtleDivider: "#F0F1F3",
     
-    // Brand - Mint green (matching logo)
-    brandPrimary: "#26D0CE",
-    brandHover: "#0FB5B0",
+    // Brand - Button color
+    brandPrimary: "#acdbb9",
+    brandHover: "#98d0a8",
     brandSoftBg: "#E0F9F7",
     
     // Status - Harmonious
@@ -57,9 +57,9 @@ export const theme = {
     defaultBorder: "#30363D",
     subtleDivider: "#21262D",
     
-    // Brand - Mint green (matching logo, adjusted for dark)
-    brandPrimary: "#3FE5DE",
-    brandHover: "#26D0CE",
+    // Brand - Button color (same as light mode)
+    brandPrimary: "#acdbb9",
+    brandHover: "#98d0a8",
     brandSoftBg: "rgba(38, 208, 206, 0.15)",
     
     // Status - Harmonious
