@@ -21,13 +21,13 @@ export default {
         "ledger-border": "#E5E7EB",
         "ledger-divider": "#F0F1F3",
         
-        // Primary Brand (Calm Emerald)
-        "ledger-primary": "#10B981",
-        "ledger-primary-hover": "#059669",
-        "ledger-primary-soft": "#ECFDF5",
+        // Primary Brand (Mint green - matching logo)
+        "ledger-primary": "#26D0CE",
+        "ledger-primary-hover": "#0FB5B0",
+        "ledger-primary-soft": "#E0F9F7",
         
         // Status Colors - Harmonious
-        "ledger-success": "#10B981",
+        "ledger-success": "#26D0CE",
         "ledger-warning": "#F59E0B",
         "ledger-error": "#EF4444",
         
@@ -36,7 +36,7 @@ export default {
         "ledger-chart-grid": "#F0F1F3",
         "ledger-chart-tooltip-bg": "#FFFFFF",
         "ledger-chart-tooltip-border": "#E5E7EB",
-        "ledger-chart-income": "#10B981",
+        "ledger-chart-income": "#26D0CE",
         "ledger-chart-expense": "#EF4444"
       },
       boxShadow: {

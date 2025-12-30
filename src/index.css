@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Light theme variables - Refined & Premium */
+  /* Light theme variables - Refined & Premium with mint-green matching logo */
   --app-bg: #FAFBFC;
   --card-bg: #FFFFFF;
   --sidebar-bg: #F8F9FA;
@@ -14,10 +14,10 @@
   --disabled-text: #9CA3AF;
   --default-border: #E5E7EB;
   --subtle-divider: #F0F1F3;
-  --brand-primary: #10B981;
-  --brand-hover: #059669;
-  --brand-soft-bg: #ECFDF5;
-  --success: #10B981;
+  --brand-primary: #26D0CE;
+  --brand-hover: #0FB5B0;
+  --brand-soft-bg: #E0F9F7;
+  --success: #26D0CE;
   --warning: #F59E0B;
   --error: #EF4444;
 }
@@ -34,10 +34,10 @@
   --disabled-text: #484F58;
   --default-border: #30363D;
   --subtle-divider: #21262D;
-  --brand-primary: #3FB98E;
-  --brand-hover: #2EA076;
-  --brand-soft-bg: rgba(16, 185, 129, 0.12);
-  --success: #3FB98E;
+  --brand-primary: #3FE5DE;
+  --brand-hover: #26D0CE;
+  --brand-soft-bg: rgba(38, 208, 206, 0.15);
+  --success: #3FE5DE;
   --warning: #D29922;
   --error: #F85149;
 }

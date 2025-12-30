@@ -1,6 +1,7 @@
 /**
  * Centralized theme system for Spendory
  * Premium, minimalistic, modern design with calm, refined aesthetics
+ * Colors matched to the mint-green logo
  */
 
 export const theme = {
@@ -21,13 +22,13 @@ export const theme = {
     defaultBorder: "#E5E7EB",
     subtleDivider: "#F0F1F3",
     
-    // Brand - Calm emerald
-    brandPrimary: "#10B981",
-    brandHover: "#059669",
-    brandSoftBg: "#ECFDF5",
+    // Brand - Mint green (matching logo)
+    brandPrimary: "#26D0CE",
+    brandHover: "#0FB5B0",
+    brandSoftBg: "#E0F9F7",
     
     // Status - Harmonious
-    success: "#10B981",
+    success: "#26D0CE",
     warning: "#F59E0B",
     error: "#EF4444",
     
@@ -36,7 +37,7 @@ export const theme = {
     chartGridLine: "#F0F1F3",
     chartTooltipBg: "#FFFFFF",
     chartTooltipBorder: "#E5E7EB",
-    chartIncome: "#10B981",
+    chartIncome: "#26D0CE",
     chartExpense: "#EF4444",
   },
   dark: {
@@ -56,13 +57,13 @@ export const theme = {
     defaultBorder: "#30363D",
     subtleDivider: "#21262D",
     
-    // Brand - Calm emerald (adjusted for dark)
-    brandPrimary: "#3FB98E",
-    brandHover: "#2EA076",
-    brandSoftBg: "rgba(16, 185, 129, 0.12)",
+    // Brand - Mint green (matching logo, adjusted for dark)
+    brandPrimary: "#3FE5DE",
+    brandHover: "#26D0CE",
+    brandSoftBg: "rgba(38, 208, 206, 0.15)",
     
     // Status - Harmonious
-    success: "#3FB98E",
+    success: "#3FE5DE",
     warning: "#D29922",
     error: "#F85149",
     
@@ -71,7 +72,7 @@ export const theme = {
     chartGridLine: "#21262D",
     chartTooltipBg: "#161B22",
     chartTooltipBorder: "#30363D",
-    chartIncome: "#3FB98E",
+    chartIncome: "#3FE5DE",
     chartExpense: "#F85149",
   },
 } as const;
