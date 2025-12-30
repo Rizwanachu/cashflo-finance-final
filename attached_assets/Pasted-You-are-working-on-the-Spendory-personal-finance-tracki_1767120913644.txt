@@ -1,0 +1,65 @@
+You are working on the Spendory personal finance tracking app.
+
+DO NOT change any existing functionality, logic, data handling, storage, routing, or features.
+ONLY apply a consistent global dark-mode UI theme across the entire app.
+
+THEME RULES (MANDATORY):
+- Dark mode only
+- Automatically follow system preference using prefers-color-scheme: dark
+- No light mode styles anywhere
+- Minimalistic, modern, premium, calm, and clean
+- Soft contrast, no pure white, no bright or neon colors
+- No gradients except extremely subtle background glow if already present
+- Spacing and typography should feel calm and uncluttered
+
+APPLY THIS THEME GLOBALLY USING CSS VARIABLES:
+
+:root {
+  --bg-primary: #0B0F0E;
+  --bg-secondary: #121817;
+  --bg-tertiary: #1A2321;
+
+  --brand-primary: #BFEBD6;
+  --brand-secondary: #9FD9C0;
+  --brand-accent: #6FBFA4;
+
+  --text-primary: #E6F1EC;
+  --text-secondary: #A8B8B2;
+  --text-paragraph: #8E9F99;
+  --text-muted: #6F7F79;
+  --text-disabled: #4F5E59;
+
+  --border-subtle: #1F2A27;
+
+  --button-primary-bg: #BFEBD6;
+  --button-primary-text: #0B0F0E;
+  --button-primary-hover: #AEE3CB;
+
+  --button-secondary-bg: transparent;
+  --button-secondary-border: #2E3C38;
+  --button-secondary-text: #BFEBD6;
+
+  --danger-bg: #2A1B1E;
+  --danger-text: #F2A1A1;
+}
+
+IMPLEMENTATION REQUIREMENTS:
+- Apply these variables to ALL pages, components, modals, forms, tables, charts, and navigation
+- Backgrounds must use bg-primary or bg-secondary only
+- Text must never use pure white (#FFFFFF)
+- Buttons, links, active states, and focus states must use brand colors only
+- Inputs and cards must have subtle borders using --border-subtle
+- Icons should default to text-muted and turn brand-primary when active
+- Charts must use brand-primary and brand-accent only
+
+SYSTEM DARK MODE HANDLING:
+- Wrap all styles inside @media (prefers-color-scheme: dark)
+- If a theme provider exists, force dark mode as default
+- Remove or ignore any existing light mode styles
+
+FINAL CHECK:
+- The UI should feel calm, private, distraction-free, and premium
+- No visual noise, no harsh contrast, no extra styling
+- If a style does not match the theme, remove it rather than replace it
+
+Proceed carefully and apply the theme consistently across the entire app.

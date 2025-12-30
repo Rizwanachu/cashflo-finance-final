@@ -178,12 +178,12 @@ const SettingsPage: React.FC = () => {
       </div>
 
       <Card>
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)] mb-4">
           Appearance
         </h3>
         <div className="space-y-4">
           <div>
-            <label className="text-xs text-slate-600 dark:text-slate-400 mb-2 block">
+            <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] mb-2 block">
               Theme
             </label>
             <div className="flex gap-2">
@@ -192,7 +192,7 @@ const SettingsPage: React.FC = () => {
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                   theme === "light"
                     ? "bg-emerald-500 text-white"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                    : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
                 ☀️ Light
@@ -201,8 +201,8 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("dark")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                   theme === "dark"
-                    ? "bg-emerald-500 text-white"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                    ? "bg-emerald-500 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)]"
+                    : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
                 🌙 Dark
@@ -211,15 +211,15 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("system")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                   theme === "system"
-                    ? "bg-emerald-500 text-white"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                    ? "bg-emerald-500 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)]"
+                    : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
                 💻 System
               </button>
             </div>
             {theme === "system" && (
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+              <p className="text-xs text-slate-500 dark:text-[var(--text-muted)] mt-2">
                 Currently using: {resolvedTheme === "dark" ? "Dark" : "Light"} mode
               </p>
             )}
@@ -227,21 +227,21 @@ const SettingsPage: React.FC = () => {
 
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-slate-900 dark:text-slate-50 font-medium">
+              <div className="text-sm text-slate-900 dark:text-[var(--text-primary)] font-medium">
                 Privacy Mode
               </div>
-              <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+              <div className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] mt-0.5">
                 Blur all monetary values
               </div>
             </div>
             <button
               onClick={togglePrivacyMode}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                privacyMode ? "bg-emerald-500" : "bg-slate-300 dark:bg-slate-700"
+                privacyMode ? "bg-emerald-500 dark:bg-[var(--brand-primary)]" : "bg-slate-300 dark:bg-[var(--bg-secondary)]"
               }`}
             >
               <span
-                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                className={`absolute top-1 left-1 w-4 h-4 bg-white dark:bg-[var(--bg-primary)] rounded-full transition-transform ${
                   privacyMode ? "translate-x-6" : "translate-x-0"
                 }`}
               />
@@ -252,30 +252,30 @@ const SettingsPage: React.FC = () => {
 
       {isProUser && (
         <Card>
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)] mb-4">
             🔒 App Lock & PIN Protection
           </h3>
           <div className="space-y-4">
             {!isPinSet ? (
               <>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
+                <p className="text-xs text-slate-600 dark:text-[var(--text-paragraph)]">
                   Set up a PIN to lock your app and protect your financial data
                 </p>
                 <button
                   onClick={() => setShowPinSetup(!showPinSetup)}
-                  className="w-full px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+                  className="w-full px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-medium transition-colors"
                 >
                   Set PIN
                 </button>
                 {showPinSetup && (
-                  <div className="space-y-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                  <div className="space-y-3 p-4 bg-slate-50 dark:bg-[var(--bg-secondary)] rounded-lg">
                     <input
                       type="password"
                       placeholder="Enter PIN (4+ digits)"
                       value={newPin}
                       onChange={(e) => setNewPin(e.target.value.replace(/\D/g, ""))}
                       maxLength={6}
-                      className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]"
                     />
                     <input
                       type="password"
@@ -283,7 +283,7 @@ const SettingsPage: React.FC = () => {
                       value={confirmPin}
                       onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, ""))}
                       maxLength={6}
-                      className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]"
                     />
                     <div className="flex gap-2">
                       <button
@@ -292,13 +292,13 @@ const SettingsPage: React.FC = () => {
                           setNewPin("");
                           setConfirmPin("");
                         }}
-                        className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                        className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] text-slate-700 dark:text-[var(--text-secondary)] text-sm font-medium hover:bg-slate-50 dark:hover:bg-[var(--bg-tertiary)] transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={handleSetPin}
-                        className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+                        className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-medium transition-colors"
                       >
                         Confirm
                       </button>
@@ -308,11 +308,11 @@ const SettingsPage: React.FC = () => {
               </>
             ) : (
               <>
-                <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                  <p className="text-sm text-emerald-900 dark:text-emerald-50 font-medium">
+                <div className="p-3 bg-emerald-50 dark:bg-[var(--brand-primary)]/10 rounded-lg border border-emerald-200 dark:border-[var(--border-subtle)]">
+                  <p className="text-sm text-emerald-900 dark:text-[var(--brand-primary)] font-medium">
                     ✓ PIN is set
                   </p>
-                  <p className="text-xs text-emerald-800 dark:text-emerald-200 mt-1">
+                  <p className="text-xs text-emerald-800 dark:text-[var(--text-paragraph)] mt-1">
                     Your app is protected with PIN security
                   </p>
                 </div>
@@ -324,7 +324,7 @@ const SettingsPage: React.FC = () => {
                 </button>
                 <button
                   onClick={handleRemovePin}
-                  className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-[var(--danger-bg)] text-red-600 dark:text-[var(--danger-text)] text-sm font-medium hover:bg-red-50 dark:hover:bg-[var(--danger-bg)]/20 transition-colors"
                 >
                   Remove PIN
                 </button>
@@ -335,17 +335,17 @@ const SettingsPage: React.FC = () => {
       )}
 
       <Card>
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)] mb-4">
           Currency
         </h3>
         <div>
-          <label className="text-xs text-slate-600 dark:text-slate-400 mb-2 block">
+          <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] mb-2 block">
             Default Transaction Currency
           </label>
           <select
             value={currency}
             onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-            className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]"
           >
             <option value="USD">USD - US Dollar</option>
             <option value="EUR">EUR - Euro</option>
