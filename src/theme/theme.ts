@@ -78,7 +78,31 @@ export const theme = {
 
 export type ThemeMode = "light" | "dark";
 
-export function getThemeColors(mode: ThemeMode) {
-  return theme[mode];
+export interface ThemeColors {
+  appBg: string;
+  cardBg: string;
+  sidebarBg: string;
+  hoverSurface: string;
+  primaryText: string;
+  secondaryText: string;
+  mutedText: string;
+  disabledText: string;
+  defaultBorder: string;
+  subtleDivider: string;
+  brandPrimary: string;
+  brandHover: string;
+  success: string;
+  warning: string;
+  error: string;
+  chartAxisText: string;
+  chartGridLine: string;
+  chartTooltipBg: string;
+  chartTooltipBorder: string;
+  chartIncome: string;
+  chartExpense: string;
+}
+
+export function getThemeColors(mode: ThemeMode): ThemeColors {
+  return (theme[mode] as unknown) as ThemeColors;
 }
 
