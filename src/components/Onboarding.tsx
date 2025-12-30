@@ -57,7 +57,7 @@ const Onboarding: React.FC = () => {
 
         <button
           onClick={completeOnboarding}
-          className="w-full bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white font-semibold py-3 rounded-lg transition-colors"
+          className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-lg transition-colors"
         >
           Start using app
         </button>

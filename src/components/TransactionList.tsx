@@ -85,7 +85,7 @@ const TransactionList: React.FC<Props> = ({
                 <span
                   className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ${
                     t.type === "income"
-                      ? "bg-emerald-100 dark:bg-[var(--brand-primary)]/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/40"
+                      ? "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/40"
                       : "bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/40"
                   }`}
                 >

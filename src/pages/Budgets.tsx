@@ -128,7 +128,7 @@ const BudgetsPage: React.FC = () => {
     const percent = (spent / limit) * 100;
     if (percent >= 100) return "bg-red-500";
     if (percent >= 80) return "bg-amber-500";
-    return "bg-[var(--brand-primary)]";
+    return "bg-emerald-500";
   };
 
   const getProgressPercent = (spent: number, limit: number) => {
@@ -169,7 +169,7 @@ const BudgetsPage: React.FC = () => {
         </p>
         <button
           onClick={openCreateModal}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
         >
           <span>➕</span>
           <span>Create Your First Budget</span>
@@ -201,7 +201,7 @@ const BudgetsPage: React.FC = () => {
         </div>
         <button
           onClick={openCreateModal}
-          className="px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-medium transition-colors"
+          className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
         >
           + Add Budget
         </button>
@@ -211,7 +211,7 @@ const BudgetsPage: React.FC = () => {
         <Card>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-emerald-100 dark:bg-[var(--brand-primary)]/20 flex items-center justify-center text-lg">
+              <div className="h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-lg">
                 💰
               </div>
               <div>
@@ -420,7 +420,7 @@ const BudgetsPage: React.FC = () => {
               <button
                 onClick={handleCreateBudget}
                 disabled={!selectedCategory || !budgetLimit || parseFloat(budgetLimit) <= 0}
-                className="flex-1 px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors"
+                className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors"
               >
                 {selectedCategory && budgets.perCategory[selectedCategory] ? "Save Changes" : "Create Budget"}
               </button>

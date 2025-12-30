@@ -80,7 +80,7 @@ const Success: React.FC = () => {
         <div className="space-y-3 mb-6">
           <button
             onClick={handleUnlockNow}
-            className="w-full px-4 py-3 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-semibold transition-colors"
+            className="w-full px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold transition-colors"
           >
             Unlock Pro Now
           </button>

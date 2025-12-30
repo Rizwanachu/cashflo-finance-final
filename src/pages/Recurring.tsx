@@ -177,7 +177,7 @@ const RecurringPage: React.FC = () => {
         </p>
         <button
           onClick={openAddModal}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
         >
           <span>➕</span>
           <span>Add Your First Payment</span>
@@ -209,7 +209,7 @@ const RecurringPage: React.FC = () => {
         </div>
         <button
           onClick={openAddModal}
-          className="px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] text-white text-sm font-medium transition-colors"
+          className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
         >
           + Add Payment
         </button>
@@ -329,7 +329,7 @@ const RecurringPage: React.FC = () => {
                   </div>
                   <button
                     onClick={() => togglePayment(payment.id)}
-                    className="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-[var(--brand-primary)]/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium shrink-0"
+                    className="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium shrink-0"
                   >
                     Resume
                   </button>
@@ -439,7 +439,7 @@ const RecurringPage: React.FC = () => {
                   type="button"
                   onClick={() => setIsActive(!isActive)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
-                    isActive ? "bg-[var(--brand-primary)]" : "bg-slate-300 dark:bg-slate-700"
+                    isActive ? "bg-emerald-500" : "bg-slate-300 dark:bg-slate-700"
                   }`}
                 >
                   <span
@@ -474,7 +474,7 @@ const RecurringPage: React.FC = () => {
               <button
                 onClick={handleSave}
                 disabled={!description.trim() || !amount || parseFloat(amount) <= 0 || !nextDueDate}
-                className="flex-1 px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:hover:bg-[var(--brand-hover)] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors"
+                className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors"
               >
                 {editingPayment ? "Save Changes" : "Add Payment"}
               </button>

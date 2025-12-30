@@ -74,7 +74,7 @@ const TrustAndPrivacy: React.FC = () => {
         </div>
       </Card>
 
-      <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-100 dark:bg-[var(--brand-primary)]/20 border border-emerald-200 dark:border-emerald-800">
+      <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-200 dark:border-emerald-800">
         <span className="text-sm">✓ Verified Privacy</span>
       </div>
     </div>

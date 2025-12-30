@@ -176,7 +176,7 @@ const TransactionForm: React.FC<Props> = ({
               onClick={() => setType("income")}
               className={`flex-1 text-xs py-1.5 rounded-lg transition-colors ${
                 type === "income"
-                  ? "bg-[var(--brand-primary)]/20 dark:bg-[var(--brand-primary)]/20 text-emerald-600 dark:text-emerald-300"
+                  ? "bg-emerald-500/20 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
               }`}
             >
@@ -250,7 +250,7 @@ const TransactionForm: React.FC<Props> = ({
           {tags.map((tag) => (
             <div
               key={tag}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-[var(--brand-primary)]/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-medium"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-medium"
             >
               <span>{tag}</span>
               <button
@@ -280,7 +280,7 @@ const TransactionForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => handleAddTag(tagsInput)}
-            className="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[var(--brand-primary)]/20 text-emerald-700 dark:text-emerald-300 text-xs font-medium hover:bg-emerald-200 dark:hover:bg-[var(--brand-primary)]/30"
+            className="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-medium hover:bg-emerald-200 dark:hover:bg-emerald-500/30"
           >
             Add
           </button>
@@ -289,7 +289,7 @@ const TransactionForm: React.FC<Props> = ({
       <div className="flex justify-end pt-1">
           <button
           type="submit"
-          className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-[var(--brand-primary)] dark:bg-emerald-400 text-white text-xs font-semibold shadow-sm hover:hover:bg-[var(--brand-hover)] dark:hover:bg-[var(--brand-primary)] transition-colors"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-emerald-500 dark:bg-emerald-400 text-white text-xs font-semibold shadow-sm hover:bg-emerald-600 dark:hover:bg-emerald-500 transition-colors"
         >
           {isEditing ? "Save changes" : "Add transaction"}
         </button>

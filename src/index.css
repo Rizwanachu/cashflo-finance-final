@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Light theme variables - Refined & Premium with mint-green matching logo */
+  /* Light theme variables - Refined & Premium */
   --app-bg: #FAFBFC;
   --card-bg: #FFFFFF;
   --sidebar-bg: #F8F9FA;
@@ -14,10 +14,10 @@
   --disabled-text: #9CA3AF;
   --default-border: #E5E7EB;
   --subtle-divider: #F0F1F3;
-  --brand-primary: #acdbb9;
-  --brand-hover: #98d0a8;
-  --brand-soft-bg: #E0F9F7;
-  --success: #26D0CE;
+  --brand-primary: #10B981;
+  --brand-hover: #059669;
+  --brand-soft-bg: #ECFDF5;
+  --success: #10B981;
   --warning: #F59E0B;
   --error: #EF4444;
 }
@@ -34,10 +34,10 @@
   --disabled-text: #484F58;
   --default-border: #30363D;
   --subtle-divider: #21262D;
-  --brand-primary: #acdbb9;
-  --brand-hover: #98d0a8;
-  --brand-soft-bg: rgba(38, 208, 206, 0.15);
-  --success: #3FE5DE;
+  --brand-primary: #3FB98E;
+  --brand-hover: #2EA076;
+  --brand-soft-bg: rgba(16, 185, 129, 0.12);
+  --success: #3FB98E;
   --warning: #D29922;
   --error: #F85149;
 }
@@ -130,41 +130,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .premium-card:hover {
   border-color: var(--default-border);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-/* Global button color override - all buttons use brand primary color */
-button:not([disabled]) {
-  --tw-bg-opacity: 1 !important;
-  background-color: var(--brand-primary) !important;
-}
-
-button:hover:not([disabled]) {
-  background-color: var(--brand-hover) !important;
-}
-
-/* Override Tailwind emerald classes */
-.bg-emerald-500 {
-  background-color: var(--brand-primary) !important;
-}
-
-.hover\:bg-emerald-600:hover {
-  background-color: var(--brand-hover) !important;
-}
-
-/* Override blue button classes */
-.bg-blue-600 {
-  background-color: var(--brand-primary) !important;
-}
-
-.hover\:bg-blue-700:hover {
-  background-color: var(--brand-hover) !important;
-}
-
-/* Override green button classes */
-.bg-green-600 {
-  background-color: var(--brand-primary) !important;
-}
-
-.hover\:bg-green-700:hover {
-  background-color: var(--brand-hover) !important;
 }
