@@ -41,38 +41,38 @@ export const theme = {
   },
   dark: {
     // Backgrounds
-    appBg: "#0A2E2A",
-    cardBg: "#0A2E2A",
-    sidebarBg: "#0A2E2A",
-    hoverSurface: "#164B47",
+    appBg: "#0B0F0E",
+    cardBg: "#1A2321",
+    sidebarBg: "#121817",
+    hoverSurface: "#1A2321",
     
     // Text
-    primaryText: "#F8FAFC",
-    secondaryText: "#CBD5E1",
-    mutedText: "#94A3B8",
-    disabledText: "#64748B",
+    primaryText: "#E6F1EC",
+    secondaryText: "#A8B8B2",
+    mutedText: "#6F7F79",
+    disabledText: "#4F5E59",
     
     // Borders
-    defaultBorder: "#1E293B",
-    subtleDivider: "#334155",
+    defaultBorder: "#1F2A27",
+    subtleDivider: "#1F2A27",
     
-    // Brand (Emerald)
-    brandPrimary: "#34D399",
-    brandHover: "#10B981",
-    brandSoftBg: "#064E3B",
+    // Brand
+    brandPrimary: "#BFEBD6",
+    brandHover: "#9FD9C0",
+    brandSoftBg: "rgba(191, 235, 214, 0.1)",
     
     // Status
-    success: "#22C55E",
-    warning: "#FBBF24",
-    error: "#EF4444",
+    success: "#BFEBD6",
+    warning: "#6FBFA4",
+    error: "#F2A1A1",
     
     // Chart colors
-    chartAxisText: "#CBD5E1",
-    chartGridLine: "#1E293B",
-    chartTooltipBg: "#020617",
-    chartTooltipBorder: "#334155",
-    chartIncome: "#34D399",
-    chartExpense: "#F87171",
+    chartAxisText: "#A8B8B2",
+    chartGridLine: "#1F2A27",
+    chartTooltipBg: "#121817",
+    chartTooltipBorder: "#1F2A27",
+    chartIncome: "#BFEBD6",
+    chartExpense: "#6FBFA4",
   },
 } as const;
 

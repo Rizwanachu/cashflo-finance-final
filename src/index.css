@@ -22,24 +22,56 @@
   --error: #DC2626;
 }
 
-.dark {
-  /* Dark theme variables */
-  --app-bg: #0A2E2A;
-  --card-bg: #0A2E2A;
-  --sidebar-bg: #0A2E2A;
-  --hover-surface: #164B47;
-  --primary-text: #F8FAFC;
-  --secondary-text: #CBD5E1;
-  --muted-text: #94A3B8;
-  --disabled-text: #64748B;
-  --default-border: #334155;
-  --subtle-divider: #1E293B;
-  --brand-primary: #34D399;
-  --brand-hover: #10B981;
-  --brand-soft-bg: rgba(16, 185, 129, 0.15);
-  --success: #22C55E;
-  --warning: #FBBF24;
-  --error: #F87171;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #0B0F0E;
+    --bg-secondary: #121817;
+    --bg-tertiary: #1A2321;
+
+    --brand-primary: #BFEBD6;
+    --brand-secondary: #9FD9C0;
+    --brand-accent: #6FBFA4;
+
+    --text-primary: #E6F1EC;
+    --text-secondary: #A8B8B2;
+    --text-paragraph: #8E9F99;
+    --text-muted: #6F7F79;
+    --text-disabled: #4F5E59;
+
+    --border-subtle: #1F2A27;
+
+    --button-primary-bg: #BFEBD6;
+    --button-primary-text: #0B0F0E;
+    --button-primary-hover: #AEE3CB;
+
+    --button-secondary-bg: transparent;
+    --button-secondary-border: #2E3C38;
+    --button-secondary-text: #BFEBD6;
+
+    --danger-bg: #2A1B1E;
+    --danger-text: #F2A1A1;
+
+    /* Map new theme to existing variable names for compatibility */
+    --app-bg: var(--bg-primary);
+    --card-bg: var(--bg-tertiary);
+    --sidebar-bg: var(--bg-secondary);
+    --hover-surface: var(--bg-tertiary);
+    --primary-text: var(--text-primary);
+    --secondary-text: var(--text-secondary);
+    --muted-text: var(--text-muted);
+    --disabled-text: var(--text-disabled);
+    --default-border: var(--border-subtle);
+    --subtle-divider: var(--border-subtle);
+    --brand-primary-val: var(--brand-primary);
+    --brand-hover: var(--brand-secondary);
+    --success: var(--brand-primary);
+    --error: var(--danger-text);
+  }
+
+  .dark {
+    background-color: var(--bg-primary);
+    color: var(--text-paragraph);
+  }
 }
 
 html {

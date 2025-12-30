@@ -66,6 +66,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       const cssKey = `--${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
       root.style.setProperty(cssKey, value);
     });
+
+    // Custom overrides for the new theme
+    if (resolvedTheme === "dark") {
+      root.style.setProperty("--brand-primary-val", "var(--brand-primary)");
+      root.style.setProperty("--brand-hover", "var(--brand-secondary)");
+      root.style.setProperty("--success", "var(--brand-primary)");
+      root.style.setProperty("--error", "var(--danger-text)");
+      root.style.setProperty("--default-border", "var(--border-subtle)");
+      root.style.setProperty("--subtle-divider", "var(--border-subtle)");
+    }
   }, [resolvedTheme]);
 
   // Persist theme

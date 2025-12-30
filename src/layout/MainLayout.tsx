@@ -25,21 +25,21 @@ const MainLayout: React.FC = () => {
   const baseClass =
     "flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl text-[10px] font-medium transition-colors min-w-0 flex-1";
   const inactive =
-    baseClass + " text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-800";
+    baseClass + " text-slate-500 dark:text-[var(--text-secondary)] hover:text-slate-900 dark:hover:text-[var(--text-primary)] hover:bg-slate-100 dark:hover:bg-[var(--bg-tertiary)]";
   const active =
-    baseClass + " bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/40 shadow-sm";
+    baseClass + " bg-emerald-100 dark:bg-[var(--brand-primary)]/10 text-emerald-600 dark:text-[var(--brand-primary)] border border-emerald-200 dark:border-[var(--brand-primary)]/30 shadow-sm";
 
   return (
-    <div className="min-h-screen flex transition-colors bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50">
+    <div className="min-h-screen flex transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
       <Sidebar />
       <main className="flex-1 flex flex-col">
-        <header className="h-16 border-b border-slate-200 dark:border-slate-800 flex items-center px-3 sm:px-4 md:px-8 justify-between bg-transparent">
+        <header className="h-16 border-b border-slate-200 dark:border-[var(--border-subtle)] flex items-center px-3 sm:px-4 md:px-8 justify-between bg-transparent">
           <div className="flex items-center gap-2 md:hidden min-w-0">
             <img src="/logo.png" alt="Spendory" className="h-8 w-8 rounded-lg shadow-sm shrink-0" onError={(e) => {
               (e.target as HTMLImageElement).style.display = 'none';
             }} />
             <div className="min-w-0">
-              <h1 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50 truncate">
+              <h1 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-[var(--text-primary)] truncate">
                 Spendory
               </h1>
             </div>
@@ -51,7 +51,7 @@ const MainLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                className="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
                 title="Notifications"
               >
                 <span className="text-sm">🔔</span>
@@ -69,16 +69,16 @@ const MainLayout: React.FC = () => {
                     className="fixed inset-0 z-30" 
                     onClick={() => setShowNotifications(false)}
                   />
-                  <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 max-h-[80vh] sm:max-h-96 overflow-y-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40 max-sm:fixed max-sm:left-4 max-sm:right-4 max-sm:top-20 max-sm:w-auto max-sm:mt-0">
-                    <div className="p-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                      <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+                  <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 max-h-[80vh] sm:max-h-96 overflow-y-auto rounded-2xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] shadow-xl z-40 max-sm:fixed max-sm:left-4 max-sm:right-4 max-sm:top-20 max-sm:w-auto max-sm:mt-0">
+                    <div className="p-3 border-b border-slate-200 dark:border-[var(--border-subtle)] flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)]">
                         Notifications
                       </h3>
                       {notifications.length > 0 && (
                         <div className="flex gap-2">
                           <button
                             onClick={markAllAsRead}
-                            className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+                            className="text-xs text-emerald-600 dark:text-[var(--brand-primary)] hover:underline"
                           >
                             Mark all read
                           </button>
@@ -95,7 +95,7 @@ const MainLayout: React.FC = () => {
                       {notifications.length === 0 ? (
                         <div className="text-center py-8">
                           <div className="text-2xl mb-2">🔔</div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
+                          <p className="text-sm text-slate-500 dark:text-[var(--text-paragraph)]">
                             No notifications yet
                           </p>
                         </div>
@@ -115,8 +115,8 @@ const MainLayout: React.FC = () => {
                               }}
                               className={`p-3 rounded-xl cursor-pointer transition-colors ${
                                 n.read 
-                                  ? "bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800" 
-                                  : "bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+                                  ? "bg-slate-50 dark:bg-[var(--bg-secondary)] hover:bg-slate-100 dark:hover:bg-[var(--bg-tertiary)]" 
+                                  : "bg-emerald-50 dark:bg-[var(--brand-primary)]/10 hover:bg-emerald-100 dark:hover:bg-[var(--brand-primary)]/20"
                               }`}
                             >
                               <div className="flex items-start gap-2">
@@ -126,10 +126,10 @@ const MainLayout: React.FC = () => {
                                    n.type === "payment_due" ? "💳" : "ℹ️"}
                                 </span>
                                 <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-medium text-slate-900 dark:text-slate-50">
+                                  <div className="text-sm font-medium text-slate-900 dark:text-[var(--text-primary)]">
                                     {n.title}
                                   </div>
-                                  <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 truncate">
+                                  <div className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] mt-0.5 truncate">
                                     {n.message}
                                   </div>
                                 </div>
@@ -142,13 +142,13 @@ const MainLayout: React.FC = () => {
                         </div>
                       )}
                     </div>
-                    <div className="p-2 border-t border-slate-200 dark:border-slate-800">
+                    <div className="p-2 border-t border-slate-200 dark:border-[var(--border-subtle)]">
                       <button
                         onClick={() => {
                           setShowNotifications(false);
                           navigate("/settings");
                         }}
-                        className="w-full text-center text-xs text-emerald-600 dark:text-emerald-400 hover:underline py-1"
+                        className="w-full text-center text-xs text-emerald-600 dark:text-[var(--brand-primary)] hover:underline py-1"
                       >
                         Manage notifications →
                       </button>
@@ -161,7 +161,7 @@ const MainLayout: React.FC = () => {
             <button
               type="button"
               onClick={togglePrivacyMode}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
               title={privacyMode ? "Disable Privacy Mode" : "Enable Privacy Mode"}
             >
               <span className="text-sm">{privacyMode ? "👁️‍🗨️" : "👁️"}</span>
@@ -169,7 +169,7 @@ const MainLayout: React.FC = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
               title={resolvedTheme === "dark" ? "Switch to Light" : "Switch to Dark"}
             >
               <span className="text-sm">{resolvedTheme === "dark" ? "☀️" : "🌙"}</span>
@@ -178,7 +178,7 @@ const MainLayout: React.FC = () => {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-                className="rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-2 sm:px-3 py-1.5 text-xs text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-2 sm:px-3 py-1.5 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
@@ -190,7 +190,7 @@ const MainLayout: React.FC = () => {
         </header>
 
         {/* Mobile bottom navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md z-20 safe-area-pb">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-[var(--border-subtle)] bg-white/95 dark:bg-[var(--bg-primary)]/95 backdrop-blur-md z-20 safe-area-pb">
           <div className="flex justify-between px-1 py-1 text-xs">
             <NavLink to="/" end className={({ isActive }) => (isActive ? active : inactive)}>
               <span className="text-[13px]">🏠</span>
