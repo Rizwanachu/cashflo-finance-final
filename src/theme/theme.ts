@@ -41,10 +41,10 @@ export const theme = {
   },
   dark: {
     // Backgrounds
-    appBg: "#020617",
-    cardBg: "#020617",
-    sidebarBg: "#020617",
-    hoverSurface: "#1E293B",
+    appBg: "#0A2E2A",
+    cardBg: "#0A2E2A",
+    sidebarBg: "#0A2E2A",
+    hoverSurface: "#164B47",
     
     // Text
     primaryText: "#F8FAFC",

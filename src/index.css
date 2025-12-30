@@ -24,10 +24,10 @@
 
 .dark {
   /* Dark theme variables */
-  --app-bg: #020617;
-  --card-bg: #0F172A;
-  --sidebar-bg: #020617;
-  --hover-surface: #1E293B;
+  --app-bg: #0A2E2A;
+  --card-bg: #0A2E2A;
+  --sidebar-bg: #0A2E2A;
+  --hover-surface: #164B47;
   --primary-text: #F8FAFC;
   --secondary-text: #CBD5E1;
   --muted-text: #94A3B8;
