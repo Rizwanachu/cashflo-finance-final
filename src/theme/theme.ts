@@ -1,78 +1,78 @@
 /**
- * Centralized theme system for Ledgerly
- * All colors must come from these tokens - NO raw hex values in components
+ * Centralized theme system for Spendory
+ * Premium, minimalistic, modern design with calm, refined aesthetics
  */
 
 export const theme = {
   light: {
-    // Backgrounds
-    appBg: "#F8FAFC",
+    // Backgrounds - Refined & spacious
+    appBg: "#FAFBFC",
     cardBg: "#FFFFFF",
-    sidebarBg: "#F1F5F9",
-    hoverSurface: "#E2E8F0",
+    sidebarBg: "#F8F9FA",
+    hoverSurface: "#F1F3F5",
     
-    // Text
-    primaryText: "#0F172A",
-    secondaryText: "#475569",
-    mutedText: "#64748B",
-    disabledText: "#94A3B8",
+    // Text - Premium hierarchy
+    primaryText: "#1A1F36",
+    secondaryText: "#525866",
+    mutedText: "#6B7280",
+    disabledText: "#9CA3AF",
     
-    // Borders
-    defaultBorder: "#E2E8F0",
-    subtleDivider: "#CBD5E1",
+    // Borders - Subtle & refined
+    defaultBorder: "#E5E7EB",
+    subtleDivider: "#F0F1F3",
     
-    // Brand (Emerald)
+    // Brand - Calm emerald
     brandPrimary: "#10B981",
     brandHover: "#059669",
-    brandSoftBg: "#D1FAE5",
+    brandSoftBg: "#ECFDF5",
     
-    // Status
-    success: "#16A34A",
+    // Status - Harmonious
+    success: "#10B981",
     warning: "#F59E0B",
-    error: "#DC2626",
+    error: "#EF4444",
     
     // Chart colors
-    chartAxisText: "#334155",
-    chartGridLine: "#E2E8F0",
+    chartAxisText: "#525866",
+    chartGridLine: "#F0F1F3",
     chartTooltipBg: "#FFFFFF",
-    chartTooltipBorder: "#CBD5E1",
+    chartTooltipBorder: "#E5E7EB",
     chartIncome: "#10B981",
     chartExpense: "#EF4444",
   },
   dark: {
-    // Backgrounds
-    appBg: "#020617",
-    cardBg: "#020617",
-    sidebarBg: "#020617",
-    hoverSurface: "#1E293B",
+    // Backgrounds - Deep & calm
+    appBg: "#0D1117",
+    cardBg: "#161B22",
+    sidebarBg: "#0D1117",
+    hoverSurface: "#1C2128",
     
-    // Text
-    primaryText: "#F8FAFC",
-    secondaryText: "#CBD5E1",
-    mutedText: "#94A3B8",
-    disabledText: "#64748B",
+    // Text - High contrast, premium
+    primaryText: "#E6EDF3",
+    secondaryText: "#8B949E",
+    mutedText: "#6E7681",
+    disabledText: "#484F58",
     
-    // Borders
-    defaultBorder: "#1E293B",
-    subtleDivider: "#334155",
+    // Borders - Subtle dark theme
+    defaultBorder: "#30363D",
+    subtleDivider: "#21262D",
     
-    // Brand (Emerald)
-    brandPrimary: "#34D399",
-    brandHover: "#10B981",
-    brandSoftBg: "#064E3B",
+    // Brand - Calm emerald (adjusted for dark)
+    brandPrimary: "#3FB98E",
+    brandHover: "#2EA076",
+    brandSoftBg: "rgba(16, 185, 129, 0.12)",
     
-    // Status
-    success: "#22C55E",
-    warning: "#FBBF24",
-    error: "#EF4444",
+    // Status - Harmonious
+    success: "#3FB98E",
+    warning: "#D29922",
+    error: "#F85149",
     
     // Chart colors
-    chartAxisText: "#CBD5E1",
-    chartGridLine: "#1E293B",
-    chartTooltipBg: "#020617",
-    chartTooltipBorder: "#334155",
-    chartIncome: "#34D399",
-    chartExpense: "#F87171",
+    chartAxisText: "#8B949E",
+    chartGridLine: "#21262D",
+    chartTooltipBg: "#161B22",
+    chartTooltipBorder: "#30363D",
+    chartIncome: "#3FB98E",
+    chartExpense: "#F85149",
   },
 } as const;
 
@@ -81,4 +81,3 @@ export type ThemeMode = "light" | "dark";
 export function getThemeColors(mode: ThemeMode) {
   return theme[mode];
 }
-
