@@ -314,7 +314,7 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <div className="w-20 h-1.5 rounded-full bg-slate-200 dark:bg-[var(--bg-tertiary)] overflow-hidden">
-                  <div className="h-full w-3/4 bg-emerald-500 dark:bg-[var(--brand-primary)]" />
+                  <div className="h-full w-3/4 bg-zinc-900 dark:bg-[var(--brand-primary)]" />
                 </div>
               </div>
             ))}

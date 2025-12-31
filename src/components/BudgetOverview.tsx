@@ -67,17 +67,17 @@ const BudgetOverview: React.FC = () => {
   const alertColor = (usedPercent: number) => {
     if (usedPercent >= 100) return "bg-rose-500";
     if (usedPercent >= 80) return "bg-amber-400";
-    return "bg-emerald-500";
+    return "bg-zinc-900 dark:bg-[var(--brand-primary)]";
   };
 
   return (
-    <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm dark:bg-slate-900 dark:border-slate-800">
+    <div className="rounded-2xl bg-white border border-slate-200 p-4 shadow-sm dark:bg-[var(--bg-tertiary)] dark:border-[var(--border-subtle)]">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="text-sm font-semibold tracking-tight">
+          <h3 className="text-sm font-semibold tracking-tight dark:text-[var(--text-primary)]">
             Monthly budgets
           </h3>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-500 dark:text-[var(--text-paragraph)]">
             Track how this month&apos;s spending compares to your limits.
           </p>
         </div>
@@ -86,10 +86,10 @@ const BudgetOverview: React.FC = () => {
       <div className="space-y-3">
         <div>
           <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="font-medium text-slate-600 dark:text-slate-200">
+            <span className="font-medium text-slate-600 dark:text-[var(--text-secondary)]">
               Overall budget
             </span>
-            <span className="text-slate-400">
+            <span className="text-slate-400 dark:text-[var(--text-muted)]">
               {budgets.overall
                 ? `${overallUsage}% used • ${formatAmount(
                     Math.max(budgets.overall - overallSpent, 0)
@@ -98,7 +98,7 @@ const BudgetOverview: React.FC = () => {
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex-1 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+            <div className="flex-1 h-2 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] overflow-hidden">
               <div
                 className={`h-full rounded-full ${alertColor(overallUsage)}`}
                 style={{ width: `${overallUsage}%` }}
@@ -110,7 +110,7 @@ const BudgetOverview: React.FC = () => {
               value={overallInput}
               onChange={(e) => setOverallInput(e.target.value)}
               onBlur={handleOverallBlur}
-              className="w-28 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-right text-slate-700 placeholder:text-slate-400 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
+              className="w-28 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-right text-slate-700 placeholder:text-slate-400 dark:bg-[var(--bg-secondary)] dark:border-[var(--border-subtle)] dark:text-[var(--text-primary)]"
             />
           </div>
         </div>
@@ -129,13 +129,13 @@ const BudgetOverview: React.FC = () => {
             return (
               <div
                 key={cat}
-                className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs flex flex-col gap-1 dark:bg-slate-900/60 dark:border-slate-700"
+                className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs flex flex-col gap-1 dark:bg-[var(--bg-secondary)] dark:border-[var(--border-subtle)]"
               >
                 <div className="flex justify-between items-center">
-                  <span className="font-medium text-slate-600 dark:text-slate-100">
+                  <span className="font-medium text-slate-600 dark:text-[var(--text-secondary)]">
                     {categoryLabel[cat]}
                   </span>
-                  <span className="text-[11px] text-slate-500">
+                  <span className="text-[11px] text-slate-500 dark:text-[var(--text-muted)]">
                     {limit
                       ? `${percent}% • ${formatAmount(
                           Math.max(limit - spent, 0)
@@ -144,7 +144,7 @@ const BudgetOverview: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                  <div className="flex-1 h-1.5 rounded-full bg-slate-200 dark:bg-[var(--bg-tertiary)] overflow-hidden">
                     <div
                       className={`h-full rounded-full ${alertColor(percent)}`}
                       style={{ width: `${percent}%` }}
@@ -164,7 +164,7 @@ const BudgetOverview: React.FC = () => {
                       if (!isFinite(value) || value <= 0) return;
                       setCategoryBudget(cat, value);
                     }}
-                    className="w-20 rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-right text-slate-700 placeholder:text-slate-400 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100"
+                    className="w-20 rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-right text-slate-700 placeholder:text-slate-400 dark:bg-[var(--bg-secondary)] dark:border-[var(--border-subtle)] dark:text-[var(--text-primary)]"
                   />
                 </div>
               </div>

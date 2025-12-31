@@ -10,20 +10,21 @@ const FreeLimitsBanner: React.FC = () => {
   if (isProUser || !hasReachedLimit) return null;
 
   return (
-    <Card className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800">
-      <div className="flex items-start gap-3">
+    <Card className="bg-zinc-900 dark:bg-[var(--bg-tertiary)] border-0 text-white shadow-sm overflow-hidden relative">
+      <div className="absolute top-0 right-0 p-8 bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl" />
+      <div className="relative flex items-start gap-3">
         <span className="text-xl mt-0.5">⚠️</span>
         <div className="flex-1">
-          <h3 className="font-semibold text-slate-900 dark:text-slate-50 text-sm">
-            You've reached the free limit
+          <h3 className="font-semibold text-white text-sm">
+            You&apos;ve reached the free limit
           </h3>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-xs text-white/70 mt-1">
             You have {transactionCount} of {transactionLimit} transactions. Upgrade to Pro for unlimited transactions and full history.
           </p>
         </div>
         <button
           onClick={() => setShowGoProModal(true)}
-          className="shrink-0 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg transition-colors"
+          className="shrink-0 px-3 py-1.5 bg-white text-zinc-900 hover:bg-zinc-100 text-xs font-medium rounded-lg transition-colors"
         >
           Upgrade
         </button>
