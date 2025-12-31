@@ -22,8 +22,8 @@ export default {
         "ledger-divider": "#CBD5E1", // slate-300
         
         // Primary Brand (Fintech green)
-        "ledger-primary": "#10B981", // emerald-500
-        "ledger-primary-hover": "#059669", // emerald-600
+        "ledger-primary": "#059669", // emerald-600
+        "ledger-primary-hover": "#047857", // emerald-700
         "ledger-primary-soft": "#D1FAE5", // emerald-100
         
         // Status Colors

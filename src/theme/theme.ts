@@ -22,8 +22,8 @@ export const theme = {
     subtleDivider: "#CBD5E1",
     
     // Brand (Emerald)
-    brandPrimary: "#10B981",
-    brandHover: "#059669",
+    brandPrimary: "#059669",
+    brandHover: "#047857",
     brandSoftBg: "#D1FAE5",
     
     // Status
@@ -57,9 +57,9 @@ export const theme = {
     subtleDivider: "#1F2A27",
     
     // Brand
-    brandPrimary: "#BFEBD6",
-    brandHover: "#9FD9C0",
-    brandSoftBg: "rgba(191, 235, 214, 0.1)",
+    brandPrimary: "#2DD4BF",
+    brandHover: "#14B8A6",
+    brandSoftBg: "rgba(45, 212, 191, 0.1)",
     
     // Status
     success: "#BFEBD6",

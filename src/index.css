@@ -14,8 +14,8 @@
   --disabled-text: #94A3B8;
   --default-border: #E2E8F0;
   --subtle-divider: #CBD5E1;
-  --brand-primary: #10B981;
-  --brand-hover: #059669;
+  --brand-primary: #059669;
+  --brand-hover: #047857;
   --brand-soft-bg: #D1FAE5;
   --success: #16A34A;
   --warning: #F59E0B;
@@ -28,9 +28,9 @@
     --bg-secondary: #0A0A0A;
     --bg-tertiary: #111111;
 
-    --brand-primary: #FFFFFF;
-    --brand-secondary: #E4E4E7;
-    --brand-accent: #27272A;
+    --brand-primary: #2DD4BF;
+    --brand-secondary: #14B8A6;
+    --brand-accent: #115E59;
 
     --text-primary: #FFFFFF;
     --text-secondary: #A1A1AA;
@@ -40,9 +40,9 @@
 
     --border-subtle: #1F1F23;
 
-    --button-primary-bg: #FFFFFF;
+    --button-primary-bg: #2DD4BF;
     --button-primary-text: #000000;
-    --button-primary-hover: #E4E4E7;
+    --button-primary-hover: #14B8A6;
 
     --button-secondary-bg: transparent;
     --button-secondary-border: #27272A;
