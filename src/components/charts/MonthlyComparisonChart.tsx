@@ -122,7 +122,7 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
             <Line
               type="monotone"
               dataKey="income"
-              stroke={theme === "dark" ? "#BFEBD6" : "#10B981"}
+              stroke="#10B981"
               strokeWidth={2}
               dot={{ r: 3 }}
               activeDot={{ r: 5 }}
@@ -130,7 +130,7 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
             <Line
               type="monotone"
               dataKey="expenses"
-              stroke={theme === "dark" ? "#6FBFA4" : "#EF4444"}
+              stroke="#EF4444"
               strokeWidth={2}
               dot={{ r: 3 }}
               activeDot={{ r: 5 }}

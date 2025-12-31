@@ -71,8 +71,8 @@ export const theme = {
     chartGridLine: "#1F2A27",
     chartTooltipBg: "#121817",
     chartTooltipBorder: "#1F2A27",
-    chartIncome: "#BFEBD6",
-    chartExpense: "#6FBFA4",
+    chartIncome: "#10B981",
+    chartExpense: "#EF4444",
   },
 } as const;
 

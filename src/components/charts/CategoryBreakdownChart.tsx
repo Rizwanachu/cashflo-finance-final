@@ -15,7 +15,7 @@ interface Props {
 }
 
 const LIGHT_COLORS = ["#10B981", "#EF4444", "#F59E0B", "#6366F1", "#0EA5E9"];
-const DARK_COLORS = ["#FFFFFF", "#E4E4E7", "#A1A1AA", "#71717A", "#52525B"];
+const DARK_COLORS = ["#10B981", "#EF4444", "#F59E0B", "#6366F1", "#0EA5E9"];
 
 const categoryLabel: Record<string, string> = {
   rent: "Rent / Mortgage",
