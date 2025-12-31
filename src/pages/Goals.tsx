@@ -277,9 +277,9 @@ const GoalsPage: React.FC = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-md">
+          <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl p-6 max-w-md w-full border border-slate-200 dark:border-[var(--border-subtle)] shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
                 {editingGoal ? "Edit Goal" : "New Goal"}
               </h2>
               <button
@@ -302,40 +302,52 @@ const GoalsPage: React.FC = () => {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   placeholder="e.g., Summer Vacation"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                  Target Amount
-                </label>
-                <input
-                  type="number"
-                  value={formData.targetAmount}
-                  onChange={(e) =>
-                    setFormData({ ...formData, targetAmount: e.target.value })
-                  }
-                  placeholder="0.00"
-                  step="0.01"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
-                />
-              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    Target
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-sm">
+                      {symbol}
+                    </span>
+                    <input
+                      type="number"
+                      value={formData.targetAmount}
+                      onChange={(e) =>
+                        setFormData({ ...formData, targetAmount: e.target.value })
+                      }
+                      placeholder="0.00"
+                      step="0.01"
+                      className="w-full pl-7 pr-3 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                  </div>
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                  Current Amount
-                </label>
-                <input
-                  type="number"
-                  value={formData.currentAmount}
-                  onChange={(e) =>
-                    setFormData({ ...formData, currentAmount: e.target.value })
-                  }
-                  placeholder="0.00"
-                  step="0.01"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
-                />
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    Current
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-sm">
+                      {symbol}
+                    </span>
+                    <input
+                      type="number"
+                      value={formData.currentAmount}
+                      onChange={(e) =>
+                        setFormData({ ...formData, currentAmount: e.target.value })
+                      }
+                      placeholder="0.00"
+                      step="0.01"
+                      className="w-full pl-7 pr-3 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div>
@@ -349,7 +361,7 @@ const GoalsPage: React.FC = () => {
                     setFormData({ ...formData, category: e.target.value })
                   }
                   placeholder="e.g., Travel, Emergency Fund"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -363,7 +375,7 @@ const GoalsPage: React.FC = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, deadline: e.target.value })
                   }
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -377,27 +389,27 @@ const GoalsPage: React.FC = () => {
                     setFormData({ ...formData, description: e.target.value })
                   }
                   placeholder="Optional notes..."
-                  rows={3}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
+                  rows={2}
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
-              <div className="flex gap-2 pt-4">
+              <div className="flex gap-3 mt-6">
                 <button
                   onClick={handleCloseModal}
-                  className="flex-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-50 py-2 rounded-lg font-medium transition-colors"
+                  className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveGoal}
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg font-medium transition-colors"
+                  className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
                 >
-                  Save Goal
+                  {editingGoal ? "Save Changes" : "Create Goal"}
                 </button>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       )}
     </div>
