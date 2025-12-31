@@ -111,7 +111,7 @@ const GoalsPage: React.FC = () => {
             setLockedFeature("Financial goals");
             setShowGoProModal(true);
           }}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+          className="bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors"
         >
           ⭐ Upgrade to Pro
         </button>
@@ -127,7 +127,7 @@ const GoalsPage: React.FC = () => {
         </h1>
         <button
           onClick={() => handleOpenModal()}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+          className="bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold px-4 py-2 rounded-lg transition-colors"
         >
           + New Goal
         </button>
@@ -263,7 +263,7 @@ const GoalsPage: React.FC = () => {
                   </button>
                   <button
                     onClick={() => updateGoalProgress(goal.id, 10)}
-                    className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg font-medium transition-colors"
+                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-slate-900 py-2 rounded-lg font-medium transition-colors"
                     title="Add $10 to progress"
                   >
                     +$10
@@ -403,7 +403,7 @@ const GoalsPage: React.FC = () => {
                 </button>
                 <button
                   onClick={handleSaveGoal}
-                  className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+                  className="flex-1 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
                 >
                   {editingGoal ? "Save Changes" : "Create Goal"}
                 </button>

@@ -169,7 +169,7 @@ const BudgetsPage: React.FC = () => {
         </p>
         <button
           onClick={openCreateModal}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
         >
           <span>➕</span>
           <span>Create Your First Budget</span>
@@ -201,7 +201,7 @@ const BudgetsPage: React.FC = () => {
         </div>
         <button
           onClick={openCreateModal}
-          className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+          className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
         >
           + Add Budget
         </button>
@@ -420,7 +420,7 @@ const BudgetsPage: React.FC = () => {
               <button
                 onClick={handleCreateBudget}
                 disabled={!selectedCategory || !budgetLimit || parseFloat(budgetLimit) <= 0}
-                className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors"
+                className="flex-1 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-slate-900 text-sm font-medium transition-colors"
               >
                 {selectedCategory && budgets.perCategory[selectedCategory] ? "Save Changes" : "Create Budget"}
               </button>

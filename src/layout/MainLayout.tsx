@@ -285,7 +285,7 @@ const MainLayout: React.FC = () => {
                         setShowGoProModal(true);
                         setShowMobileMenu(false);
                       }}
-                      className="w-full px-4 py-3 text-sm text-left bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-medium rounded-b-xl transition-all"
+                      className="w-full px-4 py-3 text-sm text-left bg-gray-100 hover:bg-gray-200 text-slate-900 font-medium rounded-b-xl transition-all"
                     >
                       ⭐ Spendory Pro
                     </button>

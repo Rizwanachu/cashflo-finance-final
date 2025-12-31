@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
           </p>
           <Link
             to="/transactions"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-black dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 dark:text-slate-900 text-sm font-medium transition-colors"
           >
             <span>➕</span>
             <span>Add your first transaction</span>

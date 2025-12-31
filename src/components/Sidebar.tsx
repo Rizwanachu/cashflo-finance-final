@@ -106,7 +106,7 @@ const Sidebar: React.FC = () => {
         <div className="px-4 py-3 border-t border-slate-200 dark:border-[var(--border-subtle)]">
           <button
             onClick={() => setShowGoProModal(true)}
-            className="w-full bg-zinc-900 hover:bg-black dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm"
+            className="w-full bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm"
           >
             ⭐ Spendory Pro
           </button>
