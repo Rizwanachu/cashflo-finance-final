@@ -381,7 +381,7 @@ const RecurringPage: React.FC = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className="w-full pl-8 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full pl-8 pr-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -439,7 +439,7 @@ const RecurringPage: React.FC = () => {
                   type="button"
                   onClick={() => setIsActive(!isActive)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
-                    isActive ? "bg-emerald-500" : "bg-slate-300 dark:bg-[var(--bg-secondary)]"
+                    isActive ? "bg-emerald-500" : "bg-slate-300 dark:bg-[var(--border-subtle)]"
                   }`}
                 >
                   <span
@@ -450,7 +450,7 @@ const RecurringPage: React.FC = () => {
                 </button>
               </div>
 
-              <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+              <div className="bg-slate-50 dark:bg-[var(--bg-secondary)] rounded-xl p-3">
                 <h4 className="text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">💡 Payment Tips</h4>
                 <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
                   <li>• Set due dates a few days before the actual due date for reminders</li>
@@ -467,7 +467,7 @@ const RecurringPage: React.FC = () => {
                   setShowModal(false);
                   resetForm();
                 }}
-                className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)] transition-colors"
               >
                 Cancel
               </button>
@@ -486,7 +486,7 @@ const RecurringPage: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 max-w-sm w-full border border-slate-200 dark:border-slate-800 shadow-xl">
+          <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl p-6 max-w-sm w-full border border-slate-200 dark:border-[var(--border-subtle)] shadow-xl">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">
               Delete Payment?
             </h3>
@@ -496,7 +496,7 @@ const RecurringPage: React.FC = () => {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(null)}
-                className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)] transition-colors"
               >
                 Cancel
               </button>
