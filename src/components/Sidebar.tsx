@@ -9,7 +9,7 @@ const Sidebar: React.FC = () => {
   const inactive =
     baseClass + " text-slate-600 dark:text-[var(--text-secondary)] hover:text-slate-900 dark:hover:text-[var(--text-primary)] hover:bg-slate-200 dark:hover:bg-[var(--bg-tertiary)]";
   const active =
-    baseClass + " bg-zinc-900 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)] shadow-md";
+    baseClass + " bg-gray-100 dark:bg-gray-100 text-slate-900 dark:text-slate-900 shadow-md";
 
   return (
     <aside className="hidden md:flex w-64 flex-col border-r border-slate-200 dark:border-[var(--border-subtle)] bg-slate-100 dark:bg-[var(--bg-secondary)] backdrop-blur-xl">
