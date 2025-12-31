@@ -69,7 +69,7 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
             −
           </span>
         </div>
-        <div className="text-2xl font-semibold text-red-600 dark:text-[var(--danger-text)]">
+        <div className="text-2xl font-semibold text-slate-900 dark:text-[var(--text-primary)]">
           {formatAmountWithPrivacy(totalExpenses, formatAmount, privacyMode)}
         </div>
         <div className="text-xs text-slate-500 dark:text-[var(--text-paragraph)] mt-1">

@@ -27,22 +27,23 @@ const SocialProofBanner: React.FC<{ location: "pricing" | "dashboard" }> = ({ lo
   };
 
   return (
-    <Card className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800">
-      <div className="flex items-start justify-between gap-3">
+    <Card className="bg-zinc-900 dark:bg-[var(--bg-tertiary)] border-0 text-white shadow-sm overflow-hidden relative">
+      <div className="absolute top-0 right-0 p-8 bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl" />
+      <div className="flex items-start justify-between gap-3 relative z-10">
         <div className="flex gap-3 flex-1">
           <span className="text-2xl">👥</span>
           <div>
-            <p className="font-semibold text-slate-900 dark:text-slate-50">
+            <p className="font-semibold text-white">
               Built for people who value privacy
             </p>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            <p className="text-sm text-white/70 mt-1">
               Join others who trust Spendory with their financial data.
             </p>
           </div>
         </div>
         <button
           onClick={handleDismiss}
-          className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-lg shrink-0"
+          className="text-white/40 hover:text-white text-lg shrink-0 transition-colors"
         >
           ✕
         </button>

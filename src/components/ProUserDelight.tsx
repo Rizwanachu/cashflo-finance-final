@@ -23,14 +23,15 @@ const ProUserDelight: React.FC = () => {
   if (!isProUser || !showMessage) return null;
 
   return (
-    <Card className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border border-amber-200 dark:border-amber-800">
-      <div className="flex items-start gap-3">
+    <Card className="bg-zinc-900 dark:bg-[var(--bg-tertiary)] border-0 text-white shadow-sm overflow-hidden relative">
+      <div className="absolute top-0 right-0 p-8 bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl" />
+      <div className="flex items-start gap-3 relative">
         <span className="text-2xl">🌟</span>
         <div>
-          <h3 className="font-semibold text-slate-900 dark:text-slate-50">
+          <h3 className="font-semibold text-white">
             Thank you for supporting this app!
           </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-sm text-white/70 mt-1">
             Your Pro membership helps keep Spendory ad-free and privacy-first.
           </p>
         </div>

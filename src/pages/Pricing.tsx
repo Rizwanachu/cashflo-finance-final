@@ -28,210 +28,111 @@ const Pricing: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Free Plan */}
-        <Card className="flex flex-col relative">
+        <Card className="flex flex-col relative border-slate-200 dark:border-[var(--border-subtle)]">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-[var(--text-primary)]">
               Free
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-600 dark:text-[var(--text-secondary)] mt-1">
               Perfect to start
             </p>
           </div>
 
           <div className="flex-1 space-y-4 mb-8">
             <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Manual transactions
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Add income and expenses
-                  </p>
+              {[
+                { title: "Manual transactions", desc: "Add income and expenses" },
+                { title: "Basic dashboard", desc: "View your balance & summary" },
+                { title: "Transaction categories", desc: "Organize and track spending" },
+                { title: "CSV export", desc: "Export data upto 50 transactions" },
+                { title: "No signup required", desc: "Start immediately" },
+                { title: "No ads", desc: "Clean, focused interface" }
+              ].map((f) => (
+                <div key={f.title} className="flex items-start gap-3">
+                  <span className="text-zinc-400 dark:text-[var(--text-muted)] text-xl">✓</span>
+                  <div>
+                    <p className="font-medium text-slate-900 dark:text-[var(--text-primary)]">
+                      {f.title}
+                    </p>
+                    <p className="text-xs text-slate-500 dark:text-[var(--text-paragraph)]">
+                      {f.desc}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Basic dashboard
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    View your balance & summary
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Transaction categories
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Organize and track spending
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    CSV export
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Export data upto 50 transactions
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    No signup required
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Start immediately
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    No ads
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Clean, focused interface
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
           <button
             onClick={() => navigate("/")}
-            className="w-full px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 font-semibold transition-colors"
+            className="w-full px-6 py-3 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-tertiary)] text-slate-900 dark:text-[var(--text-primary)] font-semibold transition-colors"
           >
             Continue Free
           </button>
         </Card>
 
         {/* Pro Plan */}
-        <Card className="flex flex-col ring-2 ring-emerald-500/50">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-              Pro
-            </h2>
-            <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-4xl font-bold text-slate-900 dark:text-slate-50">
-                One-time
-              </span>
-              <span className="text-sm text-slate-600 dark:text-slate-400">
-                payment
-              </span>
+        <Card className="flex flex-col ring-2 ring-zinc-900 dark:ring-[var(--brand-primary)]/50 border-0 bg-zinc-900 dark:bg-[var(--bg-tertiary)] text-white dark:text-[var(--text-primary)] relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-12 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl" />
+          <div className="relative z-10">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold">
+                Pro
+              </h2>
+              <div className="flex items-baseline gap-2 mt-2">
+                <span className="text-4xl font-bold">
+                  One-time
+                </span>
+                <span className="text-sm text-white/60 dark:text-[var(--text-muted)]">
+                  payment
+                </span>
+              </div>
+              <p className="text-sm text-white/80 dark:text-[var(--brand-primary)] font-medium mt-2">
+                Pay once, use forever
+              </p>
             </div>
-            <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mt-2">
-              Pay once, use forever
-            </p>
-          </div>
 
-          <div className="flex-1 space-y-4 mb-8">
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    CSV & PDF export
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Export data anytime in any format
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Advanced analytics
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Yearly insights, category breakdown
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Budget tracking
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Set and monitor spending limits
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    App lock & Privacy mode
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    PIN protection & value blurring
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Financial goals
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Track progress toward savings targets
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <span className="text-emerald-500 text-xl">✓</span>
-                <div>
-                  <p className="font-medium text-slate-900 dark:text-slate-50">
-                    Unlimited usage & Priority support
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    No limits, forever + dedicated help
-                  </p>
-                </div>
+            <div className="flex-1 space-y-4 mb-8">
+              <div className="space-y-3">
+                {[
+                  { title: "CSV & PDF export", desc: "Export data anytime in any format" },
+                  { title: "Advanced analytics", desc: "Yearly insights, category breakdown" },
+                  { title: "Budget tracking", desc: "Set and monitor spending limits" },
+                  { title: "App lock & Privacy mode", desc: "PIN protection & value blurring" },
+                  { title: "Financial goals", desc: "Track progress toward savings targets" },
+                  { title: "Unlimited usage & Priority support", desc: "No limits, forever + dedicated help" }
+                ].map((f) => (
+                  <div key={f.title} className="flex items-start gap-3">
+                    <span className="text-white dark:text-[var(--brand-primary)] text-xl">✓</span>
+                    <div>
+                      <p className="font-medium">
+                        {f.title}
+                      </p>
+                      <p className="text-xs text-white/60 dark:text-[var(--text-paragraph)]">
+                        {f.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
 
-          {isProUser ? (
-            <div className="w-full px-6 py-3 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-semibold text-center">
-              ✓ You're a Pro user
+            {isProUser ? (
+              <div className="w-full px-6 py-3 rounded-xl bg-white/10 dark:bg-[var(--brand-primary)]/10 text-white dark:text-[var(--brand-primary)] font-semibold text-center">
+                ✓ You&apos;re a Pro user
+              </div>
+            ) : (
+              <button
+                onClick={handleUpgradeToPro}
+                className="w-full px-6 py-3 rounded-xl bg-white text-zinc-900 dark:bg-[var(--brand-primary)] dark:text-[var(--bg-primary)] font-semibold hover:bg-zinc-100 transition-colors"
+              >
+                Upgrade to Pro
+              </button>
+            )}
+            
+            <div className="inline-flex w-max mx-auto mt-4 bg-white/10 dark:bg-[var(--brand-primary)]/20 text-white dark:text-[var(--brand-primary)] px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
+              ⭐ Recommended
             </div>
-          ) : (
-            <button
-              onClick={handleUpgradeToPro}
-              className="w-full px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold transition-colors"
-            >
-              Upgrade to Pro
-            </button>
-          )}
-          
-          <div className="inline-flex w-max mx-auto mt-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
-            ⭐ Recommended
           </div>
         </Card>
       </div>
