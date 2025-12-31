@@ -115,7 +115,7 @@ const MonthlySpendingChart: React.FC<Props> = ({ transactions }) => {
           />
           <Bar
             dataKey="amount"
-            fill={resolvedTheme === "dark" ? "var(--text-primary)" : "#EF4444"}
+            fill="#EF4444"
             radius={[8, 8, 4, 4]}
           />
         </BarChart>
