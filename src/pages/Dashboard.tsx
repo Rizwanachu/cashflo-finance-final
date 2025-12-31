@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="h-[200px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
+            <div className="h-[150px] sm:h-[180px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
               <div className="text-center">
                 <div className="text-2xl mb-2">📊</div>
                 <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No data yet</p>
@@ -128,7 +128,7 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="h-[200px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
+            <div className="h-[150px] sm:h-[180px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
               <div className="text-center">
                 <div className="text-2xl mb-2">📈</div>
                 <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No data yet</p>

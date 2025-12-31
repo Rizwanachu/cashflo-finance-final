@@ -296,7 +296,7 @@ const MainLayout: React.FC = () => {
           </div>
         </nav>
 
-        <div className="flex-1 overflow-y-auto px-3 sm:px-4 md:px-8 py-4 sm:py-6 pb-20 md:pb-8">
+        <div className="flex-1 overflow-y-auto px-2 xs:px-3 sm:px-4 md:px-8 py-3 sm:py-6 pb-24 sm:pb-20 md:pb-8">
           <Outlet />
         </div>
       </main>
