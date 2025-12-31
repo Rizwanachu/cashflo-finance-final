@@ -23,8 +23,8 @@ export default {
         
         // Primary Brand (Fintech green)
         "ledger-primary": "#059669", // emerald-600
-        "ledger-primary-hover": "#047857", // emerald-700
-        "ledger-primary-soft": "#D1FAE5", // emerald-100
+        "ledger-primary-hover": "#065f46", // emerald-800
+        "ledger-primary-soft": "#ecfdf5", // emerald-50 invitations
         
         // Status Colors
         "ledger-success": "#16A34A",
