@@ -25,12 +25,12 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-primary: #000000;
-    --bg-secondary: #0A0A0A;
-    --bg-tertiary: #111111;
+    --bg-secondary: #050505;
+    --bg-tertiary: #0A0A0A;
 
     --brand-primary: #14b8a6;
     --brand-secondary: #0d9488;
-    --brand-accent: #0B0F0E;
+    --brand-accent: #000000;
 
     --text-primary: #FFFFFF;
     --text-secondary: #A1A1AA;
@@ -38,14 +38,14 @@
     --text-muted: #52525B;
     --text-disabled: #3F3F46;
 
-    --border-subtle: #1F1F23;
+    --border-subtle: #1A1A1A;
 
     --button-primary-bg: #14b8a6;
     --button-primary-text: #ffffff;
     --button-primary-hover: #0d9488;
 
-    --button-secondary-bg: #0B0F0E;
-    --button-secondary-border: #1F1F23;
+    --button-secondary-bg: #0A0A0A;
+    --button-secondary-border: #1A1A1A;
     --button-secondary-text: #FFFFFF;
 
     --danger-bg: #1A0505;

@@ -41,20 +41,20 @@ export const theme = {
   },
   dark: {
     // Backgrounds
-    appBg: "#0B0F0E",
-    cardBg: "#1A2321",
-    sidebarBg: "#121817",
-    hoverSurface: "#1A2321",
+    appBg: "#000000",
+    cardBg: "#0A0A0A",
+    sidebarBg: "#050505",
+    hoverSurface: "#111111",
     
     // Text
-    primaryText: "#E6F1EC",
-    secondaryText: "#A8B8B2",
-    mutedText: "#6F7F79",
-    disabledText: "#4F5E59",
+    primaryText: "#FFFFFF",
+    secondaryText: "#A1A1AA",
+    mutedText: "#71717A",
+    disabledText: "#3F3F46",
     
     // Borders
-    defaultBorder: "#1F2A27",
-    subtleDivider: "#1F2A27",
+    defaultBorder: "#1A1A1A",
+    subtleDivider: "#1A1A1A",
     
     // Brand
     brandPrimary: "#14b8a6",
