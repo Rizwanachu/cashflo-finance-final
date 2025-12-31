@@ -33,7 +33,7 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
           <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-[var(--text-muted)]">
             Total Balance
           </span>
-          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)] flex items-center justify-center text-xs">
+          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-gray-100 text-white dark:text-slate-900 flex items-center justify-center text-xs">
             $
           </span>
         </div>
@@ -49,7 +49,7 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
           <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-[var(--text-muted)]">
             Total Income
           </span>
-          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)] flex items-center justify-center text-xs">
+          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-gray-100 text-white dark:text-slate-900 flex items-center justify-center text-xs">
             +
           </span>
         </div>
