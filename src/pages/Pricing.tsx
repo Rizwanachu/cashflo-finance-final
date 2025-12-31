@@ -124,7 +124,7 @@ const Pricing: React.FC = () => {
             ) : (
               <button
                 onClick={handleUpgradeToPro}
-                className="w-full px-6 py-3 rounded-xl bg-white text-zinc-900 dark:bg-[var(--brand-primary)] dark:text-[var(--bg-primary)] font-semibold hover:bg-zinc-100 transition-colors"
+                className="w-full px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold transition-colors"
               >
                 Upgrade to Pro
               </button>
