@@ -380,7 +380,7 @@ const BudgetsPage: React.FC = () => {
                     value={budgetLimit}
                     onChange={(e) => setBudgetLimit(e.target.value)}
                     placeholder="0.00"
-                    className="w-full pl-8 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full pl-8 pr-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -400,7 +400,7 @@ const BudgetsPage: React.FC = () => {
                 </select>
               </div>
 
-              <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+              <div className="bg-slate-50 dark:bg-[var(--bg-secondary)] rounded-xl p-3">
                 <h4 className="text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">💡 Tips</h4>
                 <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
                   <li>• You'll be notified when you reach 80% of your budget</li>
@@ -413,7 +413,7 @@ const BudgetsPage: React.FC = () => {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={closeModal}
-                className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)] transition-colors"
               >
                 Cancel
               </button>
