@@ -9,7 +9,7 @@ const Sidebar: React.FC = () => {
   const inactive =
     baseClass + " text-slate-600 dark:text-[var(--text-secondary)] hover:text-slate-900 dark:hover:text-[var(--text-primary)] hover:bg-slate-200 dark:hover:bg-[var(--bg-tertiary)]";
   const active =
-    baseClass + " bg-emerald-100 dark:bg-[var(--brand-primary)]/10 text-emerald-600 dark:text-[var(--brand-primary)] border border-emerald-200 dark:border-[var(--brand-primary)]/30 shadow-sm";
+    baseClass + " bg-zinc-900 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)] shadow-md";
 
   return (
     <aside className="hidden md:flex w-64 flex-col border-r border-slate-200 dark:border-[var(--border-subtle)] bg-slate-100 dark:bg-[var(--bg-secondary)] backdrop-blur-xl">
@@ -32,7 +32,7 @@ const Sidebar: React.FC = () => {
           end
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             🏠
           </span>
           <span>Dashboard</span>
@@ -41,7 +41,7 @@ const Sidebar: React.FC = () => {
           to="/transactions"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             💳
           </span>
           <span>Transactions</span>
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
           to="/budgets"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             🎯
           </span>
           <span>Budgets</span>
@@ -59,7 +59,7 @@ const Sidebar: React.FC = () => {
           to="/goals"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             ⭐
           </span>
           <span>Goals</span>
@@ -68,7 +68,7 @@ const Sidebar: React.FC = () => {
           to="/recurring"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             🔄
           </span>
           <span>Recurring</span>
@@ -77,7 +77,7 @@ const Sidebar: React.FC = () => {
           to="/analytics"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             📊
           </span>
           <span>Analytics</span>
@@ -86,7 +86,7 @@ const Sidebar: React.FC = () => {
           to="/settings"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             ⚙️
           </span>
           <span>Settings</span>
@@ -95,7 +95,7 @@ const Sidebar: React.FC = () => {
           to="/pricing"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-100 dark:bg-[var(--bg-tertiary)] text-xs">
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
             💰
           </span>
           <span>Pricing</span>
@@ -106,7 +106,7 @@ const Sidebar: React.FC = () => {
         <div className="px-4 py-3 border-t border-slate-200 dark:border-[var(--border-subtle)]">
           <button
             onClick={() => setShowGoProModal(true)}
-            className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 dark:from-[var(--brand-primary)] dark:to-[var(--brand-accent)] hover:from-emerald-600 hover:to-emerald-700 dark:hover:from-[var(--brand-secondary)] dark:hover:to-[var(--brand-accent)] text-white dark:text-[var(--bg-primary)] text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm"
+            className="w-full bg-zinc-900 hover:bg-black dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm"
           >
             ⭐ Spendory Pro
           </button>

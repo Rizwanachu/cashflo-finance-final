@@ -145,13 +145,13 @@ const Dashboard: React.FC = () => {
       <ProUserDelight />
       <FreeLimitsBanner />
       {consistencyBadge && (
-        <Card className="bg-emerald-50 dark:bg-[var(--brand-primary)]/10 border border-emerald-200 dark:border-[var(--border-subtle)]">
+        <Card className="bg-zinc-900 dark:bg-[var(--bg-tertiary)] border border-zinc-800 dark:border-[var(--border-subtle)] text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-slate-900 dark:text-[var(--text-primary)]">
+              <p className="font-semibold text-white dark:text-[var(--text-primary)]">
                 {consistencyBadge}
               </p>
-              <p className="text-sm text-slate-600 dark:text-[var(--text-paragraph)] mt-1">
+              <p className="text-sm text-white/70 dark:text-[var(--text-paragraph)] mt-1">
                 {getConsistencyMessage()}
               </p>
             </div>
@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
                 Cash position
               </div>
             </div>
-            <span className="inline-flex px-2 py-1 rounded-full bg-emerald-50 dark:bg-[var(--brand-primary)]/10 text-emerald-600 dark:text-[var(--brand-primary)] text-[11px] font-medium w-fit">
+            <span className="inline-flex px-2 py-1 rounded-full bg-zinc-100 dark:bg-[var(--brand-primary)]/10 text-zinc-900 dark:text-[var(--brand-primary)] text-[11px] font-medium w-fit">
               +3.1% vs last month
             </span>
           </div>
@@ -251,7 +251,7 @@ const Dashboard: React.FC = () => {
                     <span
                       className={`text-xs font-semibold ${
                         t.type === "income"
-                          ? "text-emerald-600 dark:text-[var(--brand-primary)]"
+                          ? "text-zinc-900 dark:text-[var(--brand-primary)]"
                           : "text-red-600 dark:text-[var(--danger-text)]"
                       }`}
                     >
@@ -266,8 +266,8 @@ const Dashboard: React.FC = () => {
                       <span
                         className={`inline-flex px-2 py-0.5 rounded-full text-[10px] ${
                           t.type === "income"
-                            ? "bg-emerald-100 dark:bg-[var(--brand-primary)]/10 text-emerald-600 dark:text-[var(--brand-primary)]"
-                            : "bg-amber-100 dark:bg-[var(--danger-bg)] text-amber-600 dark:text-[var(--danger-text)]"
+                            ? "bg-zinc-100 dark:bg-[var(--brand-primary)]/10 text-zinc-900 dark:text-[var(--brand-primary)]"
+                            : "bg-red-50 dark:bg-[var(--danger-bg)] text-red-600 dark:text-[var(--danger-text)]"
                         }`}
                       >
                         {statusFromTransaction(t)}
@@ -282,7 +282,7 @@ const Dashboard: React.FC = () => {
           <div className="mt-3 text-right">
             <Link
               to="/transactions"
-              className="text-xs text-emerald-600 dark:text-[var(--brand-primary)] hover:text-emerald-700 dark:hover:text-[var(--brand-secondary)]"
+              className="text-xs text-zinc-900 dark:text-[var(--brand-primary)] hover:underline"
             >
               View all transactions →
             </Link>
