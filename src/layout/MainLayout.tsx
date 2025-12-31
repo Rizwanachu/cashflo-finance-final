@@ -239,15 +239,15 @@ const MainLayout: React.FC = () => {
                     className="fixed inset-0 z-30" 
                     onClick={() => setShowMobileMenu(false)}
                   />
-                  <div className="absolute bottom-12 right-0 w-48 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl z-40">
+                  <div className="absolute bottom-12 right-0 w-48 rounded-2xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] shadow-xl z-40">
                     <NavLink
                       to="/settings"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-slate-800 ${
+                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-[var(--border-subtle)] ${
                           isActive 
                             ? "text-emerald-600 dark:text-emerald-400 font-medium" 
-                            : "text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+                            : "text-slate-900 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
@@ -257,10 +257,10 @@ const MainLayout: React.FC = () => {
                       to="/analytics"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-slate-800 ${
+                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-[var(--border-subtle)] ${
                           isActive 
                             ? "text-emerald-600 dark:text-emerald-400 font-medium" 
-                            : "text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+                            : "text-slate-900 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
@@ -270,10 +270,10 @@ const MainLayout: React.FC = () => {
                       to="/pricing"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-slate-800 ${
+                        `block px-4 py-3 text-sm border-b border-slate-200 dark:border-[var(--border-subtle)] ${
                           isActive 
                             ? "text-emerald-600 dark:text-emerald-400 font-medium" 
-                            : "text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+                            : "text-slate-900 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
