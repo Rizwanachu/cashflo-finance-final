@@ -289,7 +289,7 @@ const TransactionForm: React.FC<Props> = ({
       <div className="flex justify-end pt-1">
           <button
           type="submit"
-          className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-emerald-500 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)] text-xs font-semibold shadow-sm hover:bg-emerald-600 dark:hover:bg-[var(--brand-secondary)] transition-colors"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-100 dark:hover:bg-gray-200 text-slate-900 dark:text-slate-900 text-xs font-semibold shadow-sm transition-colors"
         >
           {isEditing ? "Save changes" : "Add transaction"}
         </button>
