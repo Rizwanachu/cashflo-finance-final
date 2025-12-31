@@ -263,23 +263,23 @@ const BudgetsPage: React.FC = () => {
 
               return (
                 <Card key={cat.id}>
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-3 mb-4">
                     <div 
-                      className="h-10 w-10 rounded-xl flex items-center justify-center text-lg"
+                      className="h-10 w-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
                       style={{ backgroundColor: cat.color + "20" }}
                     >
                       {cat.icon}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-slate-900 dark:text-slate-50 truncate">
+                      <div className="flex items-center gap-2 justify-between mb-1">
+                        <span className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">
                           {cat.name}
                         </span>
-                        <span className={`text-xs font-medium ${status.color}`}>
+                        <span className={`text-xs font-medium whitespace-nowrap ${status.color}`}>
                           {Math.round(getProgressPercent(spent, budget))}%
                         </span>
                       </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
                         {formatAmount(spent)} / {formatAmount(budget)}
                       </div>
                     </div>
