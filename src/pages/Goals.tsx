@@ -257,7 +257,7 @@ const GoalsPage: React.FC = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleOpenModal(goal)}
-                    className="flex-1 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-50 py-2 rounded-lg font-medium transition-colors"
+                    className="flex-1 border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-tertiary)] text-slate-900 dark:text-[var(--text-primary)] py-2 rounded-lg font-medium transition-colors"
                   >
                     Edit
                   </button>
@@ -292,7 +292,7 @@ const GoalsPage: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-sm font-medium text-slate-700 dark:text-[var(--text-secondary)] mb-1">
                   Goal Name
                 </label>
                 <input
@@ -302,7 +302,7 @@ const GoalsPage: React.FC = () => {
                     setFormData({ ...formData, name: e.target.value })
                   }
                   placeholder="e.g., Summer Vacation"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
                 />
               </div>
 
@@ -318,7 +318,7 @@ const GoalsPage: React.FC = () => {
                   }
                   placeholder="0.00"
                   step="0.01"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
                 />
               </div>
 
@@ -334,7 +334,7 @@ const GoalsPage: React.FC = () => {
                   }
                   placeholder="0.00"
                   step="0.01"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
                 />
               </div>
 
@@ -349,7 +349,7 @@ const GoalsPage: React.FC = () => {
                     setFormData({ ...formData, category: e.target.value })
                   }
                   placeholder="e.g., Travel, Emergency Fund"
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
                 />
               </div>
 
@@ -378,7 +378,7 @@ const GoalsPage: React.FC = () => {
                   }
                   placeholder="Optional notes..."
                   rows={3}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder-slate-500 dark:placeholder-slate-400"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder-slate-500 dark:placeholder:text-[var(--text-muted)]"
                 />
               </div>
 

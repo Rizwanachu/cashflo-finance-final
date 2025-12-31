@@ -245,15 +245,15 @@ const RecurringPage: React.FC = () => {
               
               return (
                 <Card key={payment.id} className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-lg">
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-lg">
                     {cat.icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-slate-900 dark:text-slate-50 truncate">
+                      <span className="font-medium text-slate-900 dark:text-[var(--text-primary)] truncate">
                         {payment.description}
                       </span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 shrink-0">
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-paragraph)] shrink-0">
                         {getFrequencyLabel(payment.frequency)}
                       </span>
                     </div>
@@ -266,21 +266,21 @@ const RecurringPage: React.FC = () => {
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="font-semibold text-slate-900 dark:text-slate-50">
+                    <div className="font-semibold text-slate-900 dark:text-[var(--text-primary)]">
                       {formatAmount(payment.amount)}
                     </div>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     <button
                       onClick={() => openEditModal(payment)}
-                      className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
+                      className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[var(--bg-secondary)] text-slate-500 dark:text-[var(--text-paragraph)]"
                       title="Edit"
                     >
                       ✏️
                     </button>
                     <button
                       onClick={() => togglePayment(payment.id)}
-                      className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
+                      className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[var(--bg-secondary)] text-slate-500 dark:text-[var(--text-paragraph)]"
                       title="Pause"
                     >
                       ⏸️
@@ -311,19 +311,19 @@ const RecurringPage: React.FC = () => {
               
               return (
                 <Card key={payment.id} className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-lg">
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-lg">
                     {cat.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <span className="font-medium text-slate-900 dark:text-slate-50 truncate">
+                    <span className="font-medium text-slate-900 dark:text-[var(--text-primary)] truncate">
                       {payment.description}
                     </span>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                    <div className="text-xs text-slate-500 dark:text-[var(--text-paragraph)]">
                       {getFrequencyLabel(payment.frequency)} • Paused
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <div className="font-semibold text-slate-900 dark:text-slate-50">
+                    <div className="font-semibold text-slate-900 dark:text-[var(--text-primary)]">
                       {formatAmount(payment.amount)}
                     </div>
                   </div>
@@ -349,7 +349,7 @@ const RecurringPage: React.FC = () => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl p-6 max-w-md w-full border border-slate-200 dark:border-[var(--border-subtle)] shadow-xl max-h-[90vh] overflow-y-auto">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
               {editingPayment ? "Edit Payment" : "Add Recurring Payment"}
             </h3>
@@ -364,7 +364,7 @@ const RecurringPage: React.FC = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="e.g., Netflix Subscription, Electric Bill"
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -394,7 +394,7 @@ const RecurringPage: React.FC = () => {
                   type="date"
                   value={nextDueDate}
                   onChange={(e) => setNextDueDate(e.target.value)}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
@@ -405,7 +405,7 @@ const RecurringPage: React.FC = () => {
                 <select
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value as RecurringPayment["frequency"])}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="weekly">Weekly</option>
                   <option value="monthly">Monthly</option>
@@ -420,7 +420,7 @@ const RecurringPage: React.FC = () => {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   {recurringCategories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
@@ -439,7 +439,7 @@ const RecurringPage: React.FC = () => {
                   type="button"
                   onClick={() => setIsActive(!isActive)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
-                    isActive ? "bg-emerald-500" : "bg-slate-300 dark:bg-slate-700"
+                    isActive ? "bg-emerald-500" : "bg-slate-300 dark:bg-[var(--bg-secondary)]"
                   }`}
                 >
                   <span

@@ -448,7 +448,7 @@ const SettingsPage: React.FC = () => {
 
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between"
+            className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] text-slate-700 dark:text-[var(--text-secondary)] text-sm font-medium hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)] transition-colors flex items-center justify-between"
           >
             <span>View Notifications ({notifications.length})</span>
             <span>{showNotifications ? "▲" : "▼"}</span>

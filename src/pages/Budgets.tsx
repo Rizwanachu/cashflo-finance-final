@@ -340,7 +340,7 @@ const BudgetsPage: React.FC = () => {
       
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-xl">
+          <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl p-6 max-w-md w-full border border-slate-200 dark:border-[var(--border-subtle)] shadow-xl">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
               {selectedCategory && budgets.perCategory[selectedCategory] ? "Edit Budget" : "Create Budget"}
             </h3>
@@ -353,7 +353,7 @@ const BudgetsPage: React.FC = () => {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="">Select category...</option>
                   <option value="overall">💰 Overall Budget</option>
@@ -392,7 +392,7 @@ const BudgetsPage: React.FC = () => {
                 <select
                   value={budgetPeriod}
                   onChange={(e) => setBudgetPeriod(e.target.value as BudgetPeriod)}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="weekly">Weekly</option>
                   <option value="monthly">Monthly</option>
