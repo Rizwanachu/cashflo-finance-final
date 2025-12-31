@@ -192,7 +192,7 @@ const TransactionsPage: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowCsvImport(!showCsvImport)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 text-xs font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-[var(--text-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)] transition-colors"
           >
             <span>📥</span>
             <span className="hidden sm:inline">Import CSV</span>
