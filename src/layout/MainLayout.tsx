@@ -25,9 +25,9 @@ const MainLayout: React.FC = () => {
   const baseClass =
     "flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl text-[10px] font-medium transition-colors min-w-0 flex-1";
   const inactive =
-    baseClass + " text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-800";
+    baseClass + " text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900";
   const active =
-    baseClass + " bg-emerald-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-slate-700 shadow-sm";
+    baseClass + " bg-emerald-100 dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-slate-800 shadow-sm";
 
   return (
     <div className="min-h-screen flex transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
@@ -190,7 +190,7 @@ const MainLayout: React.FC = () => {
         </header>
 
         {/* Mobile bottom navigation */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md z-20 safe-area-pb">
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-900 bg-white/95 dark:bg-black/95 backdrop-blur-md z-20 safe-area-pb">
           <div className="flex justify-between px-1 py-1 text-xs">
             <NavLink to="/" end className={({ isActive }) => (isActive ? active : inactive)}>
               <span className="text-[13px]">🏠</span>
