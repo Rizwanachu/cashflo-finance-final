@@ -25,35 +25,35 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-primary: #000000;
-    --bg-secondary: #050505;
-    --bg-tertiary: #0A0A0A;
+    --bg-secondary: #0A0A0A;
+    --bg-tertiary: #111111;
 
     --brand-primary: #14b8a6;
     --brand-secondary: #0d9488;
-    --brand-accent: #000000;
+    --brand-accent: #134e4a;
 
     --text-primary: #FFFFFF;
     --text-secondary: #A1A1AA;
-    --text-paragraph: #A1A1AA;
+    --text-paragraph: #71717A;
     --text-muted: #52525B;
     --text-disabled: #3F3F46;
 
-    --border-subtle: #1A1A1A;
+    --border-subtle: #1F1F23;
 
     --button-primary-bg: #14b8a6;
     --button-primary-text: #ffffff;
     --button-primary-hover: #0d9488;
 
-    --button-secondary-bg: #0A0A0A;
-    --button-secondary-border: #1A1A1A;
+    --button-secondary-bg: transparent;
+    --button-secondary-border: #27272A;
     --button-secondary-text: #FFFFFF;
 
-    --danger-bg: #1A0505;
+    --danger-bg: #450A0A;
     --danger-text: #FCA5A5;
 
     /* Map new theme to existing variable names for compatibility */
     --app-bg: var(--bg-primary);
-    --card-bg: var(--bg-secondary);
+    --card-bg: var(--bg-tertiary);
     --sidebar-bg: var(--bg-secondary);
     --hover-surface: var(--bg-tertiary);
     --primary-text: var(--text-primary);
