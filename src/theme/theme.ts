@@ -59,7 +59,7 @@ export const theme = {
     // Brand
     brandPrimary: "#14b8a6",
     brandHover: "#0d9488",
-    brandSoftBg: "rgba(20, 184, 166, 0.1)",
+    brandSoftBg: "#0B0F0E",
     
     // Status
     success: "#BFEBD6",
