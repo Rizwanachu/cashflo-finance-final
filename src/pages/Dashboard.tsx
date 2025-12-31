@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
           </p>
           <Link
             to="/transactions"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-black dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-medium transition-colors"
           >
             <span>➕</span>
             <span>Add your first transaction</span>
@@ -161,17 +161,17 @@ const Dashboard: React.FC = () => {
       <SummaryCards transactions={transactions} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 items-stretch">
-        <Card className="md:col-span-2 lg:col-span-2 bg-emerald-500 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)] border-0">
+        <Card className="md:col-span-2 lg:col-span-2 bg-zinc-900 dark:bg-[var(--bg-tertiary)] text-white dark:text-[var(--text-primary)] border-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
             <div>
-              <div className="text-xs uppercase tracking-wide text-white/90 dark:text-[var(--bg-primary)]/90">
+              <div className="text-xs uppercase tracking-wide text-white/90 dark:text-[var(--text-secondary)]/90">
                 Spending
               </div>
-              <div className="text-sm text-white/80 dark:text-[var(--bg-primary)]/80">
+              <div className="text-sm text-white/80 dark:text-[var(--text-paragraph)]/80">
                 Overview of this week&apos;s expenses
               </div>
             </div>
-            <span className="text-[11px] px-2 py-1 rounded-full bg-white/20 border border-white/30 text-white dark:bg-[var(--bg-primary)]/20 dark:border-[var(--bg-primary)]/30 dark:text-[var(--bg-primary)] w-fit">
+            <span className="text-[11px] px-2 py-1 rounded-full bg-white/20 border border-white/30 text-white dark:bg-[var(--bg-primary)]/20 dark:border-[var(--border-subtle)] dark:text-[var(--text-primary)] w-fit">
               Last 7 days
             </span>
           </div>

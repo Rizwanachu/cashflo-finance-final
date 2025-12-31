@@ -176,7 +176,7 @@ const TransactionForm: React.FC<Props> = ({
               onClick={() => setType("income")}
               className={`flex-1 text-xs py-1.5 rounded-lg transition-colors ${
                 type === "income"
-                  ? "bg-emerald-500/20 dark:bg-[var(--brand-primary)]/10 text-emerald-600 dark:text-[var(--brand-primary)]"
+                  ? "bg-zinc-100 dark:bg-[var(--brand-primary)]/10 text-zinc-900 dark:text-[var(--brand-primary)]"
                   : "text-slate-600 dark:text-[var(--text-secondary)] hover:text-slate-900 dark:hover:text-[var(--text-primary)]"
               }`}
             >

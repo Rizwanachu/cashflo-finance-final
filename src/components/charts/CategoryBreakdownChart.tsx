@@ -15,7 +15,7 @@ interface Props {
 }
 
 const LIGHT_COLORS = ["#10B981", "#EF4444", "#F59E0B", "#6366F1", "#0EA5E9"];
-const DARK_COLORS = ["#BFEBD6", "#9FD9C0", "#6FBFA4", "#A8B8B2", "#8E9F99"];
+const DARK_COLORS = ["#FFFFFF", "#E4E4E7", "#A1A1AA", "#71717A", "#52525B"];
 
 const categoryLabel: Record<string, string> = {
   rent: "Rent / Mortgage",
@@ -79,16 +79,16 @@ const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
             </Pie>
             <Tooltip
               contentStyle={{
-                backgroundColor: theme === "dark" ? "#121817" : "#FFFFFF",
+                backgroundColor: theme === "dark" ? "var(--bg-secondary)" : "#FFFFFF",
                 border: `1px solid ${
-                  theme === "dark" ? "#1F2A27" : "#CBD5E1"
+                  theme === "dark" ? "var(--border-subtle)" : "#CBD5E1"
                 }`,
                 borderRadius: "0.75rem",
                 fontSize: "0.75rem",
-                color: theme === "dark" ? "#E6F1EC" : "#0F172A"
+                color: theme === "dark" ? "var(--text-primary)" : "#0F172A"
               }}
               itemStyle={{
-                color: theme === "dark" ? "#E6F1EC" : "#0F172A"
+                color: theme === "dark" ? "var(--text-primary)" : "#0F172A"
               }}
               formatter={(value: number) =>
                 `$${value.toLocaleString(undefined, {
@@ -99,7 +99,7 @@ const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
             <Legend
               wrapperStyle={{
                 fontSize: "0.7rem",
-                color: theme === "dark" ? "#A8B8B2" : "#334155"
+                color: theme === "dark" ? "var(--text-secondary)" : "#334155"
               }}
               iconType="circle"
               verticalAlign="bottom"
