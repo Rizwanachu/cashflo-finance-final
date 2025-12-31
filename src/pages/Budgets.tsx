@@ -209,21 +209,21 @@ const BudgetsPage: React.FC = () => {
 
       {budgets.overall !== null && (
         <Card>
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-lg flex-shrink-0">
                 💰
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-sm font-medium text-slate-900 dark:text-slate-50">
                   Overall Monthly Budget
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">
                   {formatAmount(currentSpending["overall"]?.monthly ?? 0)} of {formatAmount(budgets.overall)} spent
                 </p>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-right flex-shrink-0">
               <div className="text-sm font-semibold text-slate-900 dark:text-slate-50">
                 {formatAmount(Math.max(0, budgets.overall - (currentSpending["overall"]?.monthly ?? 0)))}
               </div>
