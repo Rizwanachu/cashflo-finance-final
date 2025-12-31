@@ -72,8 +72,8 @@ const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
                       index % LIGHT_COLORS.length
                     ]
                   }
-                  stroke="#020617"
-                  strokeWidth={1}
+                  stroke={theme === "dark" ? "#020617" : "#FFFFFF"}
+                  strokeWidth={2}
                 />
               ))}
             </Pie>
