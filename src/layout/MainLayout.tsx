@@ -25,9 +25,9 @@ const MainLayout: React.FC = () => {
   const baseClass =
     "flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl text-[10px] font-medium transition-colors min-w-0 flex-1";
   const inactive =
-    baseClass + " text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900";
+    baseClass + " text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-gray-100";
   const active =
-    baseClass + " bg-emerald-100 dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-slate-800 shadow-sm";
+    baseClass + " bg-emerald-100 dark:bg-gray-100 text-emerald-600 dark:text-slate-900 border border-emerald-200 dark:border-gray-200 shadow-sm";
 
   return (
     <div className="min-h-screen flex transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
