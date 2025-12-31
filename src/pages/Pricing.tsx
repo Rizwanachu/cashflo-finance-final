@@ -137,18 +137,18 @@ const Pricing: React.FC = () => {
         </Card>
       </div>
 
-      <div className="bg-slate-900 dark:bg-[var(--bg-tertiary)] rounded-2xl p-8 border border-slate-800 dark:border-[var(--border-subtle)]">
-        <h3 className="text-lg font-semibold text-white dark:text-slate-50 mb-4">
+      <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl p-8 border border-slate-200 dark:border-[var(--border-subtle)] shadow-sm">
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
           Why Spendory?
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex gap-3">
             <span className="text-2xl">🔒</span>
             <div>
-              <p className="font-medium text-white dark:text-slate-50">
+              <p className="font-medium text-slate-900 dark:text-slate-50">
                 No tracking
               </p>
-              <p className="text-sm text-slate-300 dark:text-slate-400">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 Your data is yours
               </p>
             </div>
@@ -156,10 +156,10 @@ const Pricing: React.FC = () => {
           <div className="flex gap-3">
             <span className="text-2xl">☁️</span>
             <div>
-              <p className="font-medium text-white dark:text-slate-50">
+              <p className="font-medium text-slate-900 dark:text-slate-50">
                 No cloud
               </p>
-              <p className="text-sm text-slate-300 dark:text-slate-400">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 Everything local
               </p>
             </div>
@@ -167,10 +167,10 @@ const Pricing: React.FC = () => {
           <div className="flex gap-3">
             <span className="text-2xl">🌐</span>
             <div>
-              <p className="font-medium text-white dark:text-slate-50">
+              <p className="font-medium text-slate-900 dark:text-slate-50">
                 Works offline
               </p>
-              <p className="text-sm text-slate-300 dark:text-slate-400">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 No internet needed
               </p>
             </div>
@@ -178,10 +178,10 @@ const Pricing: React.FC = () => {
           <div className="flex gap-3">
             <span className="text-2xl">♾️</span>
             <div>
-              <p className="font-medium text-white dark:text-slate-50">
+              <p className="font-medium text-slate-900 dark:text-slate-50">
                 Pay once, forever
               </p>
-              <p className="text-sm text-slate-300 dark:text-slate-400">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
                 No subscriptions
               </p>
             </div>
