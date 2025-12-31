@@ -125,7 +125,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
                 💳 Pay once. Use forever. ($9.99)
               </a>
 
-              <p className="text-xs text-slate-500 dark:text-slate-400 text-center bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+              <p className="text-xs text-slate-500 dark:text-slate-400 text-center bg-gray-100 dark:bg-black border border-slate-200 dark:border-slate-800 rounded-lg p-3">
                 💡 After payment, you'll be redirected to get your unlock code.
               </p>
             </div>
