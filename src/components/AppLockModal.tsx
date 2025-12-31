@@ -46,11 +46,11 @@ const AppLockModal: React.FC<AppLockModalProps> = ({ isOpen, onUnlock }) => {
 
   return (
     <div className="fixed inset-0 bg-black flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-sm w-full border border-slate-200 dark:border-slate-800 shadow-2xl p-8">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 text-center mb-2">
+      <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-3xl max-w-sm w-full border border-slate-200 dark:border-[var(--border-subtle)] shadow-2xl p-8">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-[var(--text-primary)] text-center mb-2">
           🔒 App Locked
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400 text-center mb-8">
+        <p className="text-sm text-slate-600 dark:text-[var(--text-paragraph)] text-center mb-8">
           Enter your PIN to unlock
         </p>
 
@@ -58,7 +58,7 @@ const AppLockModal: React.FC<AppLockModalProps> = ({ isOpen, onUnlock }) => {
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-semibold text-slate-900 dark:text-slate-50"
+              className="w-10 h-10 rounded-full bg-slate-200 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)]"
             >
               {enteredPin.length > i ? "●" : "○"}
             </div>
@@ -71,7 +71,7 @@ const AppLockModal: React.FC<AppLockModalProps> = ({ isOpen, onUnlock }) => {
               key={num}
               onClick={() => handlePinInput(num.toString())}
               disabled={enteredPin.length >= 6}
-              className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-slate-50 text-lg font-semibold transition-colors"
+              className="p-4 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] hover:bg-slate-200 dark:hover:bg-[var(--bg-tertiary)] disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-[var(--text-primary)] text-lg font-semibold transition-colors"
             >
               {num}
             </button>
@@ -79,7 +79,7 @@ const AppLockModal: React.FC<AppLockModalProps> = ({ isOpen, onUnlock }) => {
           <button
             onClick={() => handlePinInput("0")}
             disabled={enteredPin.length >= 6}
-            className="col-start-2 p-4 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-slate-50 text-lg font-semibold transition-colors"
+            className="col-start-2 p-4 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] hover:bg-slate-200 dark:hover:bg-[var(--bg-tertiary)] disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-[var(--text-primary)] text-lg font-semibold transition-colors"
           >
             0
           </button>
@@ -88,7 +88,7 @@ const AppLockModal: React.FC<AppLockModalProps> = ({ isOpen, onUnlock }) => {
         <div className="flex gap-3">
           <button
             onClick={handleBackspace}
-            className="flex-1 p-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
+            className="flex-1 p-3 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] hover:bg-slate-200 dark:hover:bg-[var(--bg-tertiary)] text-slate-900 dark:text-[var(--text-primary)] text-sm font-medium transition-colors"
           >
             ← Backspace
           </button>

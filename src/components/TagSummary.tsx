@@ -30,8 +30,8 @@ const TagSummary: React.FC<TagSummaryProps> = ({ transactions }) => {
 
   if (tagStats.length === 0) {
     return (
-      <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-5 shadow-sm text-center">
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+      <div className="rounded-2xl bg-white dark:bg-[var(--bg-tertiary)] border border-slate-200 dark:border-[var(--border-subtle)] p-5 shadow-sm text-center">
+        <p className="text-sm text-slate-500 dark:text-[var(--text-paragraph)]">
           No tags yet. Add tags to your transactions to see summaries here.
         </p>
       </div>
@@ -39,9 +39,9 @@ const TagSummary: React.FC<TagSummaryProps> = ({ transactions }) => {
   }
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+    <div className="rounded-2xl bg-white dark:bg-[var(--bg-tertiary)] border border-slate-200 dark:border-[var(--border-subtle)] p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
-        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)]">
           Spending by Tag
         </h3>
         <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded">
@@ -55,11 +55,11 @@ const TagSummary: React.FC<TagSummaryProps> = ({ transactions }) => {
               <span className="inline-flex px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-medium">
                 {tag}
               </span>
-              <span className="text-xs text-slate-500 dark:text-slate-400">
+              <span className="text-xs text-slate-500 dark:text-[var(--text-paragraph)]">
                 {stats.count} transaction{stats.count !== 1 ? "s" : ""}
               </span>
             </div>
-            <span className="font-semibold text-slate-900 dark:text-slate-50">
+            <span className="font-semibold text-slate-900 dark:text-[var(--text-primary)]">
               {formatAmount(stats.totalAmount)}
             </span>
           </div>

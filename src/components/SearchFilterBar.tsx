@@ -129,7 +129,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
   };
 
   return (
-    <div className="space-y-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
+    <div className="space-y-3 rounded-2xl bg-white dark:bg-[var(--bg-tertiary)] border border-slate-200 dark:border-[var(--border-subtle)] p-4 shadow-sm">
       {/* Search Input */}
       <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
         <div className="flex-1 relative">
@@ -138,7 +138,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
             placeholder="Search description..."
             value={searchText}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400">
             🔍
@@ -147,7 +147,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
         <button
           type="button"
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+          className="px-3 py-2 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-slate-50 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)] text-xs font-medium hover:bg-slate-100 dark:hover:bg-[var(--bg-tertiary)] transition-colors"
         >
           {showAdvanced ? "Hide Filters" : "Advanced"}
         </button>
@@ -164,9 +164,9 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
 
       {/* Advanced Filters */}
       {showAdvanced && (
-        <div className="space-y-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+        <div className="space-y-3 pt-3 border-t border-slate-200 dark:border-[var(--border-subtle)]">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Advanced Filters</span>
+            <span className="text-xs font-semibold text-slate-600 dark:text-[var(--text-paragraph)]">Advanced Filters</span>
             {availableTags && availableTags.length > 0 && (
               <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded">
                 Pro
@@ -176,7 +176,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
           {/* Type and Category */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-slate-600 dark:text-slate-400 block mb-1.5">
+              <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] block mb-1.5">
                 Type
               </label>
               <select
@@ -184,7 +184,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
                 onChange={(e) =>
                   handleTypeChange(e.target.value as TransactionType | "all")
                 }
-                className="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="all">All Types</option>
                 <option value="income">Income</option>
@@ -192,7 +192,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
               </select>
             </div>
             <div>
-              <label className="text-xs text-slate-600 dark:text-slate-400 block mb-1.5">
+              <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] block mb-1.5">
                 Category
               </label>
               <select
@@ -202,7 +202,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
                     (e.target.value as TransactionCategory) || null
                   )
                 }
-                className="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="">All Categories</option>
                 {Object.entries(categoryLabels).map(([key, label]) => (
@@ -216,7 +216,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
 
           {/* Amount Range */}
           <div>
-            <label className="text-xs text-slate-600 dark:text-slate-400 block mb-1.5">
+            <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] block mb-1.5">
               Amount Range
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -227,7 +227,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
                 onChange={(e) => handleMinAmountChange(e.target.value)}
                 min="0"
                 step="0.01"
-                className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
               <input
                 type="number"
@@ -236,14 +236,14 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
                 onChange={(e) => handleMaxAmountChange(e.target.value)}
                 min="0"
                 step="0.01"
-                className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
 
           {/* Date Range */}
           <div>
-            <label className="text-xs text-slate-600 dark:text-slate-400 block mb-1.5">
+            <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] block mb-1.5">
               Date Range
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -251,13 +251,13 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
                 type="date"
                 value={startDate}
                 onChange={(e) => handleStartDateChange(e.target.value)}
-                className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => handleEndDateChange(e.target.value)}
-                className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -265,13 +265,13 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
           {/* Tag Filter (Pro Feature) */}
           {isProUser && availableTags && availableTags.length > 0 && (
             <div>
-              <label className="text-xs text-slate-600 dark:text-slate-400 block mb-1.5">
+              <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)] block mb-1.5">
                 Tags (Pro)
               </label>
               <select
                 value={tag || ""}
                 onChange={(e) => handleTagChange(e.target.value || null)}
-                className="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="">All Tags</option>
                 {availableTags.map((t) => (

@@ -6,7 +6,7 @@ const Onboarding: React.FC = () => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-8 shadow-xl">
+      <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl max-w-md w-full p-8 shadow-xl border dark:border-[var(--border-subtle)]">
         <div className="text-6xl mb-6 text-center">🔒</div>
         
         <h1 className="text-2xl font-bold text-center text-slate-900 dark:text-slate-50 mb-3">

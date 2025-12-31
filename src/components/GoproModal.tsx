@@ -43,8 +43,8 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col">
-        <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 p-6 flex items-center justify-between">
+      <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto border border-slate-200 dark:border-[var(--border-subtle)] shadow-xl flex flex-col">
+        <div className="sticky top-0 bg-white dark:bg-[var(--bg-tertiary)] border-b border-slate-200 dark:border-[var(--border-subtle)] p-6 flex items-center justify-between">
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
               Spendory Pro
@@ -96,16 +96,16 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
           </div>
 
           {/* Payment Flow Steps */}
-          <div className="flex gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-4">
+          <div className="flex gap-2 text-xs font-semibold text-slate-600 dark:text-[var(--text-paragraph)] mb-4">
             <div 
               onClick={() => setStep("payment")}
-              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "payment" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200"}`}
+              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "payment" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-[var(--border-subtle)] hover:text-slate-900 dark:hover:text-[var(--text-primary)]"}`}
             >
               Step 1: Pay
             </div>
             <div 
               onClick={() => setStep("unlock")}
-              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "unlock" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200"}`}
+              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "unlock" ? "border-emerald-500 text-emerald-600 dark:text-emerald-400" : "border-slate-200 dark:border-[var(--border-subtle)] hover:text-slate-900 dark:hover:text-[var(--text-primary)]"}`}
             >
               Step 2: Unlock
             </div>
@@ -146,7 +146,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
                     setSuccessMessage("");
                   }}
                   placeholder="Enter unlock code"
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
                 />
                 <button
                   onClick={handleUnlock}
@@ -158,7 +158,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
 
               <button
                 onClick={() => setStep("payment")}
-                className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-slate-100 dark:bg-[var(--bg-secondary)] hover:bg-slate-200 dark:hover:bg-[var(--bg-tertiary)] text-slate-900 dark:text-[var(--text-primary)] text-sm font-medium transition-colors"
               >
                 ← Back to Payment
               </button>
@@ -178,7 +178,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
           <div />
 
           {/* Helper Text */}
-          <div className="space-y-2 border-t border-slate-200 dark:border-slate-700 pt-4">
+          <div className="space-y-2 border-t border-slate-200 dark:border-[var(--border-subtle)] pt-4">
             <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
               ✓ Your unlock is permanent on this device
             </p>
