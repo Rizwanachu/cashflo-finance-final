@@ -98,31 +98,31 @@ const MonthlySummary: React.FC<Props> = ({ transactions }) => {
     typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? true :
     false;
 
-  const bgColor = isDarkMode ? "bg-slate-800" : "bg-slate-50";
-  const borderColor = isDarkMode ? "border-slate-700" : "border-slate-200";
-  const textColor = isDarkMode ? "text-slate-100" : "text-slate-900";
-  const labelColor = isDarkMode ? "text-slate-400" : "text-slate-600";
+  const bgColor = isDarkMode ? "dark:bg-[var(--bg-secondary)]" : "bg-slate-50";
+  const borderColor = isDarkMode ? "dark:border-[var(--border-subtle)]" : "border-slate-200";
+  const textColor = isDarkMode ? "dark:text-[var(--text-primary)]" : "text-slate-900";
+  const labelColor = isDarkMode ? "dark:text-[var(--text-paragraph)]" : "text-slate-600";
 
   return (
     <div className="space-y-4">
       {/* YTD Summary */}
-      <div className={`rounded-lg border ${borderColor} p-4 ${bgColor}`}>
-        <h3 className={`font-semibold ${textColor} mb-3`}>Year-to-Date ({currentYear})</h3>
+      <div className={`rounded-lg border border-slate-200 ${bgColor} p-4`}>
+        <h3 className={`font-semibold text-slate-900 ${textColor} mb-3`}>Year-to-Date ({currentYear})</h3>
         <div className="grid grid-cols-3 gap-3">
           <div>
-            <p className={`text-sm ${labelColor} mb-1`}>Income</p>
+            <p className={`text-sm text-slate-600 ${labelColor} mb-1`}>Income</p>
             <p className={`text-lg font-bold text-green-600 dark:text-green-400`}>
               {currencySymbol}{ytd.income.toFixed(2)}
             </p>
           </div>
           <div>
-            <p className={`text-sm ${labelColor} mb-1`}>Expenses</p>
+            <p className={`text-sm text-slate-600 ${labelColor} mb-1`}>Expenses</p>
             <p className={`text-lg font-bold text-red-600 dark:text-red-400`}>
               {currencySymbol}{ytd.expenses.toFixed(2)}
             </p>
           </div>
           <div>
-            <p className={`text-sm ${labelColor} mb-1`}>Net</p>
+            <p className={`text-sm text-slate-600 ${labelColor} mb-1`}>Net</p>
             <p className={`text-lg font-bold ${ytd.net >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
               {currencySymbol}{ytd.net.toFixed(2)}
             </p>
@@ -131,9 +131,9 @@ const MonthlySummary: React.FC<Props> = ({ transactions }) => {
       </div>
 
       {/* Month-over-Month */}
-      <div className={`rounded-lg border ${borderColor} p-4 ${bgColor}`}>
+      <div className={`rounded-lg border border-slate-200 ${bgColor} p-4`}>
         <div className="flex items-center justify-between mb-3">
-          <h3 className={`font-semibold ${textColor}`}>Month-over-Month</h3>
+          <h3 className={`font-semibold text-slate-900 ${textColor}`}>Month-over-Month</h3>
           {trend && (
             <div className={`flex items-center gap-1 text-sm font-medium ${
               trend.direction === "up" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"
@@ -146,12 +146,12 @@ const MonthlySummary: React.FC<Props> = ({ transactions }) => {
 
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {summaries.length === 0 ? (
-            <p className={`text-sm ${labelColor}`}>No transactions yet</p>
+            <p className={`text-sm text-slate-600 ${labelColor}`}>No transactions yet</p>
           ) : (
             summaries.map((summary, index) => (
-              <div key={index} className={`flex items-center justify-between py-2 px-2 rounded hover:${isDarkMode ? "bg-slate-700/50" : "bg-slate-100/50"}`}>
+              <div key={index} className={`flex items-center justify-between py-2 px-2 rounded hover:bg-slate-100/50 dark:hover:bg-[var(--bg-tertiary)]`}>
                 <div>
-                  <p className={`text-sm font-medium ${textColor}`}>{summary.month}</p>
+                  <p className={`text-sm font-medium text-slate-900 ${textColor}`}>{summary.month}</p>
                   <div className="flex gap-4 text-xs mt-1">
                     <span className="text-green-600 dark:text-green-400">
                       +{currencySymbol}{summary.income.toFixed(0)}
