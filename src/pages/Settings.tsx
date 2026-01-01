@@ -248,12 +248,16 @@ const SettingsPage: React.FC = () => {
             <button
               onClick={togglePrivacyMode}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                privacyMode ? "bg-slate-400 dark:bg-slate-600" : "bg-slate-300 dark:bg-[var(--bg-secondary)]"
+                privacyMode 
+                  ? "bg-slate-900 dark:bg-slate-100" 
+                  : "bg-slate-300 dark:bg-slate-600"
               }`}
             >
               <span
-                className={`absolute top-1 left-1 w-4 h-4 bg-white dark:bg-[var(--bg-primary)] rounded-full transition-transform ${
-                  privacyMode ? "translate-x-6" : "translate-x-0"
+                className={`absolute top-1 left-1 w-4 h-4 rounded-full transition-transform ${
+                  privacyMode 
+                    ? "translate-x-6 bg-white dark:bg-slate-900" 
+                    : "translate-x-0 bg-white dark:bg-slate-300"
                 }`}
               />
             </button>
@@ -449,12 +453,16 @@ const SettingsPage: React.FC = () => {
             <button
               onClick={() => setNotificationsEnabled(!notificationsEnabled)}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                notificationsEnabled ? "bg-slate-400 dark:bg-slate-600" : "bg-slate-300 dark:bg-slate-700"
+                notificationsEnabled 
+                  ? "bg-slate-900 dark:bg-slate-100" 
+                  : "bg-slate-300 dark:bg-slate-600"
               }`}
             >
               <span
-                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                  notificationsEnabled ? "translate-x-6" : "translate-x-0"
+                className={`absolute top-1 left-1 w-4 h-4 rounded-full transition-transform ${
+                  notificationsEnabled 
+                    ? "translate-x-6 bg-white dark:bg-slate-900" 
+                    : "translate-x-0 bg-white dark:bg-slate-300"
                 }`}
               />
             </button>
