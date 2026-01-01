@@ -3,6 +3,15 @@ import { useGoals, Goal } from "../context/GoalsContext";
 import { useCurrency } from "../context/CurrencyContext";
 import { usePro } from "../context/ProContext";
 import { Card } from "../components/Card";
+import { 
+  Target, 
+  Star, 
+  Plus, 
+  Trash2, 
+  Edit2, 
+  X,
+  AlertCircle
+} from "lucide-react";
 
 const GoalsPage: React.FC = () => {
   const { goals, addGoal, updateGoal, deleteGoal, updateGoalProgress } = useGoals();
@@ -99,7 +108,9 @@ const GoalsPage: React.FC = () => {
   if (!isProUser) {
     return (
       <div className="flex flex-col items-center justify-center min-h-96 text-center">
-        <div className="text-6xl mb-4">🎯</div>
+        <div className="h-20 w-20 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-400 mb-4">
+          <Target size={48} />
+        </div>
         <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-2">
           Financial Goals
         </h2>
@@ -111,9 +122,10 @@ const GoalsPage: React.FC = () => {
             setLockedFeature("Financial goals");
             setShowGoProModal(true);
           }}
-          className="bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors"
+          className="bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors flex items-center gap-2 mx-auto"
         >
-          ⭐ Upgrade to Pro
+          <Star size={18} fill="currentColor" />
+          <span>Upgrade to Pro</span>
         </button>
       </div>
     );
@@ -127,23 +139,29 @@ const GoalsPage: React.FC = () => {
         </h1>
         <button
           onClick={() => handleOpenModal()}
-          className="bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold px-4 py-2 rounded-lg transition-colors"
+          className="bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
         >
-          + New Goal
+          <Plus size={18} />
+          <span>New Goal</span>
         </button>
       </div>
 
       {goals.length === 0 ? (
         <Card className="text-center py-12">
-          <div className="text-4xl mb-4">🎯</div>
+          <div className="flex justify-center mb-4">
+            <div className="h-16 w-16 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-400">
+              <Target size={32} />
+            </div>
+          </div>
           <p className="text-slate-600 dark:text-slate-400 mb-4">
             No goals yet. Create your first savings goal!
           </p>
           <button
             onClick={() => handleOpenModal()}
-            className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
+            className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline flex items-center gap-1 mx-auto"
           >
-            Create a goal
+            <Plus size={16} />
+            <span>Create a goal</span>
           </button>
         </Card>
       ) : (
@@ -173,9 +191,9 @@ const GoalsPage: React.FC = () => {
                   </div>
                   <button
                     onClick={() => deleteGoal(goal.id)}
-                    className="text-red-500 hover:text-red-600 font-semibold"
+                    className="text-slate-400 hover:text-red-500 transition-colors"
                   >
-                    ✕
+                    <Trash2 size={18} />
                   </button>
                 </div>
 
@@ -241,12 +259,13 @@ const GoalsPage: React.FC = () => {
                         Deadline
                       </span>
                       <span
-                        className={`font-semibold ${
+                        className={`font-semibold flex items-center gap-1 ${
                           overdue
                             ? "text-red-600 dark:text-red-400"
                             : "text-slate-900 dark:text-slate-50"
                         }`}
                       >
+                        {overdue && <AlertCircle size={14} />}
                         {new Date(goal.deadline).toLocaleDateString()}
                         {overdue && " (Overdue)"}
                       </span>
@@ -257,9 +276,10 @@ const GoalsPage: React.FC = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleOpenModal(goal)}
-                    className="flex-1 border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-tertiary)] text-slate-900 dark:text-[var(--text-primary)] py-2 rounded-lg font-medium transition-colors"
+                    className="flex-1 border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-tertiary)] text-slate-900 dark:text-[var(--text-primary)] py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
                   >
-                    Edit
+                    <Edit2 size={16} />
+                    <span>Edit</span>
                   </button>
                   <div className="flex-1 flex gap-1">
                     <button
@@ -295,7 +315,7 @@ const GoalsPage: React.FC = () => {
                 onClick={handleCloseModal}
                 className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
               >
-                ✕
+                <X size={20} />
               </button>
             </div>
 

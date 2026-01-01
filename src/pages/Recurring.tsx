@@ -4,30 +4,59 @@ import { useCurrency } from "../context/CurrencyContext";
 import { useCategories } from "../context/CategoriesContext";
 import { useNotifications } from "../context/NotificationsContext";
 import { Card } from "../components/Card";
+import { 
+  Home, 
+  Lightbulb, 
+  ShieldCheck, 
+  Smartphone, 
+  ShoppingCart, 
+  UtensilsCrossed, 
+  Car, 
+  Building2, 
+  CreditCard, 
+  Phone, 
+  BookOpen, 
+  Dumbbell, 
+  Heart, 
+  CircleDollarSign, 
+  Hospital, 
+  Film, 
+  Sparkles, 
+  Dog, 
+  Wrench, 
+  ClipboardList, 
+  Package,
+  Plus,
+  RefreshCw,
+  Edit2,
+  Pause,
+  Trash2,
+  ChevronDown
+} from "lucide-react";
 
 // Recurring-specific categories
 const recurringCategories = [
-  { id: "rec-rent", name: "Rent/Mortgage", icon: "🏠" },
-  { id: "rec-utilities", name: "Utilities", icon: "💡" },
-  { id: "rec-insurance", name: "Insurance", icon: "🛡️" },
-  { id: "rec-subscriptions", name: "Subscriptions", icon: "📱" },
-  { id: "rec-groceries", name: "Groceries", icon: "🛒" },
-  { id: "rec-dining", name: "Dining Out", icon: "🍽️" },
-  { id: "rec-transport", name: "Transportation/Fuel", icon: "🚗" },
-  { id: "rec-loan", name: "Loan Payments", icon: "🏦" },
-  { id: "rec-credit", name: "Credit Card Payments", icon: "💳" },
-  { id: "rec-phone", name: "Phone/Internet Bill", icon: "📞" },
-  { id: "rec-childcare", name: "Childcare/Education", icon: "📚" },
-  { id: "rec-gym", name: "Gym/Fitness", icon: "💪" },
-  { id: "rec-charity", name: "Charitable Donations", icon: "❤️" },
-  { id: "rec-savings", name: "Savings/Investments", icon: "💰" },
-  { id: "rec-health", name: "Health/Medical", icon: "🏥" },
-  { id: "rec-entertainment", name: "Entertainment", icon: "🎬" },
-  { id: "rec-personal", name: "Personal Care", icon: "💅" },
-  { id: "rec-pet", name: "Pet Expenses", icon: "🐾" },
-  { id: "rec-home", name: "Home Maintenance", icon: "🔧" },
-  { id: "rec-taxes", name: "Taxes", icon: "📋" },
-  { id: "rec-other", name: "Other", icon: "📦" },
+  { id: "rec-rent", name: "Rent/Mortgage", icon: <Home size={18} /> },
+  { id: "rec-utilities", name: "Utilities", icon: <Lightbulb size={18} /> },
+  { id: "rec-insurance", name: "Insurance", icon: <ShieldCheck size={18} /> },
+  { id: "rec-subscriptions", name: "Subscriptions", icon: <Smartphone size={18} /> },
+  { id: "rec-groceries", name: "Groceries", icon: <ShoppingCart size={18} /> },
+  { id: "rec-dining", name: "Dining Out", icon: <UtensilsCrossed size={18} /> },
+  { id: "rec-transport", name: "Transportation/Fuel", icon: <Car size={18} /> },
+  { id: "rec-loan", name: "Loan Payments", icon: <Building2 size={18} /> },
+  { id: "rec-credit", name: "Credit Card Payments", icon: <CreditCard size={18} /> },
+  { id: "rec-phone", name: "Phone/Internet Bill", icon: <Phone size={18} /> },
+  { id: "rec-childcare", name: "Childcare/Education", icon: <BookOpen size={18} /> },
+  { id: "rec-gym", name: "Gym/Fitness", icon: <Dumbbell size={18} /> },
+  { id: "rec-charity", name: "Charitable Donations", icon: <Heart size={18} /> },
+  { id: "rec-savings", name: "Savings/Investments", icon: <CircleDollarSign size={18} /> },
+  { id: "rec-health", name: "Health/Medical", icon: <Hospital size={18} /> },
+  { id: "rec-entertainment", name: "Entertainment", icon: <Film size={18} /> },
+  { id: "rec-personal", name: "Personal Care", icon: <Sparkles size={18} /> },
+  { id: "rec-pet", name: "Pet Expenses", icon: <Dog size={18} /> },
+  { id: "rec-home", name: "Home Maintenance", icon: <Wrench size={18} /> },
+  { id: "rec-taxes", name: "Taxes", icon: <ClipboardList size={18} /> },
+  { id: "rec-other", name: "Other", icon: <Package size={18} /> },
 ];
 
 const RecurringPage: React.FC = () => {
@@ -119,7 +148,7 @@ const RecurringPage: React.FC = () => {
   };
 
   const getCategoryInfo = (catId: string) => {
-    return recurringCategories.find(c => c.id === catId) ?? { id: catId, name: catId, icon: "📄" };
+    return recurringCategories.find(c => c.id === catId) ?? { id: catId, name: catId, icon: <Package size={18} /> };
   };
 
   const getFrequencyLabel = (freq: RecurringPayment["frequency"]) => {
@@ -168,7 +197,11 @@ const RecurringPage: React.FC = () => {
       </div>
 
       <Card className="text-center py-16">
-        <div className="text-5xl mb-4">🔄</div>
+        <div className="flex justify-center mb-4">
+          <div className="h-16 w-16 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-400">
+            <RefreshCw size={32} />
+          </div>
+        </div>
         <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">
           No recurring payments yet
         </h3>
@@ -179,14 +212,15 @@ const RecurringPage: React.FC = () => {
           onClick={openAddModal}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
         >
-          <span>➕</span>
+          <Plus size={18} />
           <span>Add Your First Payment</span>
         </button>
       </Card>
 
       <Card>
-        <h4 className="text-sm font-medium text-slate-900 dark:text-slate-50 mb-3">
-          💡 Tips
+        <h4 className="text-sm font-medium text-slate-900 dark:text-slate-50 mb-3 flex items-center gap-2">
+          <Lightbulb size={16} className="text-amber-500" />
+          <span>Tips</span>
         </h4>
         <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-2">
           <li>• Track subscriptions like Netflix, Spotify, or gym memberships</li>
@@ -209,9 +243,10 @@ const RecurringPage: React.FC = () => {
         </div>
         <button
           onClick={openAddModal}
-          className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
         >
-          + Add Payment
+          <Plus size={16} />
+          <span>Add Payment</span>
         </button>
       </div>
 
@@ -245,7 +280,7 @@ const RecurringPage: React.FC = () => {
               
               return (
                 <Card key={payment.id} className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-lg">
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-500 dark:text-slate-400">
                     {cat.icon}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -276,21 +311,21 @@ const RecurringPage: React.FC = () => {
                       className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[var(--bg-secondary)] text-slate-500 dark:text-[var(--text-paragraph)]"
                       title="Edit"
                     >
-                      ✏️
+                      <Edit2 size={16} />
                     </button>
                     <button
                       onClick={() => togglePayment(payment.id)}
                       className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[var(--bg-secondary)] text-slate-500 dark:text-[var(--text-paragraph)]"
                       title="Pause"
                     >
-                      ⏸️
+                      <Pause size={16} />
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(payment.id)}
                       className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500"
                       title="Delete"
                     >
-                      🗑️
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </Card>
@@ -311,7 +346,7 @@ const RecurringPage: React.FC = () => {
               
               return (
                 <Card key={payment.id} className="flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-lg">
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-500 dark:text-slate-400">
                     {cat.icon}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -402,32 +437,42 @@ const RecurringPage: React.FC = () => {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                   Frequency
                 </label>
-                <select
-                  value={frequency}
-                  onChange={(e) => setFrequency(e.target.value as RecurringPayment["frequency"])}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                >
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={frequency}
+                    onChange={(e) => setFrequency(e.target.value as RecurringPayment["frequency"])}
+                    className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none"
+                  >
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                    <ChevronDown size={16} />
+                  </div>
+                </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                   Category
                 </label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                >
-                  {recurringCategories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.icon} {cat.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none"
+                  >
+                    {recurringCategories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                    <ChevronDown size={16} />
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center justify-between">
@@ -451,7 +496,10 @@ const RecurringPage: React.FC = () => {
               </div>
 
               <div className="bg-slate-50 dark:bg-[var(--bg-secondary)] rounded-xl p-3">
-                <h4 className="text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">💡 Payment Tips</h4>
+                <h4 className="text-xs font-medium text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+                  <Lightbulb size={12} className="text-amber-500" />
+                  <span>Payment Tips</span>
+                </h4>
                 <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
                   <li>• Set due dates a few days before the actual due date for reminders</li>
                   <li>• Use descriptive names to easily identify payments</li>
@@ -515,3 +563,4 @@ const RecurringPage: React.FC = () => {
 };
 
 export default RecurringPage;
+

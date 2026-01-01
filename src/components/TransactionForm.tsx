@@ -6,6 +6,7 @@ import {
 } from "../types";
 import { useTheme } from "../context/ThemeContext";
 import { useCurrency } from "../context/CurrencyContext";
+import { Plus, Edit2, X, ChevronDown } from "lucide-react";
 
 interface Props {
   onSubmit: (tx: Omit<Transaction, "id">) => void;
@@ -120,6 +121,7 @@ const TransactionForm: React.FC<Props> = ({
       category,
       date,
       description: description.trim(),
+      accountId: "default",
       currency,
       tags: tags.length > 0 ? tags : undefined
     });
@@ -201,17 +203,22 @@ const TransactionForm: React.FC<Props> = ({
         </div>
         <div className="space-y-1">
           <label className="text-xs text-slate-600 dark:text-[var(--text-paragraph)]">Category</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value as TransactionCategory)}
-            className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
-          >
-            {categories.map((c) => (
-              <option key={c.value} value={c.value}>
-                {c.label}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value as TransactionCategory)}
+              className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)] appearance-none"
+            >
+              {categories.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.label}
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+              <ChevronDown size={14} />
+            </div>
+          </div>
           {errors.category && (
             <p className="text-[11px] text-rose-500 dark:text-[var(--danger-text)]">{errors.category}</p>
           )}
@@ -256,9 +263,9 @@ const TransactionForm: React.FC<Props> = ({
               <button
                 type="button"
                 onClick={() => handleRemoveTag(tag)}
-                className="hover:text-emerald-900 dark:hover:text-[var(--brand-secondary)] font-bold"
+                className="hover:text-emerald-900 dark:hover:text-[var(--brand-secondary)]"
               >
-                ✕
+                <X size={10} />
               </button>
             </div>
           ))}
@@ -280,18 +287,20 @@ const TransactionForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => handleAddTag(tagsInput)}
-            className="px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[var(--brand-primary)]/10 text-emerald-700 dark:text-[var(--brand-primary)] text-xs font-medium hover:bg-emerald-200 dark:hover:bg-[var(--brand-primary)]/20"
+            className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[var(--brand-primary)]/10 text-emerald-700 dark:text-[var(--brand-primary)] text-xs font-medium hover:bg-emerald-200 dark:hover:bg-[var(--brand-primary)]/20"
           >
-            Add
+            <Plus size={14} />
+            <span>Add</span>
           </button>
         </div>
       </div>
       <div className="flex justify-end pt-1">
           <button
           type="submit"
-          className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-100 dark:hover:bg-gray-200 text-slate-900 dark:text-slate-900 text-xs font-semibold shadow-sm transition-colors"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-100 dark:hover:bg-gray-200 text-slate-900 dark:text-slate-900 text-xs font-semibold shadow-sm transition-colors"
         >
-          {isEditing ? "Save changes" : "Add transaction"}
+          {isEditing ? <Edit2 size={14} /> : <Plus size={14} />}
+          <span>{isEditing ? "Save changes" : "Add transaction"}</span>
         </button>
       </div>
     </form>

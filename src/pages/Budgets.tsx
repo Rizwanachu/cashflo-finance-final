@@ -5,6 +5,14 @@ import { useCurrency } from "../context/CurrencyContext";
 import { useCategories } from "../context/CategoriesContext";
 import { useNotifications } from "../context/NotificationsContext";
 import { Card } from "../components/Card";
+import { CategoryIcon } from "../components/CategoryIcon";
+import { 
+  Target, 
+  Plus, 
+  Lightbulb, 
+  Wallet,
+  ChevronDown
+} from "lucide-react";
 
 type BudgetPeriod = "weekly" | "monthly" | "yearly";
 
@@ -160,7 +168,11 @@ const BudgetsPage: React.FC = () => {
       </div>
 
       <Card className="text-center py-16">
-        <div className="text-5xl mb-4">🎯</div>
+        <div className="flex justify-center mb-4">
+          <div className="h-16 w-16 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-400">
+            <Target size={32} />
+          </div>
+        </div>
         <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-2">
           No budgets created yet
         </h3>
@@ -171,14 +183,15 @@ const BudgetsPage: React.FC = () => {
           onClick={openCreateModal}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
         >
-          <span>➕</span>
+          <Plus size={18} />
           <span>Create Your First Budget</span>
         </button>
       </Card>
 
       <Card>
-        <h4 className="text-sm font-medium text-slate-900 dark:text-slate-50 mb-3">
-          💡 Budget Tips
+        <h4 className="text-sm font-medium text-slate-900 dark:text-slate-50 mb-3 flex items-center gap-2">
+          <Lightbulb size={16} className="text-amber-500" />
+          <span>Budget Tips</span>
         </h4>
         <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-2">
           <li>• Start with essential categories like Housing, Groceries, and Transportation</li>
@@ -201,9 +214,10 @@ const BudgetsPage: React.FC = () => {
         </div>
         <button
           onClick={openCreateModal}
-          className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-medium transition-colors"
         >
-          + Add Budget
+          <Plus size={16} />
+          <span>Add Budget</span>
         </button>
       </div>
 
@@ -211,8 +225,8 @@ const BudgetsPage: React.FC = () => {
         <Card>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-lg flex-shrink-0">
-                💰
+              <div className="h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                <Wallet size={20} />
               </div>
               <div className="min-w-0">
                 <h3 className="text-sm font-medium text-slate-900 dark:text-slate-50">
@@ -265,10 +279,10 @@ const BudgetsPage: React.FC = () => {
                 <Card key={cat.id}>
                   <div className="flex items-center gap-3 mb-4">
                     <div 
-                      className="h-10 w-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
-                      style={{ backgroundColor: cat.color + "20" }}
+                      className="h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ backgroundColor: cat.color + "20", color: cat.color }}
                     >
-                      {cat.icon}
+                      <CategoryIcon icon={cat.icon} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 justify-between mb-1">
@@ -324,7 +338,7 @@ const BudgetsPage: React.FC = () => {
                   }}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-400 hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                 >
-                  <span>{cat.icon}</span>
+                  <span className="opacity-70"><CategoryIcon icon={cat.icon} /></span>
                   <span>{cat.name}</span>
                 </button>
               ))}
@@ -350,21 +364,26 @@ const BudgetsPage: React.FC = () => {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                   Category
                 </label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                >
-                  <option value="">Select category...</option>
-                  <option value="overall">💰 Overall Budget</option>
-                  {categories
-                    .filter(c => c.id !== "cat-income")
-                    .map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.icon} {cat.name}
-                      </option>
-                    ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none"
+                  >
+                    <option value="">Select category...</option>
+                    <option value="overall">Overall Budget</option>
+                    {categories
+                      .filter(c => c.id !== "cat-income")
+                      .map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                    <ChevronDown size={16} />
+                  </div>
+                </div>
               </div>
 
               <div>
@@ -389,19 +408,27 @@ const BudgetsPage: React.FC = () => {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                   Period
                 </label>
-                <select
-                  value={budgetPeriod}
-                  onChange={(e) => setBudgetPeriod(e.target.value as BudgetPeriod)}
-                  className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                >
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={budgetPeriod}
+                    onChange={(e) => setBudgetPeriod(e.target.value as BudgetPeriod)}
+                    className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none"
+                  >
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                    <ChevronDown size={16} />
+                  </div>
+                </div>
               </div>
 
               <div className="bg-slate-50 dark:bg-[var(--bg-secondary)] rounded-xl p-3">
-                <h4 className="text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">💡 Tips</h4>
+                <h4 className="text-xs font-medium text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+                  <Lightbulb size={12} className="text-amber-500" />
+                  <span>Tips</span>
+                </h4>
                 <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
                   <li>• You'll be notified when you reach 80% of your budget</li>
                   <li>• Budgets reset automatically each {budgetPeriod === "weekly" ? "week" : budgetPeriod === "monthly" ? "month" : "year"}</li>
@@ -433,3 +460,4 @@ const BudgetsPage: React.FC = () => {
 };
 
 export default BudgetsPage;
+

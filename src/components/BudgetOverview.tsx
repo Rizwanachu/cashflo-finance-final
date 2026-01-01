@@ -3,6 +3,8 @@ import { useBudgets } from "../context/BudgetContext";
 import { useTransactionsContext } from "../context/TransactionsContext";
 import { TransactionCategory } from "../types";
 import { useCurrency } from "../context/CurrencyContext";
+import { useCategories } from "../context/CategoriesContext";
+import { CategoryIcon } from "./CategoryIcon";
 
 const categoryLabel: Record<TransactionCategory, string> = {
   rent: "Home Rent",
@@ -16,6 +18,7 @@ const BudgetOverview: React.FC = () => {
   const { budgets, setOverallBudget, setCategoryBudget } = useBudgets();
   const { transactions } = useTransactionsContext();
   const { formatAmount } = useCurrency();
+  const { getCategory } = useCategories();
   const [overallInput, setOverallInput] = useState(
     budgets.overall ? budgets.overall.toString() : ""
   );
@@ -125,6 +128,7 @@ const BudgetOverview: React.FC = () => {
               limit && limit > 0
                 ? Math.min(100, Math.round((spent / limit) * 100))
                 : 0;
+            const category = getCategory(cat);
 
             return (
               <div
@@ -132,9 +136,10 @@ const BudgetOverview: React.FC = () => {
                 className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs flex flex-col gap-1 dark:bg-[var(--bg-secondary)] dark:border-[var(--border-subtle)]"
               >
                 <div className="flex justify-between items-center">
-                  <span className="font-medium text-slate-600 dark:text-[var(--text-secondary)]">
-                    {categoryLabel[cat]}
-                  </span>
+                  <div className="flex items-center gap-1.5 font-medium text-slate-600 dark:text-[var(--text-secondary)]">
+                    {category && <CategoryIcon icon={category.icon} size={12} className="opacity-70" />}
+                    <span>{category?.name ?? categoryLabel[cat]}</span>
+                  </div>
                   <span className="text-[11px] text-slate-500 dark:text-[var(--text-muted)]">
                     {limit
                       ? `${percent}% • ${formatAmount(
