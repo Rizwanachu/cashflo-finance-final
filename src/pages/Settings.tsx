@@ -540,16 +540,16 @@ const SettingsPage: React.FC = () => {
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
           Data Management
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div>
             <button
               onClick={handleExportBackup}
-              className="w-full px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
+              className="w-full px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors flex items-center justify-center gap-2"
             >
-              📤 Export Backup
+              <Upload className="w-4 h-4" /> Export Spendory Backup
             </button>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Download all your data as a JSON file
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 text-center">
+              Download all your data as a Spendory JSON file
             </p>
           </div>
           <div>
@@ -562,14 +562,20 @@ const SettingsPage: React.FC = () => {
             />
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-2"
             >
-              📥 Import Backup
+              <Download className="w-4 h-4" /> Import Spendory Backup
             </button>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Restore data from a backup file
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 text-center">
+              Restore data from a Spendory backup file
             </p>
           </div>
+          <button
+            onClick={() => setShowResetModal(true)}
+            className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-[var(--danger-bg)] text-red-600 dark:text-[var(--danger-text)] text-sm font-medium hover:bg-red-50 dark:hover:bg-[var(--danger-bg)]/20 transition-colors flex items-center justify-center gap-2 mt-2"
+          >
+            <Trash2 className="w-4 h-4" /> Factory Reset
+          </button>
         </div>
       </Card>
 

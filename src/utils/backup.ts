@@ -55,7 +55,7 @@ export function exportBackup(): BackupData | null {
   const link = document.createElement("a");
   link.href = url;
   const date = new Date().toISOString().slice(0, 10);
-  link.setAttribute("download", `ledgerly-backup-${date}.json`);
+  link.setAttribute("download", `spendory-backup-${date}.json`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
