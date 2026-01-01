@@ -1,0 +1,188 @@
+You are rebuilding the Spendory backup & restore system from scratch.
+
+ABSOLUTE RULES:
+- DELETE the entire existing backup and restore implementation
+- REMOVE all JSON-based backup/restore logic
+- DO NOT reuse or modify old code
+- DO NOT attempt compatibility with old backup files
+- DO NOT change any existing app functionality outside backup/export/import
+- DO NOT change UI styling except where explicitly required
+- This must be reliable, predictable, and impossible to silently fail
+
+────────────────────────────────
+NEW BACKUP SYSTEM – DESIGN
+────────────────────────────────
+
+Backup formats supported:
+1. CSV (PRIMARY – used for restore)
+2. PDF (SECONDARY – human-readable, NOT used for restore)
+
+CSV is the ONLY restorable format.
+PDF is for viewing and archiving only.
+
+────────────────────────────────
+CSV BACKUP STRUCTURE (MANDATORY)
+────────────────────────────────
+
+Export ONE ZIP file containing these CSV files:
+
+1. metadata.csv
+   - app_name
+   - app_version
+   - export_timestamp
+   - currency
+   - privacy_mode
+   - onboarding_completed
+
+2. accounts.csv
+   - id
+   - name
+   - type
+   - currency
+   - balance
+
+3. categories.csv
+   - id
+   - name
+   - icon
+   - color
+   - is_default
+
+4. transactions.csv
+   - id
+   - type (income/expense)
+   - amount
+   - currency
+   - category_id
+   - account_id
+   - date (ISO)
+   - description
+   - is_recurring
+
+5. budgets.csv
+   - category_id
+   - limit_amount
+
+6. recurring.csv
+   - id
+   - description
+   - amount
+   - currency
+   - category_id
+   - frequency
+   - next_due_date
+   - is_active
+
+7. notifications.csv
+   - enabled
+
+ALL DATA MUST BE EXPORTED.
+NO DERIVED OR COMPUTED VALUES.
+NO UI-ONLY DATA.
+
+────────────────────────────────
+EXPORT REQUIREMENTS
+────────────────────────────────
+
+- Read ONLY from the canonical Spendory localStorage keys
+- Convert data into CSV safely (escape commas, quotes, newlines)
+- Bundle CSVs into a ZIP named:
+  spendory-backup-YYYY-MM-DD.zip
+- Export must NEVER mutate app state
+- If any section is empty, still export CSV with headers
+
+────────────────────────────────
+RESTORE REQUIREMENTS (CSV ONLY)
+────────────────────────────────
+
+- Accept ONLY the ZIP created by Spendory
+- Reject JSON, loose CSVs, or malformed files
+- Validate ALL required CSVs exist before restoring
+- Parse CSVs strictly (fail loudly on invalid structure)
+- Restore order MUST be:
+
+  1. categories
+  2. accounts
+  3. transactions
+  4. budgets
+  5. recurring
+  6. notifications
+  7. metadata
+
+────────────────────────────────
+CRITICAL SAFETY RULES
+────────────────────────────────
+
+- NO page reload during restore
+- NO context initialization during restore
+- NO default seeding during restore
+- NO recalculation during restore
+- NO clearing storage until ALL CSVs are validated
+
+Use a global lock:
+localStorage.setItem("spendory-restore-active", "true")
+
+Contexts MUST:
+- Skip initialization if restore-active is true
+- Rehydrate ONLY after restore completes
+
+After restore:
+- Remove restore lock
+- Trigger a single controlled rehydrate event
+- THEN allow normal app behavior
+
+────────────────────────────────
+PDF EXPORT (VIEW ONLY)
+────────────────────────────────
+
+Generate a clean, printable PDF containing:
+- App name + export timestamp
+- Accounts summary
+- Category list
+- Transaction table
+- Budgets
+- Recurring items
+
+PDF is NOT used for restore.
+PDF must NOT be parsed back.
+
+────────────────────────────────
+UX REQUIREMENTS
+────────────────────────────────
+
+- Export screen:
+  "Download Backup (ZIP)"
+  "Download PDF Summary"
+
+- Restore screen:
+  "Restore from Spendory Backup ZIP"
+  Show:
+    - Validating…
+    - Restoring categories…
+    - Restoring transactions…
+    - Restore complete
+
+- If restore fails:
+  Show exact error
+  DO NOT wipe existing data
+
+────────────────────────────────
+FINAL VALIDATION (MANDATORY)
+────────────────────────────────
+
+1. Add data to app
+2. Export backup ZIP
+3. Clear localStorage
+4. Restore from ZIP
+5. Verify:
+   - Transactions restored
+   - Budgets restored
+   - Categories restored
+   - Accounts restored
+6. Refresh page → data persists
+7. Close tab → reopen → data persists
+
+If ANY data is missing, the restore is considered FAILED.
+
+Proceed carefully.
+Build this as a clean, independent system.
