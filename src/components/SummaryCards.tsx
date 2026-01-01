@@ -3,6 +3,7 @@ import { Transaction } from "../types";
 import { useCurrency } from "../context/CurrencyContext";
 import { usePrivacy } from "../context/PrivacyContext";
 import { formatAmountWithPrivacy } from "../utils/privacy";
+import { Wallet, TrendingUp, TrendingDown } from "lucide-react";
 
 interface Props {
   transactions: Transaction[];
@@ -33,8 +34,8 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
           <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-[var(--text-muted)]">
             Total Balance
           </span>
-          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-gray-100 text-white dark:text-slate-900 flex items-center justify-center text-xs">
-            $
+          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-gray-100 text-white dark:text-slate-900 flex items-center justify-center">
+            <Wallet size={14} />
           </span>
         </div>
         <div className="text-2xl font-semibold text-slate-900 dark:text-[var(--text-primary)]">
@@ -49,8 +50,8 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
           <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-[var(--text-muted)]">
             Total Income
           </span>
-          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-gray-100 text-white dark:text-slate-900 flex items-center justify-center text-xs">
-            +
+          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-gray-100 text-white dark:text-slate-900 flex items-center justify-center">
+            <TrendingUp size={14} />
           </span>
         </div>
         <div className="text-2xl font-semibold text-slate-900 dark:text-[var(--text-primary)]">
@@ -65,8 +66,8 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
           <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-[var(--text-muted)]">
             Total Expenses
           </span>
-          <span className="h-7 w-7 rounded-xl bg-red-600 dark:bg-[var(--danger-text)] text-white dark:text-[var(--danger-bg)] flex items-center justify-center text-xs">
-            −
+          <span className="h-7 w-7 rounded-xl bg-red-600 dark:bg-[var(--danger-text)] text-white dark:text-[var(--danger-bg)] flex items-center justify-center">
+            <TrendingDown size={14} />
           </span>
         </div>
         <div className="text-2xl font-semibold text-red-600 dark:text-[var(--danger-text)]">

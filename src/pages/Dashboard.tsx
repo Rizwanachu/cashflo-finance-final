@@ -13,6 +13,14 @@ import ProUserDelight from "../components/ProUserDelight";
 import { Card, ChartContainer } from "../components/Card";
 import { Transaction } from "../types";
 import { formatCurrencyWithPrivacy } from "../utils/privacy";
+import { 
+  Plus, 
+  Wallet, 
+  BarChart3, 
+  TrendingUp, 
+  ArrowUpRight, 
+  ArrowDownLeft 
+} from "lucide-react";
 
 const Dashboard: React.FC = () => {
   const { transactions } = useTransactionsContext();
@@ -85,7 +93,11 @@ const Dashboard: React.FC = () => {
         
         {/* Welcome CTA */}
         <Card className="text-center py-12">
-          <div className="text-4xl mb-4">💰</div>
+          <div className="flex justify-center mb-4">
+            <div className="h-16 w-16 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-900 dark:text-[var(--text-primary)]">
+              <Wallet size={32} />
+            </div>
+          </div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-[var(--text-primary)] mb-2">
             Welcome to Spendory
           </h2>
@@ -96,7 +108,7 @@ const Dashboard: React.FC = () => {
             to="/transactions"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 dark:text-slate-900 text-sm font-medium transition-colors"
           >
-            <span>➕</span>
+            <Plus size={18} />
             <span>Add your first {currency} transaction</span>
           </Link>
         </Card>
@@ -116,7 +128,9 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="h-[150px] sm:h-[180px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
               <div className="text-center">
-                <div className="text-2xl mb-2">📊</div>
+                <div className="flex justify-center mb-2 text-slate-400">
+                  <BarChart3 size={32} />
+                </div>
                 <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No {currency} data yet</p>
               </div>
             </div>
@@ -135,7 +149,9 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="h-[150px] sm:h-[180px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
               <div className="text-center">
-                <div className="text-2xl mb-2">📈</div>
+                <div className="flex justify-center mb-2 text-slate-400">
+                  <TrendingUp size={32} />
+                </div>
                 <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No {currency} data yet</p>
               </div>
             </div>
@@ -245,8 +261,8 @@ const Dashboard: React.FC = () => {
           <ul className="divide-y divide-slate-200 dark:divide-[var(--border-subtle)] text-sm">
             {recentTransactions.map((t) => (
               <li key={t.id} className="py-2.5 flex items-center gap-3">
-                <div className="h-9 w-9 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-xs">
-                  {t.type === "income" ? "⬆" : "⬇"}
+                <div className="h-9 w-9 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-slate-500 dark:text-[var(--text-muted)]">
+                  {t.type === "income" ? <ArrowUpRight size={14} /> : <ArrowDownLeft size={14} />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-center gap-2">

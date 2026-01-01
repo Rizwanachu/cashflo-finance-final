@@ -1,6 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { usePro } from "../context/ProContext";
+import { 
+  LayoutDashboard, 
+  CreditCard, 
+  Target, 
+  Star, 
+  RefreshCw, 
+  BarChart3, 
+  Settings, 
+  CircleDollarSign 
+} from "lucide-react";
 
 const Sidebar: React.FC = () => {
   const { isProUser, setShowGoProModal } = usePro();
@@ -32,8 +42,8 @@ const Sidebar: React.FC = () => {
           end
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            🏠
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <LayoutDashboard size={14} />
           </span>
           <span>Dashboard</span>
         </NavLink>
@@ -41,8 +51,8 @@ const Sidebar: React.FC = () => {
           to="/transactions"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            💳
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <CreditCard size={14} />
           </span>
           <span>Transactions</span>
         </NavLink>
@@ -50,8 +60,8 @@ const Sidebar: React.FC = () => {
           to="/budgets"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            🎯
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <Target size={14} />
           </span>
           <span>Budgets</span>
         </NavLink>
@@ -59,8 +69,8 @@ const Sidebar: React.FC = () => {
           to="/goals"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            ⭐
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <Star size={14} />
           </span>
           <span>Goals</span>
         </NavLink>
@@ -68,8 +78,8 @@ const Sidebar: React.FC = () => {
           to="/recurring"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            🔄
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <RefreshCw size={14} />
           </span>
           <span>Recurring</span>
         </NavLink>
@@ -77,8 +87,8 @@ const Sidebar: React.FC = () => {
           to="/analytics"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            📊
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <BarChart3 size={14} />
           </span>
           <span>Analytics</span>
         </NavLink>
@@ -86,8 +96,8 @@ const Sidebar: React.FC = () => {
           to="/settings"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            ⚙️
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <Settings size={14} />
           </span>
           <span>Settings</span>
         </NavLink>
@@ -95,8 +105,8 @@ const Sidebar: React.FC = () => {
           to="/pricing"
           className={({ isActive }) => (isActive ? active : inactive)}
         >
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20 text-xs">
-            💰
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
+            <CircleDollarSign size={14} />
           </span>
           <span>Pricing</span>
         </NavLink>
@@ -106,9 +116,10 @@ const Sidebar: React.FC = () => {
         <div className="px-4 py-3 border-t border-slate-200 dark:border-[var(--border-subtle)]">
           <button
             onClick={() => setShowGoProModal(true)}
-            className="w-full bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm"
+            className="w-full bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-semibold py-2.5 rounded-lg transition-all shadow-sm flex items-center justify-center gap-2"
           >
-            ⭐ Spendory Pro
+            <Star size={14} fill="currentColor" />
+            <span>Spendory Pro</span>
           </button>
         </div>
       )}
