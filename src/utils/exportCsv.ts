@@ -28,6 +28,20 @@ function escapeCsvValue(value: string): string {
   return value;
 }
 
+function getCurrencySymbol(currency: CurrencyCode): string {
+  switch (currency) {
+    case "USD": return "$";
+    case "EUR": return "€";
+    case "GBP": return "£";
+    case "INR": return "₹";
+    case "JPY": return "¥";
+    case "BRL": return "R$";
+    case "CAD": return "C$";
+    case "AUD": return "A$";
+    default: return "$";
+  }
+}
+
 /**
  * Export transactions to CSV with properly formatted dates
  */
@@ -39,10 +53,10 @@ export function exportTransactionsToCsv(
     return;
   }
 
+  const symbol = getCurrencySymbol(currency);
   const now = new Date();
   const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
-  const header = ["Date", "Type", "Category", "Amount", "Note"];
   const rows = transactions.map((t) => [
     formatDateForCsv(t.date),
     t.type.charAt(0).toUpperCase() + t.type.slice(1),
@@ -51,8 +65,11 @@ export function exportTransactionsToCsv(
     t.description || ""
   ]);
 
+  const symbolStr = `Amount (${symbol})`;
+  const finalHeader = ["Date", "Type", "Category", symbolStr, "Note"];
+
   const csvContent =
-    [header, ...rows]
+    [finalHeader, ...rows]
       .map((row) => row.map((cell) => escapeCsvValue(String(cell))).join(","))
       .join("\n");
 
@@ -88,10 +105,10 @@ export function exportTransactionsToPdf(
   const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
   // Set theme colors
-  const textColor = theme === "dark" ? [248, 250, 252] : [15, 23, 42];
-  const bgColor = theme === "dark" ? [2, 6, 23] : [255, 255, 255];
-  const headerBgColor = theme === "dark" ? [30, 41, 59] : [241, 245, 249];
-  const borderColor = theme === "dark" ? [51, 65, 85] : [226, 232, 240];
+  const textColor: [number, number, number] = theme === "dark" ? [248, 250, 252] : [15, 23, 42];
+  const bgColor: [number, number, number] = theme === "dark" ? [2, 6, 23] : [255, 255, 255];
+  const headerBgColor: [number, number, number] = theme === "dark" ? [30, 41, 59] : [241, 245, 249];
+  const borderColor: [number, number, number] = theme === "dark" ? [51, 65, 85] : [226, 232, 240];
 
   // Title
   doc.setFontSize(18);
@@ -122,7 +139,7 @@ export function exportTransactionsToPdf(
     }),
     t.type.charAt(0).toUpperCase() + t.type.slice(1),
     t.category.charAt(0).toUpperCase() + t.category.slice(1),
-    `${currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : "£"}${t.amount.toFixed(2)}`,
+    `${getCurrencySymbol(currency)}${t.amount.toFixed(2)}`,
     t.description || "-"
   ]);
 
@@ -135,8 +152,7 @@ export function exportTransactionsToPdf(
     .reduce((sum, t) => sum + t.amount, 0);
   const balance = totalIncome - totalExpense;
 
-  const currencySymbol =
-    currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : "£";
+  const currencySymbol = getCurrencySymbol(currency);
 
   // Add table
   autoTable(doc, {
@@ -204,7 +220,8 @@ export function exportBudgetsToCsv(
     const spent = spending["overall"] ?? 0;
     const remaining = budgets.overall - spent;
     const status = spent >= budgets.overall ? "Over Budget" : spent >= budgets.overall * 0.8 ? "Near Limit" : "On Track";
-    rows.push(["Overall", budgets.overall.toString(), spent.toString(), remaining.toString(), status]);
+    const symbol = getCurrencySymbol(currency);
+    rows.push(["Overall", `${symbol}${budgets.overall}`, `${symbol}${spent}`, `${symbol}${remaining}`, status]);
   }
 
   // Category budgets
@@ -214,7 +231,8 @@ export function exportBudgetsToCsv(
       const spent = spending[catId] ?? 0;
       const remaining = limit - spent;
       const status = spent >= limit ? "Over Budget" : spent >= limit * 0.8 ? "Near Limit" : "On Track";
-      rows.push([cat?.name ?? catId, limit.toString(), spent.toString(), remaining.toString(), status]);
+      const symbol = getCurrencySymbol(currency);
+      rows.push([cat?.name ?? catId, `${symbol}${limit}`, `${symbol}${spent}`, `${symbol}${remaining}`, status]);
     }
   });
 
@@ -249,9 +267,10 @@ export function exportRecurringToCsv(
   const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
   const header = ["Description", "Amount", "Frequency", "Next Due Date", "Category", "Status"];
+  const symbol = getCurrencySymbol(currency);
   const rows = payments.map((p) => [
     p.description,
-    p.amount.toString(),
+    `${symbol}${p.amount}`,
     p.frequency.charAt(0).toUpperCase() + p.frequency.slice(1),
     formatDateForCsv(p.nextDueDate),
     p.category,
