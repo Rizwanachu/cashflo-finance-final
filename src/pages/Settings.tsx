@@ -191,7 +191,7 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("light")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                   theme === "light"
-                    ? "bg-emerald-500 text-white"
+                    ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
                     : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
@@ -201,7 +201,7 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("dark")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                   theme === "dark"
-                    ? "bg-emerald-500 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)]"
+                    ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
                     : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
@@ -211,7 +211,7 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("system")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                   theme === "system"
-                    ? "bg-emerald-500 dark:bg-[var(--brand-primary)] text-white dark:text-[var(--bg-primary)]"
+                    ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
                     : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
@@ -237,7 +237,7 @@ const SettingsPage: React.FC = () => {
             <button
               onClick={togglePrivacyMode}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                privacyMode ? "bg-emerald-500 dark:bg-[var(--brand-primary)]" : "bg-slate-300 dark:bg-[var(--bg-secondary)]"
+                privacyMode ? "bg-slate-400 dark:bg-slate-600" : "bg-slate-300 dark:bg-[var(--bg-secondary)]"
               }`}
             >
               <span
@@ -263,7 +263,7 @@ const SettingsPage: React.FC = () => {
                 </p>
                 <button
                   onClick={() => setShowPinSetup(!showPinSetup)}
-                  className="w-full px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-medium transition-colors"
+                  className="w-full px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
                 >
                   Set PIN
                 </button>
@@ -298,7 +298,7 @@ const SettingsPage: React.FC = () => {
                       </button>
                       <button
                         onClick={handleSetPin}
-                        className="flex-1 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 dark:bg-[var(--brand-primary)] dark:hover:bg-[var(--brand-secondary)] text-white dark:text-[var(--bg-primary)] text-sm font-medium transition-colors"
+                        className="flex-1 px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
                       >
                         Confirm
                       </button>
@@ -414,12 +414,12 @@ const SettingsPage: React.FC = () => {
             {permissionStatus !== 'granted' ? (
               <button
                 onClick={requestPermission}
-                className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg transition-colors"
+                className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-xs font-semibold rounded-lg transition-colors"
               >
                 Enable
               </button>
             ) : (
-              <span className="text-emerald-500 text-xs font-medium">Granted</span>
+              <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">Granted</span>
             )}
           </div>
 
@@ -435,7 +435,7 @@ const SettingsPage: React.FC = () => {
             <button
               onClick={() => setNotificationsEnabled(!notificationsEnabled)}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                notificationsEnabled ? "bg-emerald-500" : "bg-slate-300 dark:bg-slate-700"
+                notificationsEnabled ? "bg-slate-400 dark:bg-slate-600" : "bg-slate-300 dark:bg-slate-700"
               }`}
             >
               <span
@@ -540,7 +540,7 @@ const SettingsPage: React.FC = () => {
           <div>
             <button
               onClick={handleExportBackup}
-              className="w-full px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
+              className="w-full px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
             >
               📤 Export Backup
             </button>
