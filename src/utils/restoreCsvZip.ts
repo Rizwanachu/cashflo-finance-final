@@ -152,10 +152,15 @@ export async function restoreFromCsvZip(zipFile: File): Promise<{ success: boole
           break;
         case "budgets":
           const budgets: Record<string, number> = {};
+          let overall: number | null = null;
           rows.forEach(r => {
-            budgets[r.categoryId] = Number(r.limit);
+            if (r.categoryId === "overall") {
+              overall = Number(r.limit);
+            } else {
+              budgets[r.categoryId] = Number(r.limit);
+            }
           });
-          staging[STORAGE_KEYS.budgets] = { perCategory: budgets };
+          staging[STORAGE_KEYS.budgets] = { overall, perCategory: budgets };
           break;
         case "recurring":
           staging[STORAGE_KEYS.recurring] = rows.map(r => ({

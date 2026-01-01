@@ -89,13 +89,31 @@ export async function exportZipBackup() {
   
   // 3. Budgets
   const budgetsRaw = localStorage.getItem(STORAGE_KEYS.budgets);
-  const budgetsData = budgetsRaw ? JSON.parse(budgetsRaw) : { perCategory: {} };
-  const budgetsRows = Object.entries(budgetsData.perCategory || {}).map(([catId, amount]) => ({
-    id: `budget-${catId}`,
-    categoryId: catId,
-    limit: amount,
-    period: "monthly"
-  }));
+  const budgetsData = budgetsRaw ? JSON.parse(budgetsRaw) : { overall: null, perCategory: {} };
+  
+  // Create budget rows, including overall budget if it exists
+  const budgetsRows: any[] = [];
+  
+  // Add overall budget as a special row
+  if (budgetsData.overall !== null && budgetsData.overall !== undefined) {
+    budgetsRows.push({
+      id: "budget-overall",
+      categoryId: "overall",
+      limit: budgetsData.overall,
+      period: "monthly"
+    });
+  }
+  
+  // Add category budgets
+  Object.entries(budgetsData.perCategory || {}).forEach(([catId, amount]) => {
+    budgetsRows.push({
+      id: `budget-${catId}`,
+      categoryId: catId,
+      limit: amount,
+      period: "monthly"
+    });
+  });
+
   zip.file("budgets.csv", convertToCsv({
     filename: "budgets.csv",
     headers: ["id", "categoryId", "limit", "period"],
