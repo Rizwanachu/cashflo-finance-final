@@ -13,7 +13,17 @@ const STORAGE_KEYS = [
   "ledgerly-recurring-v1",
   "cashflo-recurring-v1",
   "cashflo-notifications-v1",
-  "cashflo-notifications-enabled-v1"
+  "cashflo-notifications-enabled-v1",
+  "spendory-transactions-v1",
+  "spendory-accounts-v1",
+  "spendory-budgets-v1",
+  "spendory-categories-v1",
+  "spendory-currency-v1",
+  "spendory-theme-v1",
+  "spendory-privacy-mode-v1",
+  "spendory-recurring-v1",
+  "spendory-notifications-v1",
+  "spendory-notifications-enabled-v1"
 ];
 
 export interface BackupData {
@@ -81,8 +91,14 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
     // Restore each key
     Object.entries(backup.data).forEach(([key, value]) => {
       try {
-        if (STORAGE_KEYS.includes(key)) {
+        // Support both old and new storage keys
+        const targetKey = key.replace(/ledgerly-|cashflo-/, 'spendory-');
+        if (STORAGE_KEYS.includes(key) || STORAGE_KEYS.includes(targetKey)) {
           window.localStorage.setItem(key, JSON.stringify(value));
+          // If it's an old key, also save it to the new key format for immediate compatibility
+          if (key !== targetKey) {
+            window.localStorage.setItem(targetKey, JSON.stringify(value));
+          }
         }
       } catch {
         // ignore individual key errors
