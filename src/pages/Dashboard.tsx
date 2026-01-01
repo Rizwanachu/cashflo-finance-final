@@ -22,11 +22,12 @@ const Dashboard: React.FC = () => {
   const [sortNewest, setSortNewest] = useState(true);
 
   const recentTransactions = useMemo(() => {
-    const sorted = [...transactions].sort((a, b) =>
-      sortNewest
-        ? b.date.localeCompare(a.date)
-        : a.date.localeCompare(b.date)
-    );
+    const sorted = [...transactions].sort((a, b) => {
+      const dateCompare = b.date.localeCompare(a.date);
+      if (dateCompare !== 0) return sortNewest ? dateCompare : -dateCompare;
+      // If dates are same, use ID for stable sort
+      return sortNewest ? b.id.localeCompare(a.id) : a.id.localeCompare(b.id);
+    });
     return sorted.slice(0, 5);
   }, [transactions, sortNewest]);
 
