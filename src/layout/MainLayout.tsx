@@ -27,7 +27,8 @@ import {
   DollarSign,
   AlertTriangle,
   LayoutDashboard,
-  Info
+  Info,
+  FileText
 } from "lucide-react";
 
 const MainLayout: React.FC = () => {
