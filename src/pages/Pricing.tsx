@@ -4,6 +4,7 @@ import { usePro } from "../context/ProContext";
 import SocialProofBanner from "../components/SocialProofBanner";
 import ShareButton from "../components/ShareButton";
 import { Card } from "../components/Card";
+import { ShieldCheck, CloudOff, WifiOff, Infinity, Check, Star } from "lucide-react";
 
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const Pricing: React.FC = () => {
                 { title: "No ads", desc: "Clean, focused interface" }
               ].map((f) => (
                 <div key={f.title} className="flex items-start gap-3">
-                  <span className="text-zinc-400 dark:text-[var(--text-muted)] text-xl">✓</span>
+                  <Check className="w-5 h-5 text-zinc-400 dark:text-[var(--text-muted)] shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium text-slate-900 dark:text-[var(--text-primary)]">
                       {f.title}
@@ -103,7 +104,7 @@ const Pricing: React.FC = () => {
                   { title: "Unlimited usage & Priority support", desc: "No limits, forever + dedicated help" }
                 ].map((f) => (
                   <div key={f.title} className="flex items-start gap-3">
-                    <span className="text-white dark:text-[var(--brand-primary)] text-xl">✓</span>
+                    <Check className="w-5 h-5 text-white dark:text-[var(--brand-primary)] shrink-0 mt-0.5" />
                     <div>
                       <p className="font-medium">
                         {f.title}
@@ -118,8 +119,8 @@ const Pricing: React.FC = () => {
             </div>
 
             {isProUser ? (
-              <div className="w-full px-6 py-3 rounded-xl bg-white/10 dark:bg-[var(--brand-primary)]/10 text-white dark:text-[var(--brand-primary)] font-semibold text-center">
-                ✓ You&apos;re a Pro user
+              <div className="flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-white/10 dark:bg-[var(--brand-primary)]/10 text-white dark:text-[var(--brand-primary)] font-semibold text-center">
+                <Check className="w-5 h-5" /> You&apos;re a Pro user
               </div>
             ) : (
               <button
@@ -130,8 +131,8 @@ const Pricing: React.FC = () => {
               </button>
             )}
             
-            <div className="inline-flex w-max mx-auto mt-4 bg-white/10 dark:bg-[var(--brand-primary)]/20 text-white dark:text-[var(--brand-primary)] px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
-              ⭐ Recommended
+            <div className="inline-flex items-center gap-1.5 w-max mx-auto mt-4 bg-white/10 dark:bg-[var(--brand-primary)]/20 text-white dark:text-[var(--brand-primary)] px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
+              <Star className="w-3.5 h-3.5 fill-current" /> Recommended
             </div>
           </div>
         </Card>
@@ -141,48 +142,56 @@ const Pricing: React.FC = () => {
         <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
           Why Spendory?
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex gap-3">
-            <span className="text-2xl">🔒</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
+            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5 text-slate-900 dark:text-slate-100" />
+            </div>
             <div>
-              <p className="font-medium text-slate-900 dark:text-slate-50">
+              <p className="font-semibold text-slate-900 dark:text-slate-50">
                 No tracking
               </p>
               <p className="text-sm text-slate-600 dark:text-slate-400">
-                Your data is yours
+                Your data is yours alone
               </p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <span className="text-2xl">☁️</span>
+          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
+            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+              <CloudOff className="w-5 h-5 text-slate-900 dark:text-slate-100" />
+            </div>
             <div>
-              <p className="font-medium text-slate-900 dark:text-slate-50">
-                No cloud
+              <p className="font-semibold text-slate-900 dark:text-slate-50">
+                No cloud sync
               </p>
               <p className="text-sm text-slate-600 dark:text-slate-400">
-                Everything local
+                Everything stays on your device
               </p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <span className="text-2xl">🌐</span>
+          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
+            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+              <WifiOff className="w-5 h-5 text-slate-900 dark:text-slate-100" />
+            </div>
             <div>
-              <p className="font-medium text-slate-900 dark:text-slate-50">
+              <p className="font-semibold text-slate-900 dark:text-slate-50">
                 Works offline
               </p>
               <p className="text-sm text-slate-600 dark:text-slate-400">
-                No internet needed
+                No internet connection needed
               </p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <span className="text-2xl">♾️</span>
+          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
+            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+              <Infinity className="w-5 h-5 text-slate-900 dark:text-slate-100" />
+            </div>
             <div>
-              <p className="font-medium text-slate-900 dark:text-slate-50">
+              <p className="font-semibold text-slate-900 dark:text-slate-50">
                 Pay once, forever
               </p>
               <p className="text-sm text-slate-600 dark:text-slate-400">
-                No subscriptions
+                No monthly subscriptions
               </p>
             </div>
           </div>
