@@ -159,26 +159,14 @@ export function exportTransactionsToPdf(
     head: [["Date", "Type", "Category", "Amount", "Note"]],
     body: tableData,
     startY: 35,
-    theme: "plain",
+    theme: "striped",
     headStyles: {
-      fillColor: headerBgColor,
-      textColor: textColor,
-      fontStyle: "bold",
-      lineColor: borderColor,
-      lineWidth: 0.5
-    },
-    bodyStyles: {
-      fillColor: bgColor,
-      textColor: textColor,
-      lineColor: borderColor,
-      lineWidth: 0.5
+      fillColor: theme === "dark" ? [30, 41, 59] : [15, 23, 42],
+      textColor: [255, 255, 255],
+      fontStyle: "bold"
     },
     alternateRowStyles: {
       fillColor: theme === "dark" ? [15, 23, 42] : [248, 250, 252]
-    },
-    styles: {
-      fontSize: 9,
-      cellPadding: 3
     }
   });
 
