@@ -2,18 +2,23 @@
  * Backup and restore utilities for Spendory
  */
 
-const STORAGE_KEYS = [
+export const STORAGE_KEYS = [
   "spendory-transactions-v1",
   "spendory-accounts-v1",
   "spendory-budgets-v1",
   "spendory-categories-v1",
-  "spendory-currency-v1",
+  "spendory-currency-v2", // Note: CurrencyContext uses v2
   "spendory-theme-v1",
   "spendory-privacy-mode-v1",
   "spendory-recurring-v1",
   "spendory-notifications-v1",
   "spendory-notifications-enabled-v1",
-  "spendory-onboarding-v1"
+  "spendory-onboarding-v1",
+  "spendory-goals-v1",
+  "spendory-app-lock-pin-v1",
+  "spendory-app-locked-v1",
+  "spendory_device_id",
+  "spendory_pro_device"
 ];
 
 export interface BackupData {
@@ -82,7 +87,11 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
     Object.entries(backup.data).forEach(([key, value]) => {
       try {
         // Map old keys to the current STORAGE_KEYS
-        const targetKey = key.replace(/ledgerly-|cashflo-/, 'spendory-');
+        let targetKey = key.replace(/ledgerly-|cashflo-/, 'spendory-');
+        
+        // Specific mapping for device IDs if they use underscore
+        if (key.includes('device_id')) targetKey = 'spendory_device_id';
+        if (key.includes('pro_device')) targetKey = 'spendory_pro_device';
         
         // Save to the target spendory- prefix
         window.localStorage.setItem(targetKey, JSON.stringify(value));

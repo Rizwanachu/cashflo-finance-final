@@ -124,12 +124,8 @@ const SettingsPage: React.FC = () => {
       
       if (result.success) {
         pushToast("Backup imported successfully", "success");
-        resetTransactions();
-        resetAccounts();
-        resetCategories();
-        resetBudgets();
-        resetPayments();
-        resetNotifications();
+        // No need to manually reset contexts here as window.location.reload() 
+        // in importBackup will handle it
         navigate("/");
       } else {
         pushToast(result.error || "Failed to import backup", "error");
