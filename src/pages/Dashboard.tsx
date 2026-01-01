@@ -242,7 +242,7 @@ const Dashboard: React.FC = () => {
             {recentTransactions.map((t) => (
               <li key={t.id} className="py-2.5 flex items-center gap-3">
                 <div className="h-9 w-9 rounded-xl bg-slate-100 dark:bg-[var(--bg-secondary)] flex items-center justify-center text-xs">
-                  {t.type === "income" ? "⬇" : "⬆"}
+                  {t.type === "income" ? "⬆" : "⬇"}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-center gap-2">
