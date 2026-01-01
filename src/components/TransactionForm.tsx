@@ -287,7 +287,7 @@ const TransactionForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => handleAddTag(tagsInput)}
-            className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-emerald-100 dark:bg-[var(--brand-primary)]/10 text-emerald-700 dark:text-[var(--brand-primary)] text-xs font-medium hover:bg-emerald-200 dark:hover:bg-[var(--brand-primary)]/20"
+            className="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-100 dark:hover:bg-slate-200 text-slate-900 dark:text-slate-900 text-xs font-medium transition-colors"
           >
             <Plus size={14} />
             <span>Add</span>
@@ -297,7 +297,7 @@ const TransactionForm: React.FC<Props> = ({
       <div className="flex justify-end pt-1">
           <button
           type="submit"
-          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-100 dark:hover:bg-gray-200 text-slate-900 dark:text-slate-900 text-xs font-semibold shadow-sm transition-colors"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-100 dark:hover:bg-slate-200 text-slate-900 dark:text-slate-900 text-xs font-semibold shadow-sm transition-colors"
         >
           {isEditing ? <Edit2 size={14} /> : <Plus size={14} />}
           <span>{isEditing ? "Save changes" : "Add transaction"}</span>
