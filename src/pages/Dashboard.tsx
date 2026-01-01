@@ -21,15 +21,19 @@ const Dashboard: React.FC = () => {
   const { getConsistencyMessage, consistencyBadge } = useRetention();
   const [sortNewest, setSortNewest] = useState(true);
 
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter((t) => t.currency === currency || (!t.currency && currency === "USD"));
+  }, [transactions, currency]);
+
   const recentTransactions = useMemo(() => {
-    const sorted = [...transactions].sort((a, b) => {
+    const sorted = [...filteredTransactions].sort((a, b) => {
       const dateCompare = b.date.localeCompare(a.date);
       if (dateCompare !== 0) return sortNewest ? dateCompare : -dateCompare;
       // If dates are same, use ID for stable sort
       return sortNewest ? b.id.localeCompare(a.id) : a.id.localeCompare(b.id);
     });
     return sorted.slice(0, 5);
-  }, [transactions, sortNewest]);
+  }, [filteredTransactions, sortNewest]);
 
   const categoryLabel: Record<string, string> = {
     rent: "Home Rent",
@@ -41,7 +45,7 @@ const Dashboard: React.FC = () => {
 
   const categorySpending = useMemo(() => {
     const totals: Record<string, number> = {};
-    transactions
+    filteredTransactions
       .filter((t) => t.type === "expense")
       .forEach((t) => {
         totals[t.category] = (totals[t.category] ?? 0) + t.amount;
@@ -51,7 +55,7 @@ const Dashboard: React.FC = () => {
       label: categoryLabel[cat] ?? cat,
       value
     }));
-  }, [transactions]);
+  }, [filteredTransactions]);
 
   const formatCurrency = (value: number) =>
     formatCurrencyWithPrivacy(value, currency, privacyMode);
@@ -69,7 +73,7 @@ const Dashboard: React.FC = () => {
     return "In progress";
   };
 
-  const isFirstTimeUser = transactions.length === 0;
+  const isFirstTimeUser = filteredTransactions.length === 0;
 
   // First-time user empty state
   if (isFirstTimeUser) {
@@ -77,7 +81,7 @@ const Dashboard: React.FC = () => {
       <div className="space-y-5">
         <ProUserDelight />
         <FreeLimitsBanner />
-        <SummaryCards transactions={transactions} />
+        <SummaryCards transactions={filteredTransactions} />
         
         {/* Welcome CTA */}
         <Card className="text-center py-12">
@@ -86,14 +90,14 @@ const Dashboard: React.FC = () => {
             Welcome to Spendory
           </h2>
           <p className="text-sm text-slate-500 dark:text-[var(--text-paragraph)] mb-6 max-w-md mx-auto">
-            Start tracking your finances by adding your first transaction. Your data stays private and secure in your browser.
+            Start tracking your finances by adding your first transaction in {currency}. Your data stays private and secure in your browser.
           </p>
           <Link
             to="/transactions"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 dark:text-slate-900 text-sm font-medium transition-colors"
           >
             <span>➕</span>
-            <span>Add your first transaction</span>
+            <span>Add your first {currency} transaction</span>
           </Link>
         </Card>
 
@@ -113,7 +117,7 @@ const Dashboard: React.FC = () => {
             <div className="h-[150px] sm:h-[180px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
               <div className="text-center">
                 <div className="text-2xl mb-2">📊</div>
-                <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No data yet</p>
+                <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No {currency} data yet</p>
               </div>
             </div>
           </Card>
@@ -132,7 +136,7 @@ const Dashboard: React.FC = () => {
             <div className="h-[150px] sm:h-[180px] md:h-[220px] lg:h-[260px] flex items-center justify-center">
               <div className="text-center">
                 <div className="text-2xl mb-2">📈</div>
-                <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No data yet</p>
+                <p className="text-sm text-slate-400 dark:text-[var(--text-disabled)]">No {currency} data yet</p>
               </div>
             </div>
           </Card>
@@ -159,7 +163,7 @@ const Dashboard: React.FC = () => {
           </div>
         </Card>
       )}
-      <SummaryCards transactions={transactions} />
+      <SummaryCards transactions={filteredTransactions} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 items-stretch">
         <Card className="md:col-span-2 lg:col-span-2 bg-white dark:bg-[var(--bg-tertiary)] text-slate-900 dark:text-[var(--text-primary)] border border-slate-200 dark:border-[var(--border-subtle)]">
@@ -169,7 +173,7 @@ const Dashboard: React.FC = () => {
                 Spending
               </div>
               <div className="text-sm text-slate-600 dark:text-[var(--text-paragraph)]">
-                Overview of this week&apos;s expenses
+                Overview of this week&apos;s expenses ({currency})
               </div>
             </div>
             <span className="text-[11px] px-2 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 dark:bg-black dark:border-slate-800 dark:text-slate-200 w-fit">
@@ -177,7 +181,7 @@ const Dashboard: React.FC = () => {
             </span>
           </div>
           <ChartContainer>
-            <WeeklySpendingChart transactions={transactions} />
+            <WeeklySpendingChart transactions={filteredTransactions} />
           </ChartContainer>
         </Card>
 
@@ -188,7 +192,7 @@ const Dashboard: React.FC = () => {
                 Portfolio
               </div>
               <div className="text-sm font-semibold mt-1 text-slate-900 dark:text-[var(--text-primary)]">
-                Cash position
+                Cash position ({currency})
               </div>
             </div>
             <span className="inline-flex px-2 py-1 rounded-full bg-zinc-100 dark:bg-[var(--brand-primary)]/10 text-zinc-900 dark:text-[var(--brand-primary)] text-[11px] font-medium w-fit">
@@ -196,7 +200,7 @@ const Dashboard: React.FC = () => {
             </span>
           </div>
           <ChartContainer>
-            <MonthlySpendingChart transactions={transactions} />
+            <MonthlySpendingChart transactions={filteredTransactions} />
           </ChartContainer>
         </Card>
       </div>
@@ -292,12 +296,12 @@ const Dashboard: React.FC = () => {
 
         <Card>
           <h3 className="text-sm font-semibold tracking-tight mb-3 text-slate-900 dark:text-[var(--text-primary)]">
-            Spending by category
+            Spending by category ({currency})
           </h3>
           <div className="flex flex-col gap-2">
             {categorySpending.length === 0 && (
               <p className="text-xs text-slate-500 dark:text-[var(--text-paragraph)]">
-                No expense data yet. Add an expense transaction to see this
+                No {currency} expense data yet. Add an expense transaction to see this
                 view.
               </p>
             )}
