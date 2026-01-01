@@ -49,9 +49,6 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [categories, setCategories] = useState<Category[]>(() => {
     let stored = safeGet<Category[]>(CATEGORIES_KEY, []);
-    if (stored.length === 0) {
-      stored = safeGet<Category[]>(OLD_CATEGORIES_KEY, []);
-    }
     if (stored.length === 0) return defaultCategories;
     const merged = [...defaultCategories];
     stored.forEach((cat) => {

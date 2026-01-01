@@ -2,7 +2,6 @@ import { Transaction } from "../types";
 import { migrateOldTransactions, needsMigration } from "./migration";
 
 const STORAGE_KEY = "spendory-transactions-v1";
-const OLD_STORAGE_KEY = "spendory-transactions-v1";
 
 /**
  * Load transactions from LocalStorage.
@@ -20,11 +19,6 @@ export function loadTransactions(): Transaction[] {
     }
     
     let raw = window.localStorage.getItem(STORAGE_KEY);
-    
-    // Fallback to old key if new key doesn't exist
-    if (!raw) {
-      raw = window.localStorage.getItem(OLD_STORAGE_KEY);
-    }
     
     // If no data exists, return empty array (first-time user)
     if (!raw) {
@@ -58,7 +52,3 @@ export function saveTransactions(transactions: Transaction[]) {
     // ignore
   }
 }
-
-
-
-

@@ -45,9 +45,6 @@ export const AccountsProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [accounts, setAccounts] = useState<Account[]>(() => {
     let stored = safeGet<Account[]>(ACCOUNTS_KEY, []);
-    if (stored.length === 0) {
-      stored = safeGet<Account[]>(OLD_ACCOUNTS_KEY, []);
-    }
     return stored.length > 0 ? stored : defaultAccounts;
   });
 

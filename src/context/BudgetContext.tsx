@@ -27,7 +27,7 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [budgets, setBudgets] = useState<Budgets>(() =>
-    safeGet<Budgets>(BUDGET_KEY, safeGet<Budgets>(OLD_BUDGET_KEY, defaultBudgets))
+    safeGet<Budgets>(BUDGET_KEY, defaultBudgets)
   );
 
   useEffect(() => {
