@@ -64,21 +64,20 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
     safeSet(RECURRING_KEY, recurringTransactions);
   }, [recurringTransactions]);
 
-  // Generate recurring transactions on mount and when recurring rules change
-  useEffect(() => {
-    if (recurringTransactions.length > 0) {
-      generateRecurringTransactions();
-    }
-  }, []);
-
   const generateRecurringTransactions = useCallback(() => {
+    if (!recurringTransactions || !Array.isArray(recurringTransactions)) return;
+
     const today = new Date();
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
 
     const newTransactions: Transaction[] = [];
 
-    recurringTransactions.forEach(({ rule, transaction }) => {
+    recurringTransactions.forEach((rt) => {
+      if (!rt || !rt.rule || !rt.transaction) return;
+
+      const { rule, transaction } = rt;
+
       if (rule.frequency === "monthly" && rule.dayOfMonth) {
         const nextDate = new Date(currentYear, currentMonth, rule.dayOfMonth);
         if (nextDate >= today && !transactions.some(
@@ -102,6 +101,13 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
       setTransactions((prev) => [...prev, ...newTransactions]);
     }
   }, [recurringTransactions, transactions]);
+
+  // Generate recurring transactions on mount and when recurring rules change
+  useEffect(() => {
+    if (recurringTransactions.length > 0) {
+      generateRecurringTransactions();
+    }
+  }, []);
 
   const addTransaction = (tx: Omit<Transaction, "id">) => {
     const newTransaction: Transaction = {
