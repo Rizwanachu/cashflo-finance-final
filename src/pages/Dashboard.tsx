@@ -195,7 +195,7 @@ const Dashboard: React.FC = () => {
                 Cash position ({currency})
               </div>
             </div>
-            <span className="inline-flex px-2 py-1 rounded-full bg-slate-100 dark:bg-emerald-500/10 text-slate-600 dark:text-emerald-400 text-[11px] font-medium w-fit border border-slate-200 dark:border-emerald-500/20">
+            <span className="inline-flex px-2 py-1 rounded-full bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] text-[11px] font-medium w-fit border border-slate-200 dark:border-[var(--border-subtle)]">
               +3.1% vs last month
             </span>
           </div>
