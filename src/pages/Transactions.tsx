@@ -5,6 +5,7 @@ import TransactionForm from "../components/TransactionForm";
 import TransactionList from "../components/TransactionList";
 import SearchFilterBar from "../components/SearchFilterBar";
 import CsvImport from "../components/CsvImport";
+import { Download, FileText, Upload } from "lucide-react";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useToast } from "../context/ToastContext";
@@ -161,8 +162,8 @@ const TransactionsPage: React.FC = () => {
                 : "border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] text-slate-700 dark:text-[var(--text-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
             }`}
           >
-            <span>📄</span>
-            <span className="hidden sm:inline">{!isProUser && transactions.length > 50 ? `CSV (${transactions.length})` : "Export CSV"}</span>
+            <Download className="w-3.5 h-3.5" />
+            <span className="inline">{!isProUser && transactions.length > 50 ? `CSV (${transactions.length})` : "Export CSV"}</span>
           </button>
           <button
             type="button"
@@ -186,16 +187,16 @@ const TransactionsPage: React.FC = () => {
                 : "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
             }`}
           >
-            <span>📑</span>
-            <span className="hidden sm:inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
+            <FileText className="w-3.5 h-3.5" />
+            <span className="inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
           </button>
           <button
             type="button"
             onClick={() => setShowCsvImport(!showCsvImport)}
             className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-[var(--text-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)] transition-colors"
           >
-            <span>📥</span>
-            <span className="hidden sm:inline">Import CSV</span>
+            <Upload className="w-3.5 h-3.5" />
+            <span className="inline">Import CSV</span>
           </button>
         </div>
       </div>

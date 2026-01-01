@@ -557,7 +557,7 @@ const SettingsPage: React.FC = () => {
               className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium transition-all shadow-sm active:scale-[0.98]"
             >
               <Download className="w-4 h-4" />
-              <span>Export CSV Backup</span>
+              <span className="inline">Export CSV Backup</span>
             </button>
             <div className="relative">
               <input
@@ -575,12 +575,12 @@ const SettingsPage: React.FC = () => {
                 {isRestoring ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Restoring...</span>
+                    <span className="inline">Restoring...</span>
                   </>
                 ) : (
                   <>
                     <Upload className="w-4 h-4" />
-                    <span>Import CSV Backup</span>
+                    <span className="inline">Import CSV Backup</span>
                   </>
                 )}
               </button>
@@ -591,7 +591,7 @@ const SettingsPage: React.FC = () => {
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm active:scale-[0.98]"
           >
             <FileText className="w-4 h-4" />
-            <span>Export PDF Summary</span>
+            <span className="inline">{isProUser ? "Export PDF Summary" : "PDF Summary (Pro)"}</span>
           </button>
         </div>
       </Card>

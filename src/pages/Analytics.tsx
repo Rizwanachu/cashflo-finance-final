@@ -5,6 +5,7 @@ import CategoryBreakdownChart from "../components/charts/CategoryBreakdownChart"
 import MonthlyComparisonChart from "../components/charts/MonthlyComparisonChart";
 import TagSummary from "../components/TagSummary";
 import MonthlySummary from "../components/MonthlySummary";
+import { Download, FileText } from "lucide-react";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useTheme } from "../context/ThemeContext";
@@ -53,8 +54,8 @@ const AnalyticsPage: React.FC = () => {
                 : "border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]"
             }`}
           >
-            <span>📄</span>
-            <span className="hidden sm:inline">{!isProUser && transactions.length > 50 ? `CSV (${transactions.length})` : "Export CSV"}</span>
+            <Download className="w-3.5 h-3.5" />
+            <span className="inline">{!isProUser && transactions.length > 50 ? `CSV (${transactions.length})` : "Export CSV"}</span>
           </button>
           <button
             type="button"
@@ -78,8 +79,8 @@ const AnalyticsPage: React.FC = () => {
                 : "border-[var(--brand-primary)]/30 bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/20"
             }`}
           >
-            <span>📑</span>
-            <span className="hidden sm:inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
+            <FileText className="w-3.5 h-3.5" />
+            <span className="inline">{isProUser ? "Export PDF" : "PDF (Pro)"}</span>
           </button>
         </div>
       </div>
