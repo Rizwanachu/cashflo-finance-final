@@ -17,31 +17,57 @@ import { generateUnlockCode } from "../utils/crypto";
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
 import DataOwnership from "../components/DataOwnership";
-import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe } from "lucide-react";
+import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe, Download, FileText } from "lucide-react";
+import { exportZipBackup } from "../utils/exportCsvZip";
+import { exportTransactionsToPdf } from "../utils/exportCsv";
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { privacyMode, togglePrivacyMode } = usePrivacy();
   const { isPinSet, setPin, removePin, lockApp } = useAppLock();
-  const { currency, setCurrency } = useCurrency();
+  const { currency } = useCurrency();
   const { pushToast } = useToast();
   const [newPin, setNewPin] = useState("");
   const [showPinSetup, setShowPinSetup] = useState(false);
   const [confirmPin, setConfirmPin] = useState("");
-  const { resetTransactions } = useTransactionsContext();
+  const { transactions, resetTransactions } = useTransactionsContext();
   const { resetAccounts } = useAccounts();
   const { resetCategories } = useCategories();
   const { resetBudgets } = useBudgets();
   const { resetPayments } = useRecurring();
   const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications, requestPermission, permissionStatus } = useNotifications();
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
-  const { deviceId, resetPro, isProUser } = usePro();
+  const { deviceId, resetPro, isProUser, setShowGoProModal, setLockedFeature } = usePro();
   
   const [showResetModal, setShowResetModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [simulatorClicks, setSimulatorClicks] = useState(0);
   const [showSimulator, setShowSimulator] = useState(false);
+
+  const handleExportZip = async () => {
+    try {
+      await exportZipBackup();
+      pushToast("Backup ZIP generated successfully", "success");
+    } catch (error) {
+      pushToast("Failed to generate backup ZIP", "error");
+    }
+  };
+
+  const handleExportPdf = () => {
+    try {
+      if (!isProUser) {
+        setLockedFeature("PDF Summary Export");
+        setShowGoProModal(true);
+        return;
+      }
+      const themeMode = theme === "system" ? (resolvedTheme || "light") : theme;
+      exportTransactionsToPdf(transactions, currency, themeMode as "light" | "dark");
+      pushToast("PDF Summary exported successfully", "success");
+    } catch (error) {
+      pushToast("Failed to export PDF", "error");
+    }
+  };
 
   const handleSimulatorClick = () => {
     // Only allow simulator if user is already a Pro user or has a secret override
@@ -500,6 +526,20 @@ const SettingsPage: React.FC = () => {
           Data Management
         </h3>
         <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button
+              onClick={handleExportZip}
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
+            >
+              <Download className="w-4 h-4" /> Download Backup (ZIP)
+            </button>
+            <button
+              onClick={handleExportPdf}
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            >
+              <FileText className="w-4 h-4" /> Download PDF Summary
+            </button>
+          </div>
           <button
             onClick={() => setShowResetModal(true)}
             className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors flex items-center justify-center gap-2"
