@@ -261,13 +261,22 @@ const GoalsPage: React.FC = () => {
                   >
                     Edit
                   </button>
-                  <button
-                    onClick={() => updateGoalProgress(goal.id, 10)}
-                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-slate-900 py-2 rounded-lg font-medium transition-colors"
-                    title={`Add ${symbol}10 to progress`}
-                  >
-                    +{symbol}10
-                  </button>
+                  <div className="flex-1 flex gap-1">
+                    <button
+                      onClick={() => updateGoalProgress(goal.id, 10)}
+                      className="flex-1 bg-gray-100 hover:bg-gray-200 text-slate-900 py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm"
+                      title={`Add ${symbol}10`}
+                    >
+                      +{symbol}10
+                    </button>
+                    <button
+                      onClick={() => updateGoalProgress(goal.id, 100)}
+                      className="flex-1 bg-gray-100 hover:bg-gray-200 text-slate-900 py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm"
+                      title={`Add ${symbol}100`}
+                    >
+                      +{symbol}100
+                    </button>
+                  </div>
                 </div>
               </Card>
             );
