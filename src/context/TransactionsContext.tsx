@@ -26,7 +26,8 @@ const TransactionsContext = createContext<TransactionsContextValue | undefined>(
   undefined
 );
 
-const RECURRING_KEY = "ledgerly-recurring-v1";
+const RECURRING_KEY = "spendory-recurring-v1";
+const OLD_RECURRING_KEY = "ledgerly-recurring-v1";
 
 export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
   children
@@ -35,7 +36,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
     loadTransactions()
   );
   const [recurringTransactions, setRecurringTransactions] = useState<RecurringTransaction[]>(() =>
-    safeGet<RecurringTransaction[]>(RECURRING_KEY, [])
+    safeGet<RecurringTransaction[]>(RECURRING_KEY, safeGet<RecurringTransaction[]>(OLD_RECURRING_KEY, []))
   );
 
   // Persist transactions

@@ -15,7 +15,8 @@ interface BudgetContextValue {
 
 const BudgetContext = createContext<BudgetContextValue | undefined>(undefined);
 
-const BUDGET_KEY = "ledgerly-budgets-v1";
+const BUDGET_KEY = "spendory-budgets-v1";
+const OLD_BUDGET_KEY = "ledgerly-budgets-v1";
 
 const defaultBudgets: Budgets = {
   overall: null,
@@ -26,7 +27,7 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [budgets, setBudgets] = useState<Budgets>(() =>
-    safeGet<Budgets>(BUDGET_KEY, defaultBudgets)
+    safeGet<Budgets>(BUDGET_KEY, safeGet<Budgets>(OLD_BUDGET_KEY, defaultBudgets))
   );
 
   useEffect(() => {

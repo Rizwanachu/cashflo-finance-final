@@ -13,7 +13,8 @@ interface AccountsContextValue {
 
 const AccountsContext = createContext<AccountsContextValue | undefined>(undefined);
 
-const ACCOUNTS_KEY = "ledgerly-accounts-v1";
+const ACCOUNTS_KEY = "spendory-accounts-v1";
+const OLD_ACCOUNTS_KEY = "ledgerly-accounts-v1";
 
 const defaultAccounts: Account[] = [
   {
@@ -43,7 +44,10 @@ export const AccountsProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [accounts, setAccounts] = useState<Account[]>(() => {
-    const stored = safeGet<Account[]>(ACCOUNTS_KEY, []);
+    let stored = safeGet<Account[]>(ACCOUNTS_KEY, []);
+    if (stored.length === 0) {
+      stored = safeGet<Account[]>(OLD_ACCOUNTS_KEY, []);
+    }
     return stored.length > 0 ? stored : defaultAccounts;
   });
 

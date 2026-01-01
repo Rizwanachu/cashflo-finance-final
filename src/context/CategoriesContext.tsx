@@ -20,7 +20,8 @@ interface CategoriesContextValue {
 
 const CategoriesContext = createContext<CategoriesContextValue | undefined>(undefined);
 
-const CATEGORIES_KEY = "ledgerly-categories-v1";
+const CATEGORIES_KEY = "spendory-categories-v1";
+const OLD_CATEGORIES_KEY = "ledgerly-categories-v1";
 
 const defaultCategories: Category[] = [
   { id: "cat-housing", name: "Housing", icon: "home", color: "#6366F1", isDefault: true },
@@ -47,7 +48,10 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [categories, setCategories] = useState<Category[]>(() => {
-    const stored = safeGet<Category[]>(CATEGORIES_KEY, []);
+    let stored = safeGet<Category[]>(CATEGORIES_KEY, []);
+    if (stored.length === 0) {
+      stored = safeGet<Category[]>(OLD_CATEGORIES_KEY, []);
+    }
     if (stored.length === 0) return defaultCategories;
     const merged = [...defaultCategories];
     stored.forEach((cat) => {
