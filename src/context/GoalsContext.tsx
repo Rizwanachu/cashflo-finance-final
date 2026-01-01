@@ -24,15 +24,18 @@ interface GoalsContextValue {
 const GoalsContext = createContext<GoalsContextValue | undefined>(undefined);
 
 const GOALS_KEY = "spendory-goals-v1";
+const FALLBACK_GOALS_KEY = "ledgerly-goals-v1";
 
 const defaultGoals: Goal[] = [];
 
 export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
-  const [goals, setGoals] = useState<Goal[]>(() =>
-    safeGet<Goal[]>(GOALS_KEY, defaultGoals)
-  );
+  const [goals, setGoals] = useState<Goal[]>(() => {
+    const stored = safeGet<Goal[]>(GOALS_KEY, []);
+    if (stored.length > 0) return stored;
+    return safeGet<Goal[]>(FALLBACK_GOALS_KEY, defaultGoals);
+  });
 
   useEffect(() => {
     safeSet(GOALS_KEY, goals);

@@ -2,6 +2,7 @@ import { Transaction } from "../types";
 import { migrateOldTransactions, needsMigration } from "./migration";
 
 const STORAGE_KEY = "spendory-transactions-v1";
+const FALLBACK_KEY = "ledgerly-transactions-v1";
 
 /**
  * Load transactions from LocalStorage.
@@ -10,15 +11,12 @@ const STORAGE_KEY = "spendory-transactions-v1";
 export function loadTransactions(): Transaction[] {
   if (typeof window === "undefined") return [];
   try {
-    // Check for migration from old format
-    if (needsMigration()) {
-      const migrated = migrateOldTransactions();
-      if (migrated.length > 0) {
-        return migrated;
-      }
-    }
-    
     let raw = window.localStorage.getItem(STORAGE_KEY);
+    
+    // Fallback if spendory key is empty but ledgerly has data
+    if (!raw) {
+      raw = window.localStorage.getItem(FALLBACK_KEY);
+    }
     
     // If no data exists, return empty array (first-time user)
     if (!raw) {

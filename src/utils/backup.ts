@@ -87,7 +87,13 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
     Object.entries(backup.data).forEach(([key, value]) => {
       try {
         // Map old keys to the current STORAGE_KEYS
-        let targetKey = key.replace(/ledgerly-|cashflo-/, 'spendory-');
+        let targetKey = key;
+        if (key.startsWith('ledgerly-') || key.startsWith('cashflo-')) {
+          targetKey = key.replace(/ledgerly-|cashflo-/, 'spendory-');
+        }
+        
+        // Also support keys that might just be "transactions" etc from very old versions
+        if (key === 'finance-tracker-transactions-v1') targetKey = 'spendory-transactions-v1';
         
         // Specific mapping for device IDs if they use underscore
         if (key.includes('device_id')) targetKey = 'spendory_device_id';
@@ -95,6 +101,11 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
         
         // Save to the target spendory- prefix
         window.localStorage.setItem(targetKey, JSON.stringify(value));
+        
+        // CRITICAL: If we are importing into a targetKey, also clear the old key to prevent conflicts
+        if (targetKey !== key) {
+          // window.localStorage.removeItem(key); // Optional: keep for safety or remove to clean up
+        }
       } catch (err) {
         console.error(`Failed to restore key ${key}`, err);
       }
