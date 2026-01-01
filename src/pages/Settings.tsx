@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { usePrivacy } from "../context/PrivacyContext";
@@ -17,8 +17,9 @@ import { generateUnlockCode } from "../utils/crypto";
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
 import DataOwnership from "../components/DataOwnership";
-import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe, Download, FileText } from "lucide-react";
+import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe, Download, FileText, Upload, Loader2 } from "lucide-react";
 import { exportZipBackup } from "../utils/exportCsvZip";
+import { restoreFromCsvZip } from "../utils/restoreCsvZip";
 import { exportTransactionsToPdf } from "../utils/exportCsv";
 
 const SettingsPage: React.FC = () => {
@@ -44,6 +45,8 @@ const SettingsPage: React.FC = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [simulatorClicks, setSimulatorClicks] = useState(0);
   const [showSimulator, setShowSimulator] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExportZip = async () => {
     try {
@@ -51,6 +54,28 @@ const SettingsPage: React.FC = () => {
       pushToast("Backup ZIP generated successfully", "success");
     } catch (error) {
       pushToast("Failed to generate backup ZIP", "error");
+    }
+  };
+
+  const handleImportZip = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsRestoring(true);
+    try {
+      const result = await restoreFromCsvZip(file);
+      if (result.success) {
+        pushToast("Restore complete! Rehydrating data...", "success");
+        window.dispatchEvent(new CustomEvent("spendory:rehydrate"));
+        setTimeout(() => navigate("/"), 1500);
+      } else {
+        pushToast(`Restore failed: ${result.error}`, "error");
+      }
+    } catch (error) {
+      pushToast("Failed to restore from ZIP", "error");
+    } finally {
+      setIsRestoring(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -533,13 +558,37 @@ const SettingsPage: React.FC = () => {
             >
               <Download className="w-4 h-4" /> Download Backup (ZIP)
             </button>
-            <button
-              onClick={handleExportPdf}
-              className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-            >
-              <FileText className="w-4 h-4" /> Download PDF Summary
-            </button>
+            <div className="relative">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".zip"
+                onChange={handleImportZip}
+                className="hidden"
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isRestoring}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50"
+              >
+                {isRestoring ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Restoring...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-4 h-4" /> Restore from ZIP
+                  </>
+                )}
+              </button>
+            </div>
           </div>
+          <button
+            onClick={handleExportPdf}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+          >
+            <FileText className="w-4 h-4" /> Download PDF Summary
+          </button>
           <button
             onClick={() => setShowResetModal(true)}
             className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors flex items-center justify-center gap-2"
