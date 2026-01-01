@@ -50,11 +50,8 @@ export function exportBackup(): BackupData | null {
 export function importBackup(backup: BackupData): { success: boolean; error?: string } {
   if (typeof window === "undefined") return { success: false, error: "Window not available" };
   try {
-    const rawData = backup.data || backup; // Handle nested or flat structure
-    
-    // Clear old data first to avoid conflicts
+    const rawData = backup.data || backup;
     STORAGE_KEYS.forEach(key => window.localStorage.removeItem(key));
-
     Object.entries(rawData).forEach(([key, value]) => {
       let targetKey = key;
       if (key.includes('transactions')) targetKey = 'spendory-transactions-v1';
@@ -64,16 +61,26 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
       else if (key.includes('currency')) targetKey = 'spendory-currency-v2';
       else if (key.includes('recurring')) targetKey = 'spendory-recurring-v1';
       else if (key.includes('goals')) targetKey = 'spendory-goals-v1';
-      
       window.localStorage.setItem(targetKey, JSON.stringify(value));
     });
-
     window.dispatchEvent(new Event('storage'));
     setTimeout(() => window.location.reload(), 100);
     return { success: true };
   } catch (error) {
     return { success: false, error: String(error) };
   }
+}
+
+export function factoryReset(): void {
+  if (typeof window === "undefined") return;
+  STORAGE_KEYS.forEach((key) => {
+    try {
+      window.localStorage.removeItem(key);
+    } catch {
+      // ignore
+    }
+  });
+  window.location.reload();
 }
 
 export function readBackupFile(file: File): Promise<BackupData> {
