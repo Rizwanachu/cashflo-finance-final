@@ -171,7 +171,7 @@ const Dashboard: React.FC = () => {
                 Overview of this week&apos;s expenses
               </div>
             </div>
-            <span className="text-[11px] px-2 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 dark:bg-[var(--bg-primary)]/20 dark:border-[var(--border-subtle)] dark:text-[var(--text-primary)] w-fit">
+            <span className="text-[11px] px-2 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 w-fit">
               Last 7 days
             </span>
           </div>
