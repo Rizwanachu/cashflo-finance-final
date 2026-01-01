@@ -1,5 +1,4 @@
 import { Transaction } from "../types";
-import { migrateOldTransactions, needsMigration } from "./migration";
 
 const STORAGE_KEY = "spendory-transactions-v1";
 
@@ -12,26 +11,31 @@ export function loadTransactions(): Transaction[] {
   try {
     let raw = window.localStorage.getItem(STORAGE_KEY);
     
-    // If no data exists, return empty array (first-time user)
+    // Fallback search across all possible keys
     if (!raw) {
-      return [];
-    }
-    const parsed = JSON.parse(raw) as Transaction[];
-    if (!Array.isArray(parsed)) {
-      return [];
+      const allKeys = Object.keys(window.localStorage);
+      const transactionKey = allKeys.find(k => k.includes('transactions') && !k.endsWith('_backup'));
+      if (transactionKey) {
+        raw = window.localStorage.getItem(transactionKey);
+      }
     }
     
-    // Ensure all transactions have required fields (migration for old data)
-    const normalized = parsed.map((tx) => ({
+    if (!raw) return [];
+    
+    const parsed = JSON.parse(raw);
+    const transactions = Array.isArray(parsed) ? parsed : (parsed?.data?.["spendory-transactions-v1"] || []);
+    
+    if (!Array.isArray(transactions)) return [];
+    
+    return transactions.map((tx: any) => ({
       ...tx,
       accountId: tx.accountId || "default",
       currency: tx.currency || "USD",
-      recurringRuleId: tx.recurringRuleId,
-      isRecurring: tx.isRecurring || false
+      isRecurring: tx.isRecurring || false,
+      date: tx.date || new Date().toISOString().split('T')[0]
     }));
-    
-    return normalized;
-  } catch {
+  } catch (error) {
+    console.error("Load transactions error:", error);
     return [];
   }
 }
@@ -40,7 +44,7 @@ export function saveTransactions(transactions: Transaction[]) {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
-  } catch {
-    // ignore
+  } catch (error) {
+    console.error("Save transactions error:", error);
   }
 }
