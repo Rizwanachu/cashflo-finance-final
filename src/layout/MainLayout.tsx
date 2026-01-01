@@ -235,7 +235,7 @@ const MainLayout: React.FC = () => {
               to="/goals"
               className={({ isActive }) => (isActive ? active : inactive)}
             >
-              <Star className="w-[18px] h-[18px]" />
+              <Target className="w-[18px] h-[18px]" />
               <span>Goals</span>
             </NavLink>
             <NavLink
@@ -308,7 +308,7 @@ const MainLayout: React.FC = () => {
                       }}
                       className="w-full flex items-center gap-3 px-5 py-4 text-sm text-left bg-slate-800 hover:bg-slate-700 text-gray-100 font-medium rounded-b-xl transition-all"
                     >
-                      <Star className="w-4 h-4" /> Spendory Pro
+                      <Star className="w-4 h-4 fill-white" /> Spendory Pro
                     </button>
                   </div>
                 </>

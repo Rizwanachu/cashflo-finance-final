@@ -70,7 +70,7 @@ const Sidebar: React.FC = () => {
           className={({ isActive }) => (isActive ? active : inactive)}
         >
           <span className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 dark:bg-black/20">
-            <Star size={14} />
+            <Target size={14} />
           </span>
           <span>Goals</span>
         </NavLink>
