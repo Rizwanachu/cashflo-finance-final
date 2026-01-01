@@ -76,7 +76,7 @@ export function exportTransactionsToCsv(
   // Add BOM for UTF-8 to help Excel recognize encoding
   const BOM = "\uFEFF";
   const blob = new Blob([BOM + csvContent], {
-    type: "text/csv;charset=utf-8;"
+    type: "text/csv;charset=utf-8"
   });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
