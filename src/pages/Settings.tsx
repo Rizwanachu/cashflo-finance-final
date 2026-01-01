@@ -26,7 +26,7 @@ const SettingsPage: React.FC = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { privacyMode, togglePrivacyMode } = usePrivacy();
   const { isPinSet, setPin, removePin, lockApp } = useAppLock();
-  const { currency } = useCurrency();
+  const { currency, setCurrency } = useCurrency();
   const { pushToast } = useToast();
   const [newPin, setNewPin] = useState("");
   const [showPinSetup, setShowPinSetup] = useState(false);
