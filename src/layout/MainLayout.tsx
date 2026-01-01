@@ -52,7 +52,7 @@ const MainLayout: React.FC = () => {
     <div className="h-screen flex overflow-hidden transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
       <Sidebar />
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 border-b border-slate-200 dark:border-[var(--border-subtle)] flex items-center px-3 sm:px-4 md:px-8 justify-between bg-transparent shrink-0">
+        <header className="h-16 border-b border-slate-200 dark:border-[var(--border-subtle)] flex items-center px-4 sm:px-6 md:px-8 justify-between bg-transparent shrink-0">
           <div className="flex items-center gap-2 md:hidden min-w-0">
             <img src="/logo.png" alt="Spendory" className="h-8 w-8 rounded-lg shadow-sm shrink-0" onError={(e) => {
               (e.target as HTMLImageElement).style.display = 'none';
@@ -317,7 +317,7 @@ const MainLayout: React.FC = () => {
           </div>
         </nav>
 
-        <div className="flex-1 overflow-y-auto px-2 xs:px-3 sm:px-4 md:px-8 py-3 sm:py-6 pb-24 sm:pb-20 md:pb-8">
+        <div className="flex-1 overflow-y-auto px-4 xs:px-5 sm:px-6 md:px-8 py-3 sm:py-6 pb-24 sm:pb-20 md:pb-8">
           <Outlet />
         </div>
       </main>
