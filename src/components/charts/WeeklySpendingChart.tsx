@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Transaction } from "../../types";
 import { useTheme } from "../../context/ThemeContext";
 import { usePrivacy } from "../../context/PrivacyContext";
+import { useCurrency } from "../../context/CurrencyContext";
 import {
   Bar,
   BarChart,
@@ -19,6 +20,7 @@ interface Props {
 const WeeklySpendingChart: React.FC<Props> = ({ transactions }) => {
   const { resolvedTheme } = useTheme();
   const { privacyMode } = usePrivacy();
+  const { symbol } = useCurrency();
 
   const data = useMemo(() => {
     const daysBack = 6;
@@ -82,7 +84,7 @@ const WeeklySpendingChart: React.FC<Props> = ({ transactions }) => {
             tickMargin={8}
             width={60}
             tickFormatter={(value) =>
-              `$${Number(value).toLocaleString(undefined, {
+              `${symbol}${Number(value).toLocaleString(undefined, {
                 maximumFractionDigits: 0
               })}`
             }
@@ -101,7 +103,7 @@ const WeeklySpendingChart: React.FC<Props> = ({ transactions }) => {
               color: resolvedTheme === "dark" ? "var(--text-primary)" : "#0F172A"
             }}
             formatter={(value: number) =>
-              `$${value.toLocaleString(undefined, {
+              `${symbol}${value.toLocaleString(undefined, {
                 maximumFractionDigits: 0
               })}`
             }
