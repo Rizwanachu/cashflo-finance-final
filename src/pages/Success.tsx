@@ -42,12 +42,12 @@ const Success: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-black rounded-2xl p-8 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-xl">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-xl">
         {/* Success Icon */}
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 bg-slate-100 dark:bg-slate-900 rounded-full flex items-center justify-center">
-            <span className="text-3xl text-slate-900 dark:text-slate-100">✓</span>
+          <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+            <span className="text-3xl">✓</span>
           </div>
         </div>
 
@@ -59,11 +59,11 @@ const Success: React.FC = () => {
         </p>
 
         {/* Unlock Code Display */}
-        <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 mb-6">
+        <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-6 mb-6">
           <p className="text-xs text-slate-600 dark:text-slate-400 text-center mb-3 font-medium">
             YOUR UNLOCK CODE
           </p>
-          <div className="bg-white dark:bg-black rounded-lg p-4 border border-slate-200 dark:border-slate-800">
+          <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
             <p className="text-lg font-mono font-bold text-slate-900 dark:text-slate-50 text-center break-all">
               {displayCode}
             </p>
@@ -86,28 +86,28 @@ const Success: React.FC = () => {
           </button>
           <button
             onClick={() => navigate("/")}
-            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-black hover:bg-slate-50 dark:hover:bg-slate-900 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
           >
             Back to Dashboard
           </button>
         </div>
 
         {/* Next Steps */}
-        <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
+        <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
           <h3 className="text-xs font-semibold text-slate-900 dark:text-slate-50 mb-3">
             Next Steps:
           </h3>
           <ol className="space-y-2 text-xs text-slate-600 dark:text-slate-400">
             <li className="flex gap-2">
-              <span className="text-slate-900 dark:text-slate-100 font-bold">1.</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold">1.</span>
               <span>Save your unlock code somewhere safe</span>
             </li>
             <li className="flex gap-2">
-              <span className="text-slate-900 dark:text-slate-100 font-bold">2.</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold">2.</span>
               <span>Click "Unlock Pro Now" above</span>
             </li>
             <li className="flex gap-2">
-              <span className="text-slate-900 dark:text-slate-100 font-bold">3.</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold">3.</span>
               <span>Enjoy unlimited Pro features!</span>
             </li>
           </ol>

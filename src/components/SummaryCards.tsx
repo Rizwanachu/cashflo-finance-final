@@ -50,7 +50,7 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
           <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-[var(--text-muted)]">
             Total Income
           </span>
-          <span className="h-7 w-7 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
+          <span className="h-7 w-7 rounded-xl bg-zinc-900 dark:bg-gray-100 text-white dark:text-slate-900 flex items-center justify-center">
             <TrendingUp size={14} />
           </span>
         </div>
@@ -66,11 +66,11 @@ const SummaryCards: React.FC<Props> = ({ transactions }) => {
           <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-[var(--text-muted)]">
             Total Expenses
           </span>
-          <span className="h-7 w-7 rounded-xl bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+          <span className="h-7 w-7 rounded-xl bg-red-600 dark:bg-[var(--danger-text)] text-white dark:text-[var(--danger-bg)] flex items-center justify-center">
             <TrendingDown size={14} />
           </span>
         </div>
-        <div className="text-2xl font-semibold text-rose-600 dark:text-rose-400">
+        <div className="text-2xl font-semibold text-red-600 dark:text-[var(--danger-text)]">
           {formatAmountWithPrivacy(totalExpenses, formatAmount, privacyMode)}
         </div>
         <div className="text-xs text-slate-500 dark:text-[var(--text-paragraph)] mt-1">
