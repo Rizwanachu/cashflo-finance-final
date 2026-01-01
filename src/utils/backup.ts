@@ -89,6 +89,12 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
       }
     });
 
+    // Trigger a storage event to notify other tabs/components
+    window.dispatchEvent(new Event('storage'));
+    
+    // Hard reload to ensure all contexts re-initialize with new data
+    window.location.reload();
+
     return { success: true };
   } catch (error) {
     return {
