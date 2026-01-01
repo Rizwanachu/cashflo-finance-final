@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Transaction } from "../../types";
 import { useTheme } from "../../context/ThemeContext";
+import { useCurrency } from "../../context/CurrencyContext";
 import {
   CartesianGrid,
   Legend,
@@ -8,6 +9,7 @@ import {
   LineChart,
   ResponsiveContainer,
   Tooltip,
+  Legend as RechartsLegend,
   XAxis,
   YAxis
 } from "recharts";
@@ -18,6 +20,7 @@ interface Props {
 
 const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
   const { theme } = useTheme();
+  const { symbol } = useCurrency();
   const data = useMemo(() => {
     const now = new Date();
     const months: { key: string; label: string }[] = [];
@@ -89,7 +92,7 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
               tickLine={false}
               tickMargin={8}
               tickFormatter={(value) =>
-                `$${Number(value).toLocaleString(undefined, {
+                `${symbol}${Number(value).toLocaleString(undefined, {
                   maximumFractionDigits: 0
                 })}`
               }
@@ -108,7 +111,7 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
                 color: theme === "dark" ? "#E6F1EC" : "#0F172A"
               }}
               formatter={(value: number) =>
-                `$${value.toLocaleString(undefined, {
+                `${symbol}${value.toLocaleString(undefined, {
                   maximumFractionDigits: 0
                 })}`
               }

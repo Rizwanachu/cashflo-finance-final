@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Transaction } from "../../types";
 import { useTheme } from "../../context/ThemeContext";
+import { useCurrency } from "../../context/CurrencyContext";
 import {
   Cell,
   Pie,
@@ -27,6 +28,7 @@ const categoryLabel: Record<string, string> = {
 
 const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
   const { theme } = useTheme();
+  const { symbol } = useCurrency();
   const data = useMemo(() => {
     const totals: Record<string, number> = {};
     transactions
@@ -91,7 +93,7 @@ const CategoryBreakdownChart: React.FC<Props> = ({ transactions }) => {
                 color: theme === "dark" ? "var(--text-primary)" : "#0F172A"
               }}
               formatter={(value: number) =>
-                `$${value.toLocaleString(undefined, {
+                `${symbol}${value.toLocaleString(undefined, {
                   maximumFractionDigits: 0
                 })}`
               }

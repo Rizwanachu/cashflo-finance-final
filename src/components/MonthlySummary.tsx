@@ -16,7 +16,7 @@ interface MonthlySummary {
 
 const MonthlySummary: React.FC<Props> = ({ transactions }) => {
   const { theme } = useTheme();
-  const { currency } = useCurrency();
+  const { symbol: currencySymbol } = useCurrency();
 
   const summaries = useMemo(() => {
     const monthMap = new Map<string, MonthlySummary>();
@@ -84,9 +84,6 @@ const MonthlySummary: React.FC<Props> = ({ transactions }) => {
       percentage: Math.abs(change).toFixed(1)
     };
   }, [summaries]);
-
-  const currencySymbol =
-    currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : "£";
 
   // Compute effective dark mode - same logic as Analytics page
   const isDarkMode =
