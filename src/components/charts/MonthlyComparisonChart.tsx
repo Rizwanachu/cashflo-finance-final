@@ -88,12 +88,15 @@ const MonthlyComparisonChart: React.FC<Props> = ({ transactions }) => {
             />
             <YAxis
               stroke={theme === "dark" ? "#A8B8B2" : "#334155"}
-              tick={{ fill: theme === "dark" ? "#A8B8B2" : "#334155" }}
+              tick={{ fill: theme === "dark" ? "#A8B8B2" : "#334155", fontSize: 10 }}
               tickLine={false}
               tickMargin={8}
+              width={80}
               tickFormatter={(value) =>
                 `${symbol}${Number(value).toLocaleString(undefined, {
-                  maximumFractionDigits: 0
+                  notation: "compact",
+                  compactDisplay: "short",
+                  maximumFractionDigits: 1
                 })}`
               }
             />
