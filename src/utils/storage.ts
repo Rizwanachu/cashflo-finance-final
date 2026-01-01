@@ -7,7 +7,6 @@ const BACKUP_SUFFIX = "_backup";
 
 /**
  * Safely retrieve data from localStorage
- * Attempts to parse JSON and provides fallback
  */
 export function safeGet<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -16,46 +15,21 @@ export function safeGet<T>(key: string, fallback: T): T {
     const raw = window.localStorage.getItem(key);
     if (!raw) return fallback;
     
-    const parsed = JSON.parse(raw) as T;
-    return parsed;
+    return JSON.parse(raw) as T;
   } catch (error) {
-    console.warn(`Failed to parse ${key}, attempting backup...`);
-    
-    // Try backup if main data corrupted
-    try {
-      const backupRaw = window.localStorage.getItem(key + BACKUP_SUFFIX);
-      if (backupRaw) {
-        const parsed = JSON.parse(backupRaw) as T;
-        // Restore from backup
-        window.localStorage.setItem(key, backupRaw);
-        return parsed;
-      }
-    } catch {
-      // Backup also corrupted
-    }
-    
+    console.warn(`Failed to parse ${key}`);
     return fallback;
   }
 }
 
 /**
  * Safely save data to localStorage
- * Creates automatic backup before overwriting
  */
 export function safeSet<T>(key: string, value: T): void {
   if (typeof window === "undefined") return;
   
   try {
-    // Save new data
-    const stringified = JSON.stringify(value);
-    window.localStorage.setItem(key, stringified);
-    
-    // Create backup of new successful save
-    try {
-      window.localStorage.setItem(key + BACKUP_SUFFIX, stringified);
-    } catch {
-      // Ignore backup failure
-    }
+    window.localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.warn(`Failed to save ${key} to localStorage`, error);
   }
@@ -69,7 +43,6 @@ export function safeRemove(key: string): void {
   
   try {
     window.localStorage.removeItem(key);
-    window.localStorage.removeItem(key + BACKUP_SUFFIX);
   } catch {
     // ignore
   }

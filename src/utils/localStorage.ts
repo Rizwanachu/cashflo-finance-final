@@ -11,19 +11,9 @@ export function loadTransactions(): Transaction[] {
   try {
     let raw = window.localStorage.getItem(STORAGE_KEY);
     
-    // Fallback search across all possible keys
-    if (!raw) {
-      const allKeys = Object.keys(window.localStorage);
-      const transactionKey = allKeys.find(k => k.includes('transactions') && !k.endsWith('_backup'));
-      if (transactionKey) {
-        raw = window.localStorage.getItem(transactionKey);
-      }
-    }
-    
     if (!raw) return [];
     
-    const parsed = JSON.parse(raw);
-    const transactions = Array.isArray(parsed) ? parsed : (parsed?.data?.["spendory-transactions-v1"] || []);
+    const transactions = JSON.parse(raw);
     
     if (!Array.isArray(transactions)) return [];
     

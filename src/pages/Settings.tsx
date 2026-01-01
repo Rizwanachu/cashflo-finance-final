@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { usePrivacy } from "../context/PrivacyContext";
@@ -14,11 +14,10 @@ import { useNotifications } from "../context/NotificationsContext";
 import { useAnalytics } from "../context/AnalyticsContext";
 import { usePro } from "../context/ProContext";
 import { generateUnlockCode } from "../utils/crypto";
-import { exportBackup, importBackup, factoryReset, readBackupFile } from "../utils/backup";
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
 import DataOwnership from "../components/DataOwnership";
-import { Sun, Moon, Monitor, Lock, Unlock, Download, Upload, Trash2, Bell, Eye, EyeOff, Globe } from "lucide-react";
+import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe } from "lucide-react";
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -39,7 +38,6 @@ const SettingsPage: React.FC = () => {
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
   const { deviceId, resetPro, isProUser } = usePro();
   
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showResetModal, setShowResetModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [simulatorClicks, setSimulatorClicks] = useState(0);
@@ -105,42 +103,7 @@ const SettingsPage: React.FC = () => {
     pushToast("Code copied to clipboard!", "success");
   };
 
-  const handleExportBackup = () => {
-    try {
-      exportBackup();
-      pushToast("Backup exported successfully", "success");
-    } catch (error) {
-      pushToast("Failed to export backup", "error");
-    }
-  };
-
-  const handleImportBackup = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      const backup = await readBackupFile(file);
-      const result = importBackup(backup);
-      
-      if (result.success) {
-        pushToast("Backup imported successfully", "success");
-        // No need to manually reset contexts here as window.location.reload() 
-        // in importBackup will handle it
-        navigate("/");
-      } else {
-        pushToast(result.error || "Failed to import backup", "error");
-      }
-    } catch (error) {
-      pushToast("Invalid backup file", "error");
-    } finally {
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    }
-  };
-
   const handleFactoryReset = () => {
-    factoryReset();
     resetTransactions();
     resetAccounts();
     resetCategories();
@@ -537,40 +500,11 @@ const SettingsPage: React.FC = () => {
           Data Management
         </h3>
         <div className="space-y-4">
-          <div>
-            <button
-              onClick={handleExportBackup}
-              className="w-full px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors flex items-center justify-center gap-2"
-            >
-              <Upload className="w-4 h-4" /> Export Spendory Backup
-            </button>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 text-center">
-              Download all your data as a Spendory JSON file
-            </p>
-          </div>
-          <div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".json"
-              onChange={handleImportBackup}
-              className="hidden"
-            />
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-center gap-2"
-            >
-              <Download className="w-4 h-4" /> Import Spendory Backup
-            </button>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 text-center">
-              Restore data from a Spendory backup file
-            </p>
-          </div>
           <button
             onClick={() => setShowResetModal(true)}
-            className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-[var(--danger-bg)] text-red-600 dark:text-[var(--danger-text)] text-sm font-medium hover:bg-red-50 dark:hover:bg-[var(--danger-bg)]/20 transition-colors flex items-center justify-center gap-2 mt-2"
+            className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors flex items-center justify-center gap-2"
           >
-            <Trash2 className="w-4 h-4" /> Factory Reset
+            <Trash2 className="w-4 h-4" /> Reset All Data
           </button>
         </div>
       </Card>
