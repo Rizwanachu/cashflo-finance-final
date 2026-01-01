@@ -4,22 +4,22 @@
 
 :root {
   /* Light theme variables */
-  --app-bg: #F8FAFC;
+  --app-bg: #FFFFFF;
   --card-bg: #FFFFFF;
-  --sidebar-bg: #F1F5F9;
-  --hover-surface: #E2E8F0;
-  --primary-text: #0F172A;
-  --secondary-text: #475569;
-  --muted-text: #64748B;
-  --disabled-text: #94A3B8;
-  --default-border: #E2E8F0;
-  --subtle-divider: #CBD5E1;
-  --brand-primary: #059669;
-  --brand-hover: #065f46;
-  --brand-soft-bg: #ecfdf5;
-  --success: #16A34A;
+  --sidebar-bg: #F8F8F8;
+  --hover-surface: #F0F0F0;
+  --primary-text: #000000;
+  --secondary-text: #404040;
+  --muted-text: #737373;
+  --disabled-text: #A3A3A3;
+  --default-border: #E5E5E5;
+  --subtle-divider: #F0F0F0;
+  --brand-primary: #000000;
+  --brand-hover: #171717;
+  --brand-soft-bg: #F5F5F5;
+  --success: #000000;
   --warning: #F59E0B;
-  --error: #DC2626;
+  --error: #EF4444;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,9 +28,9 @@
     --bg-secondary: #0A0A0A;
     --bg-tertiary: #111111;
 
-    --brand-primary: #14b8a6;
-    --brand-secondary: #0d9488;
-    --brand-accent: #134e4a;
+    --brand-primary: #FFFFFF;
+    --brand-secondary: #E2E8F0;
+    --brand-accent: #111111;
 
     --text-primary: #FFFFFF;
     --text-secondary: #A1A1AA;
@@ -38,14 +38,14 @@
     --text-muted: #52525B;
     --text-disabled: #3F3F46;
 
-    --border-subtle: #1F1F23;
+    --border-subtle: #111111;
 
-    --button-primary-bg: #14b8a6;
-    --button-primary-text: #ffffff;
-    --button-primary-hover: #0d9488;
+    --button-primary-bg: #FFFFFF;
+    --button-primary-text: #000000;
+    --button-primary-hover: #E2E8F0;
 
     --button-secondary-bg: transparent;
-    --button-secondary-border: #27272A;
+    --button-secondary-border: #111111;
     --button-secondary-text: #FFFFFF;
 
     --danger-bg: #450A0A;

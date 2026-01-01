@@ -71,7 +71,7 @@ const MainLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
+                className="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-slate-900 dark:hover:border-slate-100 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
                 title="Notifications"
               >
                 <Bell className="w-4 h-4" />
@@ -98,7 +98,7 @@ const MainLayout: React.FC = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={markAllAsRead}
-                            className="text-xs text-emerald-600 dark:text-[var(--brand-primary)] hover:underline"
+                            className="text-xs text-slate-900 dark:text-slate-100 hover:underline"
                           >
                             Mark all read
                           </button>
@@ -138,12 +138,12 @@ const MainLayout: React.FC = () => {
                               className={`p-3 rounded-xl cursor-pointer transition-colors ${
                                 n.read 
                                   ? "bg-slate-50 dark:bg-[var(--bg-secondary)] hover:bg-slate-100 dark:hover:bg-[var(--bg-tertiary)]" 
-                                  : "bg-emerald-50 dark:bg-[var(--brand-primary)]/10 hover:bg-emerald-100 dark:hover:bg-[var(--brand-primary)]/20"
+                                  : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800"
                               }`}
                             >
                               <div className="flex items-start gap-2">
                                 <span className="mt-0.5">
-                                  {n.type === "budget_exceeded" ? <AlertTriangle className="w-3.5 h-3.5 text-red-500" /> : 
+                                  {n.type === "budget_exceeded" ? <AlertTriangle className="w-3.5 h-3.5 text-rose-500" /> : 
                                    n.type === "budget_warning" ? <BarChart3 className="w-3.5 h-3.5 text-amber-500" /> : 
                                    n.type === "payment_due" ? <CreditCard className="w-3.5 h-3.5 text-blue-500" /> : <Info className="w-3.5 h-3.5 text-slate-400" />}
                                 </span>
@@ -156,7 +156,7 @@ const MainLayout: React.FC = () => {
                                   </div>
                                 </div>
                                 {!n.read && (
-                                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
+                                  <span className="w-2 h-2 rounded-full bg-slate-900 dark:bg-slate-100 shrink-0 mt-1.5" />
                                 )}
                               </div>
                             </div>
@@ -183,7 +183,7 @@ const MainLayout: React.FC = () => {
             <button
               type="button"
               onClick={togglePrivacyMode}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-slate-900 dark:hover:border-slate-100 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
               title={privacyMode ? "Disable Privacy Mode" : "Enable Privacy Mode"}
             >
               {privacyMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -191,7 +191,7 @@ const MainLayout: React.FC = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-slate-900 dark:hover:border-slate-100 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
               title={resolvedTheme === "dark" ? "Switch to Light" : "Switch to Dark"}
             >
               {resolvedTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -200,7 +200,7 @@ const MainLayout: React.FC = () => {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-                className="rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-2 sm:px-3 py-1.5 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-2 sm:px-3 py-1.5 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100"
               >
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
