@@ -1,0 +1,118 @@
+You are implementing a BRAND NEW restore system for the Spendory app using CSV backups.
+
+THIS SYSTEM COMPLETELY REPLACES ALL PREVIOUS RESTORE LOGIC.
+DO NOT reuse, reference, or adapt any old restore code.
+
+====================
+RESTORE INPUT
+====================
+- User uploads a ZIP file created by the NEW CSV export system
+- ZIP contains multiple CSV files
+- CSV files may be empty but must be handled safely
+
+====================
+MANDATORY RESTORE ORDER
+====================
+1. categories.csv
+2. accounts.csv
+3. goals.csv
+4. transactions.csv
+5. budgets.csv
+6. recurring.csv
+7. settings.csv
+8. onboarding.csv
+
+(The order is strict. Do not reorder.)
+
+====================
+CSV FILE EXPECTATIONS
+====================
+Each CSV:
+- Has headers in the first row
+- Uses flat rows only
+- Must be validated before reading data
+- If a CSV file is missing → SKIP it and log a warning
+- If headers do not match → FAIL restore with a clear error
+
+====================
+IMPLEMENTATION RULES
+====================
+- Parse CSV safely (no assumptions)
+- Validate headers before processing rows
+- Log filename + row number for any invalid row
+- Convert CSV rows into internal Spendory data structures
+- Write restored data directly to localStorage using spendory-* keys
+- Do NOT reload the page at any point
+- Do NOT seed defaults during restore
+- Do NOT allow contexts to initialize during restore
+
+====================
+CLEARING RULES
+====================
+Before restore begins:
+- Clear ONLY relevant spendory-* keys
+- Do NOT clear unrelated localStorage keys
+- If restore fails at any point, restore NOTHING
+
+====================
+ATOMIC RESTORE GUARANTEE
+====================
+- Restore must be atomic:
+  - Either all datasets restore successfully
+  - Or no data is written at all
+- Use an in-memory staging object
+- Only commit to localStorage after ALL CSVs are validated and parsed
+
+====================
+CRITICAL SAFETY LOCK
+====================
+- Set a global flag: spendoryRestoreInProgress = true
+- While active:
+  - Block all context initialization
+  - Block all default data seeding
+  - Block any write to localStorage outside restore
+- Clear the flag ONLY after restore finishes successfully
+
+====================
+UI REQUIREMENTS
+====================
+- Show blocking UI state:
+  “Restoring backup… Please wait”
+- Disable navigation and actions during restore
+- Show clear success or failure message
+
+====================
+POST-RESTORE FLOW
+====================
+After successful restore:
+- Dispatch a custom event: spendory:rehydrate
+- Contexts must re-read data from localStorage
+- Only after rehydration:
+  - Allow normal app rendering
+
+====================
+FINAL VALIDATION CHECKLIST
+====================
+- Categories reappear
+- Accounts reappear
+- Goals reappear
+- Transactions reappear
+- Budgets reappear
+- Recurring payments reappear
+- Settings persist
+- Refresh page → data stays
+- Close tab → reopen → data stays
+- No silent resets
+- No partial restores
+
+====================
+ERROR HANDLING
+====================
+- If any CSV row fails validation:
+  - Log the exact filename
+  - Log the row number
+  - Log the reason
+- Abort restore immediately
+- Do NOT write partial data
+
+Implement clean, boring, reliable CSV restore logic.
