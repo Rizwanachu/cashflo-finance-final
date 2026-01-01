@@ -49,10 +49,10 @@ const MainLayout: React.FC = () => {
     baseClass + " bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 border border-slate-800 dark:border-gray-200 shadow-sm";
 
   return (
-    <div className="min-h-screen flex transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
+    <div className="h-screen flex overflow-hidden transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
       <Sidebar />
-      <main className="flex-1 flex flex-col">
-        <header className="h-16 border-b border-slate-200 dark:border-[var(--border-subtle)] flex items-center px-3 sm:px-4 md:px-8 justify-between bg-transparent">
+      <main className="flex-1 flex flex-col min-w-0">
+        <header className="h-16 border-b border-slate-200 dark:border-[var(--border-subtle)] flex items-center px-3 sm:px-4 md:px-8 justify-between bg-transparent shrink-0">
           <div className="flex items-center gap-2 md:hidden min-w-0">
             <img src="/logo.png" alt="Spendory" className="h-8 w-8 rounded-lg shadow-sm shrink-0" onError={(e) => {
               (e.target as HTMLImageElement).style.display = 'none';
