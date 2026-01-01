@@ -300,6 +300,32 @@ const MainLayout: React.FC = () => {
                     >
                       <DollarSign className="w-4 h-4" /> Pricing
                     </NavLink>
+                    <NavLink
+                      to="/privacy"
+                      onClick={() => setShowMobileMenu(false)}
+                      className={({ isActive }) => 
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                          isActive 
+                            ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
+                        }`
+                      }
+                    >
+                      <Eye className="w-4 h-4" /> Privacy
+                    </NavLink>
+                    <NavLink
+                      to="/terms"
+                      onClick={() => setShowMobileMenu(false)}
+                      className={({ isActive }) => 
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                          isActive 
+                            ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
+                        }`
+                      }
+                    >
+                      <FileText className="w-4 h-4" /> Terms
+                    </NavLink>
                     <button
                       type="button"
                       onClick={() => {
