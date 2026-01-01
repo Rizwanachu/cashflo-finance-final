@@ -70,24 +70,24 @@ const Privacy: React.FC = () => {
         </div>
 
         <div className="space-y-6">
-          <Card className="p-6 bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100 border-none">
-            <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Privacy at a Glance</h3>
+          <Card className="p-6 bg-slate-900 text-slate-100 border-none shadow-xl">
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-4 opacity-90">Privacy at a Glance</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
-                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-900/10 dark:bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">1</span>
-                <span>Zero server-side data storage</span>
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">1</span>
+                <span className="opacity-90">Zero server-side data storage</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-900/10 dark:bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">2</span>
-                <span>Works 100% offline</span>
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">2</span>
+                <span className="opacity-90">Works 100% offline</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-900/10 dark:bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">3</span>
-                <span>No third-party data sharing</span>
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">3</span>
+                <span className="opacity-90">No third-party data sharing</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-900/10 dark:bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">4</span>
-                <span>Instant data deletion</span>
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-100/10 flex items-center justify-center text-[10px] font-bold">4</span>
+                <span className="opacity-90">Instant data deletion</span>
               </li>
             </ul>
           </Card>
