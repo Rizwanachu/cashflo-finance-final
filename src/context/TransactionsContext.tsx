@@ -108,6 +108,18 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
+  useEffect(() => {
+    const handleRehydrate = () => {
+      const saved = localStorage.getItem("spendory-transactions-v1");
+      if (saved) {
+        setTransactions(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener("spendory:rehydrate", handleRehydrate);
+    return () => window.removeEventListener("spendory:rehydrate", handleRehydrate);
+  }, []);
+
   const addTransaction = (tx: Omit<Transaction, "id">) => {
     const newTransaction: Transaction = {
       ...tx,
