@@ -124,7 +124,7 @@ const GoalsPage: React.FC = () => {
           }}
           className="bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors flex items-center gap-2 mx-auto"
         >
-          <Target size={18} />
+          <Star size={18} fill="currentColor" />
           <span>Upgrade to Pro</span>
         </button>
       </div>
