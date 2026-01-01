@@ -44,11 +44,24 @@ const Dashboard: React.FC = () => {
   }, [filteredTransactions, sortNewest]);
 
   const categoryLabel: Record<string, string> = {
-    rent: "Home Rent",
-    food: "Food & Shopping",
-    transport: "Transport",
-    utilities: "Bills & Utilities",
-    misc: "Others"
+    housing: "Housing",
+    utilities: "Utilities",
+    transport: "Transportation",
+    groceries: "Food/Groceries",
+    dining: "Dining Out",
+    personal: "Personal Care",
+    health: "Health/Medical",
+    insurance: "Insurance",
+    debt: "Debt Payments",
+    savings: "Savings/Investments",
+    entertainment: "Entertainment",
+    subscriptions: "Subscriptions",
+    clothing: "Clothing/Apparel",
+    household: "Household Supplies",
+    gifts: "Gifts/Donations",
+    travel: "Travel/Vacation",
+    income: "Income",
+    other: "Other"
   };
 
   const categorySpending = useMemo(() => {

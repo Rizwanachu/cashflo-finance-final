@@ -56,7 +56,11 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({
     const handleRehydrate = () => {
       const saved = localStorage.getItem("spendory-budgets-v1");
       if (saved) {
-        setBudgets(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setBudgets({
+          overall: parsed.overall !== undefined ? parsed.overall : null,
+          perCategory: parsed.perCategory || {}
+        });
       }
     };
 
