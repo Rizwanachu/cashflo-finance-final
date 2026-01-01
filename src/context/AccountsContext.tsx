@@ -14,7 +14,7 @@ interface AccountsContextValue {
 const AccountsContext = createContext<AccountsContextValue | undefined>(undefined);
 
 const ACCOUNTS_KEY = "spendory-accounts-v1";
-const OLD_ACCOUNTS_KEY = "ledgerly-accounts-v1";
+const OLD_ACCOUNTS_KEY = "spendory-accounts-v1";
 
 const defaultAccounts: Account[] = [
   {

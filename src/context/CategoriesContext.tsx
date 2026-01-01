@@ -21,7 +21,7 @@ interface CategoriesContextValue {
 const CategoriesContext = createContext<CategoriesContextValue | undefined>(undefined);
 
 const CATEGORIES_KEY = "spendory-categories-v1";
-const OLD_CATEGORIES_KEY = "ledgerly-categories-v1";
+const OLD_CATEGORIES_KEY = "spendory-categories-v1";
 
 const defaultCategories: Category[] = [
   { id: "cat-housing", name: "Housing", icon: "home", color: "#6366F1", isDefault: true },

@@ -21,7 +21,7 @@ interface RecurringContextValue {
 
 const RecurringContext = createContext<RecurringContextValue | undefined>(undefined);
 
-const RECURRING_KEY = "cashflo-recurring-v1";
+const RECURRING_KEY = "spendory-recurring-v1";
 
 function loadPayments(): RecurringPayment[] {
   if (typeof window === "undefined") return [];

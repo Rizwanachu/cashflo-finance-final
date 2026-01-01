@@ -13,7 +13,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const THEME_KEY = "ledgerly-theme-v1";
+const THEME_KEY = "spendory-theme-v1";
 
 function getSystemTheme(): ThemeMode {
   if (typeof window === "undefined") return "dark";

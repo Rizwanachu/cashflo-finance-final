@@ -23,7 +23,7 @@ interface GoalsContextValue {
 
 const GoalsContext = createContext<GoalsContextValue | undefined>(undefined);
 
-const GOALS_KEY = "ledgerly-goals-v1";
+const GOALS_KEY = "spendory-goals-v1";
 
 const defaultGoals: Goal[] = [];
 

@@ -16,7 +16,7 @@ interface BudgetContextValue {
 const BudgetContext = createContext<BudgetContextValue | undefined>(undefined);
 
 const BUDGET_KEY = "spendory-budgets-v1";
-const OLD_BUDGET_KEY = "ledgerly-budgets-v1";
+const OLD_BUDGET_KEY = "spendory-budgets-v1";
 
 const defaultBudgets: Budgets = {
   overall: null,

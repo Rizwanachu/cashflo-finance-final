@@ -1,8 +1,8 @@
-## Ledgerly
+## Spendory
 
 Smart money. Clear decisions.
 
-Ledgerly is a fully functional personal finance tracking web app built with **React**, **Vite**, **Tailwind CSS**, **React Router**, **Recharts**, and **LocalStorage** (no backend).
+Spendory is a fully functional personal finance tracking web app built with **React**, **Vite**, **Tailwind CSS**, **React Router**, **Recharts**, and **LocalStorage** (no backend).
 
 ### Features
 
@@ -43,8 +43,7 @@ Ledgerly is a fully functional personal finance tracking web app built with **Re
 
 ### Data & persistence
 
-- Transactions are stored under the key `finance-tracker-transactions-v1` in `localStorage`.
-- On first load, the app seeds a **realistic default dataset** (salary, rent, groceries, utilities, etc.).
+- Transactions are stored under the key `spendory-transactions-v1` in `localStorage`.
 - All CRUD operations (add, edit, delete) immediately update LocalStorage and refresh the dashboard and analytics.
 
 ### Tech stack
@@ -55,7 +54,3 @@ Ledgerly is a fully functional personal finance tracking web app built with **Re
 - **React Router v6** (routing)
 - **Recharts** (charts)
 - **LocalStorage** (data persistence for transactions, theme, budgets, and currency)
-
-
-
-

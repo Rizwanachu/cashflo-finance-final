@@ -81,7 +81,7 @@ export function safeRemove(key: string): void {
 export function clearAllData(): void {
   if (typeof window === "undefined") return;
   
-  const keysToKeep = ["cashflo_device_id", "cashflo_pro_device"];
+  const keysToKeep = ["spendory_device_id", "spendory_pro_device"];
   
   try {
     const keys = Object.keys(window.localStorage);
@@ -99,7 +99,7 @@ export function clearAllData(): void {
  * Get or create a unique device ID
  */
 export function getOrCreateDeviceId(): string {
-  const DEVICE_KEY = "cashflo_device_id";
+  const DEVICE_KEY = "spendory_device_id";
   
   let deviceId = safeGet<string>(DEVICE_KEY, "");
   

@@ -1,5 +1,5 @@
 /**
- * Centralized theme system for Ledgerly
+ * Centralized theme system for Spendory
  * All colors must come from these tokens - NO raw hex values in components
  */
 

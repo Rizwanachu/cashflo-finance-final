@@ -14,8 +14,8 @@ interface AppLockContextValue {
 
 const AppLockContext = createContext<AppLockContextValue | undefined>(undefined);
 
-const PIN_KEY = "ledgerly-app-lock-pin-v1";
-const LOCK_STATUS_KEY = "ledgerly-app-locked-v1";
+const PIN_KEY = "spendory-app-lock-pin-v1";
+const LOCK_STATUS_KEY = "spendory-app-locked-v1";
 
 export const AppLockProvider: React.FC<{ children: React.ReactNode }> = ({
   children

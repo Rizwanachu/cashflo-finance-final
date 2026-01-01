@@ -8,7 +8,7 @@ interface PrivacyContextValue {
 
 const PrivacyContext = createContext<PrivacyContextValue | undefined>(undefined);
 
-const PRIVACY_KEY = "ledgerly-privacy-mode-v1";
+const PRIVACY_KEY = "spendory-privacy-mode-v1";
 
 export const PrivacyProvider: React.FC<{ children: React.ReactNode }> = ({
   children

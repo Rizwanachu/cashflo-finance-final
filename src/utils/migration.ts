@@ -5,7 +5,7 @@
 import { Transaction } from "../types";
 
 const OLD_STORAGE_KEY = "finance-tracker-transactions-v1";
-const NEW_STORAGE_KEY = "ledgerly-transactions-v1";
+const NEW_STORAGE_KEY = "spendory-transactions-v1";
 
 /**
  * Migrate old transactions to new format (add accountId and currency)
@@ -32,9 +32,6 @@ export function migrateOldTransactions(): Transaction[] {
     // Save to new key
     window.localStorage.setItem(NEW_STORAGE_KEY, JSON.stringify(migrated));
     
-    // Optionally remove old key (keep for now in case of rollback)
-    // window.localStorage.removeItem(OLD_STORAGE_KEY);
-    
     return migrated;
   } catch {
     return [];
@@ -50,4 +47,3 @@ export function needsMigration(): boolean {
   const hasOld = window.localStorage.getItem(OLD_STORAGE_KEY);
   return !hasNew && !!hasOld;
 }
-

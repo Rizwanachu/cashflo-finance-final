@@ -26,7 +26,7 @@ interface CurrencyContextValue {
 
 const CurrencyContext = createContext<CurrencyContextValue | undefined>(undefined);
 
-const CURRENCY_KEY = "ledgerly-currency-v2";
+const CURRENCY_KEY = "spendory-currency-v2";
 
 const CURRENCIES: CurrencyInfo[] = [
   { code: "USD", symbol: "$", name: "US Dollar", country: "United States" },

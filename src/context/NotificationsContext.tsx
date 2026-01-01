@@ -25,8 +25,8 @@ interface NotificationsContextValue {
 
 const NotificationsContext = createContext<NotificationsContextValue | undefined>(undefined);
 
-const NOTIFICATIONS_KEY = "cashflo-notifications-v1";
-const NOTIFICATIONS_ENABLED_KEY = "cashflo-notifications-enabled-v1";
+const NOTIFICATIONS_KEY = "spendory-notifications-v1";
+const NOTIFICATIONS_ENABLED_KEY = "spendory-notifications-enabled-v1";
 
 function loadNotifications(): Notification[] {
   if (typeof window === "undefined") return [];

@@ -1,19 +1,8 @@
 /**
- * Backup and restore utilities for Ledgerly
+ * Backup and restore utilities for Spendory
  */
 
 const STORAGE_KEYS = [
-  "ledgerly-transactions-v1",
-  "ledgerly-accounts-v1",
-  "ledgerly-budgets-v1",
-  "ledgerly-categories-v1",
-  "ledgerly-currency-v1",
-  "ledgerly-theme-v1",
-  "ledgerly-privacy-mode-v1",
-  "ledgerly-recurring-v1",
-  "cashflo-recurring-v1",
-  "cashflo-notifications-v1",
-  "cashflo-notifications-enabled-v1",
   "spendory-transactions-v1",
   "spendory-accounts-v1",
   "spendory-budgets-v1",
@@ -23,7 +12,8 @@ const STORAGE_KEYS = [
   "spendory-privacy-mode-v1",
   "spendory-recurring-v1",
   "spendory-notifications-v1",
-  "spendory-notifications-enabled-v1"
+  "spendory-notifications-enabled-v1",
+  "spendory-onboarding-v1"
 ];
 
 export interface BackupData {
@@ -33,7 +23,7 @@ export interface BackupData {
 }
 
 /**
- * Export all Ledgerly data as JSON
+ * Export all Spendory data as JSON
  */
 export function exportBackup(): BackupData | null {
   if (typeof window === "undefined") return null;
@@ -52,7 +42,7 @@ export function exportBackup(): BackupData | null {
   });
 
   const backup: BackupData = {
-    version: "1.0.0",
+    version: "1.1.0",
     timestamp: new Date().toISOString(),
     data
   };
@@ -94,19 +84,8 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
         // Map old keys to the current STORAGE_KEYS
         const targetKey = key.replace(/ledgerly-|cashflo-/, 'spendory-');
         
-        // Save to original key for backward compatibility
-        window.localStorage.setItem(key, JSON.stringify(value));
-        
-        // Also save to the new spendory- prefix if applicable
-        if (key !== targetKey) {
-          window.localStorage.setItem(targetKey, JSON.stringify(value));
-          
-          // CRITICAL: Also save to ledgerly- prefix if that's what context is currently watching
-          const ledgerlyKey = key.replace(/cashflo-/, 'ledgerly-');
-          if (key !== ledgerlyKey) {
-            window.localStorage.setItem(ledgerlyKey, JSON.stringify(value));
-          }
-        }
+        // Save to the target spendory- prefix
+        window.localStorage.setItem(targetKey, JSON.stringify(value));
       } catch (err) {
         console.error(`Failed to restore key ${key}`, err);
       }
@@ -128,7 +107,7 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
 }
 
 /**
- * Factory reset - clear all Ledgerly data
+ * Factory reset - clear all Spendory data
  */
 export function factoryReset(): void {
   if (typeof window === "undefined") return;
@@ -161,4 +140,3 @@ export function readBackupFile(file: File): Promise<BackupData> {
     reader.readAsText(file);
   });
 }
-

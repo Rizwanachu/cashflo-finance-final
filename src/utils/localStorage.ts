@@ -2,7 +2,7 @@ import { Transaction } from "../types";
 import { migrateOldTransactions, needsMigration } from "./migration";
 
 const STORAGE_KEY = "spendory-transactions-v1";
-const OLD_STORAGE_KEY = "ledgerly-transactions-v1";
+const OLD_STORAGE_KEY = "spendory-transactions-v1";
 
 /**
  * Load transactions from LocalStorage.
