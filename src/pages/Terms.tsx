@@ -3,57 +3,105 @@ import { Card } from "../components/Card";
 
 const Terms: React.FC = () => {
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-2">
+    <div className="max-w-4xl mx-auto space-y-8 pb-12">
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-slate-50 tracking-tight">
           Terms of Service
         </h1>
-        <p className="text-slate-600 dark:text-slate-400">
-          Last updated: December 2025
+        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+          Effective Date: January 1, 2026
         </p>
       </div>
 
-      <Card className="prose dark:prose-invert prose-sm max-w-none">
-        <h2>Acceptance of Terms</h2>
-        <p>
-          By using Spendory, you accept these terms. If you don't agree, please don't use the app.
-        </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-2 space-y-6">
+          <Card className="p-6 sm:p-8">
+            <article className="prose dark:prose-invert prose-slate max-w-none prose-h2:text-lg prose-h2:font-bold prose-h2:mt-8 prose-h2:mb-4 prose-p:text-slate-600 dark:prose-p:text-slate-400 prose-li:text-slate-600 dark:prose-li:text-slate-400">
+              <section>
+                <h2>1. Acceptance of Terms</h2>
+                <p>
+                  By accessing or using Spendory, you agree to be bound by these Terms of Service. If you do not agree to all of these terms, you are prohibited from using this application.
+                </p>
+              </section>
 
-        <h2>License</h2>
-        <p>
-          We grant you a personal, non-transferable license to use Spendory for your own financial tracking.
-        </p>
+              <section>
+                <h2>2. Description of Service</h2>
+                <p>
+                  Spendory is a personal finance tracking application that operates locally on the user's device. We provide tools for recording transactions, setting budgets, and visualizing financial data.
+                </p>
+              </section>
 
-        <h2>User Responsibilities</h2>
-        <ul>
-          <li>You are responsible for backing up your data</li>
-          <li>You are responsible for maintaining the security of your device</li>
-          <li>You agree not to use the app for illegal purposes</li>
-        </ul>
+              <section>
+                <h2>3. License & Use</h2>
+                <p>
+                  We grant you a non-exclusive, non-transferable, revocable license to use Spendory for your personal, non-commercial use.
+                </p>
+                <ul>
+                  <li>You must not decompile or reverse engineer the software.</li>
+                  <li>You must not use the service for any illegal or unauthorized purpose.</li>
+                </ul>
+              </section>
 
-        <h2>No Warranty</h2>
-        <p>
-          Spendory is provided "as is" without any guarantees. We are not responsible for data loss due to device failures, browser issues, or other technical problems.
-        </p>
+              <section>
+                <h2>4. Pro Purchase & Refunds</h2>
+                <p>
+                  Spendory Pro is a one-time purchase that unlocks advanced features.
+                </p>
+                <ul>
+                  <li>The purchase is tied to the local installation on your device.</li>
+                  <li>Due to the nature of local software activation, all sales are final and non-refundable.</li>
+                  <li>We reserve the right to modify Pro features at any time.</li>
+                </ul>
+              </section>
 
-        <h2>Limitation of Liability</h2>
-        <p>
-          We are not liable for any indirect or consequential damages related to your use of Spendory.
-        </p>
+              <section>
+                <h2>5. Disclaimer of Warranties</h2>
+                <p>
+                  Spendory is provided "as is" and "as available". We make no warranties, expressed or implied, regarding the accuracy or reliability of the data stored within the app. <strong>You are solely responsible for backing up your data.</strong>
+                </p>
+              </section>
 
-        <h2>Pro Purchase</h2>
-        <ul>
-          <li>Pro unlock is a one-time purchase</li>
-          <li>Pro features include unlimited transactions and history</li>
-          <li>Pro purchases are non-refundable</li>
-          <li>We maintain the right to update Pro features</li>
-        </ul>
+              <section>
+                <h2>6. Limitation of Liability</h2>
+                <p>
+                  In no event shall Spendory or its creators be liable for any damages (including, without limitation, damages for loss of data or profit) arising out of the use or inability to use the application.
+                </p>
+              </section>
+            </article>
+          </Card>
+        </div>
 
-        <h2>Changes to Terms</h2>
-        <p>
-          We may update these terms. Continued use means you accept the changes.
-        </p>
-      </Card>
+        <div className="space-y-6">
+          <Card className="p-6 bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-none">
+            <h3 className="text-sm font-bold uppercase tracking-wider mb-4">Key Terms</h3>
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/10 dark:bg-slate-900/10 flex items-center justify-center text-[10px] font-bold">1</span>
+                <span>One-time Pro payment</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/10 dark:bg-slate-900/10 flex items-center justify-center text-[10px] font-bold">2</span>
+                <span>Personal use only</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/10 dark:bg-slate-900/10 flex items-center justify-center text-[10px] font-bold">3</span>
+                <span>User-managed backups</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/10 dark:bg-slate-900/10 flex items-center justify-center text-[10px] font-bold">4</span>
+                <span>No liability for data loss</span>
+              </li>
+            </ul>
+          </Card>
+
+          <Card className="p-6">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-50 mb-2">Notice</h3>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              These terms are subject to change. Your continued use of the app constitutes acceptance of any updates.
+            </p>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };
