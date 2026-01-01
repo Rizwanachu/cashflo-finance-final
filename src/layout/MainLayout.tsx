@@ -235,7 +235,7 @@ const MainLayout: React.FC = () => {
               to="/goals"
               className={({ isActive }) => (isActive ? active : inactive)}
             >
-              <Star className="w-[18px] h-[18px]" />
+              <Target className="w-[18px] h-[18px]" />
               <span>Goals</span>
             </NavLink>
             <NavLink
