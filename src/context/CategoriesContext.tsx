@@ -90,6 +90,18 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
     setCategories(defaultCategories);
   };
 
+  useEffect(() => {
+    const handleRehydrate = () => {
+      const saved = localStorage.getItem("spendory-categories-v1");
+      if (saved) {
+        setCategories(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener("spendory:rehydrate", handleRehydrate);
+    return () => window.removeEventListener("spendory:rehydrate", handleRehydrate);
+  }, []);
+
   return (
     <CategoriesContext.Provider
       value={{

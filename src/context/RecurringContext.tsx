@@ -81,6 +81,18 @@ export const RecurringProvider: React.FC<{ children: React.ReactNode }> = ({
     setPayments([]);
   };
 
+  useEffect(() => {
+    const handleRehydrate = () => {
+      const saved = localStorage.getItem("spendory-recurring-v1");
+      if (saved) {
+        setPayments(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener("spendory:rehydrate", handleRehydrate);
+    return () => window.removeEventListener("spendory:rehydrate", handleRehydrate);
+  }, []);
+
   return (
     <RecurringContext.Provider
       value={{ payments, addPayment, updatePayment, deletePayment, togglePayment, resetPayments }}

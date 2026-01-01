@@ -82,6 +82,18 @@ export const AccountsProvider: React.FC<{ children: React.ReactNode }> = ({
     setAccounts(defaultAccounts);
   };
 
+  useEffect(() => {
+    const handleRehydrate = () => {
+      const saved = localStorage.getItem("spendory-accounts-v1");
+      if (saved) {
+        setAccounts(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener("spendory:rehydrate", handleRehydrate);
+    return () => window.removeEventListener("spendory:rehydrate", handleRehydrate);
+  }, []);
+
   return (
     <AccountsContext.Provider
       value={{

@@ -52,6 +52,18 @@ export const BudgetProvider: React.FC<{ children: React.ReactNode }> = ({
     setBudgets(defaultBudgets);
   };
 
+  useEffect(() => {
+    const handleRehydrate = () => {
+      const saved = localStorage.getItem("spendory-budgets-v1");
+      if (saved) {
+        setBudgets(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener("spendory:rehydrate", handleRehydrate);
+    return () => window.removeEventListener("spendory:rehydrate", handleRehydrate);
+  }, []);
+
   return (
     <BudgetContext.Provider
       value={{

@@ -74,6 +74,18 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({
     setGoals(defaultGoals);
   };
 
+  useEffect(() => {
+    const handleRehydrate = () => {
+      const saved = localStorage.getItem("spendory-goals-v1");
+      if (saved) {
+        setGoals(JSON.parse(saved));
+      }
+    };
+
+    window.addEventListener("spendory:rehydrate", handleRehydrate);
+    return () => window.removeEventListener("spendory:rehydrate", handleRehydrate);
+  }, []);
+
   return (
     <GoalsContext.Provider
       value={{
