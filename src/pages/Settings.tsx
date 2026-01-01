@@ -18,6 +18,7 @@ import { exportBackup, importBackup, factoryReset, readBackupFile } from "../uti
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
 import DataOwnership from "../components/DataOwnership";
+import { Sun, Moon, Monitor, Lock, Unlock, Download, Upload, Trash2, Bell, Eye, EyeOff, Globe } from "lucide-react";
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -189,33 +190,33 @@ const SettingsPage: React.FC = () => {
             <div className="flex gap-2">
               <button
                 onClick={() => setTheme("light")}
-                className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
                   theme === "light"
                     ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
                     : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
-                ☀️ Light
+                <Sun className="w-3.5 h-3.5" /> Light
               </button>
               <button
                 onClick={() => setTheme("dark")}
-                className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
                   theme === "dark"
                     ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
                     : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
-                🌙 Dark
+                <Moon className="w-3.5 h-3.5" /> Dark
               </button>
               <button
                 onClick={() => setTheme("system")}
-                className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
                   theme === "system"
                     ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
                     : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
                 }`}
               >
-                💻 System
+                <Monitor className="w-3.5 h-3.5" /> System
               </button>
             </div>
             {theme === "system" && (
@@ -252,9 +253,12 @@ const SettingsPage: React.FC = () => {
 
       {isProUser && (
         <Card>
-          <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)] mb-4">
-            🔒 App Lock & PIN Protection
-          </h3>
+          <div className="flex items-center gap-2 mb-4">
+            <Lock className="w-4 h-4 text-slate-900 dark:text-[var(--text-primary)]" />
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)]">
+              App Lock & PIN Protection
+            </h3>
+          </div>
           <div className="space-y-4">
             {!isPinSet ? (
               <>
@@ -318,9 +322,9 @@ const SettingsPage: React.FC = () => {
                 </div>
                 <button
                   onClick={handleLockApp}
-                  className="w-full px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors"
+                  className="w-full px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2"
                 >
-                  🔐 Lock App Now
+                  <Lock className="w-4 h-4" /> Lock App Now
                 </button>
                 <button
                   onClick={handleRemovePin}

@@ -10,6 +10,25 @@ import { ToastViewport } from "../context/ToastContext";
 import GoproModal from "../components/GoproModal";
 import AppLockModal from "../components/AppLockModal";
 import { usePro } from "../context/ProContext";
+import { 
+  Bell, 
+  Eye, 
+  EyeOff, 
+  Sun, 
+  Moon, 
+  Home, 
+  CreditCard, 
+  Target, 
+  Star, 
+  RefreshCw, 
+  MoreHorizontal,
+  Settings,
+  BarChart3,
+  DollarSign,
+  AlertTriangle,
+  LayoutDashboard,
+  Info
+} from "lucide-react";
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -54,7 +73,7 @@ const MainLayout: React.FC = () => {
                 className="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
                 title="Notifications"
               >
-                <span className="text-sm">🔔</span>
+                <Bell className="w-4 h-4" />
                 {unreadCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-white text-[10px] font-medium flex items-center justify-center">
                     {unreadCount > 9 ? "9+" : unreadCount}
@@ -94,7 +113,9 @@ const MainLayout: React.FC = () => {
                     <div className="p-2">
                       {notifications.length === 0 ? (
                         <div className="text-center py-8">
-                          <div className="text-2xl mb-2">🔔</div>
+                          <div className="flex justify-center mb-2">
+                            <Bell className="w-8 h-8 text-slate-300 dark:text-slate-600" />
+                          </div>
                           <p className="text-sm text-slate-500 dark:text-[var(--text-paragraph)]">
                             No notifications yet
                           </p>
@@ -120,10 +141,10 @@ const MainLayout: React.FC = () => {
                               }`}
                             >
                               <div className="flex items-start gap-2">
-                                <span className="text-sm">
-                                  {n.type === "budget_exceeded" ? "⚠️" : 
-                                   n.type === "budget_warning" ? "📊" : 
-                                   n.type === "payment_due" ? "💳" : "ℹ️"}
+                                <span className="mt-0.5">
+                                  {n.type === "budget_exceeded" ? <AlertTriangle className="w-3.5 h-3.5 text-red-500" /> : 
+                                   n.type === "budget_warning" ? <BarChart3 className="w-3.5 h-3.5 text-amber-500" /> : 
+                                   n.type === "payment_due" ? <CreditCard className="w-3.5 h-3.5 text-blue-500" /> : <Info className="w-3.5 h-3.5 text-slate-400" />}
                                 </span>
                                 <div className="flex-1 min-w-0">
                                   <div className="text-sm font-medium text-slate-900 dark:text-[var(--text-primary)]">
@@ -164,7 +185,7 @@ const MainLayout: React.FC = () => {
               className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
               title={privacyMode ? "Disable Privacy Mode" : "Enable Privacy Mode"}
             >
-              <span className="text-sm">{privacyMode ? "👁️‍🗨️" : "👁️"}</span>
+              {privacyMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
             <button
               type="button"
@@ -172,7 +193,7 @@ const MainLayout: React.FC = () => {
               className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
               title={resolvedTheme === "dark" ? "Switch to Light" : "Switch to Dark"}
             >
-              <span className="text-sm">{resolvedTheme === "dark" ? "☀️" : "🌙"}</span>
+              {resolvedTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <div className="hidden xs:flex items-center">
               <select
@@ -193,35 +214,35 @@ const MainLayout: React.FC = () => {
         <nav className="md:hidden fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-900 bg-white/95 dark:bg-black/95 backdrop-blur-md z-20 safe-area-pb">
           <div className="flex justify-between px-1 py-1 text-xs">
             <NavLink to="/" end className={({ isActive }) => (isActive ? active : inactive)}>
-              <span className="text-[13px]">🏠</span>
+              <Home className="w-[18px] h-[18px]" />
               <span>Home</span>
             </NavLink>
             <NavLink
               to="/transactions"
               className={({ isActive }) => (isActive ? active : inactive)}
             >
-              <span className="text-[13px]">💳</span>
+              <CreditCard className="w-[18px] h-[18px]" />
               <span>Transactions</span>
             </NavLink>
             <NavLink
               to="/budgets"
               className={({ isActive }) => (isActive ? active : inactive)}
             >
-              <span className="text-[13px]">🎯</span>
+              <Target className="w-[18px] h-[18px]" />
               <span>Budgets</span>
             </NavLink>
             <NavLink
               to="/goals"
               className={({ isActive }) => (isActive ? active : inactive)}
             >
-              <span className="text-[13px]">⭐</span>
+              <Star className="w-[18px] h-[18px]" />
               <span>Goals</span>
             </NavLink>
             <NavLink
               to="/recurring"
               className={({ isActive }) => (isActive ? active : inactive)}
             >
-              <span className="text-[13px]">🔄</span>
+              <RefreshCw className="w-[18px] h-[18px]" />
               <span>Recurring</span>
             </NavLink>
             <div className="relative">
@@ -230,7 +251,7 @@ const MainLayout: React.FC = () => {
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
                 className={`${inactive}`}
               >
-                <span className="text-[13px]">⋯</span>
+                <MoreHorizontal className="w-[18px] h-[18px]" />
                 <span>More</span>
               </button>
               {showMobileMenu && (
@@ -244,40 +265,40 @@ const MainLayout: React.FC = () => {
                       to="/settings"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `block px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
                           isActive 
                             ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
                             : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
-                      ⚙️ Settings
+                      <Settings className="w-4 h-4" /> Settings
                     </NavLink>
                     <NavLink
                       to="/analytics"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `block px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
                           isActive 
                             ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
                             : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
-                      📊 Analytics
+                      <BarChart3 className="w-4 h-4" /> Analytics
                     </NavLink>
                     <NavLink
                       to="/pricing"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `block px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
                           isActive 
                             ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
                             : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
-                      💰 Pricing
+                      <DollarSign className="w-4 h-4" /> Pricing
                     </NavLink>
                     <button
                       type="button"
@@ -285,9 +306,9 @@ const MainLayout: React.FC = () => {
                         setShowGoProModal(true);
                         setShowMobileMenu(false);
                       }}
-                      className="w-full px-5 py-4 text-sm text-left bg-slate-800 hover:bg-slate-700 text-gray-100 font-medium rounded-b-xl transition-all"
+                      className="w-full flex items-center gap-3 px-5 py-4 text-sm text-left bg-slate-800 hover:bg-slate-700 text-gray-100 font-medium rounded-b-xl transition-all"
                     >
-                      ⭐ Spendory Pro
+                      <Star className="w-4 h-4" /> Spendory Pro
                     </button>
                   </div>
                 </>
