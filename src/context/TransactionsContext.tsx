@@ -101,7 +101,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [recurringTransactions, transactions]);
 
-  // Generate recurring transactions on mount and when recurring rules change
+  // Generate recurring transactions on mount
   useEffect(() => {
     if (recurringTransactions.length > 0) {
       generateRecurringTransactions();
