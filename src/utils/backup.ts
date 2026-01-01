@@ -91,17 +91,24 @@ export function importBackup(backup: BackupData): { success: boolean; error?: st
     // Restore each key
     Object.entries(backup.data).forEach(([key, value]) => {
       try {
-        // Support both old and new storage keys
+        // Map old keys to the current STORAGE_KEYS
         const targetKey = key.replace(/ledgerly-|cashflo-/, 'spendory-');
-        if (STORAGE_KEYS.includes(key) || STORAGE_KEYS.includes(targetKey)) {
-          window.localStorage.setItem(key, JSON.stringify(value));
-          // If it's an old key, also save it to the new key format for immediate compatibility
-          if (key !== targetKey) {
-            window.localStorage.setItem(targetKey, JSON.stringify(value));
+        
+        // Save to original key for backward compatibility
+        window.localStorage.setItem(key, JSON.stringify(value));
+        
+        // Also save to the new spendory- prefix if applicable
+        if (key !== targetKey) {
+          window.localStorage.setItem(targetKey, JSON.stringify(value));
+          
+          // CRITICAL: Also save to ledgerly- prefix if that's what context is currently watching
+          const ledgerlyKey = key.replace(/cashflo-/, 'ledgerly-');
+          if (key !== ledgerlyKey) {
+            window.localStorage.setItem(ledgerlyKey, JSON.stringify(value));
           }
         }
-      } catch {
-        // ignore individual key errors
+      } catch (err) {
+        console.error(`Failed to restore key ${key}`, err);
       }
     });
 

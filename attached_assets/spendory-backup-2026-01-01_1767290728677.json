@@ -1,0 +1,214 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-01-01T17:56:37.297Z",
+  "data": {
+    "ledgerly-transactions-v1": [
+      {
+        "type": "expense",
+        "amount": 300,
+        "category": "groceries",
+        "date": "2026-01-01",
+        "description": "Food",
+        "accountId": "default",
+        "currency": "PLN",
+        "id": "txn-1767289956194-phthpdm0o",
+        "isRecurring": false
+      },
+      {
+        "type": "expense",
+        "amount": 100,
+        "category": "transport",
+        "date": "2026-01-01",
+        "description": "Bus Fee",
+        "accountId": "default",
+        "currency": "PLN",
+        "id": "txn-1767289948111-nemgyix1g",
+        "isRecurring": false
+      },
+      {
+        "type": "income",
+        "amount": 5000,
+        "category": "income",
+        "date": "2026-01-01",
+        "description": "Salary",
+        "accountId": "default",
+        "currency": "PLN",
+        "id": "txn-1767289932940-k91xzrbuz",
+        "isRecurring": false
+      }
+    ],
+    "ledgerly-accounts-v1": [
+      {
+        "id": "acc-cash",
+        "name": "Cash",
+        "type": "cash",
+        "balance": 0,
+        "currency": "USD"
+      },
+      {
+        "id": "acc-bank",
+        "name": "Bank Account",
+        "type": "bank",
+        "balance": 0,
+        "currency": "USD"
+      },
+      {
+        "id": "acc-credit",
+        "name": "Credit Card",
+        "type": "credit",
+        "balance": 0,
+        "currency": "USD"
+      }
+    ],
+    "ledgerly-budgets-v1": {
+      "overall": null,
+      "perCategory": {
+        "cat-housing": 800
+      }
+    },
+    "ledgerly-categories-v1": [
+      {
+        "id": "cat-housing",
+        "name": "Housing",
+        "icon": "home",
+        "color": "#6366F1",
+        "isDefault": true
+      },
+      {
+        "id": "cat-utilities",
+        "name": "Utilities",
+        "icon": "zap",
+        "color": "#EF4444",
+        "isDefault": true
+      },
+      {
+        "id": "cat-transport",
+        "name": "Transportation",
+        "icon": "car",
+        "color": "#F59E0B",
+        "isDefault": true
+      },
+      {
+        "id": "cat-groceries",
+        "name": "Food/Groceries",
+        "icon": "shopping-cart",
+        "color": "#10B981",
+        "isDefault": true
+      },
+      {
+        "id": "cat-dining",
+        "name": "Dining Out",
+        "icon": "utensils",
+        "color": "#EC4899",
+        "isDefault": true
+      },
+      {
+        "id": "cat-personal",
+        "name": "Personal Care",
+        "icon": "user",
+        "color": "#8B5CF6",
+        "isDefault": true
+      },
+      {
+        "id": "cat-health",
+        "name": "Health/Medical",
+        "icon": "heart-pulse",
+        "color": "#14B8A6",
+        "isDefault": true
+      },
+      {
+        "id": "cat-insurance",
+        "name": "Insurance",
+        "icon": "shield",
+        "color": "#0EA5E9",
+        "isDefault": true
+      },
+      {
+        "id": "cat-debt",
+        "name": "Debt Payments",
+        "icon": "credit-card",
+        "color": "#F43F5E",
+        "isDefault": true
+      },
+      {
+        "id": "cat-savings",
+        "name": "Savings/Investments",
+        "icon": "piggy-bank",
+        "color": "#22C55E",
+        "isDefault": true
+      },
+      {
+        "id": "cat-entertainment",
+        "name": "Entertainment",
+        "icon": "tv",
+        "color": "#A855F7",
+        "isDefault": true
+      },
+      {
+        "id": "cat-subscriptions",
+        "name": "Subscriptions",
+        "icon": "refresh-cw",
+        "color": "#3B82F6",
+        "isDefault": true
+      },
+      {
+        "id": "cat-clothing",
+        "name": "Clothing/Apparel",
+        "icon": "shirt",
+        "color": "#F97316",
+        "isDefault": true
+      },
+      {
+        "id": "cat-household",
+        "name": "Household Supplies",
+        "icon": "package",
+        "color": "#84CC16",
+        "isDefault": true
+      },
+      {
+        "id": "cat-gifts",
+        "name": "Gifts/Donations",
+        "icon": "gift",
+        "color": "#E879F9",
+        "isDefault": true
+      },
+      {
+        "id": "cat-travel",
+        "name": "Travel/Vacation",
+        "icon": "plane",
+        "color": "#06B6D4",
+        "isDefault": true
+      },
+      {
+        "id": "cat-income",
+        "name": "Income",
+        "icon": "trending-up",
+        "color": "#10B981",
+        "isDefault": true
+      },
+      {
+        "id": "cat-other",
+        "name": "Other",
+        "icon": "help-circle",
+        "color": "#64748B",
+        "isDefault": true
+      }
+    ],
+    "ledgerly-theme-v1": "system",
+    "ledgerly-privacy-mode-v1": false,
+    "ledgerly-recurring-v1": [],
+    "cashflo-recurring-v1": [
+      {
+        "description": "Netflix",
+        "amount": 33,
+        "nextDueDate": "2026-02-05",
+        "frequency": "monthly",
+        "category": "rec-subscriptions",
+        "isActive": true,
+        "id": "39a3e019-7344-4da6-9d72-f1a227762275"
+      }
+    ],
+    "cashflo-notifications-v1": [],
+    "cashflo-notifications-enabled-v1": true
+  }
+}
