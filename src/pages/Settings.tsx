@@ -554,9 +554,10 @@ const SettingsPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               onClick={handleExportZip}
-              className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50 text-sm font-medium transition-colors"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium transition-all shadow-sm active:scale-[0.98]"
             >
-              <Download className="w-4 h-4" /> Download Backup (ZIP)
+              <Download className="w-4 h-4" />
+              <span>Export CSV Backup</span>
             </button>
             <div className="relative">
               <input
@@ -569,15 +570,17 @@ const SettingsPage: React.FC = () => {
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isRestoring}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm disabled:opacity-50 active:scale-[0.98]"
               >
                 {isRestoring ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" /> Restoring...
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Restoring...</span>
                   </>
                 ) : (
                   <>
-                    <Upload className="w-4 h-4" /> Restore from ZIP
+                    <Upload className="w-4 h-4" />
+                    <span>Import CSV Backup</span>
                   </>
                 )}
               </button>
@@ -585,15 +588,10 @@ const SettingsPage: React.FC = () => {
           </div>
           <button
             onClick={handleExportPdf}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm active:scale-[0.98]"
           >
-            <FileText className="w-4 h-4" /> Download PDF Summary
-          </button>
-          <button
-            onClick={() => setShowResetModal(true)}
-            className="w-full px-4 py-2 rounded-xl border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors flex items-center justify-center gap-2"
-          >
-            <Trash2 className="w-4 h-4" /> Reset All Data
+            <FileText className="w-4 h-4" />
+            <span>Export PDF Summary</span>
           </button>
         </div>
       </Card>
@@ -605,11 +603,12 @@ const SettingsPage: React.FC = () => {
         <div>
           <button
             onClick={() => setShowResetModal(true)}
-            className="w-full px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-colors"
+            className="w-full px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]"
           >
-            🗑️ Reset All Data
+            <Trash2 className="w-4 h-4" />
+            <span>Reset All Data</span>
           </button>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
             Permanently delete all your data. This cannot be undone.
           </p>
         </div>
