@@ -194,7 +194,7 @@ const TransactionForm: React.FC<Props> = ({
             step="0.01"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+            className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-base text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
             placeholder="0.00"
           />
           {errors.amount && (
@@ -207,7 +207,7 @@ const TransactionForm: React.FC<Props> = ({
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value as TransactionCategory)}
-              className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)] appearance-none"
+              className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-base text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)] appearance-none"
             >
               {categories.map((c) => (
                 <option key={c.value} value={c.value}>
@@ -230,7 +230,7 @@ const TransactionForm: React.FC<Props> = ({
             value={date}
             max={new Date().toISOString().slice(0, 10)}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+            className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-base text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
           />
           {errors.date && (
             <p className="text-[11px] text-rose-500 dark:text-[var(--danger-text)]">{errors.date}</p>
@@ -245,7 +245,7 @@ const TransactionForm: React.FC<Props> = ({
           maxLength={80}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="E.g. Grocery run, rent, salary..."
-          className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+          className="w-full rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-base text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
         />
         {errors.description && (
           <p className="text-[11px] text-rose-500 dark:text-[var(--danger-text)]">{errors.description}</p>
@@ -282,7 +282,7 @@ const TransactionForm: React.FC<Props> = ({
               }
             }}
             placeholder="Add tag and press Enter..."
-            className="flex-1 rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-xs text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+            className="flex-1 rounded-xl bg-white dark:bg-[var(--bg-secondary)] border border-slate-200 dark:border-[var(--border-subtle)] px-3 py-2 text-base text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
           />
           <button
             type="button"
