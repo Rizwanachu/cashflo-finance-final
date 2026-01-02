@@ -28,25 +28,25 @@ const SocialProofBanner: React.FC<{ location: "pricing" | "dashboard" }> = ({ lo
   };
 
   return (
-    <Card className="bg-white border border-slate-200 text-slate-900 shadow-sm overflow-hidden relative">
-      <div className="absolute top-0 right-0 p-8 bg-slate-50 rounded-full -mr-10 -mt-10 blur-2xl" />
+    <Card className="bg-white dark:bg-[var(--bg-tertiary)] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white shadow-sm overflow-hidden relative">
+      <div className="absolute top-0 right-0 p-8 bg-slate-50 dark:bg-white/5 rounded-full -mr-10 -mt-10 blur-2xl" />
       <div className="flex items-start justify-between gap-3 relative z-10">
         <div className="flex gap-4 flex-1">
-          <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-            <Users2 className="w-5 h-5 text-slate-900" />
+          <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+            <Users2 className="w-5 h-5 text-slate-900 dark:text-white" />
           </div>
           <div>
-            <p className="font-semibold text-slate-900">
+            <p className="font-semibold text-slate-900 dark:text-white">
               Built for people who value privacy
             </p>
-            <p className="text-sm text-slate-600 mt-1">
+            <p className="text-sm text-slate-600 dark:text-white/70 mt-1">
               Join others who trust Spendory with their financial data.
             </p>
           </div>
         </div>
         <button
           onClick={handleDismiss}
-          className="text-slate-400 hover:text-slate-900 transition-colors"
+          className="text-slate-400 dark:text-white/40 hover:text-slate-900 dark:hover:text-white transition-colors"
           aria-label="Dismiss"
         >
           <X className="w-5 h-5" />
