@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Share2, Check } from "lucide-react";
 
 const ShareButton: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -24,9 +25,14 @@ const ShareButton: React.FC = () => {
   return (
     <button
       onClick={handleShare}
-      className="text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors"
+      className="inline-flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium transition-colors"
     >
-      {copied ? "✓ Copied!" : "📤 Share with someone who values privacy"}
+      {copied ? (
+        <Check className="w-3.5 h-3.5" />
+      ) : (
+        <Share2 className="w-3.5 h-3.5" />
+      )}
+      <span>{copied ? "Copied!" : "Share with someone who values privacy"}</span>
     </button>
   );
 };
