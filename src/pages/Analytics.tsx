@@ -5,7 +5,7 @@ import CategoryBreakdownChart from "../components/charts/CategoryBreakdownChart"
 import MonthlyComparisonChart from "../components/charts/MonthlyComparisonChart";
 import TagSummary from "../components/TagSummary";
 import MonthlySummary from "../components/MonthlySummary";
-import { Download, FileText } from "lucide-react";
+import { Upload, FileText } from "lucide-react";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useTheme } from "../context/ThemeContext";
@@ -54,7 +54,7 @@ const AnalyticsPage: React.FC = () => {
                 : "border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]"
             }`}
           >
-            <Download className="w-3.5 h-3.5" />
+            <Upload className="w-3.5 h-3.5" />
             <span className="inline">{!isProUser && transactions.length > 50 ? `CSV (${transactions.length})` : "Export CSV"}</span>
           </button>
           <button
