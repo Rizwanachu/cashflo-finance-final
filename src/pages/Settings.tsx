@@ -17,7 +17,7 @@ import { generateUnlockCode } from "../utils/crypto";
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
 import DataOwnership from "../components/DataOwnership";
-import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe, Download, FileText, Upload, Loader2 } from "lucide-react";
+import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe, Download, FileText, Upload, Loader2, Instagram, HelpCircle } from "lucide-react";
 import { exportZipBackup } from "../utils/exportCsvZip";
 import { restoreFromCsvZip } from "../utils/restoreCsvZip";
 import { exportTransactionsToPdf } from "../utils/exportCsv";
@@ -404,6 +404,29 @@ const SettingsPage: React.FC = () => {
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
             All amounts are stored exactly as entered. Format only changes on display.
           </p>
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex items-center gap-2 mb-4">
+          <HelpCircle className="w-4 h-4 text-slate-900 dark:text-slate-50" />
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
+            Help & Support
+          </h3>
+        </div>
+        <div className="space-y-4">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            Have questions or need help? Follow us on Instagram for updates and support.
+          </p>
+          <a
+            href="https://www.instagram.com/spendoryapp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-sm font-medium transition-colors flex items-center justify-center gap-2"
+          >
+            <Instagram className="w-4 h-4" />
+            Follow @spendoryapp
+          </a>
         </div>
       </Card>
 
