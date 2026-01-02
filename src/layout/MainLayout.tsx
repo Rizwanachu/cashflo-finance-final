@@ -45,9 +45,9 @@ const MainLayout: React.FC = () => {
   const baseClass =
     "flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl text-[10px] font-medium transition-colors min-w-0 flex-1";
   const inactive =
-    baseClass + " text-slate-500 dark:text-slate-300 hover:text-white dark:hover:text-slate-900 hover:bg-slate-900 dark:hover:bg-gray-100";
+    baseClass + " text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
   const active =
-    baseClass + " bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 border border-slate-800 dark:border-gray-200 shadow-sm";
+    baseClass + " bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm";
 
   return (
     <div className="h-screen flex overflow-hidden transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
@@ -246,11 +246,11 @@ const MainLayout: React.FC = () => {
               <RefreshCw className="w-[18px] h-[18px]" />
               <span>Recurring</span>
             </NavLink>
-            <div className="relative">
+            <div className="relative flex-1">
               <button
                 type="button"
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
-                className={`${inactive}`}
+                className={`w-full ${inactive}`}
               >
                 <MoreHorizontal className="w-[18px] h-[18px]" />
                 <span>More</span>
