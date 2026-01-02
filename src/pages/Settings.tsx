@@ -202,8 +202,8 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("light")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
                   theme === "light"
-                    ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
-                    : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
+                    ? "bg-slate-900 text-white shadow-sm"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-secondary)] dark:hover:bg-slate-700"
                 }`}
               >
                 <Sun className="w-3.5 h-3.5" /> Light
@@ -212,8 +212,8 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("dark")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
                   theme === "dark"
-                    ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
-                    : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
+                    ? "bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-sm"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-secondary)] dark:hover:bg-slate-700"
                 }`}
               >
                 <Moon className="w-3.5 h-3.5" /> Dark
@@ -222,8 +222,8 @@ const SettingsPage: React.FC = () => {
                 onClick={() => setTheme("system")}
                 className={`px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-2 ${
                   theme === "system"
-                    ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-50"
-                    : "bg-slate-100 dark:bg-[var(--bg-secondary)] text-slate-700 dark:text-[var(--text-secondary)]"
+                    ? "bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-sm"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-[var(--bg-secondary)] dark:text-[var(--text-secondary)] dark:hover:bg-slate-700"
                 }`}
               >
                 <Monitor className="w-3.5 h-3.5" /> System
