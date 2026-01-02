@@ -70,7 +70,7 @@ const Privacy: React.FC = () => {
         </div>
 
         <div className="space-y-6">
-          <Card className="p-6 bg-slate-100 text-slate-900 dark:bg-zinc-900 dark:text-slate-100 border-none shadow-xl">
+          <Card className="p-6 bg-slate-100 text-slate-900 dark:bg-[#0a0a0a] dark:text-slate-100 border-none shadow-xl">
             <h3 className="text-sm font-bold uppercase tracking-wider mb-4 opacity-90">Privacy at a Glance</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
