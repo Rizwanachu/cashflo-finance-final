@@ -585,7 +585,7 @@ const SettingsPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               onClick={handleExportZip}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium transition-all shadow-sm active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-[#0a0a0a] hover:bg-slate-800 dark:hover:bg-black text-white text-sm font-medium transition-all shadow-sm active:scale-[0.98]"
             >
               <Upload className="w-4 h-4" />
               <span className="inline">Export CSV Backup</span>
