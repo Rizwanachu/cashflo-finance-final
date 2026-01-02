@@ -105,10 +105,10 @@ export function exportTransactionsToPdf(
   const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
   // Set theme colors
-  const textColor: [number, number, number] = theme === "dark" ? [248, 250, 252] : [15, 23, 42];
-  const bgColor: [number, number, number] = theme === "dark" ? [2, 6, 23] : [255, 255, 255];
-  const headerBgColor: [number, number, number] = theme === "dark" ? [30, 41, 59] : [241, 245, 249];
-  const borderColor: [number, number, number] = theme === "dark" ? [51, 65, 85] : [226, 232, 240];
+  const textColor: [number, number, number] = [15, 23, 42]; // Always use dark text for PDF readability
+  const bgColor: [number, number, number] = [255, 255, 255]; // Always use white background for PDF
+  const headerBgColor: [number, number, number] = [241, 245, 249];
+  const borderColor: [number, number, number] = [226, 232, 240];
 
   // Title
   doc.setFontSize(18);
@@ -117,7 +117,7 @@ export function exportTransactionsToPdf(
 
   // Date generated
   doc.setFontSize(10);
-  doc.setTextColor(textColor[0] - 50, textColor[1] - 50, textColor[2] - 50);
+  doc.setTextColor(100, 116, 139); // Slate-500
   doc.text(
     `Generated: ${now.toLocaleDateString("en-GB", {
       day: "2-digit",
@@ -161,12 +161,16 @@ export function exportTransactionsToPdf(
     startY: 35,
     theme: "striped",
     headStyles: {
-      fillColor: theme === "dark" ? [30, 41, 59] : [15, 23, 42],
+      fillColor: [15, 23, 42], // Dark header
       textColor: [255, 255, 255],
       fontStyle: "bold"
     },
     alternateRowStyles: {
-      fillColor: theme === "dark" ? [15, 23, 42] : [248, 250, 252]
+      fillColor: [248, 250, 252] // Light grey stripe
+    },
+    styles: {
+      textColor: [15, 23, 42], // Ensure table text is dark
+      fontSize: 9
     }
   });
 
