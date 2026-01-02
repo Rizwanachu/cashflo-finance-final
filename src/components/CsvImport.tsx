@@ -157,7 +157,7 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
           </h2>
 
           {!isProUser && (
-            <div className="mb-4 rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+            <div className="mb-4 rounded-lg bg-slate-100 p-3 text-sm text-slate-900 dark:bg-slate-800 dark:text-slate-200">
               Free tier: Limited to 50 transactions per import
             </div>
           )}
@@ -253,7 +253,7 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
             <button
               onClick={handlePreview}
               disabled={isProcessing}
-              className="flex-1 rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+              className="flex-1 rounded-lg bg-slate-900 px-4 py-2 font-medium text-white hover:bg-slate-800 disabled:opacity-50"
             >
               {isProcessing ? "Loading..." : "Preview"}
             </button>
@@ -291,8 +291,8 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
           )}
 
           {importResult.importedCount > 0 && (
-            <div className="mb-4 rounded-lg bg-green-50 p-3 dark:bg-green-900/30">
-              <div className="flex gap-2 text-sm text-green-800 dark:text-green-300">
+            <div className="mb-4 rounded-lg bg-slate-100 p-3 dark:bg-slate-800">
+              <div className="flex gap-2 text-sm text-slate-900 dark:text-slate-100">
                 <span className="h-4 w-4 flex-shrink-0 mt-0.5">✓</span>
                 <p>
                   <strong>{importResult.importedCount}</strong> transaction(s) ready to import
@@ -357,7 +357,7 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
             <button
               onClick={handleImport}
               disabled={!importResult.success || isProcessing}
-              className="flex-1 rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700 disabled:opacity-50"
+              className="flex-1 rounded-lg bg-slate-900 px-4 py-2 font-medium text-white hover:bg-slate-800 disabled:opacity-50"
             >
               {isProcessing ? "Importing..." : "Import"}
             </button>
@@ -376,7 +376,7 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
           </p>
           <button
             onClick={resetImport}
-            className="rounded-lg bg-emerald-600 px-6 py-2 font-medium text-white hover:bg-emerald-700"
+            className="rounded-lg bg-slate-900 px-6 py-2 font-medium text-white hover:bg-slate-800"
           >
             Import More
           </button>

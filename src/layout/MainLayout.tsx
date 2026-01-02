@@ -71,7 +71,7 @@ const MainLayout: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowNotifications(!showNotifications)}
-                className="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
+                className="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-slate-900 dark:hover:border-[var(--brand-primary)] hover:text-slate-900 dark:hover:text-[var(--brand-primary)] transition-colors"
                 title="Notifications"
               >
                 <Bell className="w-4 h-4" />
@@ -98,7 +98,7 @@ const MainLayout: React.FC = () => {
                         <div className="flex gap-2">
                           <button
                             onClick={markAllAsRead}
-                            className="text-xs text-emerald-600 dark:text-[var(--brand-primary)] hover:underline"
+                            className="text-xs text-slate-900 dark:text-[var(--brand-primary)] hover:underline"
                           >
                             Mark all read
                           </button>
@@ -138,7 +138,7 @@ const MainLayout: React.FC = () => {
                               className={`p-3 rounded-xl cursor-pointer transition-colors ${
                                 n.read 
                                   ? "bg-slate-50 dark:bg-[var(--bg-secondary)] hover:bg-slate-100 dark:hover:bg-[var(--bg-tertiary)]" 
-                                  : "bg-emerald-50 dark:bg-[var(--brand-primary)]/10 hover:bg-emerald-100 dark:hover:bg-[var(--brand-primary)]/20"
+                                  : "bg-slate-100 dark:bg-[var(--brand-primary)]/10 hover:bg-slate-200 dark:hover:bg-[var(--brand-primary)]/20"
                               }`}
                             >
                               <div className="flex items-start gap-2">
@@ -156,7 +156,7 @@ const MainLayout: React.FC = () => {
                                   </div>
                                 </div>
                                 {!n.read && (
-                                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
+                                  <span className="w-2 h-2 rounded-full bg-slate-900 dark:bg-white shrink-0 mt-1.5" />
                                 )}
                               </div>
                             </div>
@@ -170,7 +170,7 @@ const MainLayout: React.FC = () => {
                           setShowNotifications(false);
                           navigate("/settings");
                         }}
-                        className="w-full text-center text-xs text-emerald-600 dark:text-[var(--brand-primary)] hover:underline py-1"
+                        className="w-full text-center text-xs text-slate-900 dark:text-[var(--brand-primary)] hover:underline py-1"
                       >
                         Manage notifications →
                       </button>
@@ -183,7 +183,7 @@ const MainLayout: React.FC = () => {
             <button
               type="button"
               onClick={togglePrivacyMode}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-slate-900 dark:hover:border-[var(--brand-primary)] hover:text-slate-900 dark:hover:text-[var(--brand-primary)] transition-colors"
               title={privacyMode ? "Disable Privacy Mode" : "Enable Privacy Mode"}
             >
               {privacyMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -191,7 +191,7 @@ const MainLayout: React.FC = () => {
             <button
               type="button"
               onClick={toggleTheme}
-              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-emerald-500 dark:hover:border-[var(--brand-primary)] hover:text-emerald-600 dark:hover:text-[var(--brand-primary)] transition-colors"
+              className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-600 dark:text-[var(--text-secondary)] hover:border-slate-900 dark:hover:border-[var(--brand-primary)] hover:text-slate-900 dark:hover:text-[var(--brand-primary)] transition-colors"
               title={resolvedTheme === "dark" ? "Switch to Light" : "Switch to Dark"}
             >
               {resolvedTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -200,7 +200,7 @@ const MainLayout: React.FC = () => {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-                className="rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-2 sm:px-3 py-1.5 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="rounded-full border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-2 sm:px-3 py-1.5 text-xs text-slate-900 dark:text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-slate-900"
               >
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
@@ -261,15 +261,15 @@ const MainLayout: React.FC = () => {
                     className="fixed inset-0 z-30" 
                     onClick={() => setShowMobileMenu(false)}
                   />
-                  <div className="absolute bottom-12 right-0 w-56 rounded-2xl border border-slate-900 dark:border-[var(--border-subtle)] bg-slate-900 dark:bg-[var(--bg-tertiary)] shadow-xl z-40">
+                  <div className="absolute bottom-12 right-0 w-56 rounded-2xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] shadow-xl z-40">
                     <NavLink
                       to="/settings"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
-                            : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
+                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
@@ -279,10 +279,10 @@ const MainLayout: React.FC = () => {
                       to="/analytics"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
-                            : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
+                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
@@ -292,10 +292,10 @@ const MainLayout: React.FC = () => {
                       to="/pricing"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
-                            : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
+                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
@@ -305,10 +305,10 @@ const MainLayout: React.FC = () => {
                       to="/privacy"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
-                            : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
+                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
@@ -318,10 +318,10 @@ const MainLayout: React.FC = () => {
                       to="/terms"
                       onClick={() => setShowMobileMenu(false)}
                       className={({ isActive }) => 
-                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-700 dark:border-[var(--border-subtle)] ${
+                        `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-800 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
-                            : "text-slate-50 dark:text-[var(--text-primary)] hover:bg-slate-800 dark:hover:bg-[var(--bg-secondary)]"
+                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
                     >
@@ -333,7 +333,7 @@ const MainLayout: React.FC = () => {
                         setShowGoProModal(true);
                         setShowMobileMenu(false);
                       }}
-                      className="w-full flex items-center gap-3 px-5 py-4 text-sm text-left bg-slate-800 hover:bg-slate-700 text-gray-100 font-medium rounded-b-xl transition-all"
+                      className="w-full flex items-center gap-3 px-5 py-4 text-sm text-left bg-slate-900 hover:bg-slate-800 dark:bg-gray-100 dark:hover:bg-gray-200 text-white dark:text-slate-900 font-medium rounded-b-xl transition-all"
                     >
                       <Star className="w-4 h-4" /> Spendory Pro
                     </button>
