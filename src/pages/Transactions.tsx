@@ -162,7 +162,7 @@ const TransactionsPage: React.FC = () => {
                 : "border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] text-slate-700 dark:text-[var(--text-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
             }`}
           >
-            <Download className="w-3.5 h-3.5" />
+            <Upload className="w-3.5 h-3.5" />
             <span className="inline">{!isProUser && transactions.length > 50 ? `CSV (${transactions.length})` : "Export CSV"}</span>
           </button>
           <button
@@ -195,7 +195,7 @@ const TransactionsPage: React.FC = () => {
             onClick={() => setShowCsvImport(!showCsvImport)}
             className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-[var(--text-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)] transition-colors"
           >
-            <Upload className="w-3.5 h-3.5" />
+            <Download className="w-3.5 h-3.5" />
             <span className="inline">Import CSV</span>
           </button>
         </div>
