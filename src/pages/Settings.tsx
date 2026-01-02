@@ -587,7 +587,7 @@ const SettingsPage: React.FC = () => {
               onClick={handleExportZip}
               className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium transition-all shadow-sm active:scale-[0.98]"
             >
-              <Download className="w-4 h-4" />
+              <Upload className="w-4 h-4" />
               <span className="inline">Export CSV Backup</span>
             </button>
             <div className="relative">
@@ -610,7 +610,7 @@ const SettingsPage: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <Upload className="w-4 h-4" />
+                    <Download className="w-4 h-4" />
                     <span className="inline">Import CSV Backup</span>
                   </>
                 )}
