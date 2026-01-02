@@ -16,18 +16,18 @@ const Pricing: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-4xl">
+    <div className="space-y-8 max-w-4xl mx-auto w-full px-4 overflow-hidden">
       <SocialProofBanner location="pricing" />
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4">
+      <div className="text-center mb-8 md:mb-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4 break-words">
           Simple. Private. No ads. No signup.
         </h1>
-        <p className="text-lg text-slate-600 dark:text-slate-400">
+        <p className="text-base md:text-lg text-slate-600 dark:text-slate-400">
           Your financial data never leaves your device.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {/* Free Plan */}
         <Card className="flex flex-col relative border-slate-200 dark:border-[var(--border-subtle)]">
           <div className="mb-6">
