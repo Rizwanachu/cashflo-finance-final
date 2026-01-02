@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { TransactionCategory, TransactionType } from "../types";
+import { Search } from "lucide-react";
 
 interface SearchFilterBarProps {
   onSearchChange: (search: string) => void;
@@ -138,10 +139,10 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
             placeholder="Search description..."
             value={searchText}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full rounded-lg border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] px-3 py-2 text-sm text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100"
           />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400">
-            🔍
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
+            <Search className="w-4 h-4" />
           </span>
         </div>
         <button
