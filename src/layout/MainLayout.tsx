@@ -47,7 +47,7 @@ const MainLayout: React.FC = () => {
   const inactive =
     baseClass + " text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
   const active =
-    baseClass + " bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm";
+    baseClass + " bg-black dark:bg-white text-white dark:text-slate-900 shadow-sm";
 
   return (
     <div className="h-screen flex overflow-hidden transition-colors bg-slate-50 dark:bg-[var(--bg-primary)] text-slate-900 dark:text-[var(--text-primary)]">
@@ -268,7 +268,7 @@ const MainLayout: React.FC = () => {
                       className={({ isActive }) => 
                         `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            ? "bg-black dark:bg-white text-white dark:text-slate-900 font-medium" 
                             : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
@@ -281,7 +281,7 @@ const MainLayout: React.FC = () => {
                       className={({ isActive }) => 
                         `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            ? "bg-black dark:bg-white text-white dark:text-slate-900 font-medium" 
                             : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
@@ -294,7 +294,7 @@ const MainLayout: React.FC = () => {
                       className={({ isActive }) => 
                         `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            ? "bg-black dark:bg-white text-white dark:text-slate-900 font-medium" 
                             : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
@@ -307,7 +307,7 @@ const MainLayout: React.FC = () => {
                       className={({ isActive }) => 
                         `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            ? "bg-black dark:bg-white text-white dark:text-slate-900 font-medium" 
                             : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
@@ -320,7 +320,7 @@ const MainLayout: React.FC = () => {
                       className={({ isActive }) => 
                         `flex items-center gap-3 px-5 py-4 text-sm border-b border-slate-100 dark:border-[var(--border-subtle)] ${
                           isActive 
-                            ? "bg-slate-900 dark:bg-gray-100 text-white dark:text-slate-900 font-medium" 
+                            ? "bg-black dark:bg-white text-white dark:text-slate-900 font-medium" 
                             : "text-slate-600 dark:text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
                         }`
                       }
@@ -333,7 +333,7 @@ const MainLayout: React.FC = () => {
                         setShowGoProModal(true);
                         setShowMobileMenu(false);
                       }}
-                      className="w-full flex items-center gap-3 px-5 py-4 text-sm text-left bg-slate-900 hover:bg-slate-800 dark:bg-gray-100 dark:hover:bg-gray-200 text-white dark:text-slate-900 font-medium rounded-b-xl transition-all"
+                      className="w-full flex items-center gap-3 px-5 py-4 text-sm text-left bg-black hover:bg-slate-900 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-slate-900 font-medium rounded-b-xl transition-all"
                     >
                       <Star className="w-4 h-4" /> Spendory Pro
                     </button>
