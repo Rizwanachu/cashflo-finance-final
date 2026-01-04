@@ -43,7 +43,7 @@ function getCurrencySymbol(currency: CurrencyCode): string {
 }
 
 /**
- * Export transactions to CSV with properly formatted dates
+ * Export analytics to CSV with Summary and Breakdown
  */
 export function exportTransactionsToCsv(
   transactions: Transaction[],
@@ -57,7 +57,35 @@ export function exportTransactionsToCsv(
   const now = new Date();
   const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
-  const rows = transactions.map((t) => [
+  // Summary Data
+  const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+  const totalExpense = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
+  
+  const summaryHeader = ["Summary", "Value"];
+  const summaryRows = [
+    ["Total Income", `${symbol}${totalIncome.toFixed(2)}`],
+    ["Total Expense", `${symbol}${totalExpense.toFixed(2)}`],
+    ["Net Balance", `${symbol}${(totalIncome - totalExpense).toFixed(2)}`],
+    ["", ""]
+  ];
+
+  // Category Breakdown
+  const catTotals: Record<string, number> = {};
+  transactions.filter(t => t.type === "expense").forEach(t => {
+    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+  });
+  
+  const breakdownHeader = ["Category Breakdown", "Amount", "% of Total"];
+  const breakdownRows = Object.entries(catTotals).map(([cat, amt]) => [
+    cat.charAt(0).toUpperCase() + cat.slice(1),
+    amt.toFixed(2),
+    `${((amt / totalExpense) * 100).toFixed(1)}%`
+  ]);
+  breakdownRows.push(["", "", ""]);
+
+  // Transactions Detail
+  const detailHeader = ["Date", "Type", "Category", `Amount (${symbol})`, "Note"];
+  const detailRows = transactions.map((t) => [
     formatDateForCsv(t.date),
     t.type.charAt(0).toUpperCase() + t.type.slice(1),
     t.category.charAt(0).toUpperCase() + t.category.slice(1),
@@ -65,23 +93,21 @@ export function exportTransactionsToCsv(
     t.description || ""
   ]);
 
-  const symbolStr = `Amount (${symbol})`;
-  const finalHeader = ["Date", "Type", "Category", symbolStr, "Note"];
+  const csvContent = [
+    summaryHeader.join(","),
+    ...summaryRows.map(r => r.map(escapeCsvValue).join(",")),
+    breakdownHeader.join(","),
+    ...breakdownRows.map(r => r.map(escapeCsvValue).join(",")),
+    detailHeader.join(","),
+    ...detailRows.map(r => r.map(escapeCsvValue).join(","))
+  ].join("\n");
 
-  const csvContent =
-    [finalHeader, ...rows]
-      .map((row) => row.map((cell) => escapeCsvValue(String(cell))).join(","))
-      .join("\n");
-
-  // Add BOM for UTF-8 to help Excel recognize encoding
   const BOM = "\uFEFF";
-  const blob = new Blob([BOM + csvContent], {
-    type: "text/csv;charset=utf-8"
-  });
+  const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", `transactions-${datePart}.csv`);
+  link.setAttribute("download", `analytics-${datePart}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -89,7 +115,7 @@ export function exportTransactionsToCsv(
 }
 
 /**
- * Export transactions to PDF
+ * Export transactions to PDF with Summary
  */
 export function exportTransactionsToPdf(
   transactions: Transaction[],
@@ -105,19 +131,17 @@ export function exportTransactionsToPdf(
   const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
   // Set theme colors
-  const textColor: [number, number, number] = [15, 23, 42]; // Always use dark text for PDF readability
-  const bgColor: [number, number, number] = [255, 255, 255]; // Always use white background for PDF
-  const headerBgColor: [number, number, number] = [241, 245, 249];
-  const borderColor: [number, number, number] = [226, 232, 240];
+  const textColor: [number, number, number] = [15, 23, 42]; 
+  const secondaryTextColor: [number, number, number] = [100, 116, 139];
 
   // Title
-  doc.setFontSize(18);
+  doc.setFontSize(22);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text("Transaction Report", 14, 20);
+  doc.text("Analytics Report", 14, 20);
 
   // Date generated
   doc.setFontSize(10);
-  doc.setTextColor(100, 116, 139); // Slate-500
+  doc.setTextColor(secondaryTextColor[0], secondaryTextColor[1], secondaryTextColor[2]);
   doc.text(
     `Generated: ${now.toLocaleDateString("en-GB", {
       day: "2-digit",
@@ -130,7 +154,61 @@ export function exportTransactionsToPdf(
     28
   );
 
-  // Prepare table data
+  // --- Summary Section ---
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const totalExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const balance = totalIncome - totalExpense;
+  const currencySymbol = getCurrencySymbol(currency);
+
+  doc.setFontSize(14);
+  doc.setTextColor(textColor[0], textColor[1], textColor[2]);
+  doc.text("Executive Summary", 14, 42);
+
+  doc.setFontSize(10);
+  doc.text(`Total Income:`, 14, 52);
+  doc.text(`${currencySymbol}${totalIncome.toFixed(2)}`, 60, 52);
+  
+  doc.text(`Total Expenses:`, 14, 58);
+  doc.text(`${currencySymbol}${totalExpense.toFixed(2)}`, 60, 58);
+
+  doc.setFont("helvetica", "bold");
+  doc.text(`Net Balance:`, 14, 66);
+  doc.text(`${currencySymbol}${balance.toFixed(2)}`, 60, 66);
+  doc.setFont("helvetica", "normal");
+
+  // --- Category Breakdown ---
+  const catTotals: Record<string, number> = {};
+  transactions.filter(t => t.type === "expense").forEach(t => {
+    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+  });
+
+  const breakdownData = Object.entries(catTotals)
+    .sort((a, b) => b[1] - a[1])
+    .map(([cat, amt]) => [
+      cat.charAt(0).toUpperCase() + cat.slice(1),
+      `${currencySymbol}${amt.toFixed(2)}`,
+      `${((amt / totalExpense) * 100).toFixed(1)}%`
+    ]);
+
+  autoTable(doc, {
+    head: [["Category", "Amount", "% of Expenses"]],
+    body: breakdownData,
+    startY: 75,
+    margin: { left: 14 },
+    tableWidth: 100,
+    headStyles: { fillColor: [51, 65, 85] },
+    styles: { fontSize: 9 }
+  });
+
+  // --- Transactions Detail ---
+  doc.addPage();
+  doc.setFontSize(14);
+  doc.text("Detailed Transactions", 14, 20);
+
   const tableData = transactions.map((t) => [
     new Date(t.date + "T00:00:00").toLocaleDateString("en-GB", {
       day: "2-digit",
@@ -139,57 +217,20 @@ export function exportTransactionsToPdf(
     }),
     t.type.charAt(0).toUpperCase() + t.type.slice(1),
     t.category.charAt(0).toUpperCase() + t.category.slice(1),
-    `${getCurrencySymbol(currency)}${t.amount.toFixed(2)}`,
+    `${currencySymbol}${t.amount.toFixed(2)}`,
     t.description || "-"
   ]);
 
-  // Calculate totals
-  const totalIncome = transactions
-    .filter((t) => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
-  const totalExpense = transactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
-  const balance = totalIncome - totalExpense;
-
-  const currencySymbol = getCurrencySymbol(currency);
-
-  // Add table
   autoTable(doc, {
     head: [["Date", "Type", "Category", "Amount", "Note"]],
     body: tableData,
-    startY: 35,
+    startY: 25,
     theme: "striped",
-    headStyles: {
-      fillColor: [15, 23, 42], // Dark header
-      textColor: [255, 255, 255],
-      fontStyle: "bold"
-    },
-    alternateRowStyles: {
-      fillColor: [248, 250, 252] // Light grey stripe
-    },
-    styles: {
-      textColor: [15, 23, 42], // Ensure table text is dark
-      fontSize: 9
-    }
+    headStyles: { fillColor: [15, 23, 42] },
+    styles: { fontSize: 8 }
   });
 
-  // Add totals section
-  const finalY = (doc as any).lastAutoTable?.finalY || 100;
-  doc.setFontSize(12);
-  doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text("Summary", 14, finalY + 15);
-
-  doc.setFontSize(10);
-  doc.text(`Total Income: ${currencySymbol}${totalIncome.toFixed(2)}`, 14, finalY + 25);
-  doc.text(`Total Expense: ${currencySymbol}${totalExpense.toFixed(2)}`, 14, finalY + 32);
-  doc.setFontSize(11);
-  doc.setFont("helvetica", "bold");
-  doc.text(`Balance: ${currencySymbol}${balance.toFixed(2)}`, 14, finalY + 40);
-  doc.setFont("helvetica", "normal");
-
-  // Save PDF
-  doc.save(`transactions-${datePart}.pdf`);
+  doc.save(`analytics-report-${datePart}.pdf`);
 }
 
 /**
