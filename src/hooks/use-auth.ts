@@ -32,7 +32,10 @@ export function useAuth() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials)
       });
-      if (!res.ok) throw new Error("Login failed");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Login failed");
+      }
       const data = await res.json();
       localStorage.setItem("auth_token", data.token);
       return data.user;
@@ -49,7 +52,10 @@ export function useAuth() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)
       });
-      if (!res.ok) throw new Error("Registration failed");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Registration failed");
+      }
       const data = await res.json();
       localStorage.setItem("auth_token", data.token);
       return data.user;

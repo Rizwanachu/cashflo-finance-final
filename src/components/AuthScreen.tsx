@@ -7,15 +7,21 @@ export const AuthScreen: React.FC = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const { login, register } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     console.log("Submitting form...", { isRegister, email });
-    if (isRegister) {
-      register({ email, password });
-    } else {
-      login({ email, password });
+    try {
+      if (isRegister) {
+        await register({ email, password });
+      } else {
+        await login({ email, password });
+      }
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again.");
     }
   };
 
@@ -34,6 +40,12 @@ export const AuthScreen: React.FC = () => {
               Login to protect your Pro access and identify yourself across devices.
             </p>
           </div>
+
+          {error && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
