@@ -21,11 +21,13 @@ import { FreeLimitsProvider } from "./context/FreeLimitsContext";
 import { AnalyticsProvider } from "./context/AnalyticsContext";
 import { RetentionProvider } from "./context/RetentionContext";
 import { LaunchModeProvider } from "./context/LaunchModeContext";
+import { AuthProvider } from "./context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <LaunchModeProvider>
-      <ProProvider>
+    <AuthProvider>
+      <LaunchModeProvider>
+        <ProProvider>
         <ThemeProvider>
           <CurrencyProvider>
             <PrivacyProvider>
