@@ -11,6 +11,7 @@ export const AuthScreen: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Submitting form...", { isRegister, email });
     if (isRegister) {
       register({ email, password });
     } else {
