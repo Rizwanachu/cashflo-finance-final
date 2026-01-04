@@ -7,12 +7,19 @@ import TagSummary from "../components/TagSummary";
 import MonthlySummary from "../components/MonthlySummary";
 import { Upload, FileText } from "lucide-react";
 import { useCurrency } from "../context/CurrencyContext";
-import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
+import { 
+  exportTransactionsToCsv, 
+  exportTransactionsToPdf,
+  exportAnalyticsToCsv,
+  exportAnalyticsToPdf 
+} from "../utils/exportCsv";
 import { useTheme } from "../context/ThemeContext";
 import { useToast } from "../context/ToastContext";
+import { useCategories } from "../context/CategoriesContext";
 
 const AnalyticsPage: React.FC = () => {
   const { transactions } = useTransactionsContext();
+  const { categories } = useCategories();
   const { currency } = useCurrency();
   const { theme } = useTheme();
   const { pushToast } = useToast();
@@ -45,7 +52,7 @@ const AnalyticsPage: React.FC = () => {
                 setShowGoProModal(true);
                 return;
               }
-              exportTransactionsToCsv(transactions, currency);
+              exportAnalyticsToCsv(transactions, categories, currency);
               pushToast("CSV exported successfully.", "success");
             }}
             className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
@@ -70,7 +77,7 @@ const AnalyticsPage: React.FC = () => {
                 return;
               }
               const themeMode = theme === "system" ? "light" : theme;
-              exportTransactionsToPdf(transactions, currency, themeMode);
+              exportAnalyticsToPdf(transactions, categories, currency, themeMode);
               pushToast("PDF exported successfully.", "success");
             }}
             className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
