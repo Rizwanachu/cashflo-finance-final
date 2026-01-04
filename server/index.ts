@@ -1,5 +1,5 @@
 import express from "express";
-import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth/index.ts";
+import customAuthRoutes from "./customAuth.ts";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createServer } from "http";
@@ -11,9 +11,8 @@ async function startServer() {
   const app = express();
   app.use(express.json());
 
-  // Setup Auth (must be before other routes)
-  await setupAuth(app);
-  registerAuthRoutes(app);
+  // Use custom auth routes
+  app.use("/api/auth", customAuthRoutes);
 
   // Serve static files from the Vite build
   const distPath = path.resolve(__dirname, "../dist");
