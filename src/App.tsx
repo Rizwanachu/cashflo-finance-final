@@ -14,9 +14,8 @@ import Terms from "./pages/Terms";
 import Success from "./pages/Success";
 import Onboarding from "./components/Onboarding";
 import { useOnboarding } from "./context/OnboardingContext";
-import { useAuth } from "./context/AuthContext";
-import { Card } from "./components/Card";
-import { LogIn, Shield, Globe } from "lucide-react";
+import { useAuth } from "./hooks/use-auth";
+import { AuthScreen } from "./components/AuthScreen";
 
 const App: React.FC = () => {
   const { isOnboardingComplete } = useOnboarding();
