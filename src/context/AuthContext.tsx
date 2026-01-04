@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth as useReplitAuth } from './hooks/use-auth';
+import { useAuth as useReplitAuth } from '../hooks/use-auth';
 
 interface AuthUser {
   userId: string;

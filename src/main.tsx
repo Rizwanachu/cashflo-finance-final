@@ -23,9 +23,14 @@ import { RetentionProvider } from "./context/RetentionContext";
 import { LaunchModeProvider } from "./context/LaunchModeContext";
 import { AuthProvider } from "./context/AuthContext";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
       <LaunchModeProvider>
         <ProProvider>
         <ThemeProvider>
@@ -65,6 +70,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </ThemeProvider>
       </ProProvider>
     </LaunchModeProvider>
+    </AuthProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

@@ -10,6 +10,7 @@
     "lint": "echo \"no linter configured\""
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.16",
     "@types/connect-pg-simple": "^7.0.3",
     "@types/crypto-js": "^4.2.2",
     "@types/express-session": "^1.18.2",
