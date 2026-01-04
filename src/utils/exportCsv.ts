@@ -43,6 +43,29 @@ function getCurrencySymbol(currency: CurrencyCode): string {
 }
 
 /**
+ * Export transactions to CSV (Legacy wrapper for compatibility)
+ */
+export function exportTransactionsToCsv(
+  transactions: Transaction[],
+  currency: CurrencyCode
+) {
+  // Pass empty budgets and categories to the enhanced exporter
+  exportAnalyticsToCsv(transactions, { overall: null, perCategory: {} }, [], currency);
+}
+
+/**
+ * Export transactions to PDF (Legacy wrapper for compatibility)
+ */
+export function exportTransactionsToPdf(
+  transactions: Transaction[],
+  currency: CurrencyCode,
+  theme: "light" | "dark"
+) {
+  // Pass empty budgets and categories to the enhanced exporter
+  exportAnalyticsToPdf(transactions, { overall: null, perCategory: {} }, [], currency);
+}
+
+/**
  * Export analytics to CSV with multiple files simulated in one download
  * Since we can't easily trigger multiple downloads without browser interference,
  * we combine them into a single structured CSV with sections.
