@@ -123,6 +123,10 @@ export async function restoreFromCsvZip(zipFile: File): Promise<{ success: boole
             balance: Number(r.balance),
             currency: r.currency
           }));
+          // Auto-detect currency from accounts if not explicitly in settings
+          if (rows.length > 0 && rows[0].currency && !staging[STORAGE_KEYS.currency]) {
+            staging[STORAGE_KEYS.currency] = rows[0].currency;
+          }
           break;
         case "goals":
           staging[STORAGE_KEYS.goals] = rows.map(r => ({

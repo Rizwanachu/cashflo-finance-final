@@ -26,6 +26,7 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
   const { pushToast } = useToast();
   const { isProUser } = usePro();
   const { accounts } = useAccounts();
+  const { setCurrency } = useCurrency();
 
   const [step, setStep] = useState<ImportStep>("upload");
   const [csvText, setCsvText] = useState("");
@@ -115,6 +116,11 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
       importResult.preview.forEach((tx) => {
         addTransaction(tx);
       });
+
+      // Auto-change currency based on imported data
+      if (importResult.preview.length > 0 && importResult.preview[0].currency) {
+        setCurrency(importResult.preview[0].currency as any);
+      }
 
       pushToast(
         `Successfully imported ${importResult.importedCount} transactions`,
