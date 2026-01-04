@@ -87,22 +87,32 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
   const restoreProStatus = async () => {
     if (!isAuthenticated || !user) return;
     
-    // In a real app, this calls the backend /api/billing/status
-    // Simulation for Spendory requirements:
-    const mockProStatus: ProStatus = {
-      isPro: false,
-      plan: "Free",
-      validUntil: null,
-      lastVerifiedAt: new Date().toISOString()
-    };
+    try {
+      const response = await fetch("/api/auth/me", {
+        headers: { "Authorization": `Bearer ${localStorage.getItem("auth_token")}` }
+      });
+      
+      if (response.ok) {
+        const userData = await response.json();
+        const serverProStatus: ProStatus = {
+          isPro: userData.isPro || false,
+          plan: userData.proPlan || "Free",
+          validUntil: null,
+          lastVerifiedAt: new Date().toISOString()
+        };
 
-    const userProKey = `pro_status_${user.userId}`;
-    safeSet(userProKey, JSON.stringify(mockProStatus));
-    setProStatus(mockProStatus);
-    setIsProUser(mockProStatus.isPro);
-    
-    // Also bind to device for offline access
-    safeSet(PRO_DEVICE_KEY, deviceId);
+        const userProKey = `pro_status_${user.userId}`;
+        safeSet(userProKey, JSON.stringify(serverProStatus));
+        setProStatus(serverProStatus);
+        setIsProUser(serverProStatus.isPro);
+        
+        if (serverProStatus.isPro) {
+          safeSet(PRO_KEY, "true");
+        }
+      }
+    } catch (error) {
+      console.error("Failed to restore Pro status:", error);
+    }
   };
 
   const unlockPro = (code: string): { success: boolean; message: string } => {
@@ -123,6 +133,15 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
       
       if (isAuthenticated && user) {
         safeSet(`pro_status_${user.userId}`, JSON.stringify(newStatus));
+        // Update server-side pro status
+        fetch("/api/auth/pro", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("auth_token")}`
+          },
+          body: JSON.stringify({ isPro: true, plan: "Pro (Unlocked)" })
+        });
       }
       
       return {

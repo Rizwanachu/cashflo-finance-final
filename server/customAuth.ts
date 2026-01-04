@@ -41,7 +41,16 @@ router.post("/login", async (req, res) => {
     }
     
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
-    res.json({ token, user: { id: user.id, email: user.email, firstName: user.firstName } });
+    res.json({ 
+      token, 
+      user: { 
+        id: user.id, 
+        email: user.email, 
+        firstName: user.firstName,
+        isPro: user.isPro,
+        proPlan: user.proPlan
+      } 
+    });
   } catch (e: any) {
     console.error("Login error:", e);
     res.status(500).json({ message: e.message });
@@ -62,7 +71,32 @@ router.get("/me", async (req, res) => {
     const payload = jwt.verify(token, JWT_SECRET) as any;
     const [user] = await db.select().from(users).where(eq(users.id, payload.userId));
     if (!user) return res.status(401).json({ message: "User not found" });
-    res.json({ id: user.id, email: user.email, firstName: user.firstName });
+    res.json({ 
+      id: user.id, 
+      email: user.email, 
+      firstName: user.firstName,
+      isPro: user.isPro,
+      proPlan: user.proPlan
+    });
+  } catch (e) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+});
+
+router.post("/pro", async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "No token" });
+  
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as any;
+    const { isPro, plan } = req.body;
+    
+    await db.update(users)
+      .set({ isPro, proPlan: plan })
+      .where(eq(users.id, payload.userId));
+      
+    res.json({ success: true });
   } catch (e) {
     res.status(401).json({ message: "Invalid token" });
   }
