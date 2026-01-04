@@ -33,7 +33,7 @@ function getCurrencySymbol(currency: CurrencyCode): string {
     case "USD": return "$";
     case "EUR": return "€";
     case "GBP": return "£";
-    case "INR": return "₹";
+    case "INR": return "Rs."; // Using "Rs." instead of "₹" for better PDF font support
     case "JPY": return "¥";
     case "BRL": return "R$";
     case "CAD": return "C$";
