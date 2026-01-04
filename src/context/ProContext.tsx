@@ -1,9 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { safeGet, safeSet, safeRemove, getOrCreateDeviceId } from "../utils/storage";
 import { verifyUnlockCode } from "../utils/crypto";
+import { useAuth } from "./AuthContext";
+
+interface ProStatus {
+  isPro: boolean;
+  plan: string;
+  validUntil: string | null;
+  lastVerifiedAt: string;
+}
 
 interface ProContextValue {
   isProUser: boolean;
+  proStatus: ProStatus;
   unlockPro: (code: string) => { success: boolean; message: string };
   resetPro: () => void;
   showGoProModal: boolean;
@@ -11,6 +20,7 @@ interface ProContextValue {
   lockedFeature?: string;
   setLockedFeature: (feature?: string) => void;
   deviceId: string;
+  restoreProStatus: () => Promise<void>;
 }
 
 const ProContext = createContext<ProContextValue | undefined>(undefined);
@@ -21,35 +31,96 @@ const PRO_DEVICE_KEY = "cashflo_pro_device";
 export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
+  const { user, isAuthenticated } = useAuth();
   const [isProUser, setIsProUser] = useState(false);
+  const [proStatus, setProStatus] = useState<ProStatus>({
+    isPro: false,
+    plan: "Free",
+    validUntil: null,
+    lastVerifiedAt: new Date().toISOString()
+  });
   const [showGoProModal, setShowGoProModal] = useState(false);
   const [lockedFeature, setLockedFeature] = useState<string>();
   const [deviceId, setDeviceId] = useState("");
 
-  // Load Pro status from localStorage on mount
+  // Load Pro status from localStorage on mount or login
   useEffect(() => {
     const dId = getOrCreateDeviceId();
     setDeviceId(dId);
     
-    // Check if this device has pro unlocked
-    const proDeviceId = safeGet<string>(PRO_DEVICE_KEY, "");
-    const isUnlocked = proDeviceId === dId;
+    const loadStatus = () => {
+      // 1. Check local storage for this specific user if logged in
+      if (isAuthenticated && user) {
+        const userProKey = `pro_status_${user.userId}`;
+        const cachedPro = safeGet<ProStatus | null>(userProKey, null);
+        if (cachedPro) {
+          setProStatus(cachedPro);
+          setIsProUser(cachedPro.isPro);
+          return;
+        }
+      }
+
+      // 2. Fallback to device-based pro (for legacy/offline)
+      const proDeviceId = safeGet<string>(PRO_DEVICE_KEY, "");
+      const isUnlocked = proDeviceId === dId;
+      setIsProUser(isUnlocked);
+      if (isUnlocked) {
+        setProStatus({
+          isPro: true,
+          plan: "Pro (Legacy)",
+          validUntil: null,
+          lastVerifiedAt: new Date().toISOString()
+        });
+      }
+    };
+
+    loadStatus();
+  }, [isAuthenticated, user]);
+
+  const restoreProStatus = async () => {
+    if (!isAuthenticated || !user) return;
     
-    setIsProUser(isUnlocked);
-  }, []);
+    // In a real app, this calls the backend /api/billing/status
+    // Simulation for Spendory requirements:
+    const mockProStatus: ProStatus = {
+      isPro: true,
+      plan: "Pro Annual",
+      validUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+      lastVerifiedAt: new Date().toISOString()
+    };
+
+    const userProKey = `pro_status_${user.userId}`;
+    safeSet(userProKey, JSON.stringify(mockProStatus));
+    setProStatus(mockProStatus);
+    setIsProUser(true);
+    
+    // Also bind to device for offline access
+    safeSet(PRO_DEVICE_KEY, deviceId);
+  };
 
   const unlockPro = (code: string): { success: boolean; message: string } => {
     const dId = getOrCreateDeviceId();
     
     if (verifyUnlockCode(code, dId)) {
-      // Unlock Pro
       setIsProUser(true);
       safeSet(PRO_KEY, "true");
       safeSet(PRO_DEVICE_KEY, dId);
       
+      const newStatus = {
+        isPro: true,
+        plan: "Pro (Unlocked)",
+        validUntil: null,
+        lastVerifiedAt: new Date().toISOString()
+      };
+      setProStatus(newStatus);
+      
+      if (isAuthenticated && user) {
+        safeSet(`pro_status_${user.userId}`, JSON.stringify(newStatus));
+      }
+      
       return {
         success: true,
-        message: "Pro unlocked! You now have access to all features."
+        message: "Pro unlocked! Your subscription is now tied to your account."
       };
     }
     
@@ -61,21 +132,32 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const resetPro = () => {
     setIsProUser(false);
+    setProStatus({
+      isPro: false,
+      plan: "Free",
+      validUntil: null,
+      lastVerifiedAt: new Date().toISOString()
+    });
     safeRemove(PRO_KEY);
     safeRemove(PRO_DEVICE_KEY);
+    if (isAuthenticated && user) {
+      safeRemove(`pro_status_${user.userId}`);
+    }
   };
 
   return (
     <ProContext.Provider
       value={{
         isProUser,
+        proStatus,
         unlockPro,
         resetPro,
         showGoProModal,
         setShowGoProModal,
         lockedFeature,
         setLockedFeature,
-        deviceId
+        deviceId,
+        restoreProStatus
       }}
     >
       {children}
