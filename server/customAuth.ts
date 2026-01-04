@@ -43,6 +43,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Alias for common login paths or handle legacy redirects
+router.get("/login", (req, res) => {
+  res.redirect("/");
+});
+
 router.get("/me", async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: "No token" });

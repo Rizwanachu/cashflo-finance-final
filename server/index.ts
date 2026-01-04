@@ -20,8 +20,13 @@ async function startServer() {
 
   // SPA routing: send index.html for all non-API requests
   app.use((req, res, next) => {
-    if (req.path.startsWith("/api")) {
+    // Exclude /api/auth paths from SPA redirect
+    if (req.path.startsWith("/api/auth")) {
       return next();
+    }
+    // Also handle legacy /api/login and /api/logout for compatibility
+    if (req.path === "/api/login" || req.path === "/api/logout") {
+      return res.redirect("/");
     }
     res.sendFile(path.join(distPath, "index.html"));
   });
