@@ -239,10 +239,22 @@ export function exportAnalyticsToPdf(
   const expenseTransactions = transactions.filter(t => t.type === "expense");
   const totalExpense = expenseTransactions.reduce((sum, t) => sum + t.amount, 0);
 
+  // Report Header
+  doc.setFontSize(22);
+  doc.setTextColor(0);
+  doc.text("Spendory", 14, 20);
+  doc.setFontSize(16);
+  doc.setTextColor(100);
+  doc.text("Analytics Report", 14, 30);
+  doc.setFontSize(10);
+  doc.text(`Generated: ${now.toLocaleString()} | Currency: ${currency}`, 14, 38);
+  doc.setDrawColor(200);
+  doc.line(14, 42, 196, 42);
+
   // 1. Year-to-Date Summary
   doc.setFontSize(16);
   doc.setTextColor(0);
-  doc.text(`Year-to-Date Summary (${currentYear})`, 14, 50);
+  doc.text(`Year-to-Date Summary (${currentYear})`, 14, 55);
 
   autoTable(doc, {
     body: [
@@ -250,7 +262,7 @@ export function exportAnalyticsToPdf(
       ["Total Expenses", `${symbol}${ytdExpenses.toFixed(2)}`],
       ["Net Balance", `${symbol}${ytdNet.toFixed(2)}`]
     ],
-    startY: 55,
+    startY: 60,
     theme: "grid",
     styles: { fontSize: 10 }
   });
