@@ -20,7 +20,7 @@ import DataOwnership from "../components/DataOwnership";
 import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe, Download, FileText, Upload, Loader2, Instagram, HelpCircle } from "lucide-react";
 import { exportZipBackup } from "../utils/exportCsvZip";
 import { restoreFromCsvZip } from "../utils/restoreCsvZip";
-import { exportTransactionsToPdf } from "../utils/exportCsv";
+import { exportAnalyticsToPdf } from "../utils/exportCsv";
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -34,8 +34,8 @@ const SettingsPage: React.FC = () => {
   const [confirmPin, setConfirmPin] = useState("");
   const { transactions, resetTransactions } = useTransactionsContext();
   const { resetAccounts } = useAccounts();
-  const { resetCategories } = useCategories();
-  const { resetBudgets } = useBudgets();
+  const { resetCategories, categories } = useCategories();
+  const { resetBudgets, budgets } = useBudgets();
   const { resetPayments } = useRecurring();
   const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications, requestPermission, permissionStatus } = useNotifications();
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
@@ -87,7 +87,7 @@ const SettingsPage: React.FC = () => {
         return;
       }
       const themeMode = theme === "system" ? (resolvedTheme || "light") : theme;
-      exportTransactionsToPdf(transactions, currency, themeMode as "light" | "dark");
+      exportAnalyticsToPdf(transactions, budgets, categories, currency);
       pushToast("PDF Summary exported successfully", "success");
     } catch (error) {
       pushToast("Failed to export PDF", "error");

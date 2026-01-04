@@ -5,7 +5,7 @@ import CategoryBreakdownChart from "../components/charts/CategoryBreakdownChart"
 import MonthlyComparisonChart from "../components/charts/MonthlyComparisonChart";
 import TagSummary from "../components/TagSummary";
 import MonthlySummary from "../components/MonthlySummary";
-import { Upload, FileText } from "lucide-react";
+import { Upload, FileText, Loader2 } from "lucide-react";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportAnalyticsToCsv, exportAnalyticsToPdf } from "../utils/exportCsv";
 import { useTheme } from "../context/ThemeContext";
