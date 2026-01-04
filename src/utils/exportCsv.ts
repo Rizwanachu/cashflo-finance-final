@@ -84,18 +84,31 @@ export function exportAnalyticsToCsv(
 
   const escape = escapeCsvValue;
 
+  // 0) Year-to-Date Summary
+  const currentYear = now.getFullYear();
+  const ytdTransactions = transactions.filter(t => new Date(t.date).getFullYear() === currentYear);
+  const ytdIncome = ytdTransactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+  const ytdExpenses = ytdTransactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
+  const ytdNet = ytdIncome - ytdExpenses;
+
+  const ytdHeader = [`Year-to-Date Summary (${currentYear})`, "", ""];
+  const ytdRows = [
+    ["Total Income", symbol + ytdIncome.toFixed(2)],
+    ["Total Expenses", symbol + ytdExpenses.toFixed(2)],
+    ["Net Balance", symbol + ytdNet.toFixed(2)]
+  ];
+
   // 1) Category Breakdown
-  const catTotals: Record<string, { amt: number; count: number; tags: Set<string> }> = {};
+  const catTotals: Record<string, { amt: number; count: number }> = {};
   const expenseTransactions = transactions.filter(t => t.type === "expense");
   const totalExpense = expenseTransactions.reduce((sum, t) => sum + t.amount, 0);
 
   expenseTransactions.forEach(t => {
     if (!catTotals[t.category]) {
-      catTotals[t.category] = { amt: 0, count: 0, tags: new Set() };
+      catTotals[t.category] = { amt: 0, count: 0 };
     }
     catTotals[t.category].amt += t.amount;
     catTotals[t.category].count += 1;
-    t.tags?.forEach(tag => catTotals[t.category].tags.add(tag));
   });
 
   const breakdownHeader = ["Category Breakdown", "", "", "", "", ""];
@@ -108,9 +121,10 @@ export function exportAnalyticsToCsv(
       data.amt.toFixed(2),
       `${((data.amt / totalExpense) * 100).toFixed(1)}%`,
       data.count.toString(),
-      Array.from(data.tags).join("; ")
+      "N/A"
     ];
   });
+  breakdownRows.push(["", "Total Expenses", totalExpense.toFixed(2), "100.0%", "", "N/A"]);
 
   // 2) Monthly Income vs Expenses
   const monthlyData: Record<string, { inc: number; exp: number }> = {};
@@ -121,7 +135,7 @@ export function exportAnalyticsToCsv(
     else monthlyData[month].exp += t.amount;
   });
 
-  const monthlyHeader = ["Monthly Income vs Expenses", "", "", ""];
+  const monthlyHeader = ["Monthly Summary", "", "", ""];
   const monthlySubHeader = ["month", "totalIncome", "totalExpenses", "netAmount"];
   const monthlyRows = Object.entries(monthlyData)
     .sort((a, b) => b[0].localeCompare(a[0]))
@@ -131,6 +145,7 @@ export function exportAnalyticsToCsv(
       data.exp.toFixed(2),
       (data.inc - data.exp).toFixed(2)
     ]);
+  const monthlyNote = ["Values are aggregated from recorded transactions.", "", "", ""];
 
   // 3) Budget Performance
   const budgetHeader = ["Budget Performance", "", "", "", "", "", ""];
@@ -142,7 +157,6 @@ export function exportAnalyticsToCsv(
       const cat = categories.find(c => c.id === catId);
       const spent = catTotals[catId]?.amt || 0;
       const remaining = limit - spent;
-      const tags = catTotals[catId]?.tags ? Array.from(catTotals[catId].tags).join("; ") : "";
       budgetRows.push([
         catId,
         cat?.name || catId,
@@ -150,7 +164,7 @@ export function exportAnalyticsToCsv(
         spent.toFixed(2),
         remaining.toFixed(2),
         spent > limit ? "exceeded" : "within",
-        tags
+        "N/A"
       ]);
     }
   });
@@ -162,6 +176,9 @@ export function exportAnalyticsToCsv(
     ["generatedAt", now.toLocaleString()],
     ["currency", currency],
     [""],
+    ytdHeader,
+    ...ytdRows,
+    [""],
     breakdownHeader,
     breakdownSubHeader,
     ...breakdownRows,
@@ -169,10 +186,15 @@ export function exportAnalyticsToCsv(
     monthlyHeader,
     monthlySubHeader,
     ...monthlyRows,
+    monthlyNote,
     [""],
     budgetHeader,
     budgetSubHeader,
-    ...budgetRows
+    ...budgetRows,
+    [""],
+    ["FOOTER"],
+    ["All data is stored locally on your device."],
+    ["Charts visible in the app are not included in exports."]
   ];
 
   const csvContent = sections
@@ -207,30 +229,40 @@ export function exportAnalyticsToPdf(
   const datePart = now.toISOString().split('T')[0];
   const symbol = getCurrencySymbol(currency);
 
-  // Metadata Header
-  doc.setFontSize(24);
-  doc.text("Spendory", 14, 20);
-  doc.setFontSize(14);
-  doc.text("Analytics Report", 14, 30);
-  doc.setFontSize(9);
-  doc.setTextColor(100);
-  doc.text(`Generated: ${now.toLocaleString()} | Currency: ${currency}`, 14, 36);
-
   // Data Processing
+  const currentYear = now.getFullYear();
+  const ytdTransactions = transactions.filter(t => new Date(t.date).getFullYear() === currentYear);
+  const ytdIncome = ytdTransactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+  const ytdExpenses = ytdTransactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
+  const ytdNet = ytdIncome - ytdExpenses;
+
   const expenseTransactions = transactions.filter(t => t.type === "expense");
   const totalExpense = expenseTransactions.reduce((sum, t) => sum + t.amount, 0);
-  const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
 
-  // 1. Category Breakdown
+  // 1. Year-to-Date Summary
   doc.setFontSize(16);
   doc.setTextColor(0);
-  doc.text("1. Category Breakdown", 14, 50);
+  doc.text(`Year-to-Date Summary (${currentYear})`, 14, 50);
 
-  const catTotals: Record<string, { amt: number; tags: Set<string> }> = {};
+  autoTable(doc, {
+    body: [
+      ["Total Income", `${symbol}${ytdIncome.toFixed(2)}`],
+      ["Total Expenses", `${symbol}${ytdExpenses.toFixed(2)}`],
+      ["Net Balance", `${symbol}${ytdNet.toFixed(2)}`]
+    ],
+    startY: 55,
+    theme: "grid",
+    styles: { fontSize: 10 }
+  });
+
+  // 2. Category Breakdown
+  doc.setFontSize(16);
+  doc.text("Category Breakdown", 14, (doc as any).lastAutoTable.finalY + 15);
+
+  const catTotals: Record<string, { amt: number }> = {};
   expenseTransactions.forEach(t => {
-    if (!catTotals[t.category]) catTotals[t.category] = { amt: 0, tags: new Set() };
+    if (!catTotals[t.category]) catTotals[t.category] = { amt: 0 };
     catTotals[t.category].amt += t.amount;
-    t.tags?.forEach(tag => catTotals[t.category].tags.add(tag));
   });
 
   const breakdownTable = Object.entries(catTotals)
@@ -239,18 +271,27 @@ export function exportAnalyticsToPdf(
       categories.find(c => c.id === id)?.name || id,
       `${symbol}${data.amt.toFixed(2)}`,
       `${((data.amt / totalExpense) * 100).toFixed(1)}%`,
-      Array.from(data.tags).slice(0, 3).join(", ")
+      "N/A"
     ]);
+  breakdownTable.push(["Total Expenses", `${symbol}${totalExpense.toFixed(2)}`, "100.0%", "N/A"]);
 
   autoTable(doc, {
     head: [["Category", "Amount", "%", "Tags"]],
     body: breakdownTable,
-    startY: 55,
+    startY: (doc as any).lastAutoTable.finalY + 20,
     theme: "grid",
     headStyles: { fillColor: [80, 80, 80] }
   });
 
-  // 2. Monthly Summary
+  // 3. Monthly Summary
+  doc.addPage();
+  doc.setFontSize(16);
+  doc.text("Monthly Summary", 14, 20);
+  doc.setFontSize(9);
+  doc.setTextColor(100);
+  doc.text("Values are aggregated from recorded transactions.", 14, 26);
+  doc.setTextColor(0);
+
   const monthlyData: Record<string, { inc: number; exp: number }> = {};
   transactions.forEach(t => {
     const month = t.date.substring(0, 7);
@@ -269,17 +310,15 @@ export function exportAnalyticsToPdf(
       `${symbol}${(data.inc - data.exp).toFixed(2)}`
     ]);
 
-  doc.addPage();
-  doc.text("2. Monthly Summary", 14, 20);
   autoTable(doc, {
     head: [["Month", "Income", "Expenses", "Net"]],
     body: monthlyTable,
-    startY: 25,
+    startY: 32,
     theme: "grid",
     headStyles: { fillColor: [80, 80, 80] }
   });
 
-  // 3. Budget Performance
+  // 4. Budget Performance
   const budgetTable: string[][] = [];
   Object.entries(budgets.perCategory).forEach(([id, limit]) => {
     if (limit !== null) {
@@ -288,18 +327,21 @@ export function exportAnalyticsToPdf(
         categories.find(c => c.id === id)?.name || id,
         `${symbol}${limit.toFixed(2)}`,
         `${symbol}${spent.toFixed(2)}`,
-        `${spent > limit ? "Exceeded" : "Within"}`
+        `${spent > limit ? "Exceeded" : "Within"}`,
+        "N/A"
       ]);
     }
   });
 
   if (budgetTable.length > 0) {
-    doc.text("3. Budget Performance", 14, (doc as any).lastAutoTable.finalY + 15);
+    doc.setFontSize(16);
+    doc.text("Budget Performance", 14, (doc as any).lastAutoTable.finalY + 15);
     autoTable(doc, {
-      head: [["Category", "Limit", "Spent", "Status"]],
+      head: [["Category", "Limit", "Spent", "Status", "Tags"]],
       body: budgetTable,
       startY: (doc as any).lastAutoTable.finalY + 20,
-      theme: "grid"
+      theme: "grid",
+      headStyles: { fillColor: [80, 80, 80] }
     });
   }
 
@@ -309,7 +351,8 @@ export function exportAnalyticsToPdf(
     doc.setPage(i);
     doc.setFontSize(8);
     doc.setTextColor(150);
-    doc.text("Generated by Spendory | All data stored locally on your device", 105, 285, { align: "center" });
+    doc.text("All data is stored locally on your device. Charts visible in the app are not included in exports.", 105, 285, { align: "center" });
+    doc.text(`Page ${i} of ${pageCount}`, 105, 290, { align: "center" });
   }
 
   doc.save(`analytics-report-${datePart}.pdf`);
