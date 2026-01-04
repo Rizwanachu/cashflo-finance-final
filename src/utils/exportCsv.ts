@@ -111,22 +111,22 @@ export function exportAnalyticsToCsv(
     catTotals[t.category].count += 1;
   });
 
-  const breakdownHeader = ["Category Breakdown", "", "", "", "", ""];
-  const breakdownSubHeader = ["categoryId", "categoryName", "totalSpent", "percentageOfTotal", "transactionCount", "tags"];
-  const breakdownRows = Object.entries(catTotals).map(([catId, data]) => {
-    const catName = categories.find(c => c.id === catId)?.name || catId;
-    return [
-      catId,
-      catName,
-      data.amt.toFixed(2),
-      `${((data.amt / totalExpense) * 100).toFixed(1)}%`,
-      data.count.toString(),
-      "N/A"
-    ];
-  });
-  breakdownRows.push(["", "Total Expenses", totalExpense.toFixed(2), "100.0%", "", "N/A"]);
+  const breakdownHeader = ["Category Breakdown", "", "", ""];
+  const breakdownSubHeader = ["Category Name", "Amount Spent", "Percentage of Total Expenses", "Tags"];
+  const breakdownRows = Object.entries(catTotals)
+    .sort((a, b) => b[1].amt - a[1].amt)
+    .map(([catId, data]) => {
+      const catName = categories.find(c => c.id === catId)?.name || catId;
+      return [
+        catName,
+        data.amt.toFixed(2),
+        `${((data.amt / totalExpense) * 100).toFixed(1)}%`,
+        "N/A"
+      ];
+    });
+  breakdownRows.push(["Total Expenses", totalExpense.toFixed(2), "100.0%", "N/A"]);
 
-  // 2) Monthly Income vs Expenses
+  // 2) Monthly Summary
   const monthlyData: Record<string, { inc: number; exp: number }> = {};
   transactions.forEach(t => {
     const month = t.date.substring(0, 7); // YYYY-MM
@@ -136,7 +136,7 @@ export function exportAnalyticsToCsv(
   });
 
   const monthlyHeader = ["Monthly Summary", "", "", ""];
-  const monthlySubHeader = ["month", "totalIncome", "totalExpenses", "netAmount"];
+  const monthlySubHeader = ["Month (YYYY-MM)", "Income", "Expenses", "Net"];
   const monthlyRows = Object.entries(monthlyData)
     .sort((a, b) => b[0].localeCompare(a[0]))
     .map(([month, data]) => [
@@ -276,7 +276,7 @@ export function exportAnalyticsToPdf(
   breakdownTable.push(["Total Expenses", `${symbol}${totalExpense.toFixed(2)}`, "100.0%", "N/A"]);
 
   autoTable(doc, {
-    head: [["Category", "Amount", "%", "Tags"]],
+    head: [["Category Name", "Amount Spent", "Percentage of Total Expenses", "Tags"]],
     body: breakdownTable,
     startY: (doc as any).lastAutoTable.finalY + 20,
     theme: "grid",
@@ -311,7 +311,7 @@ export function exportAnalyticsToPdf(
     ]);
 
   autoTable(doc, {
-    head: [["Month", "Income", "Expenses", "Net"]],
+    head: [["Month (YYYY-MM)", "Income", "Expenses", "Net"]],
     body: monthlyTable,
     startY: 32,
     theme: "grid",
