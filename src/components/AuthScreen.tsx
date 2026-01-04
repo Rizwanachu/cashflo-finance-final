@@ -22,13 +22,13 @@ export const AuthScreen: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
       <div className="max-w-md w-full space-y-8 text-center">
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight">Spendory</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white">Spendory</h1>
           <p className="text-muted-foreground text-lg">Your privacy-first financial companion</p>
         </div>
 
         <Card className="p-8 space-y-6 shadow-xl border-t-4 border-t-primary text-left">
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold">{isRegister ? "Create Account" : "Welcome Back"}</h2>
+            <h2 className="text-2xl font-semibold text-white">{isRegister ? "Create Account" : "Welcome Back"}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Login to protect your Pro access and identify yourself across devices.
             </p>
@@ -36,23 +36,23 @@ export const AuthScreen: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Email</label>
+              <label className="text-sm font-medium text-white">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
                 placeholder="name@example.com"
                 required
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Password</label>
+              <label className="text-sm font-medium text-white">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
                 placeholder="••••••••"
                 required
               />
