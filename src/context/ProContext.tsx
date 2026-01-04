@@ -60,14 +60,21 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
 
-      // 2. Fallback to device-based pro (for legacy/offline)
-      const proDeviceId = safeGet<string>(PRO_DEVICE_KEY, "");
-      const isUnlocked = proDeviceId === dId;
-      setIsProUser(isUnlocked);
+      // 2. Strict check for Pro status
+      const isUnlocked = safeGet<string>(PRO_KEY, "false") === "true";
       if (isUnlocked) {
+        setIsProUser(true);
         setProStatus({
           isPro: true,
-          plan: "Pro (Legacy)",
+          plan: "Pro (Unlocked)",
+          validUntil: null,
+          lastVerifiedAt: new Date().toISOString()
+        });
+      } else {
+        setIsProUser(false);
+        setProStatus({
+          isPro: false,
+          plan: "Free",
           validUntil: null,
           lastVerifiedAt: new Date().toISOString()
         });
