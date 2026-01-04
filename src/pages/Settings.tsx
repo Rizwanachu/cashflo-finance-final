@@ -24,6 +24,7 @@ import { exportAnalyticsToPdf } from "../utils/exportCsv";
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { privacyMode, togglePrivacyMode } = usePrivacy();
   const { isPinSet, setPin, removePin, lockApp } = useAppLock();
@@ -39,14 +40,27 @@ const SettingsPage: React.FC = () => {
   const { resetPayments } = useRecurring();
   const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications, requestPermission, permissionStatus } = useNotifications();
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
-  const { deviceId, resetPro, isProUser, setShowGoProModal, setLockedFeature } = usePro();
+  const { deviceId, resetPro, isProUser, proStatus, setShowGoProModal, setLockedFeature, restoreProStatus } = usePro();
   
   const [showResetModal, setShowResetModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [simulatorClicks, setSimulatorClicks] = useState(0);
   const [showSimulator, setShowSimulator] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
+  const [isRestoringPro, setIsRestoringPro] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleRestorePro = async () => {
+    setIsRestoringPro(true);
+    try {
+      await restoreProStatus();
+      pushToast("Pro status restored successfully!", "success");
+    } catch (error) {
+      pushToast("Failed to restore Pro status", "error");
+    } finally {
+      setIsRestoringPro(false);
+    }
+  };
 
   const handleExportZip = async () => {
     try {
@@ -187,6 +201,54 @@ const SettingsPage: React.FC = () => {
           Manage your app preferences and data
         </p>
       </div>
+
+      <Card>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+            <User className="w-5 h-5" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50 truncate">
+              {user?.email || "Account Information"}
+            </h3>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
+                isProUser ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+              }`}>
+                {proStatus.plan}
+              </span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                Stable ID: {deviceId.slice(0, 8)}...
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {isAuthenticated && (
+            <button
+              onClick={handleRestorePro}
+              disabled={isRestoringPro}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 text-sm font-medium transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${isRestoringPro ? "animate-spin" : ""}`} />
+              Restore Pro Access
+            </button>
+          )}
+          
+          <button
+            onClick={() => logout()}
+            className="w-full px-4 py-2.5 rounded-xl bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 text-sm font-medium transition-all flex items-center justify-center gap-2"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
+          </button>
+        </div>
+
+        <p className="text-[10px] text-slate-500 dark:text-slate-400 text-center mt-4 px-4 leading-relaxed italic">
+          "Your data stays on your device. Login only protects your Pro access."
+        </p>
+      </Card>
 
       <Card>
         <h3 className="text-sm font-semibold text-slate-900 dark:text-[var(--text-primary)] mb-4">
