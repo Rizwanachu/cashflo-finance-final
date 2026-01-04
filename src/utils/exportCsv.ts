@@ -43,71 +43,125 @@ function getCurrencySymbol(currency: CurrencyCode): string {
 }
 
 /**
- * Export analytics to CSV with Summary and Breakdown
+ * Export analytics to CSV with multiple files simulated in one download
+ * Since we can't easily trigger multiple downloads without browser interference,
+ * we combine them into a single structured CSV with sections.
  */
-export function exportTransactionsToCsv(
+export function exportAnalyticsToCsv(
   transactions: Transaction[],
+  budgets: Budgets,
+  categories: Category[],
   currency: CurrencyCode
 ) {
-  if (transactions.length === 0) {
-    return;
-  }
+  if (transactions.length === 0) return;
 
   const symbol = getCurrencySymbol(currency);
   const now = new Date();
-  const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const datePart = now.toISOString().split('T')[0];
 
-  // Summary Data
-  const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
-  const totalExpense = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
+  const escape = escapeCsvValue;
+
+  // 1) Category Breakdown
+  const catTotals: Record<string, { amt: number; count: number; tags: Set<string> }> = {};
+  const expenseTransactions = transactions.filter(t => t.type === "expense");
+  const totalExpense = expenseTransactions.reduce((sum, t) => sum + t.amount, 0);
+
+  expenseTransactions.forEach(t => {
+    if (!catTotals[t.category]) {
+      catTotals[t.category] = { amt: 0, count: 0, tags: new Set() };
+    }
+    catTotals[t.category].amt += t.amount;
+    catTotals[t.category].count += 1;
+    t.tags?.forEach(tag => catTotals[t.category].tags.add(tag));
+  });
+
+  const breakdownHeader = ["Category Breakdown", "", "", "", "", ""];
+  const breakdownSubHeader = ["categoryId", "categoryName", "totalSpent", "percentageOfTotal", "transactionCount", "tags"];
+  const breakdownRows = Object.entries(catTotals).map(([catId, data]) => {
+    const catName = categories.find(c => c.id === catId)?.name || catId;
+    return [
+      catId,
+      catName,
+      data.amt.toFixed(2),
+      `${((data.amt / totalExpense) * 100).toFixed(1)}%`,
+      data.count.toString(),
+      Array.from(data.tags).join("; ")
+    ];
+  });
+
+  // 2) Monthly Income vs Expenses
+  const monthlyData: Record<string, { inc: number; exp: number }> = {};
+  transactions.forEach(t => {
+    const month = t.date.substring(0, 7); // YYYY-MM
+    if (!monthlyData[month]) monthlyData[month] = { inc: 0, exp: 0 };
+    if (t.type === "income") monthlyData[month].inc += t.amount;
+    else monthlyData[month].exp += t.amount;
+  });
+
+  const monthlyHeader = ["Monthly Income vs Expenses", "", "", ""];
+  const monthlySubHeader = ["month", "totalIncome", "totalExpenses", "netAmount"];
+  const monthlyRows = Object.entries(monthlyData)
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .map(([month, data]) => [
+      month,
+      data.inc.toFixed(2),
+      data.exp.toFixed(2),
+      (data.inc - data.exp).toFixed(2)
+    ]);
+
+  // 3) Budget Performance
+  const budgetHeader = ["Budget Performance", "", "", "", "", "", ""];
+  const budgetSubHeader = ["categoryId", "categoryName", "budgetLimit", "spent", "remaining", "status", "tags"];
+  const budgetRows: string[][] = [];
   
-  const summaryHeader = ["Summary", "Value"];
-  const summaryRows = [
-    ["Total Income", `${symbol}${totalIncome.toFixed(2)}`],
-    ["Total Expense", `${symbol}${totalExpense.toFixed(2)}`],
-    ["Net Balance", `${symbol}${(totalIncome - totalExpense).toFixed(2)}`],
-    ["", ""]
+  Object.entries(budgets.perCategory).forEach(([catId, limit]) => {
+    if (limit !== null) {
+      const cat = categories.find(c => c.id === catId);
+      const spent = catTotals[catId]?.amt || 0;
+      const remaining = limit - spent;
+      const tags = catTotals[catId]?.tags ? Array.from(catTotals[catId].tags).join("; ") : "";
+      budgetRows.push([
+        catId,
+        cat?.name || catId,
+        limit.toFixed(2),
+        spent.toFixed(2),
+        remaining.toFixed(2),
+        spent > limit ? "exceeded" : "within",
+        tags
+      ]);
+    }
+  });
+
+  const sections = [
+    ["REPORT METADATA"],
+    ["appName", "Spendory"],
+    ["reportType", "Analytics Report"],
+    ["generatedAt", now.toLocaleString()],
+    ["currency", currency],
+    [""],
+    breakdownHeader,
+    breakdownSubHeader,
+    ...breakdownRows,
+    [""],
+    monthlyHeader,
+    monthlySubHeader,
+    ...monthlyRows,
+    [""],
+    budgetHeader,
+    budgetSubHeader,
+    ...budgetRows
   ];
 
-  // Category Breakdown
-  const catTotals: Record<string, number> = {};
-  transactions.filter(t => t.type === "expense").forEach(t => {
-    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
-  });
-  
-  const breakdownHeader = ["Category Breakdown", "Amount", "% of Total"];
-  const breakdownRows = Object.entries(catTotals).map(([cat, amt]) => [
-    cat.charAt(0).toUpperCase() + cat.slice(1),
-    amt.toFixed(2),
-    `${((amt / totalExpense) * 100).toFixed(1)}%`
-  ]);
-  breakdownRows.push(["", "", ""]);
-
-  // Transactions Detail
-  const detailHeader = ["Date", "Type", "Category", `Amount (${symbol})`, "Note"];
-  const detailRows = transactions.map((t) => [
-    formatDateForCsv(t.date),
-    t.type.charAt(0).toUpperCase() + t.type.slice(1),
-    t.category.charAt(0).toUpperCase() + t.category.slice(1),
-    t.amount.toString(),
-    t.description || ""
-  ]);
-
-  const csvContent = [
-    summaryHeader.join(","),
-    ...summaryRows.map(r => r.map(escapeCsvValue).join(",")),
-    breakdownHeader.join(","),
-    ...breakdownRows.map(r => r.map(escapeCsvValue).join(",")),
-    detailHeader.join(","),
-    ...detailRows.map(r => r.map(escapeCsvValue).join(","))
-  ].join("\n");
+  const csvContent = sections
+    .map(row => row.map(cell => escape(String(cell))).join(","))
+    .join("\n");
 
   const BOM = "\uFEFF";
   const blob = new Blob([BOM + csvContent], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", `analytics-${datePart}.csv`);
+  link.setAttribute("download", `analytics-report-${datePart}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -115,120 +169,125 @@ export function exportTransactionsToCsv(
 }
 
 /**
- * Export transactions to PDF with Summary
+ * Enhanced PDF Export based on spec
  */
-export function exportTransactionsToPdf(
+export function exportAnalyticsToPdf(
   transactions: Transaction[],
-  currency: CurrencyCode,
-  theme: "light" | "dark"
+  budgets: Budgets,
+  categories: Category[],
+  currency: CurrencyCode
 ) {
-  if (transactions.length === 0) {
-    return;
-  }
+  if (transactions.length === 0) return;
 
   const doc = new jsPDF();
   const now = new Date();
-  const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const datePart = now.toISOString().split('T')[0];
+  const symbol = getCurrencySymbol(currency);
 
-  // Set theme colors
-  const textColor: [number, number, number] = [15, 23, 42]; 
-  const secondaryTextColor: [number, number, number] = [100, 116, 139];
-
-  // Title
-  doc.setFontSize(22);
-  doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text("Analytics Report", 14, 20);
-
-  // Date generated
-  doc.setFontSize(10);
-  doc.setTextColor(secondaryTextColor[0], secondaryTextColor[1], secondaryTextColor[2]);
-  doc.text(
-    `Generated: ${now.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
-    })}`,
-    14,
-    28
-  );
-
-  // --- Summary Section ---
-  const totalIncome = transactions
-    .filter((t) => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
-  const totalExpense = transactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
-  const balance = totalIncome - totalExpense;
-  const currencySymbol = getCurrencySymbol(currency);
-
+  // Metadata Header
+  doc.setFontSize(24);
+  doc.text("Spendory", 14, 20);
   doc.setFontSize(14);
-  doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text("Executive Summary", 14, 42);
+  doc.text("Analytics Report", 14, 30);
+  doc.setFontSize(9);
+  doc.setTextColor(100);
+  doc.text(`Generated: ${now.toLocaleString()} | Currency: ${currency}`, 14, 36);
 
-  doc.setFontSize(10);
-  doc.text(`Total Income:`, 14, 52);
-  doc.text(`${currencySymbol}${totalIncome.toFixed(2)}`, 60, 52);
-  
-  doc.text(`Total Expenses:`, 14, 58);
-  doc.text(`${currencySymbol}${totalExpense.toFixed(2)}`, 60, 58);
+  // Data Processing
+  const expenseTransactions = transactions.filter(t => t.type === "expense");
+  const totalExpense = expenseTransactions.reduce((sum, t) => sum + t.amount, 0);
+  const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
 
-  doc.setFont("helvetica", "bold");
-  doc.text(`Net Balance:`, 14, 66);
-  doc.text(`${currencySymbol}${balance.toFixed(2)}`, 60, 66);
-  doc.setFont("helvetica", "normal");
+  // 1. Category Breakdown
+  doc.setFontSize(16);
+  doc.setTextColor(0);
+  doc.text("1. Category Breakdown", 14, 50);
 
-  // --- Category Breakdown ---
-  const catTotals: Record<string, number> = {};
-  transactions.filter(t => t.type === "expense").forEach(t => {
-    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+  const catTotals: Record<string, { amt: number; tags: Set<string> }> = {};
+  expenseTransactions.forEach(t => {
+    if (!catTotals[t.category]) catTotals[t.category] = { amt: 0, tags: new Set() };
+    catTotals[t.category].amt += t.amount;
+    t.tags?.forEach(tag => catTotals[t.category].tags.add(tag));
   });
 
-  const breakdownData = Object.entries(catTotals)
-    .sort((a, b) => b[1] - a[1])
-    .map(([cat, amt]) => [
-      cat.charAt(0).toUpperCase() + cat.slice(1),
-      `${currencySymbol}${amt.toFixed(2)}`,
-      `${((amt / totalExpense) * 100).toFixed(1)}%`
+  const breakdownTable = Object.entries(catTotals)
+    .sort((a, b) => b[1].amt - a[1].amt)
+    .map(([id, data]) => [
+      categories.find(c => c.id === id)?.name || id,
+      `${symbol}${data.amt.toFixed(2)}`,
+      `${((data.amt / totalExpense) * 100).toFixed(1)}%`,
+      Array.from(data.tags).slice(0, 3).join(", ")
     ]);
 
   autoTable(doc, {
-    head: [["Category", "Amount", "% of Expenses"]],
-    body: breakdownData,
-    startY: 75,
-    margin: { left: 14 },
-    tableWidth: 100,
-    headStyles: { fillColor: [51, 65, 85] },
-    styles: { fontSize: 9 }
+    head: [["Category", "Amount", "%", "Tags"]],
+    body: breakdownTable,
+    startY: 55,
+    theme: "grid",
+    headStyles: { fillColor: [80, 80, 80] }
   });
 
-  // --- Transactions Detail ---
+  // 2. Monthly Summary
+  const monthlyData: Record<string, { inc: number; exp: number }> = {};
+  transactions.forEach(t => {
+    const month = t.date.substring(0, 7);
+    if (!monthlyData[month]) monthlyData[month] = { inc: 0, exp: 0 };
+    if (t.type === "income") monthlyData[month].inc += t.amount;
+    else monthlyData[month].exp += t.amount;
+  });
+
+  const monthlyTable = Object.entries(monthlyData)
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .slice(0, 12)
+    .map(([month, data]) => [
+      month,
+      `${symbol}${data.inc.toFixed(2)}`,
+      `${symbol}${data.exp.toFixed(2)}`,
+      `${symbol}${(data.inc - data.exp).toFixed(2)}`
+    ]);
+
   doc.addPage();
-  doc.setFontSize(14);
-  doc.text("Detailed Transactions", 14, 20);
-
-  const tableData = transactions.map((t) => [
-    new Date(t.date + "T00:00:00").toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric"
-    }),
-    t.type.charAt(0).toUpperCase() + t.type.slice(1),
-    t.category.charAt(0).toUpperCase() + t.category.slice(1),
-    `${currencySymbol}${t.amount.toFixed(2)}`,
-    t.description || "-"
-  ]);
-
+  doc.text("2. Monthly Summary", 14, 20);
   autoTable(doc, {
-    head: [["Date", "Type", "Category", "Amount", "Note"]],
-    body: tableData,
+    head: [["Month", "Income", "Expenses", "Net"]],
+    body: monthlyTable,
     startY: 25,
-    theme: "striped",
-    headStyles: { fillColor: [15, 23, 42] },
-    styles: { fontSize: 8 }
+    theme: "grid",
+    headStyles: { fillColor: [80, 80, 80] }
   });
+
+  // 3. Budget Performance
+  const budgetTable: string[][] = [];
+  Object.entries(budgets.perCategory).forEach(([id, limit]) => {
+    if (limit !== null) {
+      const spent = catTotals[id]?.amt || 0;
+      budgetTable.push([
+        categories.find(c => c.id === id)?.name || id,
+        `${symbol}${limit.toFixed(2)}`,
+        `${symbol}${spent.toFixed(2)}`,
+        `${spent > limit ? "Exceeded" : "Within"}`
+      ]);
+    }
+  });
+
+  if (budgetTable.length > 0) {
+    doc.text("3. Budget Performance", 14, (doc as any).lastAutoTable.finalY + 15);
+    autoTable(doc, {
+      head: [["Category", "Limit", "Spent", "Status"]],
+      body: budgetTable,
+      startY: (doc as any).lastAutoTable.finalY + 20,
+      theme: "grid"
+    });
+  }
+
+  // Footer
+  const pageCount = (doc as any).internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(8);
+    doc.setTextColor(150);
+    doc.text("Generated by Spendory | All data stored locally on your device", 105, 285, { align: "center" });
+  }
 
   doc.save(`analytics-report-${datePart}.pdf`);
 }
