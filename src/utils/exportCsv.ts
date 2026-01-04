@@ -239,6 +239,16 @@ export function exportAnalyticsToPdf(
   const expenseTransactions = transactions.filter(t => t.type === "expense");
   const totalExpense = expenseTransactions.reduce((sum, t) => sum + t.amount, 0);
 
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  };
+  const formattedDate = now.toLocaleString("en-GB", dateOptions).replace(",", "");
+
   // Report Header
   doc.setFontSize(22);
   doc.setTextColor(0);
@@ -247,7 +257,7 @@ export function exportAnalyticsToPdf(
   doc.setTextColor(100);
   doc.text("Analytics Report", 14, 30);
   doc.setFontSize(10);
-  doc.text(`Generated: ${now.toLocaleString()} | Currency: ${currency}`, 14, 38);
+  doc.text(`Generated: ${formattedDate} | Currency: ${currency}`, 14, 38);
   doc.setDrawColor(200);
   doc.line(14, 42, 196, 42);
 
