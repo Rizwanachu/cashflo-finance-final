@@ -1,3 +1,3 @@
-export { setupAuth, isAuthenticated, getSession } from "./replitAuth";
-export { authStorage, type IAuthStorage } from "./storage";
-export { registerAuthRoutes } from "./routes";
+export { setupAuth, isAuthenticated, getSession } from "./replitAuth.ts";
+export { authStorage, type IAuthStorage } from "./storage.ts";
+export { registerAuthRoutes } from "./routes.ts";
