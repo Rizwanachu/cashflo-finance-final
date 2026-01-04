@@ -83,16 +83,16 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
     // In a real app, this calls the backend /api/billing/status
     // Simulation for Spendory requirements:
     const mockProStatus: ProStatus = {
-      isPro: true,
-      plan: "Pro Annual",
-      validUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+      isPro: false,
+      plan: "Free",
+      validUntil: null,
       lastVerifiedAt: new Date().toISOString()
     };
 
     const userProKey = `pro_status_${user.userId}`;
     safeSet(userProKey, JSON.stringify(mockProStatus));
     setProStatus(mockProStatus);
-    setIsProUser(true);
+    setIsProUser(mockProStatus.isPro);
     
     // Also bind to device for offline access
     safeSet(PRO_DEVICE_KEY, deviceId);

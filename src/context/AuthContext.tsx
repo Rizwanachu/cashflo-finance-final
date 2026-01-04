@@ -65,12 +65,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const login = () => {
-    window.location.href = '/api/login';
+    // Navigate to root for AuthScreen login
+    window.location.href = "/";
   };
 
   const logout = () => {
-    localStorage.removeItem('spendory_user');
-    window.location.href = '/api/logout';
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("spendory_user");
+    window.location.href = "/";
   };
 
   return (
