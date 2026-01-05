@@ -29,11 +29,12 @@ export const AuthScreen: React.FC = () => {
   }, []);
 
   const handleGoogleLogin = () => {
-    console.log("GIS: Button clicked");
+    console.log("GIS Frontend: Button clicked");
     setError(null);
 
     if (!window.google) {
-      setError("Google SDK not loaded yet. Please wait.");
+      console.error("GIS Frontend: Google SDK not found on window");
+      setError("Google SDK not loaded. Please refresh.");
       return;
     }
 
@@ -41,20 +42,26 @@ export const AuthScreen: React.FC = () => {
       window.google.accounts.id.initialize({
         client_id: "878233777717-n9t9p9m429h5589c4266j4j49j4j49j4.apps.googleusercontent.com",
         callback: async (response: any) => {
-          console.log("GIS: Google responded", response);
-          try {
-            await loginWithGoogleToken(response.credential);
-          } catch (err: any) {
-            setError(err.message || "Failed to sync with Spendory");
+          console.log("GIS Frontend: Received credential from Google, length:", response.credential?.length);
+          if (response.credential) {
+            try {
+              await loginWithGoogleToken(response.credential);
+            } catch (err: any) {
+              console.error("GIS Frontend: Backend sync failed", err);
+              setError(err.message || "Failed to sync with Spendory");
+            }
+          } else {
+            console.error("GIS Frontend: No credential in response");
+            setError("Google login failed - no token received");
           }
         },
       });
 
-      console.log("GIS: Triggering prompt...");
+      console.log("GIS Frontend: Calling prompt()");
       window.google.accounts.id.prompt();
     } catch (err: any) {
-      console.error("GIS: Error during init", err);
-      setError("Failed to initialize Google Sign-In");
+      console.error("GIS Frontend: Init error", err);
+      setError("Failed to start Google login");
     }
   };
 
@@ -70,8 +77,8 @@ export const AuthScreen: React.FC = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold text-white">Welcome</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Sign in with Google to protect your Pro access and identify yourself across devices.
-              All financial data stays local.
+              Sign in with Google to protect your Pro access.
+              Financial data remains 100% private in your browser.
             </p>
           </div>
 
