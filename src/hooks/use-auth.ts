@@ -42,6 +42,22 @@ export function useAuth() {
     },
     onSuccess: (user) => {
       queryClient.setQueryData(["/api/auth/user"], user);
+      // Sync local Pro status with server on login
+      if (user.isPro) {
+        localStorage.setItem("spendory_pro_status", "true");
+        localStorage.setItem(`pro_status_${user.id}`, JSON.stringify({
+          isPro: true,
+          plan: user.proPlan || "Pro (Unlocked)",
+          validUntil: null,
+          lastVerifiedAt: new Date().toISOString()
+        }));
+      } else {
+        localStorage.setItem("spendory_pro_status", "false");
+      }
+    },
+    onSettled: () => {
+      // Re-fetch Pro status context or trigger a refresh if needed
+      window.location.reload(); 
     }
   });
 
@@ -62,6 +78,22 @@ export function useAuth() {
     },
     onSuccess: (user) => {
       queryClient.setQueryData(["/api/auth/user"], user);
+      // Sync local Pro status with server on login
+      if (user.isPro) {
+        localStorage.setItem("spendory_pro_status", "true");
+        localStorage.setItem(`pro_status_${user.id}`, JSON.stringify({
+          isPro: true,
+          plan: user.proPlan || "Pro (Unlocked)",
+          validUntil: null,
+          lastVerifiedAt: new Date().toISOString()
+        }));
+      } else {
+        localStorage.setItem("spendory_pro_status", "false");
+      }
+    },
+    onSettled: () => {
+      // Re-fetch Pro status context or trigger a refresh if needed
+      window.location.reload(); 
     }
   });
 
