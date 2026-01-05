@@ -1,0 +1,72 @@
+You are fixing a PostgreSQL error in Spendory:
+
+ERROR:
+"There is no unique or exclusion constraint matching the ON CONFLICT specification"
+
+ROOT CAUSE:
+ON CONFLICT is being used on a column that does NOT have a UNIQUE constraint.
+
+STRICT RULES:
+- Do NOT remove ON CONFLICT logic
+- Do NOT introduce Replit Auth
+- Do NOT change the login flow
+- Fix must be done by correcting DATABASE SCHEMA
+- Keep the system boring and reliable
+
+TASKS:
+
+1. Identify every INSERT ... ON CONFLICT query in the backend.
+   Common files:
+   - db.ts
+   - auth.ts
+   - users.ts
+   - subscriptions.ts
+   - pro.ts
+
+2. For EACH ON CONFLICT clause:
+   - Note the column(s) used in ON CONFLICT (...)
+   - Example:
+     ON CONFLICT (email)
+     ON CONFLICT (google_id)
+     ON CONFLICT (user_id)
+
+3. Fix the database schema so ALL conflict targets are VALID.
+
+4. Apply these PostgreSQL rules:
+
+   - If ON CONFLICT (email) exists → email MUST be UNIQUE
+   - If ON CONFLICT (google_id) exists → google_id MUST be UNIQUE
+   - If ON CONFLICT (user_id) exists → user_id MUST be UNIQUE
+   - Composite conflicts must have COMPOSITE UNIQUE INDEXES
+
+5. Generate and apply SQL migrations like this:
+
+   Example:
+   ALTER TABLE users
+   ADD CONSTRAINT users_email_unique UNIQUE (email);
+
+   ALTER TABLE users
+   ADD CONSTRAINT users_google_id_unique UNIQUE (google_id);
+
+   ALTER TABLE subscriptions
+   ADD CONSTRAINT subscriptions_user_id_unique UNIQUE (user_id);
+
+6. If duplicate rows already exist:
+   - Keep the earliest row
+   - Delete duplicates safely BEFORE adding constraints
+
+7. After fixing schema:
+   - Restart backend
+   - Retry Google login
+   - Ensure login succeeds without errors
+
+FINAL VALIDATION:
+- Google login works
+- No 500 errors
+- No ON CONFLICT crashes
+- User record upserts correctly
+- Same Google account logs in repeatedly without creating duplicates
+
+DO NOT add new auth systems.
+DO NOT store financial data on server.
+ONLY fix schema correctness.

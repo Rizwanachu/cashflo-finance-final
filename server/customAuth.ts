@@ -30,6 +30,12 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
           firstName: profile.name?.givenName || "User",
           isPro: false,
           proPlan: "Free"
+        }).onConflictDoUpdate({
+          target: users.email,
+          set: {
+            firstName: profile.name?.givenName || "User",
+            updatedAt: new Date()
+          }
         }).returning();
       }
       return done(null, user);
