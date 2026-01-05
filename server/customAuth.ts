@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client("570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com");
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
 
 router.post("/google", async (req, res) => {
@@ -19,7 +19,7 @@ router.post("/google", async (req, res) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com",
     });
     const payload = ticket.getPayload();
     if (!payload) throw new Error("No payload from Google");
