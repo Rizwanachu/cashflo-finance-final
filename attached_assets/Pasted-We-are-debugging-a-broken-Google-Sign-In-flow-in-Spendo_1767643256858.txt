@@ -1,0 +1,83 @@
+We are debugging a broken Google Sign-In flow in Spendory.
+
+CURRENT BUG:
+- Clicking "Continue with Google" refreshes the page
+- Google consent screen never opens
+- No popup, no redirect, just a reload
+
+STRICT RULES:
+- DELETE all existing Google auth code
+- DELETE Replit Auth completely
+- DO NOT use forms for login
+- DO NOT use <a> tags for login
+- DO NOT reload or navigate during login
+- DO NOT auto-redirect before Google responds
+
+GOAL:
+Implement a CLEAN, MINIMAL, WORKING Google Sign-In using Google Identity Services (GIS).
+
+IMPLEMENTATION REQUIREMENTS:
+
+1. FRONTEND ONLY (initially):
+   - Use Google Identity Services JS SDK
+   - Load script explicitly:
+     https://accounts.google.com/gsi/client
+
+2. Render login button like this (NO form, NO link):
+   <button id="google-login-btn" type="button">
+
+3. Attach click handler:
+   - Must call event.preventDefault()
+   - Must NOT trigger router navigation
+   - Must NOT submit anything
+
+4. On click:
+   - Initialize google.accounts.id
+   - Call google.accounts.id.prompt() OR google.accounts.oauth2.initTokenClient()
+   - Ensure Google popup opens
+
+5. After successful login:
+   - Extract email, name, sub (Google ID)
+   - Store ONLY auth identity in localStorage:
+     spendory-auth-user
+
+6. DO NOT store:
+   - transactions
+   - accounts
+   - budgets
+   - financial data
+
+7. BACKEND (minimal):
+   - Endpoint: POST /auth/google
+   - Accept Google ID token
+   - Verify token using Google public keys
+   - Upsert user by google_id or email
+   - NO sessions
+   - Return simple success JSON
+
+8. CRITICAL FIXES:
+   - Ensure button is NOT inside <form>
+   - Ensure no onSubmit handlers exist
+   - Ensure no router.push() before Google responds
+   - Ensure no window.location change
+   - Ensure no page reload anywhere
+
+9. ADD DEBUG LOGS:
+   - Log when button is clicked
+   - Log before calling Google SDK
+   - Log when Google responds
+   - Log errors clearly
+
+FINAL VALIDATION CHECKLIST:
+- Clicking button opens Google popup
+- No page refresh
+- No console errors
+- Google consent screen appears
+- Same behavior on:
+  - spendorytrack.com
+  - spendory.vercel.app
+  - replit.dev domain
+
+DO NOT optimize.
+DO NOT add features.
+JUST make Google Sign-In open and work.

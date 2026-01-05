@@ -25,98 +25,51 @@ export function useAuth() {
     retry: false,
   });
 
-  const loginMutation = useMutation({
-    mutationFn: async (credentials: any) => {
-      console.log("Executing login mutation for:", credentials.email);
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache"
-        },
-        body: JSON.stringify(credentials)
-      });
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        console.error("Login API error:", errorData);
-        throw new Error(errorData.message || "Login failed");
-      }
-      const data = await res.json();
-      console.log("Login successful, token received");
-      localStorage.setItem("auth_token", data.token);
-      return data.user;
-    },
-    onSuccess: (user) => {
-      queryClient.setQueryData(["/api/auth/user"], user);
-      // Sync local Pro status with server on login
-      if (user.isPro) {
-        localStorage.setItem("spendory_pro_status", "true");
-        localStorage.setItem(`pro_status_${user.id}`, JSON.stringify({
-          isPro: true,
-          plan: user.proPlan || "Pro (Unlocked)",
-          validUntil: null,
-          lastVerifiedAt: new Date().toISOString()
-        }));
-      } else {
-        localStorage.setItem("spendory_pro_status", "false");
-      }
-    },
-    onSettled: () => {
-      // Re-fetch Pro status context or trigger a refresh if needed
-      window.location.reload(); 
-    }
-  });
+  const loginWithGoogleToken = async (idToken: string) => {
+    console.log("GIS: Sending token to Spendory backend...");
+    const res = await fetch("/api/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken })
+    });
 
-  const registerMutation = useMutation({
-    mutationFn: async (userData: any) => {
-      console.log("Executing register mutation for:", userData.email);
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData)
-      });
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        console.error("Registration API error:", errorData);
-        throw new Error(errorData.message || "Registration failed");
-      }
-      const data = await res.json();
-      console.log("Registration successful, token received");
-      localStorage.setItem("auth_token", data.token);
-      return data.user;
-    },
-    onSuccess: (user) => {
-      queryClient.setQueryData(["/api/auth/user"], user);
-      // Sync local Pro status with server on login
-      if (user.isPro) {
-        localStorage.setItem("spendory_pro_status", "true");
-        localStorage.setItem(`pro_status_${user.id}`, JSON.stringify({
-          isPro: true,
-          plan: user.proPlan || "Pro (Unlocked)",
-          validUntil: null,
-          lastVerifiedAt: new Date().toISOString()
-        }));
-      } else {
-        localStorage.setItem("spendory_pro_status", "false");
-      }
-    },
-    onSettled: () => {
-      // Re-fetch Pro status context or trigger a refresh if needed
-      window.location.reload(); 
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Google Sign-In failed");
     }
-  });
+
+    const data = await res.json();
+    console.log("GIS: Sign-In successful");
+    localStorage.setItem("auth_token", data.token);
+    localStorage.setItem("spendory-auth-user", JSON.stringify(data.user));
+    
+    queryClient.setQueryData(["/api/auth/user"], data.user);
+    
+    // Pro status sync
+    if (data.user.isPro) {
+      localStorage.setItem(`pro_status_${data.user.id}`, JSON.stringify({
+        isPro: true,
+        plan: data.user.proPlan || "Pro",
+        validUntil: null,
+        lastVerifiedAt: new Date().toISOString()
+      }));
+    }
+    
+    window.location.reload();
+  };
 
   const logout = () => {
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("spendory-auth-user");
     queryClient.setQueryData(["/api/auth/user"], null);
+    window.location.reload();
   };
 
   return {
     user,
     isLoading,
     isAuthenticated: !!user,
-    login: loginMutation.mutate,
-    register: registerMutation.mutate,
+    loginWithGoogleToken,
     logout,
   };
 }

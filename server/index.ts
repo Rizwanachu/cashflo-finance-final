@@ -16,27 +16,13 @@ async function startServer() {
   const app = express();
   app.use(express.json());
 
-  app.use(session({
-    store: new PostgresStore({ pool }),
-    secret: process.env.SESSION_SECRET || "spendory-secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
-  }));
-
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  // Trust proxy is required for secure cookies/redirects on Replit/Custom Domains
-  app.set("trust proxy", 1);
-
   // Set Cache-Control to prevent heuristic caching issues
   app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     next();
   });
 
-  // Use custom auth routes
+  // Use custom auth routes (Minimal GIS)
   app.use("/api/auth", customAuthRoutes);
 
   // Serve static files from the Vite build
