@@ -51,7 +51,10 @@ export const AuthScreen: React.FC = () => {
             <div className="grid grid-cols-1 gap-3">
               <button
                 type="button"
-                onClick={() => window.location.href = "/api/auth/google"}
+                onClick={() => {
+                  console.log("Redirecting to Google Auth...");
+                  window.location.assign("https://www.spendorytrack.com/api/auth/google");
+                }}
                 className="flex items-center justify-center gap-2 w-full p-2.5 bg-white text-black rounded-lg font-medium hover:bg-zinc-100 transition-colors"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
