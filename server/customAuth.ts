@@ -87,19 +87,27 @@ router.post("/register", async (req, res) => {
   if (!email || !password) return res.status(400).json({ message: "Missing credentials" });
   
   try {
+    // Check if user already exists
+    const [existingUser] = await db.select().from(users).where(eq(users.email, email));
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const [newUser] = await db.insert(users).values({
       email,
       password: hashedPassword,
       firstName: firstName || null,
-      lastName: lastName || null
+      lastName: lastName || null,
+      isPro: false,
+      proPlan: "Free"
     }).returning();
     
-    console.log("User created:", newUser.id);
+    console.log("User created successfully:", newUser.id);
     const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, { expiresIn: "7d" });
     res.json({ token, user: { id: newUser.id, email: newUser.email, firstName: newUser.firstName } });
   } catch (e: any) {
-    console.error("Registration error:", e);
+    console.error("Registration error (detailed):", e);
     res.status(500).json({ message: e.message || "Registration failed" });
   }
 });
@@ -109,10 +117,18 @@ router.post("/login", async (req, res) => {
   console.log("Login attempt:", { email });
   try {
     const [user] = await db.select().from(users).where(eq(users.email, email));
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user) {
+      console.log("Login failed: User not found");
       return res.status(401).json({ message: "Invalid credentials" });
     }
     
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      console.log("Login failed: Invalid password");
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    
+    console.log("Login successful for user:", user.id);
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
     res.json({ 
       token, 
@@ -125,7 +141,7 @@ router.post("/login", async (req, res) => {
       } 
     });
   } catch (e: any) {
-    console.error("Login error:", e);
+    console.error("Login error (detailed):", e);
     res.status(500).json({ message: e.message });
   }
 });

@@ -27,6 +27,7 @@ export function useAuth() {
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: any) => {
+      console.log("Executing login mutation for:", credentials.email);
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -34,9 +35,11 @@ export function useAuth() {
       });
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
+        console.error("Login API error:", errorData);
         throw new Error(errorData.message || "Login failed");
       }
       const data = await res.json();
+      console.log("Login successful, token received");
       localStorage.setItem("auth_token", data.token);
       return data.user;
     },
@@ -63,6 +66,7 @@ export function useAuth() {
 
   const registerMutation = useMutation({
     mutationFn: async (userData: any) => {
+      console.log("Executing register mutation for:", userData.email);
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,9 +74,11 @@ export function useAuth() {
       });
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
+        console.error("Registration API error:", errorData);
         throw new Error(errorData.message || "Registration failed");
       }
       const data = await res.json();
+      console.log("Registration successful, token received");
       localStorage.setItem("auth_token", data.token);
       return data.user;
     },
