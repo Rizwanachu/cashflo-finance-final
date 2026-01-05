@@ -27,6 +27,9 @@ async function startServer() {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // Trust proxy is required for secure cookies/redirects on Replit/Custom Domains
+  app.set("trust proxy", 1);
+
   // Use custom auth routes
   app.use("/api/auth", customAuthRoutes);
 

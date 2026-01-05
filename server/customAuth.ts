@@ -63,7 +63,10 @@ passport.deserializeUser(async (id: string, done) => {
   }
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google", (req, res, next) => {
+  console.log("Initiating Google Auth from domain:", req.headers.host);
+  passport.authenticate("google", { scope: ["profile", "email"] })(req, res, next);
+});
 
 router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
   const user = req.user as any;
