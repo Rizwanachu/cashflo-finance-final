@@ -1,12 +1,62 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { db } from "./db/index.ts";
 import { users } from "../shared/models/auth.ts";
 import { eq } from "drizzle-orm";
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
+
+// Google OAuth Setup
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/api/auth/google/callback",
+    proxy: true
+  }, async (_accessToken, _refreshToken, profile, done) => {
+    try {
+      const email = profile.emails?.[0].value;
+      if (!email) return done(new Error("No email from Google"));
+
+      let [user] = await db.select().from(users).where(eq(users.email, email));
+      if (!user) {
+        [user] = await db.insert(users).values({
+          email,
+          password: await bcrypt.hash(Math.random().toString(36), 10), // Random password for OAuth users
+          firstName: profile.name?.givenName || "User",
+          isPro: false,
+          proPlan: "Free"
+        }).returning();
+      }
+      return done(null, user);
+    } catch (e) {
+      return done(e as Error);
+    }
+  }));
+}
+
+passport.serializeUser((user: any, done) => done(null, user.id));
+passport.deserializeUser(async (id: string, done) => {
+  try {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    done(null, user);
+  } catch (e) {
+    done(e);
+  }
+});
+
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
+  const user = req.user as any;
+  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
+  // Redirect back to frontend with token
+  res.redirect(`/?token=${token}`);
+});
 
 router.post("/register", async (req, res) => {
   const { email, password, firstName, lastName } = req.body;

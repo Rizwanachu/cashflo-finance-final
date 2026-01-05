@@ -36,21 +36,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     lastVerifiedAt: new Date().toISOString()
   });
 
-  // Handle identity storage as per requirements
   useEffect(() => {
+    // 1. Check for token in URL (from Google OAuth)
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get("token");
+    if (tokenFromUrl) {
+      localStorage.setItem("auth_token", tokenFromUrl);
+      // Clean up URL
+      window.history.replaceState({}, document.title, "/");
+    }
+
+    // 2. Load authenticated session
     if (isAuthenticated && replitUser) {
       const userData: AuthUser = {
         userId: replitUser.id,
         email: replitUser.email,
-        provider: replitUser.email ? 'email' : 'google', // Rough estimation
+        provider: replitUser.email ? 'email' : 'google',
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString()
       };
       
-      // Store user metadata ONLY (not app data)
       localStorage.setItem('spendory_user', JSON.stringify(userData));
-      
-      // Initial Pro status check (placeholder for actual billing integration)
       checkProStatus(replitUser.id);
     }
   }, [isAuthenticated, replitUser]);

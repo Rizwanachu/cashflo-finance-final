@@ -1,15 +1,31 @@
 import express from "express";
+import session from "express-session";
+import passport from "passport";
+import connectPg from "connect-pg-simple";
 import customAuthRoutes from "./customAuth.ts";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createServer } from "http";
+import { pool } from "./db/index.js";
 
+const PostgresStore = connectPg(session);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function startServer() {
   const app = express();
   app.use(express.json());
+
+  app.use(session({
+    store: new PostgresStore({ pool }),
+    secret: process.env.SESSION_SECRET || "spendory-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+  }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   // Use custom auth routes
   app.use("/api/auth", customAuthRoutes);
