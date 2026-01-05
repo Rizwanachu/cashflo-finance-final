@@ -43,12 +43,11 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
   const [lockedFeature, setLockedFeature] = useState<string>();
   const [deviceId, setDeviceId] = useState("");
 
-  // Load Pro status from localStorage on mount or login
   useEffect(() => {
     const dId = getOrCreateDeviceId();
     setDeviceId(dId);
     
-    const loadStatus = () => {
+    const loadStatus = async () => {
       // 1. Check local storage for this specific user if logged in
       if (isAuthenticated && user) {
         const userProKey = `pro_status_${user.userId}`;
@@ -56,11 +55,16 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
         if (cachedPro) {
           setProStatus(cachedPro);
           setIsProUser(cachedPro.isPro);
+          if (cachedPro.isPro) safeSet(PRO_KEY, "true");
           return;
         }
+        
+        // If logged in but no cache, try to restore from server automatically
+        await restoreProStatus();
+        return;
       }
 
-      // 2. Strict check for Pro status
+      // 2. Strict check for Pro status (Device level)
       const isUnlocked = safeGet<string>(PRO_KEY, "false") === "true";
       if (isUnlocked) {
         setIsProUser(true);
@@ -82,7 +86,7 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     loadStatus();
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user?.userId]);
 
   const restoreProStatus = async () => {
     if (!isAuthenticated || !user) return;
