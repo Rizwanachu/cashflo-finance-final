@@ -17,18 +17,24 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     ? "https://www.spendorytrack.com/api/auth/google/callback"
     : "/api/auth/google/callback";
 
+  console.log("Setting up Google Strategy with callback:", callbackURL);
+
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: callbackURL,
-    proxy: true
-  }, async (_accessToken, _refreshToken, profile, done) => {
+    proxy: true,
+    passReqToCallback: true
+  }, async (req, _accessToken, _refreshToken, profile, done) => {
     try {
       const email = profile.emails?.[0].value;
       if (!email) return done(new Error("No email from Google"));
 
+      console.log("Google OAuth Profile received:", { email, name: profile.displayName });
+
       let [user] = await db.select().from(users).where(eq(users.email, email));
       if (!user) {
+        console.log("Creating new user for Google OAuth:", email);
         [user] = await db.insert(users).values({
           email,
           password: await bcrypt.hash(Math.random().toString(36), 10), // Random password for OAuth users
@@ -45,6 +51,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
       }
       return done(null, user);
     } catch (e) {
+      console.error("Google Strategy Error:", e);
       return done(e as Error);
     }
   }));
