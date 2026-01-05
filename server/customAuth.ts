@@ -12,10 +12,15 @@ const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
 
 // Google OAuth Setup
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  const isCustomDomain = process.env.REPLIT_DOMAINS?.includes("spendorytrack.com");
+  const callbackURL = isCustomDomain 
+    ? "https://www.spendorytrack.com/api/auth/google/callback"
+    : "/api/auth/google/callback";
+
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/api/auth/google/callback",
+    callbackURL: callbackURL,
     proxy: true
   }, async (_accessToken, _refreshToken, profile, done) => {
     try {
