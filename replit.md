@@ -153,6 +153,8 @@ Production-ready private finance tracker with freemium model, PayPal Pro unlock,
 - ✅ Secure Sessions: JWT tokens with 7-day expiration and local storage protection.
 - ✅ Spendory-Branded Auth UI: Clean, high-contrast login/registration screens with clear privacy messaging.
 - ✅ Offline Support: The app remains fully functional offline once the user is authenticated.
+- ✅ Automated Pro Restoration: Fixed logic to automatically pull Pro status from server on login/boot.
+- ✅ Enhanced Auth Feedback: Added clear error messages for login failures.
 
 ## Architecture & Storage
 - **Identity Layer (Server)**: Node.js/Express backend with PostgreSQL + Drizzle ORM.
