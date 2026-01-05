@@ -9,15 +9,12 @@ const router = express.Router();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
 
-// GIS TOKEN FLOW ONLY
 router.post("/google", async (req, res) => {
   const { idToken } = req.body;
   
   if (!idToken) {
     return res.status(400).json({ message: "Missing idToken" });
   }
-
-  console.log("GIS Backend: Received token, length:", idToken.length);
 
   try {
     const ticket = await client.verifyIdToken({
@@ -27,9 +24,8 @@ router.post("/google", async (req, res) => {
     const payload = ticket.getPayload();
     if (!payload) throw new Error("No payload from Google");
 
-    const { email, name, sub: googleId, picture } = payload;
-    console.log("GIS Backend: Token verified for", email);
-
+    const { email, name } = payload;
+    
     if (!email) {
       return res.status(400).json({ message: "Email not provided by Google" });
     }
@@ -37,12 +33,10 @@ router.post("/google", async (req, res) => {
     let [user] = await db.select().from(users).where(eq(users.email, email));
 
     if (!user) {
-      console.log("GIS Backend: Creating new user", email);
       [user] = await db.insert(users).values({
         email: email,
         password: "GOOGLE_AUTH_EXTERNAL_" + Math.random().toString(36),
         firstName: name?.split(" ")[0] || "User",
-        lastName: name?.split(" ").slice(1).join(" ") || null,
         isPro: false,
         proPlan: "Free"
       }).returning();
@@ -50,7 +44,6 @@ router.post("/google", async (req, res) => {
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
     
-    console.log("GIS Backend: Success for", email);
     res.json({ 
       success: true,
       token, 
@@ -68,7 +61,6 @@ router.post("/google", async (req, res) => {
   }
 });
 
-// Minimal me endpoint
 router.get("/me", async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: "No token" });
