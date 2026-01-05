@@ -1,0 +1,79 @@
+You are implementing a CUSTOM authentication system for Spendory.
+DO NOT use Replit Auth.
+DO NOT use Clerk, Auth0, Firebase Auth, Supabase Auth, or any third-party auth UI.
+This must be a simple, transparent, custom login layer.
+
+CORE GOALS:
+- Login is REQUIRED (used for user count, subscriptions, Pro access)
+- User data NEVER leaves the device
+- No transaction, account, or budget data is synced or uploaded
+- App remains fully offline after login
+- Login exists ONLY for identity + subscription continuity
+
+ARCHITECTURE:
+1. Identity Layer (Server):
+   - Create a minimal backend auth service using Email + Google OAuth
+   - Store ONLY:
+     - userId
+     - email
+     - createdAt
+     - subscriptionStatus (free / pro)
+     - lastLoginAt
+   - DO NOT store any finance data
+   - DO NOT store backups
+   - DO NOT store CSVs or app state
+
+2. Client Storage (Device):
+   - After login, generate a stable userId
+   - Save userId + auth token in localStorage:
+     - spendory-user-id
+     - spendory-auth-token
+   - All app data remains in:
+     - spendory-transactions
+     - spendory-accounts
+     - spendory-budgets
+     - etc.
+
+3. Pro Access Logic:
+   - On app load:
+     - Verify auth token
+     - Fetch subscriptionStatus
+     - If pro → unlock features
+     - If free → lock pro features
+   - NEVER touch financial data during auth checks
+
+STRICT RULES:
+- Removing the app wipes financial data (expected behavior)
+- Logging in again restores ONLY:
+  - Pro access
+  - Subscription status
+- Login MUST NOT attempt to restore or sync finance data
+- No silent defaults
+- No auto-seeding during login
+
+UI REQUIREMENTS:
+- Replace Replit Auth UI completely
+- Create Spendory-branded login screen:
+  - "Continue with Google"
+  - "Continue with Email"
+- Show clear text:
+  “Your financial data stays only on this device.”
+
+SECURITY:
+- Use JWT or signed session tokens
+- Validate token on app boot
+- Expired token → force re-login
+- No background network calls after auth
+
+REMOVE:
+- Delete all Replit Auth config
+- Remove any @replit/auth imports
+- Remove Replit-provided login UI
+- Remove Replit session handling
+
+FINAL CHECK:
+- App works offline after login
+- Pro users keep Pro access after reinstall
+- No financial data ever leaves device
+- User count & subscriptions are trackable
+- Replit Auth is fully gone
