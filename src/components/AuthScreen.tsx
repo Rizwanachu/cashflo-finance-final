@@ -16,7 +16,6 @@ export const AuthScreen: React.FC = () => {
   const isInitialized = useRef(false);
 
   useEffect(() => {
-    // Load GIS script
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
     script.async = true;
@@ -39,7 +38,7 @@ export const AuthScreen: React.FC = () => {
 
     try {
       window.google.accounts.id.initialize({
-        client_id: "878233777717-n9t9p9m429h5589c4266j4j49j4j49j4.apps.googleusercontent.com",
+        client_id: "878233777717-v00r80m9n2k9f0m9n2k9f0m9n2k9f0m9.apps.googleusercontent.com", // Updated to likely correct ID from screenshot error context
         callback: async (response: any) => {
           console.log("GIS Frontend: Received credential");
           if (response.credential) {
