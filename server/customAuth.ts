@@ -12,11 +12,8 @@ const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
 
 // Google OAuth Setup
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  // FORCE the custom domain callback for production
-  // We use the full URL to ensure Google redirected users land on the correct domain
+  // STRICTLY use the custom domain callback for production
   const callbackURL = "https://www.spendorytrack.com/api/auth/google/callback";
-
-  console.log("Setting up Google Strategy with FORCED callback:", callbackURL);
 
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
