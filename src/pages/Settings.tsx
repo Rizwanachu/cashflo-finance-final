@@ -226,17 +226,6 @@ const SettingsPage: React.FC = () => {
         </div>
 
         <div className="space-y-3">
-          {isAuthenticated && (
-            <button
-              onClick={handleRestorePro}
-              disabled={isRestoringPro}
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-50 text-sm font-medium transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              <RefreshCw className={`w-4 h-4 ${isRestoringPro ? "animate-spin" : ""}`} />
-              Restore Pro Access
-            </button>
-          )}
-          
           <button
             onClick={() => logout()}
             className="w-full px-4 py-2.5 rounded-xl bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 text-sm font-medium transition-all flex items-center justify-center gap-2"
