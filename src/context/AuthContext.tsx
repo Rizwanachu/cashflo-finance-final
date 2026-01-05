@@ -43,16 +43,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (tokenFromUrl) {
       console.log("Token detected in URL, saving and cleaning up...");
       localStorage.setItem("auth_token", tokenFromUrl);
-      // Force a full page reload at the root to ensure state is clean and Pro context initializes
+      // Clean up URL and reload to initialize authenticated state
       window.location.href = "/";
       return;
     }
 
-    // 2. Load authenticated session
-    if (isAuthenticated && replitUser) {
+    // 2. Load authenticated session from storage if it exists
+    const token = localStorage.getItem("auth_token");
+    if (token && isAuthenticated && replitUser) {
       const userData: AuthUser = {
         userId: replitUser.id,
-        email: replitUser.email,
+        email: replitUser.email || null,
         provider: replitUser.email ? 'email' : 'google',
         createdAt: new Date().toISOString(),
         lastLoginAt: new Date().toISOString()

@@ -134,15 +134,23 @@ router.post("/login", async (req, res) => {
     
     console.log("Login success for user:", user.id);
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
-    res.json({ 
-      token, 
-      user: { 
-        id: user.id, 
-        email: user.email, 
-        firstName: user.firstName,
-        isPro: user.isPro,
-        proPlan: user.proPlan
-      } 
+    
+    // Set user in session for standard passport/session flow
+    req.login(user, (err) => {
+      if (err) {
+        console.error("Session login error:", err);
+        return res.status(500).json({ message: "Session creation failed" });
+      }
+      res.json({ 
+        token, 
+        user: { 
+          id: user.id, 
+          email: user.email, 
+          firstName: user.firstName,
+          isPro: user.isPro,
+          proPlan: user.proPlan
+        } 
+      });
     });
   } catch (e: any) {
     console.error("CRITICAL: Login error detailed:", e);
