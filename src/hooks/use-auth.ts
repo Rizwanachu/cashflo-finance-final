@@ -30,7 +30,10 @@ export function useAuth() {
       console.log("Executing login mutation for:", credentials.email);
       const res = await fetch("/api/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache"
+        },
         body: JSON.stringify(credentials)
       });
       if (!res.ok) {

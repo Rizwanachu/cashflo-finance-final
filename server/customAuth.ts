@@ -114,21 +114,25 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log("Login attempt:", { email });
+  console.log("Login request received for:", email);
+  if (!email || !password) {
+    return res.status(400).json({ message: "Missing email or password" });
+  }
+
   try {
     const [user] = await db.select().from(users).where(eq(users.email, email));
     if (!user) {
-      console.log("Login failed: User not found");
+      console.log("Login failed: User not found ->", email);
       return res.status(401).json({ message: "Invalid credentials" });
     }
     
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      console.log("Login failed: Invalid password");
+      console.log("Login failed: Invalid password for ->", email);
       return res.status(401).json({ message: "Invalid credentials" });
     }
     
-    console.log("Login successful for user:", user.id);
+    console.log("Login success for user:", user.id);
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
     res.json({ 
       token, 
@@ -141,8 +145,8 @@ router.post("/login", async (req, res) => {
       } 
     });
   } catch (e: any) {
-    console.error("Login error (detailed):", e);
-    res.status(500).json({ message: e.message });
+    console.error("CRITICAL: Login error detailed:", e);
+    res.status(500).json({ message: "Internal server error during login" });
   }
 });
 

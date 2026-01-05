@@ -30,6 +30,12 @@ async function startServer() {
   // Trust proxy is required for secure cookies/redirects on Replit/Custom Domains
   app.set("trust proxy", 1);
 
+  // Set Cache-Control to prevent heuristic caching issues
+  app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    next();
+  });
+
   // Use custom auth routes
   app.use("/api/auth", customAuthRoutes);
 
