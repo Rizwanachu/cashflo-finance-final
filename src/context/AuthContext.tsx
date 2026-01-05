@@ -41,9 +41,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromUrl = urlParams.get("token");
     if (tokenFromUrl) {
+      console.log("Token detected in URL, saving and cleaning up...");
       localStorage.setItem("auth_token", tokenFromUrl);
-      // Clean up URL
-      window.history.replaceState({}, document.title, "/");
+      // Force a full page reload at the root to ensure state is clean and Pro context initializes
+      window.location.href = "/";
+      return;
     }
 
     // 2. Load authenticated session
