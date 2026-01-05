@@ -143,12 +143,24 @@ Production-ready private finance tracker with freemium model, PayPal Pro unlock,
 - ✅ Trust messaging throughout
 - ✅ Pro reinforcement (subtle badges, no annoying popups)
 
-## Phase 3: Visual Identity Refresh ✅
-- ✅ Replaced greenish "emerald" theme with a premium blackish/zinc palette.
-- ✅ Monochrome/Silver chart variants for consistency.
-- ✅ Updated all banners (Free limits, Pro delight, Social proof) to neutral dark styles.
-- ✅ Refined Pricing page with high-contrast Pro card.
-- ✅ Zero green artifacts remaining in core UI flows.
+## Phase 4: Custom Authentication System ✅
+- ✅ Implemented a fully custom, simple, and transparent authentication layer.
+- ✅ Replaced Replit Auth with a JWT-based email/password system.
+- ✅ Privacy-First Architecture: Only essential metadata (userId, email, isPro, proPlan) is stored on the server.
+- ✅ Zero Financial Data Sync: Transactions, budgets, and account data remain exclusively in the browser's localStorage.
+- ✅ Pro Status Persistence: Subscription status is tied to the user account and restores automatically upon login/app boot.
+- ✅ Cross-Device Continuity: Pro users can access their subscription on any device by logging in.
+- ✅ Secure Sessions: JWT tokens with 7-day expiration and local storage protection.
+- ✅ Spendory-Branded Auth UI: Clean, high-contrast login/registration screens with clear privacy messaging.
+- ✅ Offline Support: The app remains fully functional offline once the user is authenticated.
+
+## Architecture & Storage
+- **Identity Layer (Server)**: Node.js/Express backend with PostgreSQL + Drizzle ORM.
+- **Client Storage**:
+  - `spendory-user-id` & `auth_token`: User identity.
+  - `pro_status_{userId}`: Cached subscription status.
+  - `spendory-transactions`, `spendory-accounts`, `spendory-budgets`: Financial data (stays local).
+- **Pro Access Logic**: Verified via `/api/auth/me` on boot and cached for performance.
 
 ## Architecture
 - All state persisted to localStorage
