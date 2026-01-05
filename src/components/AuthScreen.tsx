@@ -52,8 +52,11 @@ export const AuthScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  console.log("Redirecting to Google Auth...");
-                  window.location.assign("https://www.spendorytrack.com/api/auth/google");
+                  console.log("Initiating Google Auth redirect...");
+                  // Use absolute URL to avoid any relative path issues on custom domains
+                  const authUrl = `${window.location.origin}/api/auth/google`;
+                  console.log("Redirecting to:", authUrl);
+                  window.location.href = authUrl;
                 }}
                 className="flex items-center justify-center gap-2 w-full p-2.5 bg-white text-black rounded-lg font-medium hover:bg-zinc-100 transition-colors"
               >
