@@ -31,11 +31,11 @@ async function startServer() {
 
   //SPA routing: send index.html for all non-API requests
   app.use((req, res, next) => {
-    // Exclude /api paths from SPA redirect
+    // Skip for API routes
     if (req.path.startsWith("/api")) {
       return next();
     }
-    // Also skip for static assets
+    // Skip for static assets
     if (req.path.includes(".")) {
       return next();
     }
