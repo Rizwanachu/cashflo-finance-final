@@ -28,15 +28,27 @@ export function useAuth() {
   const loginWithGoogleToken = async (idToken: string) => {
     console.log("Google credential received", idToken);
     
+    // Explicitly use the relative path to ensure it hits our Express backend
     const res = await fetch("/api/auth/google", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({ idToken })
     });
 
     if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.error || errorData.message || "Google Sign-In failed");
+      const text = await res.text();
+      console.error("Auth server error raw response:", text);
+      let errorMessage = "Google Sign-In failed";
+      try {
+        const errorData = JSON.parse(text);
+        errorMessage = errorData.error || errorData.message || errorMessage;
+      } catch (e) {
+        errorMessage = `Error ${res.status}: ${text || res.statusText}`;
+      }
+      throw new Error(errorMessage);
     }
 
     const data = await res.json();

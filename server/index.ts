@@ -31,7 +31,7 @@ async function startServer() {
 
   //SPA routing: send index.html for all non-API requests
   app.use((req, res, next) => {
-    // Exclude /api/auth paths from SPA redirect
+    // Exclude /api paths from SPA redirect to allow Express to handle them
     if (req.path.startsWith("/api")) {
       return next();
     }

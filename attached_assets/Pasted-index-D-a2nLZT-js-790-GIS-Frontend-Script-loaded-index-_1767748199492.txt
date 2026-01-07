@@ -1,0 +1,60 @@
+index-D-a2nLZT.js:790 GIS Frontend: Script loaded
+(index):1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">
+m=credential_button_library:217  POST https://play.google.com/log?format=json&hasfast=true&authuser=0 net::ERR_BLOCKED_BY_CLIENT
+(anonymous) @ m=credential_button_library:217
+kd @ m=credential_button_library:87
+next @ m=credential_button_library:88
+(anonymous) @ m=credential_button_library:88
+nd @ m=credential_button_library:88
+_.od @ m=credential_button_library:88
+Kj.send @ m=credential_button_library:217
+p @ m=credential_button_library:214
+Ej.flush @ m=credential_button_library:214
+(anonymous) @ m=credential_button_library:208
+hj @ m=credential_button_library:203
+(anonymous) @ m=credential_button_library:202
+css-generic.js:1 uBOL: Generic cosmetic filtering stopped because no more DOM changes
+m=credential_button_library:217  POST https://play.google.com/log?format=json&hasfast=true&authuser=0 net::ERR_BLOCKED_BY_CLIENT
+(anonymous) @ m=credential_button_library:217
+kd @ m=credential_button_library:87
+next @ m=credential_button_library:88
+(anonymous) @ m=credential_button_library:88
+nd @ m=credential_button_library:88
+_.od @ m=credential_button_library:88
+Kj.send @ m=credential_button_library:217
+p @ m=credential_button_library:214
+Ej.flush @ m=credential_button_library:214
+(anonymous) @ m=credential_button_library:208
+hj @ m=credential_button_library:203
+(anonymous) @ m=credential_button_library:202
+setTimeout
+ej.start @ m=credential_button_library:202
+Ej.log @ m=credential_button_library:210
+Uj.log @ m=credential_button_library:221
+(anonymous) @ m=credential_button_library:302
+Bf @ m=credential_button_library:115
+b @ m=credential_button_library:112
+client:337 Cross-Origin-Opener-Policy policy would block the window.postMessage call.
+Rt @ client:337
+(anonymous) @ client:303
+Bf @ client:115
+b @ client:112
+client:337 Cross-Origin-Opener-Policy policy would block the window.postMessage call.
+Rt @ client:337
+(anonymous) @ client:303
+Bf @ client:115
+b @ client:112
+index-D-a2nLZT.js:790 Google credential received eyJhbGciOiJSUzI1NiIsImtpZCI6IjRiYTZlZmVmNWUxNzIxNDk5NzFhMmQzYWJiNWYzMzJlMGY3ODcxNjUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI1NzAwMTg3Mjc2MjgtcjV0cHJpbnJ2cWh2c2diY3BtaWFpMzViN2xvcmE1cmUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI1NzAwMTg3Mjc2MjgtcjV0cHJpbnJ2cWh2c2diY3BtaWFpMzViN2xvcmE1cmUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDg4OTQ4NDczNzA3NDA0MDE4MDkiLCJlbWFpbCI6InJpendhbmFjaG9vMTIzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYmYiOjE3Njc3NDc4NzUsIm5hbWUiOiJSaXp3YW4gQWNob28iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jS3E3VGE0aDRrY05ONkx5LXpPMTAyLWktV0poZEdpTVlSS0NXNWY0OU9EdVlPZ0RBbmY9czk2LWMiLCJnaXZlbl9uYW1lIjoiUml6d2FuIiwiZmFtaWx5X25hbWUiOiJBY2hvbyIsImlhdCI6MTc2Nzc0ODE3NSwiZXhwIjoxNzY3NzUxNzc1LCJqdGkiOiI0N2Q4NjI5ZmIzNTAxM2VmMzNiM2UyMTZkOTcyNmUzOGM2MmRhYmU2In0.qwkIqEGy15ZbwZnwP-q8FQT6QDN9Q-ZBjTT9IUUIKs9Tmd1OlNC-V77mAdzfrzEJ2WlG0cNlJY_9AwA6IyHqW7g70JHv8Q1zlFris_NxhbspvIHR95kUK__VF6lAC6GfSJY90WNKK3wq08sMdK6zlsE6Gi0nyHW1Tsq4CuXb4Xzjtj_B0opwQrGp_rhBugXfA5A2nBD1fW1N-sapsGCA7mVJ9GEO_lLzgby_ZLKmM1jHgomMeqlMF1RXbOLEK7R_Mbk8yRLWRoVFH7DnrQo8KuIQ7ERSgtFYHcvWQbaQo3ffXi2CEtCsWXtQlxXkJutmAyPZNuerY7zmOEzD88cM-w
+index-D-a2nLZT.js:80 Google credential received eyJhbGciOiJSUzI1NiIsImtpZCI6IjRiYTZlZmVmNWUxNzIxNDk5NzFhMmQzYWJiNWYzMzJlMGY3ODcxNjUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI1NzAwMTg3Mjc2MjgtcjV0cHJpbnJ2cWh2c2diY3BtaWFpMzViN2xvcmE1cmUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI1NzAwMTg3Mjc2MjgtcjV0cHJpbnJ2cWh2c2diY3BtaWFpMzViN2xvcmE1cmUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDg4OTQ4NDczNzA3NDA0MDE4MDkiLCJlbWFpbCI6InJpendhbmFjaG9vMTIzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYmYiOjE3Njc3NDc4NzUsIm5hbWUiOiJSaXp3YW4gQWNob28iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jS3E3VGE0aDRrY05ONkx5LXpPMTAyLWktV0poZEdpTVlSS0NXNWY0OU9EdVlPZ0RBbmY9czk2LWMiLCJnaXZlbl9uYW1lIjoiUml6d2FuIiwiZmFtaWx5X25hbWUiOiJBY2hvbyIsImlhdCI6MTc2Nzc0ODE3NSwiZXhwIjoxNzY3NzUxNzc1LCJqdGkiOiI0N2Q4NjI5ZmIzNTAxM2VmMzNiM2UyMTZkOTcyNmUzOGM2MmRhYmU2In0.qwkIqEGy15ZbwZnwP-q8FQT6QDN9Q-ZBjTT9IUUIKs9Tmd1OlNC-V77mAdzfrzEJ2WlG0cNlJY_9AwA6IyHqW7g70JHv8Q1zlFris_NxhbspvIHR95kUK__VF6lAC6GfSJY90WNKK3wq08sMdK6zlsE6Gi0nyHW1Tsq4CuXb4Xzjtj_B0opwQrGp_rhBugXfA5A2nBD1fW1N-sapsGCA7mVJ9GEO_lLzgby_ZLKmM1jHgomMeqlMF1RXbOLEK7R_Mbk8yRLWRoVFH7DnrQo8KuIQ7ERSgtFYHcvWQbaQo3ffXi2CEtCsWXtQlxXkJutmAyPZNuerY7zmOEzD88cM-w
+index-D-a2nLZT.js:80  POST https://www.spendorytrack.com/api/auth/google 405 (Method Not Allowed)
+loginWithGoogleToken @ index-D-a2nLZT.js:80
+callback @ index-D-a2nLZT.js:790
+Pt.Ea @ client:338
+Fs.Ea @ client:349
+Rt.c.port1.onmessage @ client:337
+index-D-a2nLZT.js:790 Google Sign-In error: Google Sign-In failed
+callback @ index-D-a2nLZT.js:790
+await in callback
+Pt.Ea @ client:338
+Fs.Ea @ client:349
+Rt.c.port1.onmessage @ client:337
