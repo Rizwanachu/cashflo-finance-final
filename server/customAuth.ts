@@ -14,6 +14,7 @@ router.post("/google", async (req, res) => {
   
   console.log("GIS Backend: Received POST /api/auth/google");
   console.log("GIS Backend: idToken length:", idToken ? idToken.length : 0);
+  console.log("GIS Backend: Payload:", JSON.stringify(req.body));
 
   if (!idToken) {
     console.error("GIS Backend: Missing idToken in request body");
@@ -21,6 +22,7 @@ router.post("/google", async (req, res) => {
   }
 
   try {
+    console.log("GIS Backend: Verifying token with Google Client ID: 570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com");
     const ticket = await client.verifyIdToken({
       idToken,
       audience: "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com",
@@ -28,7 +30,7 @@ router.post("/google", async (req, res) => {
     const payload = ticket.getPayload();
     if (!payload) {
       console.error("GIS Backend: No payload returned from Google verification");
-      throw new Error("No payload from Google");
+      return res.status(401).json({ success: false, message: "No payload from Google" });
     }
 
     const { email, name } = payload;
@@ -67,7 +69,7 @@ router.post("/google", async (req, res) => {
       } 
     });
   } catch (e: any) {
-    console.error("GIS Backend: Verification failed:", e.message);
+    console.error("GIS Backend: Verification failed:", e.message, e.stack);
     res.status(401).json({ success: false, message: "Invalid Google token: " + e.message });
   }
 });
