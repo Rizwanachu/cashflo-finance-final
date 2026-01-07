@@ -40,12 +40,14 @@ export const AuthScreen: React.FC = () => {
     try {
       window.google.accounts.id.initialize({
         client_id: "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com",
+        ux_mode: "popup",
         callback: async (response: any) => {
-          console.log("GIS Frontend: Received credential");
+          console.log("Google credential received", response.credential);
           if (response.credential) {
             try {
               await loginWithGoogleToken(response.credential);
             } catch (err: any) {
+              console.error("Google Sign-In error:", err.message);
               setError(err.message || "Failed to sync with Spendory");
             }
           }

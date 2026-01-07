@@ -26,9 +26,7 @@ export function useAuth() {
   });
 
   const loginWithGoogleToken = async (idToken: string) => {
-    console.log("GIS: Received credential from Google");
-    console.log("GIS: idToken length:", idToken ? idToken.length : 0);
-    console.log("GIS: Sending token to Spendory backend...");
+    console.log("Google credential received", idToken);
     
     const res = await fetch("/api/auth/google", {
       method: "POST",
@@ -36,20 +34,19 @@ export function useAuth() {
       body: JSON.stringify({ idToken })
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}));
-      console.error("GIS: Backend authentication failed", errorData);
-      throw new Error(errorData.message || "Google Sign-In failed");
+      console.error("Google Sign-In failed", data.error);
+      throw new Error(data.error || "Google Sign-In failed");
     }
 
-    const data = await res.json();
-    console.log("GIS: Sign-In successful", data.user.email);
+    console.log("Google Sign-In success", data.email);
     localStorage.setItem("auth_token", data.token);
     localStorage.setItem("spendory-auth-user", JSON.stringify(data.user));
     
     queryClient.setQueryData(["/api/auth/user"], data.user);
     
-    // Pro status sync
     if (data.user.isPro) {
       localStorage.setItem(`pro_status_${data.user.id}`, JSON.stringify({
         isPro: true,
@@ -58,8 +55,6 @@ export function useAuth() {
         lastVerifiedAt: new Date().toISOString()
       }));
     }
-    
-    window.location.reload();
   };
 
   const logout = () => {
