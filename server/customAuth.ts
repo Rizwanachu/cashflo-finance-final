@@ -11,32 +11,26 @@ const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
 
 router.post("/google", async (req, res) => {
-  const { idToken } = req.body;
-  
-  console.log("GIS Backend: Received POST /api/auth/google");
-
-  if (!idToken) {
-    console.error("GIS Backend: Missing idToken");
-    return res.status(400).json({ error: "Missing idToken" });
-  }
-
   try {
+    if (!req.body || !req.body.idToken) {
+      return res.status(400).json({ error: "Missing idToken" });
+    }
+
+    const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
     const ticket = await client.verifyIdToken({
-      idToken,
+      idToken: req.body.idToken,
       audience: GOOGLE_CLIENT_ID,
     });
+
     const payload = ticket.getPayload();
-    if (!payload) {
-      throw new Error("No payload from Google");
+
+    if (!payload || !payload.email) {
+      return res.status(401).json({ error: "Invalid Google token" });
     }
 
     const { email, name, sub: googleId } = payload;
-    console.log("GIS Backend: Verified", email);
     
-    if (!email) {
-      return res.status(400).json({ error: "Email not provided by Google" });
-    }
-
     // Pure JSON approach, check if user exists
     let [user] = await db.select().from(users).where(eq(users.email, email));
 
@@ -54,11 +48,12 @@ router.post("/google", async (req, res) => {
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
     
-    return res.json({ 
+    return res.json({
       success: true,
+      email: payload.email,
+      name: payload.name,
+      sub: payload.sub,
       token,
-      email: user.email,
-      name: user.firstName,
       user: { 
         id: user.id, 
         email: user.email, 
@@ -67,9 +62,12 @@ router.post("/google", async (req, res) => {
         proPlan: user.proPlan
       } 
     });
-  } catch (e: any) {
-    console.error("GIS Backend Error:", e.message);
-    return res.status(401).json({ error: e.message });
+  } catch (err: any) {
+    console.error("Google auth error:", err);
+    return res.status(500).json({
+      error: "Google authentication failed",
+      message: err.message,
+    });
   }
 });
 
