@@ -26,6 +26,8 @@ export function useAuth() {
   });
 
   const loginWithGoogleToken = async (idToken: string) => {
+    console.log("Google credential received", idToken);
+    
     const res = await fetch("/api/auth/google", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -38,7 +40,25 @@ export function useAuth() {
     }
 
     const data = await res.json();
-    return data;
+    console.log("Google Sign-In success", data.email);
+    
+    if (data.token) {
+      localStorage.setItem("auth_token", data.token);
+    }
+    
+    if (data.user) {
+      localStorage.setItem("spendory-auth-user", JSON.stringify(data.user));
+      queryClient.setQueryData(["/api/auth/user"], data.user);
+      
+      if (data.user.isPro) {
+        localStorage.setItem(`pro_status_${data.user.id}`, JSON.stringify({
+          isPro: true,
+          plan: data.user.proPlan || "Pro",
+          validUntil: null,
+          lastVerifiedAt: new Date().toISOString()
+        }));
+      }
+    }
   };
 
   const logout = () => {
