@@ -29,15 +29,11 @@ async function startServer() {
   const distPath = path.resolve(__dirname, "../dist");
   app.use(express.static(distPath));
 
-  // SPA routing: send index.html for all non-API requests
+  //SPA routing: send index.html for all non-API requests
   app.use((req, res, next) => {
     // Exclude /api/auth paths from SPA redirect
-    if (req.path.startsWith("/api/auth")) {
+    if (req.path.startsWith("/api")) {
       return next();
-    }
-    // Also handle legacy /api/login and /api/logout for compatibility
-    if (req.path === "/api/login" || req.path === "/api/logout") {
-      return res.redirect("/");
     }
     res.sendFile(path.join(distPath, "index.html"));
   });

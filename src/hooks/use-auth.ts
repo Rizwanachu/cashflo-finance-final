@@ -26,7 +26,10 @@ export function useAuth() {
   });
 
   const loginWithGoogleToken = async (idToken: string) => {
+    console.log("GIS: Received credential from Google");
+    console.log("GIS: idToken length:", idToken ? idToken.length : 0);
     console.log("GIS: Sending token to Spendory backend...");
+    
     const res = await fetch("/api/auth/google", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -35,11 +38,12 @@ export function useAuth() {
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
+      console.error("GIS: Backend authentication failed", errorData);
       throw new Error(errorData.message || "Google Sign-In failed");
     }
 
     const data = await res.json();
-    console.log("GIS: Sign-In successful");
+    console.log("GIS: Sign-In successful", data.user.email);
     localStorage.setItem("auth_token", data.token);
     localStorage.setItem("spendory-auth-user", JSON.stringify(data.user));
     
