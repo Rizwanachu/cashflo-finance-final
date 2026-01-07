@@ -26,8 +26,6 @@ export function useAuth() {
   });
 
   const loginWithGoogleToken = async (idToken: string) => {
-    console.log("Google credential received", idToken);
-    
     const res = await fetch("/api/auth/google", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -35,38 +33,12 @@ export function useAuth() {
     });
 
     if (!res.ok) {
-      const text = await res.text();
-      let errorMessage = "Google Sign-In failed";
-      try {
-        const errorData = JSON.parse(text);
-        errorMessage = errorData.error || errorData.message || errorMessage;
-      } catch (e) {
-        errorMessage = text || errorMessage;
-      }
-      console.error("Google Sign-In failed", errorMessage);
-      throw new Error(errorMessage);
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.error || errorData.message || "Google Sign-In failed");
     }
 
     const data = await res.json();
-    console.log("Google Sign-In success", data.email);
-    
-    if (data.token) {
-      localStorage.setItem("auth_token", data.token);
-    }
-    
-    if (data.user) {
-      localStorage.setItem("spendory-auth-user", JSON.stringify(data.user));
-      queryClient.setQueryData(["/api/auth/user"], data.user);
-      
-      if (data.user.isPro) {
-        localStorage.setItem(`pro_status_${data.user.id}`, JSON.stringify({
-          isPro: true,
-          plan: data.user.proPlan || "Pro",
-          validUntil: null,
-          lastVerifiedAt: new Date().toISOString()
-        }));
-      }
-    }
+    return data;
   };
 
   const logout = () => {
