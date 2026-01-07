@@ -22,24 +22,25 @@ async function startServer() {
     next();
   });
 
-  // Use custom auth routes (Minimal GIS)
+  // 1. Explicitly prioritize API routes
   app.use("/api/auth", customAuthRoutes);
 
-  // Serve static files from the Vite build
+  // 2. Serve static files
   const distPath = path.resolve(__dirname, "../dist");
   app.use(express.static(distPath));
 
-  //SPA routing: send index.html for all non-API requests
-  app.use((req, res, next) => {
-    // Skip for API routes
-    if (req.path.startsWith("/api")) {
-      return next();
+  // 3. Fallback for non-existent API routes (prevents them from hitting SPA logic)
+  app.use("/api", (req, res) => {
+    res.status(404).json({ error: "API endpoint not found" });
+  });
+
+  // 4. SPA routing (ONLY for HTML requests)
+  app.get(/^\/(?!api).*/, (req, res, next) => {
+    // If it's a browser asking for a page, send index.html
+    if (req.accepts('html')) {
+      return res.sendFile(path.join(distPath, "index.html"));
     }
-    // Skip for static assets
-    if (req.path.includes(".")) {
-      return next();
-    }
-    res.sendFile(path.join(distPath, "index.html"));
+    next();
   });
 
   const PORT = Number(process.env.PORT) || 5000;
