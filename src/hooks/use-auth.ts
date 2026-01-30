@@ -11,8 +11,13 @@ async function fetchUser(): Promise<User | null> {
     headers: { "Authorization": `Bearer ${token}` }
   });
 
-  if (response.status === 401) {
-    localStorage.removeItem("auth_token");
+  if (!response.ok) {
+    if (response.status === 401) {
+      localStorage.removeItem("auth_token");
+      return null;
+    }
+    // Instead of throwing, we return null to avoid "Failed to fetch" UI block if it's just a transient error
+    console.error("User fetch failed", response.status);
     return null;
   }
 
