@@ -45,6 +45,7 @@ export const AuthScreen: React.FC = () => {
         auto_select: false,
         itp_support: true,
         use_fedcm_for_prompt: true,
+        cancel_on_tap_outside: false,
         callback: async (response: any) => {
           console.log("Google credential received", response.credential);
           if (response.credential) {

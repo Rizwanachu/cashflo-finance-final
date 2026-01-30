@@ -5,7 +5,8 @@ async function fetchUser(): Promise<User | null> {
   const token = localStorage.getItem("auth_token");
   if (!token) return null;
 
-  const response = await fetch("/api/auth/me", {
+  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const response = await fetch(`${apiUrl}/api/auth/me`, {
     headers: { "Authorization": `Bearer ${token}` }
   });
 
@@ -28,8 +29,9 @@ export function useAuth() {
   const loginWithGoogleToken = async (idToken: string) => {
     console.log("Google credential received", idToken);
     
-    // Explicitly use the relative path to ensure it hits our Express backend
-    const res = await fetch("/api/auth/google", {
+    // Explicitly use the full URL if in development or if an API URL is provided
+    const apiUrl = import.meta.env.VITE_API_URL || "";
+    const res = await fetch(`${apiUrl}/api/auth/google`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",

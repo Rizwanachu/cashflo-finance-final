@@ -18,9 +18,18 @@ async function startServer() {
 
   // Add CORS/CSP headers for Google Auth
   app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+    // Handle OPTIONS preflight
+    if (req.method === "OPTIONS") {
+      return res.sendStatus(200);
+    }
+
     // Set security headers to allow Google Identity Services
     res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+    res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
     next();
   });
 
