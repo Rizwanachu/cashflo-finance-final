@@ -12,10 +12,6 @@ export const generateUnlockCode = (deviceId: string): string => {
 export const verifyUnlockCode = (code: string, deviceId: string): { valid: boolean; type: 'trial' | 'lifetime' | 'invalid' } => {
   const upperCode = code.toUpperCase().trim();
   
-  if (upperCode === 'CASHFLO2025') {
-    return { valid: true, type: 'trial' };
-  }
-  
   if (upperCode.startsWith('SP-PRO-')) {
     const expected = generateUnlockCode(deviceId);
     if (upperCode === expected) {
