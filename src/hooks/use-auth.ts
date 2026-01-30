@@ -5,7 +5,8 @@ async function fetchUser(): Promise<User | null> {
   const token = localStorage.getItem("auth_token");
   if (!token) return null;
 
-  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const rawApiUrl = import.meta.env.VITE_API_URL || "";
+  const apiUrl = rawApiUrl.replace(/\/$/, ""); // Remove trailing slash if present
   const response = await fetch(`${apiUrl}/api/auth/me`, {
     headers: { "Authorization": `Bearer ${token}` }
   });
@@ -30,7 +31,8 @@ export function useAuth() {
     console.log("Google credential received", idToken);
     
     // Explicitly use the full URL if in development or if an API URL is provided
-    const apiUrl = import.meta.env.VITE_API_URL || "";
+    const rawApiUrl = import.meta.env.VITE_API_URL || "";
+    const apiUrl = rawApiUrl.replace(/\/$/, ""); // Remove trailing slash if present
     const res = await fetch(`${apiUrl}/api/auth/google`, {
       method: "POST",
       headers: { 
