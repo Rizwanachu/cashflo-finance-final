@@ -1,0 +1,101 @@
+IMPORTANT: Remove Old Promo Code Behavior
+
+Before implementing anything below, completely remove the previous behavior of the promo code CASHFLO2025.
+
+What must be deleted
+
+The code must no longer unlock Pro permanently
+
+No lifetime access
+
+No unlimited access
+
+No bypass of payment checks
+
+After this removal, CASHFLO2025 must work only as described below.
+
+Trial Activation Experience
+
+Promo Code: CASHFLO2025
+
+When a user applies the promo code CASHFLO2025, the app should grant a 7-day Pro trial with full access to all Pro features.
+
+The trial begins immediately after the code is successfully redeemed.
+
+Trial Start Confirmation Popup
+
+Trigger: Instantly after the code is applied successfully.
+
+Popup message:
+
+Your 7-day Pro trial has started 🎉
+Enjoy full access to all Pro features until your trial ends.
+
+Popup action:
+
+Button: “Got it” or “Continue”
+
+Closes the popup and returns the user to the app
+
+Pro Trial Status Bar (Visible During Trial)
+
+While the trial is active, display a Pro Trial status bar in the app (Dashboard and/or Settings).
+
+The status bar must show:
+
+Trial start date (date the code was applied)
+
+Trial end date (start date + 7 days)
+
+A progress bar that visually represents trial completion
+
+Progress Bar Logic
+
+The progress bar must be date-based, not usage-based.
+
+Progress increases automatically based on the current date:
+
+Day 1 → ~14%
+
+Day 2 → ~28%
+
+Day 3 → ~42%
+
+Day 4 → ~57%
+
+Day 5 → ~71%
+
+Day 6 → ~85%
+
+Day 7 → 100%
+
+The bar should reach 100% at the end of Day 7.
+
+After Trial Ends (Day 7 Completed)
+
+Once the 7-day trial period is complete:
+
+Pro features are automatically locked
+
+The trial status bar switches to an expired state
+
+Display this message clearly:
+
+Your 7-day Pro trial has ended.
+Purchase Pro to continue using premium features.
+
+Call to action
+
+Show an “Upgrade to Pro” button
+
+Button redirects to the Pro purchase flow
+
+Trial Restrictions
+
+CASHFLO2025 is one-time use per user
+
+After the trial ends:
+
+The code cannot be reused
+
+The user must purchase Pro to regain access
