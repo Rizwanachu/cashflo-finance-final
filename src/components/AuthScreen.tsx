@@ -21,6 +21,7 @@ export const AuthScreen: React.FC = () => {
     script.src = "https://accounts.google.com/gsi/client";
     script.async = true;
     script.defer = true;
+    script.referrerPolicy = "no-referrer-when-downgrade";
     script.onload = () => {
       console.log("GIS Frontend: Script loaded");
       initializeGoogle();
