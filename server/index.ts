@@ -16,6 +16,27 @@ async function startServer() {
   const app = express();
   app.use(express.json());
 
+  // Database and session setup
+  app.use(
+    session({
+      store: new PostgresStore({
+        pool: pool,
+        tableName: "sessions",
+        createTableIfMissing: true,
+      }),
+      secret: process.env.SESSION_SECRET || "finance-tracker-secret",
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        secure: process.env.NODE_ENV === "production",
+      },
+    })
+  );
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   // Add CORS/CSP headers for Google Auth
   app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
