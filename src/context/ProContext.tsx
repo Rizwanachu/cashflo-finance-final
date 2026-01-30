@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { safeGet, safeSet, safeRemove, getOrCreateDeviceId } from "../utils/storage";
-import { verifyUnlockCode } from "../utils/crypto";
 import { useAuth } from "./AuthContext";
 
 interface ProStatus {
@@ -13,7 +12,6 @@ interface ProStatus {
 interface ProContextValue {
   isProUser: boolean;
   proStatus: ProStatus;
-  unlockPro: (code: string) => { success: boolean; message: string };
   resetPro: () => void;
   showGoProModal: boolean;
   setShowGoProModal: (show: boolean) => void;
@@ -116,47 +114,6 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const unlockPro = (code: string): { success: boolean; message: string } => {
-    const dId = getOrCreateDeviceId();
-    const result = verifyUnlockCode(code, dId);
-    
-    if (!result.valid) {
-      return {
-        success: false,
-        message: "Invalid unlock code. Please check and try again."
-      };
-    }
-    
-    setIsProUser(true);
-    safeSet(PRO_KEY, "true");
-    safeSet(PRO_DEVICE_KEY, dId);
-    
-    const newStatus = {
-      isPro: true,
-      plan: "Pro (Unlocked)",
-      validUntil: null,
-      lastVerifiedAt: new Date().toISOString()
-    };
-    setProStatus(newStatus);
-    
-    if (isAuthenticated && user) {
-      safeSet(`pro_status_${user.userId}`, JSON.stringify(newStatus));
-      fetch("/api/auth/pro", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("auth_token")}`
-        },
-        body: JSON.stringify({ isPro: true, plan: "Pro (Unlocked)" })
-      });
-    }
-    
-    return {
-      success: true,
-      message: "Pro unlocked! Your subscription is now tied to your account."
-    };
-  };
-
   const resetPro = () => {
     setIsProUser(false);
     setProStatus({
@@ -177,7 +134,6 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         isProUser,
         proStatus,
-        unlockPro,
         resetPro,
         showGoProModal,
         setShowGoProModal,

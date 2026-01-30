@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { usePro } from "../context/ProContext";
 
 interface GoproModalProps {
@@ -10,36 +10,9 @@ interface GoproModalProps {
 const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/ncp/payment/YBDH6PMKW462W";
 
 const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => {
-  const { isProUser, unlockPro, setShowGoProModal } = usePro();
-  const [unlockCode, setUnlockCode] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [step, setStep] = useState<"payment" | "unlock">("payment");
+  const { setShowGoProModal } = usePro();
 
   if (!isOpen) return null;
-
-  const handleUnlock = () => {
-    setErrorMessage("");
-    setSuccessMessage("");
-    
-    if (!unlockCode.trim()) {
-      setErrorMessage("Please enter your unlock code");
-      return;
-    }
-
-    const result = unlockPro(unlockCode);
-    if (result.success) {
-      setSuccessMessage("Pro unlocked! You now have access to all features.");
-      setTimeout(() => {
-        setShowGoProModal(false);
-        onClose();
-      }, 1500);
-      setUnlockCode("");
-    } else {
-      setErrorMessage(result.message);
-      setUnlockCode("");
-    }
-  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -94,75 +67,19 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
             </ul>
           </div>
 
-          <div className="flex gap-2 text-xs font-semibold text-slate-600 dark:text-[var(--text-paragraph)] mb-4">
-            <div 
-              onClick={() => setStep("payment")}
-              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "payment" ? "border-slate-900 dark:border-white text-slate-900 dark:text-white" : "border-slate-200 dark:border-[var(--border-subtle)] hover:text-slate-900 dark:hover:text-[var(--text-primary)]"}`}
+          <div className="space-y-4">
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Click the button below to complete your one-time payment via PayPal.
+            </p>
+            <a
+              href={PAYPAL_PAYMENT_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-semibold transition-colors text-center"
             >
-              Step 1: Pay
-            </div>
-            <div 
-              onClick={() => setStep("unlock")}
-              className={`flex-1 text-center pb-2 border-b-2 cursor-pointer transition-colors ${step === "unlock" ? "border-slate-900 dark:border-white text-slate-900 dark:text-white" : "border-slate-200 dark:border-[var(--border-subtle)] hover:text-slate-900 dark:hover:text-[var(--text-primary)]"}`}
-            >
-              Step 2: Unlock
-            </div>
+              Pay once. Use forever. ($9.99)
+            </a>
           </div>
-
-          {step === "payment" && (
-            <div className="space-y-4">
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Click the button below to complete your one-time payment via PayPal.
-              </p>
-              <a
-                href={PAYPAL_PAYMENT_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-semibold transition-colors text-center"
-              >
-                Pay once. Use forever. ($9.99)
-              </a>
-            </div>
-          )}
-
-          {step === "unlock" && (
-            <div className="space-y-4">
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Enter the unlock code you received after payment.
-              </p>
-              
-              <div className="space-y-2">
-                <input
-                  type="text"
-                  value={unlockCode}
-                  onChange={(e) => {
-                    setUnlockCode(e.target.value);
-                    setErrorMessage("");
-                    setSuccessMessage("");
-                  }}
-                  placeholder="Enter unlock code"
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-secondary)] text-slate-900 dark:text-[var(--text-primary)] placeholder:text-slate-400 dark:placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-slate-900 text-base"
-                />
-                <button
-                  onClick={handleUnlock}
-                  className="w-full px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium transition-colors h-[42px]"
-                >
-                  Unlock Pro
-                </button>
-              </div>
-
-              {errorMessage && (
-                <p className="text-xs text-red-500 dark:text-red-400 text-center">
-                  {errorMessage}
-                </p>
-              )}
-              {successMessage && (
-                <p className="text-xs text-slate-900 dark:text-white text-center font-medium">
-                  {successMessage}
-                </p>
-              )}
-            </div>
-          )}
 
           <div className="space-y-2 border-t border-slate-200 dark:border-[var(--border-subtle)] pt-4">
             <p className="text-xs text-slate-600 dark:text-slate-400 text-center">

@@ -13,7 +13,6 @@ import { useRecurring } from "../context/RecurringContext";
 import { useNotifications } from "../context/NotificationsContext";
 import { useAnalytics } from "../context/AnalyticsContext";
 import { usePro } from "../context/ProContext";
-import { generateUnlockCode } from "../utils/crypto";
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
 import DataOwnership from "../components/DataOwnership";
@@ -163,11 +162,6 @@ const SettingsPage: React.FC = () => {
     pushToast("App locked", "success");
   };
 
-  const handleCopyCode = () => {
-    const code = generateUnlockCode(deviceId);
-    navigator.clipboard.writeText(code);
-    pushToast("Code copied to clipboard!", "success");
-  };
 
   const handleFactoryReset = () => {
     resetTransactions();
