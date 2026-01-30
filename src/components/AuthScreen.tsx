@@ -41,6 +41,10 @@ export const AuthScreen: React.FC = () => {
       window.google.accounts.id.initialize({
         client_id: "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com",
         ux_mode: "popup",
+        context: "signin",
+        auto_select: false,
+        itp_support: true,
+        use_fedcm_for_prompt: true,
         callback: async (response: any) => {
           console.log("Google credential received", response.credential);
           if (response.credential) {

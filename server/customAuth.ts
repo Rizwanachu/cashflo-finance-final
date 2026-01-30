@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
-const GOOGLE_CLIENT_ID = "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com";
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
 

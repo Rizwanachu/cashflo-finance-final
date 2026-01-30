@@ -16,6 +16,14 @@ async function startServer() {
   const app = express();
   app.use(express.json());
 
+  // Add CORS/CSP headers for Google Auth
+  app.use((req, res, next) => {
+    // Set security headers to allow Google Identity Services
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+    next();
+  });
+
   // Set Cache-Control to prevent heuristic caching issues
   app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
