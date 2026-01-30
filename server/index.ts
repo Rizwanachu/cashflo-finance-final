@@ -84,4 +84,7 @@ async function startServer() {
   });
 }
 
+const expressApp = express();
+expressApp.get("/health", (req, res) => res.send("OK"));
+
 startServer().catch(console.error);
