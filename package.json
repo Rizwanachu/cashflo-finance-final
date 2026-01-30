@@ -25,6 +25,7 @@
     "bcryptjs": "^3.0.3",
     "connect-pg-simple": "^10.0.0",
     "crypto-js": "^4.2.0",
+    "drizzle-kit": "^0.31.8",
     "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
     "express-session": "^1.18.2",
