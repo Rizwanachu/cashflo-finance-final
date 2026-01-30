@@ -17,7 +17,6 @@ import { generateUnlockCode } from "../utils/crypto";
 import { Card } from "../components/Card";
 import TrustAndPrivacy from "../components/TrustAndPrivacy";
 import DataOwnership from "../components/DataOwnership";
-import TrialStatusBar from "../components/TrialStatusBar";
 import { useAuth } from "../hooks/use-auth";
 import { Sun, Moon, Monitor, Lock, Unlock, Trash2, Bell, Eye, EyeOff, Globe, Download, FileText, Upload, Loader2, Instagram, HelpCircle, User, RefreshCw, LogOut } from "lucide-react";
 import { exportZipBackup } from "../utils/exportCsvZip";
@@ -203,8 +202,6 @@ const SettingsPage: React.FC = () => {
           Manage your app preferences and data
         </p>
       </div>
-
-      <TrialStatusBar />
 
       <Card>
         <div className="flex items-center gap-3 mb-6">

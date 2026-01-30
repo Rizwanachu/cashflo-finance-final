@@ -10,7 +10,6 @@ import WeeklySpendingChart from "../components/charts/WeeklySpendingChart";
 import MonthlySpendingChart from "../components/charts/MonthlySpendingChart";
 import FreeLimitsBanner from "../components/FreeLimitsBanner";
 import ProUserDelight from "../components/ProUserDelight";
-import TrialStatusBar from "../components/TrialStatusBar";
 import { Card, ChartContainer } from "../components/Card";
 import { Transaction } from "../types";
 import { formatCurrencyWithPrivacy } from "../utils/privacy";
@@ -179,7 +178,6 @@ const Dashboard: React.FC = () => {
     <div className="space-y-5">
       <ProUserDelight />
       <FreeLimitsBanner />
-      <TrialStatusBar />
       {consistencyBadge && (
         <Card className="bg-zinc-900 dark:bg-[var(--bg-tertiary)] border border-zinc-800 dark:border-[var(--border-subtle)] text-white">
           <div className="flex items-center justify-between">
