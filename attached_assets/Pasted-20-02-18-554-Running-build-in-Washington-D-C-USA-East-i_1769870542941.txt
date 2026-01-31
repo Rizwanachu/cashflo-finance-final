@@ -1,0 +1,37 @@
+20:02:18.554 Running build in Washington, D.C., USA (East) – iad1
+20:02:18.566 Build machine configuration: 2 cores, 8 GB
+20:02:18.929 Cloning github.com/Rizwanachu/cashflo-finance-final (Branch: main, Commit: 6166c50)
+20:02:20.837 Cloning completed: 1.908s
+20:02:20.978 Restored build cache from previous deployment (6QtxpvMba59f5cey9hrkLYCjVPFE)
+20:02:21.498 Running "vercel build"
+20:02:22.486 Vercel CLI 50.9.6
+20:02:23.012 > Installing Builder: @vercel/node@3.0.0
+20:02:32.365 Installing dependencies...
+20:02:35.024 
+20:02:35.025 added 85 packages in 3s
+20:02:35.026 
+20:02:35.026 83 packages are looking for funding
+20:02:35.026   run `npm fund` for details
+20:02:35.151 
+20:02:35.151 > finance-tracker@1.0.0 build
+20:02:35.151 > vite build
+20:02:35.151 
+20:02:35.679 [36mvite v5.4.21 [32mbuilding for production...[36m[39m
+20:02:35.742 transforming...
+20:02:44.404 [32m✓[39m 2982 modules transformed.
+20:02:44.971 rendering chunks...
+20:02:45.465 computing gzip size...
+20:02:45.509 [2mdist/[22m[32mindex.html                          [39m[1m[2m    1.92 kB[22m[1m[22m[2m │ gzip:   0.68 kB[22m
+20:02:45.510 [2mdist/[22m[2massets/[22m[35mindex-Bl78WHOJ.css           [39m[1m[2m   43.93 kB[22m[1m[22m[2m │ gzip:   8.15 kB[22m
+20:02:45.511 [2mdist/[22m[2massets/[22m[36mpurify.es-C_uT9hQ1.js        [39m[1m[2m   21.98 kB[22m[1m[22m[2m │ gzip:   8.74 kB[22m
+20:02:45.511 [2mdist/[22m[2massets/[22m[36mindex.es-CKrltEgx.js         [39m[1m[2m  150.44 kB[22m[1m[22m[2m │ gzip:  51.42 kB[22m
+20:02:45.511 [2mdist/[22m[2massets/[22m[36mhtml2canvas.esm-CBrSDip1.js  [39m[1m[2m  201.42 kB[22m[1m[22m[2m │ gzip:  48.03 kB[22m
+20:02:45.511 [2mdist/[22m[2massets/[22m[36mindex-BsjRtb1g.js            [39m[1m[33m1,381.94 kB[39m[22m[2m │ gzip: 398.54 kB[22m
+20:02:45.511 [33m
+20:02:45.512 (!) Some chunks are larger than 500 kB after minification. Consider:
+20:02:45.512 - Using dynamic import() to code-split the application
+20:02:45.512 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+20:02:45.512 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+20:02:45.512 [32m✓ built in 9.80s[39m
+20:02:45.617 Error: Found invalid Node.js Version: "24.x". Please set Node.js Version to 18.x in your Project Settings to use Node.js 18.
+20:02:45.618 Learn More: http://vercel.link/node-version
