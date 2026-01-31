@@ -22,13 +22,17 @@ args = "Start Server"
 name = "Start Server"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run server"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run server & npm run dev"
+waitForPort = 5000
+
+[[ports]]
+localPort = 3001
+externalPort = 3002
 
 [[ports]]
 localPort = 5000

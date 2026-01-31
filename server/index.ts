@@ -77,7 +77,7 @@ async function startServer() {
     next();
   });
 
-  const PORT = Number(process.env.PORT) || 5000;
+  const PORT = Number(process.env.PORT) || 3001;
   const httpServer = createServer(app);
   httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
