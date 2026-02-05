@@ -1,0 +1,94 @@
+import express from "express";
+import { OAuth2Client } from "google-auth-library";
+import { db } from "./db/index.js";
+import { users } from "../shared/models/auth.js";
+import { eq } from "drizzle-orm";
+import jwt from "jsonwebtoken";
+
+const router = express.Router();
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com";
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
+
+router.post("/google", async (req, res) => {
+  try {
+    if (!req.body || !req.body.idToken) {
+      return res.status(400).json({ error: "Missing idToken" });
+    }
+
+    const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+    const ticket = await client.verifyIdToken({
+      idToken: req.body.idToken,
+      audience: GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload || !payload.email) {
+      return res.status(401).json({ error: "Invalid Google token" });
+    }
+
+    const { email, name, sub: googleId } = payload;
+    
+    // Pure JSON approach, check if user exists
+    let [user] = await db.select().from(users).where(eq(users.email, email));
+
+    if (!user) {
+      console.log("GIS Backend: Creating new user", email);
+      const results = await db.insert(users).values({
+        email: email,
+        password: "GOOGLE_AUTH_" + googleId, // Simplified
+        firstName: name?.split(" ")[0] || "User",
+        isPro: false,
+        proPlan: "Free"
+      }).returning();
+      user = results[0];
+    }
+
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
+    
+    return res.json({
+      success: true,
+      email: payload.email,
+      name: payload.name,
+      sub: payload.sub,
+      token,
+      user: { 
+        id: user.id, 
+        email: user.email, 
+        firstName: user.firstName,
+        isPro: user.isPro,
+        proPlan: user.proPlan
+      } 
+    });
+  } catch (err: any) {
+    console.error("Google auth error:", err);
+    return res.status(500).json({
+      error: "Google authentication failed",
+      message: err.message,
+    });
+  }
+});
+
+router.get("/me", async (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: "No token" });
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as any;
+    const [user] = await db.select().from(users).where(eq(users.id, payload.userId));
+    if (!user) return res.status(401).json({ error: "User not found" });
+    res.json({ 
+      id: user.id, 
+      email: user.email, 
+      firstName: user.firstName,
+      isPro: user.isPro,
+      proPlan: user.proPlan
+    });
+  } catch (e: any) {
+    res.status(401).json({ error: e.message });
+  }
+});
+
+export default router;
