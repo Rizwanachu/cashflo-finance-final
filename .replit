@@ -42,4 +42,4 @@ externalPort = 80
 deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
 publicDir = "dist"
-run = ["npm", "run", "dev"]
+run = ["bash", "-c", "npm run server & npm run dev"]
