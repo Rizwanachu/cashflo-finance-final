@@ -10,6 +10,7 @@
     "dev": "vite",
     "server": "npx --yes tsx server/index.ts",
     "build": "vite build",
+    "vercel-build": "npm run build",
     "preview": "vite preview",
     "lint": "echo \"no linter configured\""
   },
