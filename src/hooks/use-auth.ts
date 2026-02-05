@@ -7,10 +7,19 @@ async function fetchUser(): Promise<User | null> {
 
   const rawApiUrl = import.meta.env.VITE_API_URL || "";
   const apiUrl = rawApiUrl.replace(/\/$/, ""); // Remove trailing slash if present
+  
+  // Log URL for debugging cross-domain issues
+  if (apiUrl) {
+    console.log(`Fetching from remote API: ${apiUrl}/api/auth/me`);
+  }
+
   const response = await fetch(`${apiUrl}/api/auth/me`, {
     headers: { "Authorization": `Bearer ${token}` }
   }).catch(err => {
-    console.error("Fetch error for /api/auth/me:", err);
+    console.error(`Fetch error for ${apiUrl}/api/auth/me:`, err);
+    if (!apiUrl && !window.location.hostname.includes('repl.co') && !window.location.hostname.includes('replit.app') && window.location.hostname !== 'localhost') {
+      console.error("DETECTED EXTERNAL DOMAIN WITHOUT VITE_API_URL. Please set VITE_API_URL to your Replit backend URL in your deployment settings.");
+    }
     throw err;
   });
 
