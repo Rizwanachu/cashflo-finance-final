@@ -9,6 +9,9 @@ async function fetchUser(): Promise<User | null> {
   const apiUrl = rawApiUrl.replace(/\/$/, ""); // Remove trailing slash if present
   const response = await fetch(`${apiUrl}/api/auth/me`, {
     headers: { "Authorization": `Bearer ${token}` }
+  }).catch(err => {
+    console.error("Fetch error for /api/auth/me:", err);
+    throw err;
   });
 
   if (!response.ok) {
