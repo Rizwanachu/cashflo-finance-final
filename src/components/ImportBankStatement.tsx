@@ -1,13 +1,19 @@
 import React, { useState, useRef, useCallback } from "react";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
+import * as pdfjs from "pdfjs-dist";
 import { useTransactionsContext } from "../context/TransactionsContext";
 import { useTheme } from "../context/ThemeContext";
 import { useCurrency } from "../context/CurrencyContext";
 import { useToast } from "../context/ToastContext";
 import { useAccounts } from "../context/AccountsContext";
 import { Transaction, TransactionCategory, TransactionType } from "../types";
-import { AlertTriangle, CheckCircle2, ChevronDown, FileSpreadsheet, FileText, Upload, X } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ChevronDown, Eye, EyeOff, FileSpreadsheet, FileText, KeyRound, X } from "lucide-react";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).href;
 
 interface Props {
   onClose: () => void;
@@ -200,6 +206,11 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState(accounts[0]?.id || "");
   const [pdfError, setPdfError] = useState("");
+  const [needsPassword, setNeedsPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
+  const [pdfPassword, setPdfPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const pdfBufRef = useRef<ArrayBuffer | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -249,7 +260,12 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
 
       } else if (ext === "pdf") {
         setFileType("pdf");
-        await parsePdf(file);
+        const buf = await file.arrayBuffer();
+        pdfBufRef.current = buf;
+        setNeedsPassword(false);
+        setWrongPassword(false);
+        setPdfPassword("");
+        await parsePdf(buf);
 
       } else {
         pushToast("Unsupported file type. Use CSV, XLSX, XLS, or PDF.", "warning");
@@ -261,13 +277,32 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
     }
   }, [pushToast]);
 
-  const parsePdf = async (file: File) => {
+  const parsePdf = async (buf: ArrayBuffer, password?: string) => {
+    setPdfError("");
     try {
-      const { default: pdfjs } = await import("pdfjs-dist");
-      pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+      const loadingTask = pdfjs.getDocument({
+        data: new Uint8Array(buf),
+        ...(password ? { password } : {}),
+      });
 
-      const buf = await file.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: buf }).promise;
+      let pdf: pdfjs.PDFDocumentProxy;
+      try {
+        pdf = await loadingTask.promise;
+      } catch (err: unknown) {
+        const e = err as { name?: string; code?: number; message?: string };
+        if (e?.name === "PasswordException") {
+          if (e.code === 1) {
+            setNeedsPassword(true);
+            setWrongPassword(false);
+          } else {
+            setWrongPassword(true);
+          }
+          setIsProcessing(false);
+          return;
+        }
+        throw err;
+      }
+
       let fullText = "";
       for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
@@ -289,10 +324,19 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
         setPdfError("Could not extract transactions from this PDF. Please try CSV or Excel export from your bank.");
         return;
       }
+      setNeedsPassword(false);
+      setWrongPassword(false);
       buildPreview(rows);
     } catch (err) {
       setPdfError(`PDF parsing failed: ${err instanceof Error ? err.message : "Unknown error"}. Please use CSV/Excel instead.`);
     }
+  };
+
+  const handlePasswordSubmit = async () => {
+    if (!pdfBufRef.current || !pdfPassword.trim()) return;
+    setIsProcessing(true);
+    await parsePdf(pdfBufRef.current, pdfPassword.trim());
+    setIsProcessing(false);
   };
 
   const parsePdfLines = (lines: string[]): ParsedRow[] => {
@@ -446,7 +490,49 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
             )}
           </div>
 
-          {pdfError && (
+          {needsPassword && (
+            <div className={`rounded-xl border ${border} p-4 space-y-3 ${dark ? "bg-[var(--bg-secondary)]" : "bg-slate-50"}`}>
+              <div className="flex items-center gap-2">
+                <KeyRound className="w-4 h-4 text-amber-500" />
+                <p className={`text-sm font-medium ${text}`}>PDF is password protected</p>
+              </div>
+              <p className={`text-xs ${sub}`}>
+                {wrongPassword
+                  ? "⚠️ Incorrect password — please try again."
+                  : "Enter the password your bank uses to protect this statement. It stays on your device."}
+              </p>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={pdfPassword}
+                  onChange={(e) => setPdfPassword(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handlePasswordSubmit()}
+                  placeholder="Enter PDF password"
+                  autoFocus
+                  className={`w-full rounded-lg border ${wrongPassword ? "border-red-400 dark:border-red-600" : border} px-3 py-2 pr-10 text-sm ${text} ${dark ? "bg-[var(--bg-primary)]" : "bg-white"} focus:outline-none focus:ring-2 ${wrongPassword ? "focus:ring-red-400" : "focus:ring-[var(--brand-primary)]"}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className={`absolute right-2 top-1/2 -translate-y-1/2 ${sub} hover:opacity-80`}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              <button
+                onClick={handlePasswordSubmit}
+                disabled={isProcessing || !pdfPassword.trim()}
+                className="w-full px-4 py-2 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium hover:opacity-90 disabled:opacity-50 transition-colors"
+              >
+                {isProcessing ? "Unlocking…" : "Unlock & Parse"}
+              </button>
+              <p className={`text-xs ${sub}`}>
+                Tip: Most Indian bank PDFs use your date of birth (DDMMYYYY) or account number as the password.
+              </p>
+            </div>
+          )}
+
+          {pdfError && !needsPassword && (
             <div className="flex gap-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
               <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-amber-800 dark:text-amber-300">{pdfError}</p>
