@@ -54,102 +54,199 @@ const CATEGORIES: TransactionCategory[] = [
   "Uncategorized",
 ];
 
+const MONTHS: Record<string, string> = {
+  jan:"01", feb:"02", mar:"03", apr:"04", may:"05", jun:"06",
+  jul:"07", aug:"08", sep:"09", oct:"10", nov:"11", dec:"12",
+};
+
 function autoCategory(desc: string): { category: TransactionCategory; type: TransactionType } {
   const d = desc.toLowerCase();
-  if (/swiggy|zomato|food|restaurant|cafe|hotel|blinkit|grocer/.test(d)) return { category: "Food/Groceries", type: "expense" };
-  if (/uber|ola|rapido|metro|bus|irctc|flight|indigo|spicejet|train|cab/.test(d)) return { category: "Transportation", type: "expense" };
+  if (/swiggy|zomato|food|restaurant|cafe|hotel|blinkit|grocer|bigbasket|dunzo/.test(d)) return { category: "Food/Groceries", type: "expense" };
+  if (/uber|ola|rapido|metro|bus|irctc|flight|indigo|spicejet|train|cab|rickshaw/.test(d)) return { category: "Transportation", type: "expense" };
   if (/rent|housing|maintenance|society|pg |hostel/.test(d)) return { category: "Housing", type: "expense" };
-  if (/amazon|flipkart|myntra|meesho|nykaa|ajio|tatacliq/.test(d)) return { category: "Shopping", type: "expense" };
-  if (/netflix|spotify|prime|hotstar|youtube|jio cinema|zee5/.test(d)) return { category: "Entertainment", type: "expense" };
-  if (/hospital|clinic|pharmacy|medplus|apollo|health/.test(d)) return { category: "Healthcare", type: "expense" };
-  if (/school|college|university|course|udemy|coursera|fees/.test(d)) return { category: "Education", type: "expense" };
-  if (/salary|credited by|neft cr|imps cr|credit by|sal cr|opening bal/.test(d)) return { category: "Income", type: "income" };
-  if (/atm|cash withdrawal|cash wdl/.test(d)) return { category: "Other", type: "expense" };
-  if (/electric|water|gas|broadband|internet|jio|airtel|bsnl/.test(d)) return { category: "Utilities", type: "expense" };
+  if (/amazon|flipkart|myntra|meesho|nykaa|ajio|tatacliq|snapdeal/.test(d)) return { category: "Shopping", type: "expense" };
+  if (/netflix|spotify|prime|hotstar|youtube|jio cinema|zee5|disney/.test(d)) return { category: "Entertainment", type: "expense" };
+  if (/hospital|clinic|pharmacy|medplus|apollo|health|medic/.test(d)) return { category: "Healthcare", type: "expense" };
+  if (/school|college|university|course|udemy|coursera|fees|tuition/.test(d)) return { category: "Education", type: "expense" };
+  if (/salary|sal |credited by|neft cr|imps cr|credit by|sal cr|opening bal|interest credit|int\.cr|int cr/.test(d)) return { category: "Income", type: "income" };
+  if (/atm|cash withdrawal|cash wdl|cash/.test(d)) return { category: "Other", type: "expense" };
+  if (/electric|water|gas |broadband|internet|jio|airtel|bsnl|postpaid|prepaid/.test(d)) return { category: "Utilities", type: "expense" };
   return { category: "Uncategorized", type: "expense" };
 }
 
 function detectColumns(headers: string[]): ColumnMap {
-  const h = headers.map((s) => s.toLowerCase().trim());
-  const find = (keywords: string[]) => {
+  const h = headers.map((s) => (s ?? "").toLowerCase().trim());
+
+  const findExact = (keywords: string[]) => {
+    for (const kw of keywords) {
+      const idx = h.findIndex((col) => col === kw);
+      if (idx !== -1) return idx;
+    }
+    return null;
+  };
+  const findContains = (keywords: string[]) => {
     for (const kw of keywords) {
       const idx = h.findIndex((col) => col.includes(kw));
       if (idx !== -1) return idx;
     }
     return null;
   };
-  return {
-    dateCol: find(["txn date", "value date", "transaction date", "date"]),
-    descCol: find(["narration", "particulars", "description", "remarks", "details", "trans details"]),
-    debitCol: find(["debit", "withdrawal", "dr", "amount (dr)", "amount(dr)"]),
-    creditCol: find(["credit", "deposit", "cr", "amount (cr)", "amount(cr)"]),
-    amountCol: find(["amount"]),
-  };
+
+  const dateCol = findContains(["txn date", "value date", "transaction date", "trans date", "posting date", "date"]);
+  const descCol = findContains(["narration", "particulars", "description", "remarks", "details", "trans details", "transaction remarks", "chq"]);
+  const debitCol = findExact(["debit", "withdrawal", "dr", "debit amount", "amount (dr)", "amount(dr)", "withdrawals"])
+    ?? findContains(["debit", "withdrawal"]);
+  const creditCol = findExact(["credit", "deposit", "cr", "credit amount", "amount (cr)", "amount(cr)", "deposits"])
+    ?? findContains(["credit", "deposit"]);
+
+  // Only use a generic "amount" column if we couldn't find separate debit/credit
+  const amountCol = (debitCol === null && creditCol === null)
+    ? (findExact(["amount"]) ?? findContains(["amount"]))
+    : null;
+
+  return { dateCol, descCol, debitCol, creditCol, amountCol };
 }
 
 function parseDate(raw: string): string {
-  if (!raw) return "";
-  const cleaned = raw.trim();
+  if (!raw || raw === "undefined") return "";
+  const cleaned = raw.toString().trim().replace(/\s+/g, " ");
+
+  // DD/MM/YYYY or DD-MM-YYYY or DD.MM.YYYY (pure numeric)
   const ddmm = cleaned.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/);
   if (ddmm) {
     const [, d, m, y] = ddmm;
     const year = y.length === 2 ? `20${y}` : y;
     return `${year}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
   }
+
+  // YYYY/MM/DD or YYYY-MM-DD or YYYY.MM.DD
   const yyyymmdd = cleaned.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})$/);
   if (yyyymmdd) {
     const [, y, m, d] = yyyymmdd;
     return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
   }
+
+  // DD-Mon-YYYY or DD/Mon/YYYY or DD Mon YYYY (e.g. 24-Mar-2026, 24 Mar 26)
+  const ddmon = cleaned.match(/^(\d{1,2})[\/\-\.\s]([A-Za-z]{3,9})[\/\-\.\s](\d{2,4})$/);
+  if (ddmon) {
+    const [, d, mon, y] = ddmon;
+    const m = MONTHS[mon.toLowerCase().slice(0, 3)];
+    if (m) {
+      const year = y.length === 2 ? `20${y}` : y;
+      return `${year}-${m}-${d.padStart(2, "0")}`;
+    }
+  }
+
+  // Mon-DD-YYYY or Mon/DD/YYYY (e.g. Mar-24-2026)
+  const mondd = cleaned.match(/^([A-Za-z]{3,9})[\/\-\.\s](\d{1,2})[\/\-\.\s](\d{2,4})$/);
+  if (mondd) {
+    const [, mon, d, y] = mondd;
+    const m = MONTHS[mon.toLowerCase().slice(0, 3)];
+    if (m) {
+      const year = y.length === 2 ? `20${y}` : y;
+      return `${year}-${m}-${d.padStart(2, "0")}`;
+    }
+  }
+
+  // "24 March 2026" or "March 24, 2026" or "March 24 2026"
+  const longMonth = cleaned.match(/^(\d{1,2})\s+([A-Za-z]+),?\s+(\d{4})$/)
+    || cleaned.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+  if (longMonth) {
+    const parts = longMonth.slice(1);
+    // figure out which part is the day vs month name
+    if (/^\d+$/.test(parts[0])) {
+      // "24 March 2026"
+      const m = MONTHS[parts[1].toLowerCase().slice(0, 3)];
+      if (m) return `${parts[2]}-${m}-${parts[0].padStart(2, "0")}`;
+    } else {
+      // "March 24 2026"
+      const m = MONTHS[parts[0].toLowerCase().slice(0, 3)];
+      if (m) return `${parts[2]}-${m}-${parts[1].padStart(2, "0")}`;
+    }
+  }
+
+  // YYYYMMDD (compact numeric, e.g. 20260324)
+  const compact = cleaned.match(/^(\d{4})(\d{2})(\d{2})$/);
+  if (compact) return `${compact[1]}-${compact[2]}-${compact[3]}`;
+
+  // Native Date parse as last resort
   try {
     const dt = new Date(cleaned);
     if (!isNaN(dt.getTime())) return dt.toISOString().split("T")[0];
-  } catch {
-    /* ignore */
-  }
+  } catch { /* ignore */ }
+
+  // Return as-is — don't silently discard
   return cleaned;
 }
 
-function parseAmount(raw: string): number {
-  if (!raw) return 0;
-  const cleaned = raw.replace(/[₹$€£,\s]/g, "").trim();
-  const n = parseFloat(cleaned);
+function parseAmount(raw: string | number | undefined | null): number {
+  if (raw === undefined || raw === null || raw === "" || String(raw) === "undefined") return 0;
+  const s = String(raw).trim();
+  // Handle parenthesised negatives like (1,500.00) used by some banks
+  const paren = s.match(/^\(([0-9,. ₹$€£]+)\)$/);
+  const cleaned = (paren ? paren[1] : s).replace(/[₹$€£,\s]/g, "").trim();
+  // Remove trailing "Dr"/"Cr" suffixes some banks add
+  const noSuffix = cleaned.replace(/[Dd][Rr]$/, "").replace(/[Cc][Rr]$/, "").trim();
+  const n = parseFloat(noSuffix);
   return isNaN(n) ? 0 : Math.abs(n);
+}
+
+function hasCrSuffix(raw: string | undefined | null): boolean {
+  const s = String(raw ?? "").trim();
+  return /[Cc][Rr]$/.test(s.replace(/[₹$€£,0-9. ]/g, ""));
 }
 
 function rowsToTransactions(rows: string[][], map: ColumnMap): ParsedRow[] {
   const result: ParsedRow[] = [];
   for (const row of rows) {
-    const dateRaw = map.dateCol !== null ? row[map.dateCol] ?? "" : "";
-    const date = parseDate(dateRaw);
-    if (!date) continue;
+    // Skip completely empty rows
+    if (row.every((c) => !c || String(c).trim() === "" || String(c) === "undefined")) continue;
 
-    const descRaw = map.descCol !== null ? row[map.descCol] ?? "" : "";
-    const description = descRaw.trim();
+    const dateRaw = map.dateCol !== null ? (row[map.dateCol] ?? "") : "";
+    const date = parseDate(String(dateRaw));
+    // Skip header-repeat rows and rows with no parseable date
+    if (!date || date.toLowerCase().includes("date")) continue;
+
+    const descRaw = map.descCol !== null ? (row[map.descCol] ?? "") : "";
+    const description = String(descRaw).replace(/undefined/g, "").trim() || "Transaction";
 
     let amount = 0;
     let type: TransactionType = "expense";
 
     if (map.amountCol !== null) {
+      // Single amount column — positive = credit/income based on description or Cr suffix
       const raw = row[map.amountCol] ?? "";
       amount = parseAmount(raw);
-      const signMatch = raw.replace(/[₹$€£,\s]/g, "").match(/^-/);
-      if (signMatch) {
+      const rawStr = String(raw);
+      const isNegative = rawStr.replace(/[₹$€£,\s]/g, "").startsWith("-");
+      const isCrSuffix = hasCrSuffix(rawStr);
+      if (isNegative) {
         type = "expense";
-      } else {
-        const { type: t } = autoCategory(description);
-        type = t;
-      }
-    } else {
-      const debitAmt = map.debitCol !== null ? parseAmount(row[map.debitCol] ?? "") : 0;
-      const creditAmt = map.creditCol !== null ? parseAmount(row[map.creditCol] ?? "") : 0;
-      if (debitAmt > 0) {
-        amount = debitAmt;
-        type = "expense";
-      } else if (creditAmt > 0) {
-        amount = creditAmt;
+      } else if (isCrSuffix) {
         type = "income";
       } else {
+        type = autoCategory(description).type;
+      }
+    } else {
+      // Separate debit/credit columns
+      const debitRaw = map.debitCol !== null ? (row[map.debitCol] ?? "") : "";
+      const creditRaw = map.creditCol !== null ? (row[map.creditCol] ?? "") : "";
+      const debitAmt = parseAmount(debitRaw);
+      const creditAmt = parseAmount(creditRaw);
+
+      if (debitAmt > 0 && creditAmt > 0) {
+        // Both filled — take the larger as the transaction (edge case in some exports)
+        if (debitAmt >= creditAmt) {
+          amount = debitAmt; type = "expense";
+        } else {
+          amount = creditAmt; type = "income";
+        }
+      } else if (debitAmt > 0) {
+        amount = debitAmt; type = "expense";
+      } else if (creditAmt > 0) {
+        amount = creditAmt; type = "income";
+      } else {
+        // No amount in either column — skip (genuinely blank row)
         continue;
       }
     }
@@ -229,7 +326,11 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
       if (ext === "csv") {
         setFileType("csv");
         const text = await file.text();
-        const result = Papa.parse<string[]>(text, { skipEmptyLines: true });
+        const result = Papa.parse<string[]>(text, {
+          skipEmptyLines: "greedy",
+          dynamicTyping: false,
+          header: false,
+        });
         const allRows = result.data as string[][];
         if (allRows.length < 2) { pushToast("CSV appears empty", "warning"); return; }
         const hdrs = allRows[0];
@@ -247,8 +348,8 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
         const ws = wb.Sheets[wb.SheetNames[0]];
         const allRows: string[][] = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, dateNF: "yyyy-mm-dd" }) as string[][];
         if (allRows.length < 2) { pushToast("Excel appears empty", "warning"); return; }
-        const hdrs = allRows[0].map(String);
-        const rows = allRows.slice(1).map((r) => r.map(String));
+        const hdrs = allRows[0].map((c) => (c === undefined || c === null ? "" : String(c)));
+        const rows = allRows.slice(1).map((r) => r.map((c) => (c === undefined || c === null ? "" : String(c))));
         setHeaders(hdrs);
         setRawRows(rows);
         const detected = detectColumns(hdrs);
@@ -338,34 +439,64 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
   };
 
   const parsePdfLines = (lines: string[]): ParsedRow[] => {
-    const dateRe = /\b(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}|\d{4}[\/\-\.]\d{1,2}[\/\-\.]\d{1,2})\b/;
-    const amountRe = /[\d,]+\.\d{2}/g;
+    // Matches pure numeric dates and month-name dates
+    const dateRe = /\b(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}|\d{4}[\/\-\.]\d{1,2}[\/\-\.]\d{1,2}|\d{1,2}[\/\-\.\s][A-Za-z]{3,9}[\/\-\.\s]\d{2,4})\b/;
+    // Match amounts with or without decimal places (1,500 or 1,500.00 or 500.00 or 500)
+    const amountRe = /(?<![A-Za-z\d])(\d{1,3}(?:,\d{2,3})*(?:\.\d{1,2})?|\d{4,}(?:\.\d{1,2})?)(?![A-Za-z\d])/g;
     const result: ParsedRow[] = [];
 
     for (const line of lines) {
       const dateMatch = line.match(dateRe);
       if (!dateMatch) continue;
       const date = parseDate(dateMatch[0]);
-      const amounts = [...line.matchAll(amountRe)].map((m) => parseFloat(m[0].replace(/,/g, "")));
+      if (!date) continue;
+
+      // Extract all numeric amounts from the line
+      const amountMatches = [...line.matchAll(amountRe)];
+      const amounts = amountMatches
+        .map((m) => parseFloat(m[0].replace(/,/g, "")))
+        .filter((n) => !isNaN(n) && n > 0 && n < 1e8);
+
       if (amounts.length === 0) continue;
 
-      const descPart = line.replace(dateRe, "").replace(/[\d,]+\.\d{2}/g, "").replace(/\s+/g, " ").trim();
-      const description = descPart.slice(0, 80).trim();
-      if (!description) continue;
+      // Strip the date and all amounts to get the description text
+      const descPart = line
+        .replace(dateRe, "")
+        .replace(amountRe, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      const description = (descPart || "Transaction").slice(0, 120).trim();
 
-      if (amounts.length >= 2) {
-        const debit = amounts[amounts.length - 2];
-        const credit = amounts[amounts.length - 1];
-        if (debit > 0 && debit < 1e7) {
-          result.push({ date, description, amount: debit, type: "expense", category: autoCategory(description).category });
-        } else if (credit > 0 && credit < 1e7) {
-          result.push({ date, description, amount: credit, type: "income", category: autoCategory(description).category });
-        }
+      if (amounts.length === 1) {
+        // Only one amount — use auto-categorization to decide income/expense
+        const { category, type } = autoCategory(description);
+        result.push({ date, description, amount: amounts[0], type, category });
+      } else if (amounts.length === 2) {
+        // Two amounts — typically debit and credit (one will be 0 conceptually)
+        // The larger non-balance amount is the transaction
+        const [a, b] = amounts;
+        // Heuristic: pick the non-zero, smaller one as the transaction amount,
+        // unless one is clearly a running balance (very large)
+        const txAmt = a > 0 ? a : b;
+        const { category, type } = autoCategory(description);
+        result.push({ date, description, amount: txAmt, type, category });
       } else {
-        const amt = amounts[0];
-        if (amt > 0 && amt < 1e7) {
-          const { category, type } = autoCategory(description);
-          result.push({ date, description, amount: amt, type, category });
+        // 3+ amounts — common pattern: Debit | Credit | Balance (last = balance, skip it)
+        // Second-to-last = credit (income), third-to-last = debit (expense)
+        const balance = amounts[amounts.length - 1];
+        const credit = amounts[amounts.length - 2];
+        const debit = amounts[amounts.length - 3];
+        if (debit > 0 && debit < balance * 2) {
+          result.push({ date, description, amount: debit, type: "expense", category: autoCategory(description).category });
+        } else if (credit > 0 && credit < balance * 2) {
+          result.push({ date, description, amount: credit, type: "income", category: autoCategory(description).category });
+        } else {
+          // Fall back to the first reasonable amount
+          const txAmt = amounts.find((a) => a > 0 && a < 1e7) ?? 0;
+          if (txAmt > 0) {
+            const { category, type } = autoCategory(description);
+            result.push({ date, description, amount: txAmt, type, category });
+          }
         }
       }
     }
@@ -378,7 +509,7 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
       return {
         ...r,
         uid: `${i}-${r.date}-${r.amount}`,
-        checked: !isDuplicate,
+        checked: true, // Always checked by default — user can uncheck duplicates manually
         isDuplicate,
       };
     });
