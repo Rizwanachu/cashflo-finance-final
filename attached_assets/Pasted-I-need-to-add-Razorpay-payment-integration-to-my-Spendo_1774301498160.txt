@@ -1,0 +1,57 @@
+I need to add Razorpay payment integration to my Spendory web app. Here is exactly what I need:
+
+--- PRICING LOGIC ---
+- Detect user's country using the ipapi.co free API (fetch https://ipapi.co/json/)
+- If country code is "IN" (India): show price as ₹249 INR via Razorpay
+- If any other country: show price as $9.99 USD via the existing PayPal button
+- Store detected country in localStorage as "userCountry"
+
+--- RAZORPAY INTEGRATION ---
+- Add Razorpay checkout script: https://checkout.razorpay.com/v1/checkout.js
+- Create a Razorpay order on button click with these options:
+    key: use environment variable RAZORPAY_KEY_ID
+    amount: 24900 (in paise = ₹249)
+    currency: "INR"
+    name: "Spendory"
+    description: "Spendory Pro – Lifetime Access"
+    theme: { color: "#10b981" }
+- On successful payment (handler function):
+    call the existing Pro unlock logic (same function used after PayPal success)
+    show a success message: "Payment successful! Spendory Pro is now unlocked."
+- On payment failure: show error message "Payment failed. Please try again."
+
+--- PRICING PAGE CHANGES ---
+On the Pricing page, update the Pro card to show:
+- If Indian user: display "₹249" as the price in large text
+- Below price: "One-time payment · No subscription · No renewal"
+- Supported methods line: "UPI · PhonePe · GPay · Cards · Netbanking"
+- Change the "Upgrade to Pro" button label to "Pay ₹249 — Unlock Forever" for Indian users
+- Keep existing $9.99 PayPal button for non-Indian users, label: "Pay $9.99 — Unlock Forever"
+
+--- PRO MODAL CHANGES ---
+In the Pro upgrade modal (Spendory Pro popup):
+- Same country detection logic
+- Indian users see: "₹249" prominently near the top, above the benefits list
+- Non-Indian users see: "$9.99" as before
+- Update CTA button text to match: "Pay once. Use forever. (₹249)" for India
+
+--- BACKEND (if needed) ---
+If the app has a backend/server:
+- Add a POST /api/razorpay/create-order endpoint
+- Use razorpay npm package: const Razorpay = require("razorpay")
+- Init with RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET from env vars
+- Return order_id to frontend
+
+If fully frontend (no backend):
+- Use Razorpay's client-only checkout mode (no order_id required)
+- Just pass key_id and amount directly to Razorpay checkout options
+
+--- ENVIRONMENT VARIABLES NEEDED ---
+RAZORPAY_KEY_ID = your_razorpay_key_id_here
+RAZORPAY_KEY_SECRET = your_razorpay_key_secret_here
+
+--- DO NOT CHANGE ---
+- Do not touch the existing PayPal integration
+- Do not change the Pro feature unlock logic
+- Do not change any other page or component
+- Keep all existing styling and dark theme intact

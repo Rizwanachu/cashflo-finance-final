@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePro } from "../context/ProContext";
+import { useCountry } from "../hooks/useCountry";
 
 interface GoproModalProps {
   isOpen: boolean;
@@ -8,11 +9,87 @@ interface GoproModalProps {
 }
 
 const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/ncp/payment/YBDH6PMKW462W";
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+function loadRazorpayScript(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
 
 const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => {
-  const { setShowGoProModal } = usePro();
+  const { setShowGoProModal, unlockPro } = usePro();
+  const { isIndia, loading: countryLoading } = useCountry();
+  const [paying, setPaying] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   if (!isOpen) return null;
+
+  const handleRazorpay = async () => {
+    setPaying(true);
+    setMessage(null);
+
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      setMessage({ type: "error", text: "Failed to load payment. Please try again." });
+      setPaying(false);
+      return;
+    }
+
+    let orderId: string | undefined;
+    try {
+      const res = await fetch("/api/razorpay/create-order", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        orderId = data.order_id;
+      }
+    } catch {
+      // client-only mode if backend fails
+    }
+
+    const options: any = {
+      key: RAZORPAY_KEY_ID,
+      amount: 24900,
+      currency: "INR",
+      name: "Spendory",
+      description: "Spendory Pro – Lifetime Access",
+      theme: { color: "#10b981" },
+      handler: () => {
+        unlockPro();
+        setShowGoProModal(false);
+        setMessage({ type: "success", text: "Payment successful! Spendory Pro is now unlocked." });
+        setPaying(false);
+      },
+      modal: {
+        ondismiss: () => setPaying(false),
+      },
+    };
+
+    if (orderId) options.order_id = orderId;
+
+    try {
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", () => {
+        setMessage({ type: "error", text: "Payment failed. Please try again." });
+        setPaying(false);
+      });
+      rzp.open();
+    } catch {
+      setMessage({ type: "error", text: "Payment failed. Please try again." });
+      setPaying(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -40,7 +117,25 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
             </button>
           </div>
         </div>
+
         <div className="p-8 space-y-6 flex-1 overflow-y-auto">
+          {/* Price display */}
+          <div className="text-center">
+            {countryLoading ? (
+              <div className="text-2xl font-bold text-slate-900 dark:text-slate-50 animate-pulse">…</div>
+            ) : isIndia ? (
+              <>
+                <div className="text-4xl font-bold text-slate-900 dark:text-slate-50">₹249</div>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">One-time payment · No subscription · No renewal</p>
+              </>
+            ) : (
+              <>
+                <div className="text-4xl font-bold text-slate-900 dark:text-slate-50">$9.99</div>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">One-time payment · No subscription · No renewal</p>
+              </>
+            )}
+          </div>
+
           <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
             <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-2">
               Lifetime access. One-time payment.
@@ -57,40 +152,63 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
               Pro Benefits:
             </h3>
             <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-              <li>CSV & PDF export</li>
+              <li>CSV &amp; PDF export</li>
               <li>Advanced analytics</li>
               <li>Budget tracking</li>
-              <li>App lock & privacy mode</li>
+              <li>App lock &amp; privacy mode</li>
               <li>Financial goals</li>
-              <li>Unlimited usage & Priority support</li>
+              <li>Unlimited usage &amp; Priority support</li>
               <li>All future updates included</li>
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <p className="text-xs text-slate-600 dark:text-slate-400">
-              Click the button below to complete your one-time payment via PayPal.
-            </p>
-            <a
-              href={PAYPAL_PAYMENT_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-semibold transition-colors text-center"
+          {message && (
+            <div
+              className={`px-4 py-3 rounded-xl text-sm font-medium ${
+                message.type === "success"
+                  ? "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
+                  : "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800"
+              }`}
             >
-              Pay once. Use forever. ($9.99)
-            </a>
+              {message.text}
+            </div>
+          )}
+
+          <div className="space-y-4">
+            {!countryLoading && isIndia ? (
+              <>
+                <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+                  UPI · PhonePe · GPay · Cards · Netbanking
+                </p>
+                <button
+                  onClick={handleRazorpay}
+                  disabled={paying}
+                  className="block w-full px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white text-sm font-semibold transition-colors text-center"
+                >
+                  {paying ? "Opening payment…" : "Pay once. Use forever. (₹249)"}
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+                  Click the button below to complete your one-time payment via PayPal.
+                </p>
+                <a
+                  href={PAYPAL_PAYMENT_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full px-4 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 text-sm font-semibold transition-colors text-center"
+                >
+                  Pay once. Use forever. ($9.99)
+                </a>
+              </>
+            )}
           </div>
 
           <div className="space-y-2 border-t border-slate-200 dark:border-[var(--border-subtle)] pt-4">
-            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-              Your unlock is permanent on this device
-            </p>
-            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-              No account required
-            </p>
-            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-              Works offline
-            </p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">Your unlock is permanent on this device</p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">No account required</p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">Works offline</p>
           </div>
 
           <button

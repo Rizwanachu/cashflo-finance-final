@@ -1,5 +1,6 @@
 import express from "express";
 import customAuthRoutes from "./customAuth.ts";
+import razorpayRoutes from "./razorpay.ts";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createServer } from "http";
@@ -34,6 +35,7 @@ async function startServer() {
   });
 
   app.use("/api/auth", customAuthRoutes);
+  app.use("/api/razorpay", razorpayRoutes);
 
   const distPath = path.resolve(__dirname, "../dist");
   app.use(express.static(distPath));

@@ -1,14 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePro } from "../context/ProContext";
+import { useCountry } from "../hooks/useCountry";
 import SocialProofBanner from "../components/SocialProofBanner";
 import ShareButton from "../components/ShareButton";
 import { Card } from "../components/Card";
 import { ShieldCheck, CloudOff, WifiOff, Infinity, Check, Star } from "lucide-react";
 
+const PAYPAL_PAYMENT_LINK = "https://www.paypal.com/ncp/payment/YBDH6PMKW462W";
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+function loadRazorpayScript(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
-  const { isProUser, setShowGoProModal, setLockedFeature } = usePro();
+  const { isProUser, setShowGoProModal, setLockedFeature, unlockPro } = usePro();
+  const { isIndia, loading: countryLoading } = useCountry();
+  const [paying, setPaying] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  const handleRazorpay = async () => {
+    setPaying(true);
+    setMessage(null);
+
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      setMessage({ type: "error", text: "Failed to load payment. Please try again." });
+      setPaying(false);
+      return;
+    }
+
+    let orderId: string | undefined;
+    try {
+      const res = await fetch("/api/razorpay/create-order", { method: "POST" });
+      if (res.ok) {
+        const data = await res.json();
+        orderId = data.order_id;
+      }
+    } catch {
+      // client-only mode
+    }
+
+    const options: any = {
+      key: RAZORPAY_KEY_ID,
+      amount: 24900,
+      currency: "INR",
+      name: "Spendory",
+      description: "Spendory Pro – Lifetime Access",
+      theme: { color: "#10b981" },
+      handler: () => {
+        unlockPro();
+        setMessage({ type: "success", text: "Payment successful! Spendory Pro is now unlocked." });
+        setPaying(false);
+      },
+      modal: {
+        ondismiss: () => setPaying(false),
+      },
+    };
+
+    if (orderId) options.order_id = orderId;
+
+    try {
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", () => {
+        setMessage({ type: "error", text: "Payment failed. Please try again." });
+        setPaying(false);
+      });
+      rzp.open();
+    } catch {
+      setMessage({ type: "error", text: "Payment failed. Please try again." });
+      setPaying(false);
+    }
+  };
 
   const handleUpgradeToPro = () => {
     setLockedFeature("Pro features");
@@ -52,12 +130,8 @@ const Pricing: React.FC = () => {
                 <div key={f.title} className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-zinc-400 dark:text-[var(--text-muted)] shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium text-slate-900 dark:text-[var(--text-primary)]">
-                      {f.title}
-                    </p>
-                    <p className="text-xs text-slate-500 dark:text-[var(--text-paragraph)]">
-                      {f.desc}
-                    </p>
+                    <p className="font-medium text-slate-900 dark:text-[var(--text-primary)]">{f.title}</p>
+                    <p className="text-xs text-slate-500 dark:text-[var(--text-paragraph)]">{f.desc}</p>
                   </div>
                 </div>
               ))}
@@ -77,20 +151,35 @@ const Pricing: React.FC = () => {
           <div className="absolute top-0 right-0 p-12 bg-white/5 rounded-full -mr-16 -mt-16 blur-3xl" />
           <div className="relative z-10">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold">
-                Pro
-              </h2>
-              <div className="flex items-baseline gap-2 mt-2">
-                <span className="text-4xl font-bold">
-                  One-time
-                </span>
-                <span className="text-sm text-white/60 dark:text-[var(--text-muted)]">
-                  payment
-                </span>
-              </div>
-              <p className="text-sm text-white/80 dark:text-[var(--brand-primary)] font-medium mt-2">
-                Pay once, use forever
-              </p>
+              <h2 className="text-2xl font-bold">Pro</h2>
+              {countryLoading ? (
+                <div className="flex items-baseline gap-2 mt-2">
+                  <span className="text-4xl font-bold animate-pulse">…</span>
+                </div>
+              ) : isIndia ? (
+                <>
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-4xl font-bold">₹249</span>
+                    <span className="text-sm text-white/60 dark:text-[var(--text-muted)]">INR</span>
+                  </div>
+                  <p className="text-sm text-white/80 dark:text-[var(--brand-primary)] font-medium mt-1">
+                    One-time payment · No subscription · No renewal
+                  </p>
+                  <p className="text-xs text-white/60 dark:text-[var(--text-muted)] mt-1">
+                    UPI · PhonePe · GPay · Cards · Netbanking
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-4xl font-bold">$9.99</span>
+                    <span className="text-sm text-white/60 dark:text-[var(--text-muted)]">USD</span>
+                  </div>
+                  <p className="text-sm text-white/80 dark:text-[var(--brand-primary)] font-medium mt-2">
+                    Pay once, use forever
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="flex-1 space-y-4 mb-8">
@@ -106,31 +195,49 @@ const Pricing: React.FC = () => {
                   <div key={f.title} className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-white dark:text-[var(--brand-primary)] shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-medium">
-                        {f.title}
-                      </p>
-                      <p className="text-xs text-white/60 dark:text-[var(--text-paragraph)]">
-                        {f.desc}
-                      </p>
+                      <p className="font-medium">{f.title}</p>
+                      <p className="text-xs text-white/60 dark:text-[var(--text-paragraph)]">{f.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
+            {message && (
+              <div
+                className={`mb-4 px-4 py-3 rounded-xl text-sm font-medium ${
+                  message.type === "success"
+                    ? "bg-emerald-900/40 text-emerald-300 border border-emerald-700"
+                    : "bg-red-900/40 text-red-300 border border-red-700"
+                }`}
+              >
+                {message.text}
+              </div>
+            )}
+
             {isProUser ? (
               <div className="flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-white/10 dark:bg-[var(--brand-primary)]/10 text-white dark:text-[var(--brand-primary)] font-semibold text-center">
                 <Check className="w-5 h-5" /> You&apos;re a Pro user
               </div>
-            ) : (
+            ) : !countryLoading && isIndia ? (
               <button
-                onClick={handleUpgradeToPro}
-                className="w-full px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold transition-colors"
+                onClick={handleRazorpay}
+                disabled={paying}
+                className="w-full px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-60 text-white font-semibold transition-colors"
               >
-                Upgrade to Pro
+                {paying ? "Opening payment…" : "Pay ₹249 — Unlock Forever"}
               </button>
+            ) : (
+              <a
+                href={PAYPAL_PAYMENT_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-slate-900 font-semibold transition-colors text-center"
+              >
+                Pay $9.99 — Unlock Forever
+              </a>
             )}
-            
+
             <div className="inline-flex items-center gap-1.5 w-max mx-auto mt-4 bg-white/10 dark:bg-[var(--brand-primary)]/20 text-white dark:text-[var(--brand-primary)] px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
               <Star className="w-3.5 h-3.5 fill-current" /> Recommended
             </div>
@@ -139,62 +246,24 @@ const Pricing: React.FC = () => {
       </div>
 
       <div className="bg-white dark:bg-[var(--bg-tertiary)] rounded-2xl p-8 border border-slate-200 dark:border-[var(--border-subtle)] shadow-sm">
-        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
-          Why Spendory?
-        </h3>
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">Why Spendory?</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
-            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5 text-slate-900 dark:text-slate-100" />
+          {[
+            { icon: ShieldCheck, title: "No tracking", desc: "Your data is yours alone" },
+            { icon: CloudOff, title: "No cloud sync", desc: "Everything stays on your device" },
+            { icon: WifiOff, title: "Works offline", desc: "No internet connection needed" },
+            { icon: Infinity, title: "Pay once, forever", desc: "No monthly subscriptions" },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
+              <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
+                <Icon className="w-5 h-5 text-slate-900 dark:text-slate-100" />
+              </div>
+              <div>
+                <p className="font-semibold text-slate-900 dark:text-slate-50">{title}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">{desc}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-semibold text-slate-900 dark:text-slate-50">
-                No tracking
-              </p>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Your data is yours alone
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
-            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
-              <CloudOff className="w-5 h-5 text-slate-900 dark:text-slate-100" />
-            </div>
-            <div>
-              <p className="font-semibold text-slate-900 dark:text-slate-50">
-                No cloud sync
-              </p>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Everything stays on your device
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
-            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
-              <WifiOff className="w-5 h-5 text-slate-900 dark:text-slate-100" />
-            </div>
-            <div>
-              <p className="font-semibold text-slate-900 dark:text-slate-50">
-                Works offline
-              </p>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                No internet connection needed
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5">
-            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
-              <Infinity className="w-5 h-5 text-slate-900 dark:text-slate-100" />
-            </div>
-            <div>
-              <p className="font-semibold text-slate-900 dark:text-slate-50">
-                Pay once, forever
-              </p>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                No monthly subscriptions
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 

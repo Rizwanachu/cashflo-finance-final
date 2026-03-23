@@ -13,6 +13,7 @@ interface ProContextValue {
   isProUser: boolean;
   proStatus: ProStatus;
   resetPro: () => void;
+  unlockPro: () => void;
   showGoProModal: boolean;
   setShowGoProModal: (show: boolean) => void;
   lockedFeature?: string;
@@ -114,6 +115,21 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const unlockPro = () => {
+    const status: ProStatus = {
+      isPro: true,
+      plan: "Pro",
+      validUntil: null,
+      lastVerifiedAt: new Date().toISOString()
+    };
+    setIsProUser(true);
+    setProStatus(status);
+    safeSet(PRO_KEY, "true");
+    if (isAuthenticated && user) {
+      safeSet(`pro_status_${user.userId}`, JSON.stringify(status));
+    }
+  };
+
   const resetPro = () => {
     setIsProUser(false);
     setProStatus({
@@ -135,6 +151,7 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
         isProUser,
         proStatus,
         resetPro,
+        unlockPro,
         showGoProModal,
         setShowGoProModal,
         lockedFeature,
