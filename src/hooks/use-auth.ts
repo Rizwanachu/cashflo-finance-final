@@ -1,22 +1,15 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { User } from "../../shared/models/auth";
 
 async function fetchUser(): Promise<User | null> {
   const token = localStorage.getItem("auth_token");
   if (!token) return null;
 
-  const rawApiUrl = import.meta.env.VITE_API_URL || "";
-  const apiUrl = rawApiUrl.replace(/\/$/, "");
-
-  if (apiUrl) {
-    console.log(`Fetching from remote API: ${apiUrl}/api/auth/me`);
-  }
-
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000);
 
   try {
-    const response = await fetch(`${apiUrl}/api/auth/me`, {
+    const response = await fetch("/api/auth/me", {
       headers: { "Authorization": `Bearer ${token}` },
       signal: controller.signal,
     });
@@ -53,15 +46,12 @@ export function useAuth() {
   const loginWithGoogleToken = async (idToken: string) => {
     console.log("Google credential received");
 
-    const rawApiUrl = import.meta.env.VITE_API_URL || "";
-    const apiUrl = rawApiUrl.replace(/\/$/, "");
-
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     let res: Response;
     try {
-      res = await fetch(`${apiUrl}/api/auth/google`, {
+      res = await fetch("/api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,15 +85,15 @@ export function useAuth() {
 
     const data = await res.json();
     console.log("Google Sign-In success", data.email);
-    
+
     if (data.token) {
       localStorage.setItem("auth_token", data.token);
     }
-    
+
     if (data.user) {
       localStorage.setItem("spendory-auth-user", JSON.stringify(data.user));
       queryClient.setQueryData(["/api/auth/user"], data.user);
-      
+
       if (data.user.isPro) {
         localStorage.setItem(`pro_status_${data.user.id}`, JSON.stringify({
           isPro: true,

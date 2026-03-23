@@ -3,16 +3,6 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/auth/google", "destination": "/api/auth/google.ts" },
-    { "source": "/api/auth/me", "destination": "/api/auth/me.ts" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    }
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
