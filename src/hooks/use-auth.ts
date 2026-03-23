@@ -6,34 +6,40 @@ async function fetchUser(): Promise<User | null> {
   if (!token) return null;
 
   const rawApiUrl = import.meta.env.VITE_API_URL || "";
-  const apiUrl = rawApiUrl.replace(/\/$/, ""); // Remove trailing slash if present
-  
-  // Log URL for debugging cross-domain issues
+  const apiUrl = rawApiUrl.replace(/\/$/, "");
+
   if (apiUrl) {
     console.log(`Fetching from remote API: ${apiUrl}/api/auth/me`);
   }
 
-  const response = await fetch(`${apiUrl}/api/auth/me`, {
-    headers: { "Authorization": `Bearer ${token}` }
-  }).catch(err => {
-    console.error(`Fetch error for ${apiUrl}/api/auth/me:`, err);
-    if (!apiUrl && !window.location.hostname.includes('repl.co') && !window.location.hostname.includes('replit.app') && window.location.hostname !== 'localhost') {
-      console.error("DETECTED EXTERNAL DOMAIN WITHOUT VITE_API_URL. Please set VITE_API_URL to your Replit backend URL in your deployment settings.");
-    }
-    throw err;
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-  if (!response.ok) {
-    if (response.status === 401) {
-      localStorage.removeItem("auth_token");
+  try {
+    const response = await fetch(`${apiUrl}/api/auth/me`, {
+      headers: { "Authorization": `Bearer ${token}` },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("auth_token");
+      }
+      console.error("User fetch failed", response.status);
       return null;
     }
-    // Instead of throwing, we return null to avoid "Failed to fetch" UI block if it's just a transient error
-    console.error("User fetch failed", response.status);
+
+    return response.json();
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    if (err.name === "AbortError") {
+      console.warn("Auth check timed out — proceeding without server auth.");
+      return null;
+    }
+    console.error("Auth fetch error:", err);
     return null;
   }
-
-  return response.json();
 }
 
 export function useAuth() {

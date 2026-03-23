@@ -31,6 +31,31 @@
     <meta name="apple-mobile-web-app-title" content="Spendory" />
   </head>
   <body>
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('spendory-theme-v1');
+          var theme = stored === 'light' || stored === 'dark' ? stored :
+            (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.setProperty('--app-bg', '#0B0F0E');
+            document.documentElement.style.setProperty('--card-bg', '#1A2321');
+            document.documentElement.style.setProperty('--brand-primary', '#14b8a6');
+            document.documentElement.style.setProperty('--primary-text', '#E6F1EC');
+            document.documentElement.style.setProperty('--muted-text', '#6F7F79');
+            document.documentElement.style.setProperty('--default-border', '#1F2A27');
+          } else {
+            document.documentElement.style.setProperty('--app-bg', '#F8FAFC');
+            document.documentElement.style.setProperty('--card-bg', '#FFFFFF');
+            document.documentElement.style.setProperty('--brand-primary', '#059669');
+            document.documentElement.style.setProperty('--primary-text', '#0F172A');
+            document.documentElement.style.setProperty('--muted-text', '#64748B');
+            document.documentElement.style.setProperty('--default-border', '#E2E8F0');
+          }
+        } catch(e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

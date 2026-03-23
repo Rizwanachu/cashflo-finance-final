@@ -76,17 +76,17 @@ export const AuthScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4" style={{ backgroundColor: 'var(--app-bg)' }}>
       <div className="max-w-md w-full space-y-8 text-center">
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight text-white">Spendory</h1>
-          <p className="text-muted-foreground text-lg">Your privacy-first financial companion</p>
+          <h1 className="text-4xl font-bold tracking-tight" style={{ color: 'var(--primary-text)' }}>Spendory</h1>
+          <p className="text-lg" style={{ color: 'var(--muted-text)' }}>Your privacy-first financial companion</p>
         </div>
 
-        <Card className="p-8 space-y-6 shadow-xl border-t-4 border-t-primary text-left">
+        <Card className="p-8 space-y-6 shadow-xl border-t-4 text-left" style={{ borderTopColor: 'var(--brand-primary)' }}>
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold text-white">Welcome</h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <h2 className="text-2xl font-semibold" style={{ color: 'var(--primary-text)' }}>Welcome</h2>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--muted-text)' }}>
               Sign in with Google to protect your Pro access.
               Financial data remains 100% private in your browser.
             </p>
@@ -102,7 +102,7 @@ export const AuthScreen: React.FC = () => {
             <div ref={buttonDivRef} id="google-login-btn"></div>
           </div>
 
-          <div className="pt-4 border-t border-border grid grid-cols-2 gap-4 text-[10px] text-muted-foreground uppercase tracking-widest text-center">
+          <div className="pt-4 border-t grid grid-cols-2 gap-4 text-[10px] uppercase tracking-widest text-center" style={{ borderColor: 'var(--default-border)', color: 'var(--muted-text)' }}>
             <div className="flex items-center justify-center gap-1">
               <Shield size={12} />
               Privacy First
