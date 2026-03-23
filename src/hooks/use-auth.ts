@@ -35,12 +35,22 @@ async function fetchUser(): Promise<User | null> {
   }
 }
 
+function getCachedUser(): User | null {
+  try {
+    const raw = localStorage.getItem("spendory-auth-user");
+    if (raw) return JSON.parse(raw) as User;
+  } catch {}
+  return null;
+}
+
 export function useAuth() {
   const queryClient = useQueryClient();
   const { data: user, isLoading } = useQuery<User | null>({
     queryKey: ["/api/auth/user"],
     queryFn: fetchUser,
     retry: false,
+    initialData: getCachedUser,
+    staleTime: 5 * 60 * 1000,
   });
 
   const loginWithGoogleToken = async (idToken: string) => {
@@ -92,7 +102,6 @@ export function useAuth() {
 
     if (data.user) {
       localStorage.setItem("spendory-auth-user", JSON.stringify(data.user));
-      queryClient.setQueryData(["/api/auth/user"], data.user);
 
       if (data.user.isPro) {
         localStorage.setItem(`pro_status_${data.user.id}`, JSON.stringify({
@@ -103,6 +112,10 @@ export function useAuth() {
         }));
       }
     }
+
+    // Hard reload for a clean state — avoids transient render crashes during
+    // the React-state transition from AuthScreen to Dashboard
+    window.location.href = "/";
   };
 
   const logout = () => {

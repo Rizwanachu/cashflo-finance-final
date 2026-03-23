@@ -11,6 +11,7 @@ import MonthlySpendingChart from "../components/charts/MonthlySpendingChart";
 import FreeLimitsBanner from "../components/FreeLimitsBanner";
 import ProUserDelight from "../components/ProUserDelight";
 import { Card, ChartContainer } from "../components/Card";
+import { SafeRender } from "../components/SafeRender";
 import { Transaction } from "../types";
 import { formatCurrencyWithPrivacy } from "../utils/privacy";
 import { 
@@ -208,7 +209,9 @@ const Dashboard: React.FC = () => {
             </span>
           </div>
           <ChartContainer>
-            <WeeklySpendingChart transactions={filteredTransactions} />
+            <SafeRender fallback={<div className="h-full flex items-center justify-center text-xs text-slate-400">Chart unavailable</div>}>
+              <WeeklySpendingChart transactions={filteredTransactions} />
+            </SafeRender>
           </ChartContainer>
         </Card>
 
@@ -227,7 +230,9 @@ const Dashboard: React.FC = () => {
             </span>
           </div>
           <ChartContainer>
-            <MonthlySpendingChart transactions={filteredTransactions} />
+            <SafeRender fallback={<div className="h-full flex items-center justify-center text-xs text-slate-400">Chart unavailable</div>}>
+              <MonthlySpendingChart transactions={filteredTransactions} />
+            </SafeRender>
           </ChartContainer>
         </Card>
       </div>

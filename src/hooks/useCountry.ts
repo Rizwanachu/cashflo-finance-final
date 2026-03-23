@@ -4,29 +4,52 @@ const STORAGE_KEY = "userCountry";
 
 export function useCountry() {
   const [country, setCountry] = useState<string | null>(() => {
-    return localStorage.getItem(STORAGE_KEY);
+    try { return localStorage.getItem(STORAGE_KEY); } catch { return null; }
   });
-  const [loading, setLoading] = useState(!localStorage.getItem(STORAGE_KEY));
+  const [loading, setLoading] = useState(() => {
+    try { return !localStorage.getItem(STORAGE_KEY); } catch { return false; }
+  });
 
   useEffect(() => {
-    const cached = localStorage.getItem(STORAGE_KEY);
-    if (cached) {
-      setCountry(cached);
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    try {
+      const cached = localStorage.getItem(STORAGE_KEY);
+      if (cached) {
+        setCountry(cached);
+        setLoading(false);
+        return;
+      }
+    } catch {
       setLoading(false);
       return;
     }
 
-    fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(5000) })
+    const controller = new AbortController();
+    timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    fetch("https://ipapi.co/json/", { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
-        const code = data.country_code || "US";
-        localStorage.setItem(STORAGE_KEY, code);
+        if (cancelled) return;
+        const code = (data && data.country_code) ? data.country_code : "US";
+        try { localStorage.setItem(STORAGE_KEY, code); } catch {}
         setCountry(code);
       })
       .catch(() => {
-        setCountry("US");
+        if (!cancelled) setCountry("US");
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+        if (timeoutId) clearTimeout(timeoutId);
+      });
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   const isIndia = country === "IN";

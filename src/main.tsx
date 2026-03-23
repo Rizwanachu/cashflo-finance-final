@@ -28,6 +28,18 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
+window.addEventListener("unhandledrejection", (e) => {
+  const msg = `[UnhandledRejection] ${e.reason?.message || String(e.reason)}`;
+  console.error(msg);
+  try { localStorage.setItem("spendory_last_crash", msg.slice(0, 2000)); } catch {}
+});
+
+window.addEventListener("error", (e) => {
+  const msg = `[GlobalError] ${e.message} @ ${e.filename}:${e.lineno}`;
+  console.error(msg);
+  try { localStorage.setItem("spendory_last_crash", msg.slice(0, 2000)); } catch {}
+});
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>

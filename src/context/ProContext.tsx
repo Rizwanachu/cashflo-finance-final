@@ -102,7 +102,7 @@ export const ProProvider: React.FC<{ children: React.ReactNode }> = ({
         };
 
         const userProKey = `pro_status_${user.userId}`;
-        safeSet(userProKey, JSON.stringify(serverProStatus));
+        safeSet(userProKey, serverProStatus);
         setProStatus(serverProStatus);
         setIsProUser(serverProStatus.isPro);
         
