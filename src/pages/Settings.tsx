@@ -41,7 +41,7 @@ const SettingsPage: React.FC = () => {
   const { resetPayments } = useRecurring();
   const { notifications, unreadCount, enabled: notificationsEnabled, setEnabled: setNotificationsEnabled, markAllAsRead, clearAll: clearNotifications, resetNotifications, requestPermission, permissionStatus } = useNotifications();
   const { analyticsEnabled, setAnalyticsEnabled } = useAnalytics();
-  const { deviceId, resetPro, isProUser, proStatus, setShowGoProModal, setLockedFeature, restoreProStatus } = usePro();
+  const { deviceId, resetPro, unlockPro, isProUser, proStatus, setShowGoProModal, setLockedFeature, restoreProStatus } = usePro();
   
   const [showResetModal, setShowResetModal] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -111,18 +111,12 @@ const SettingsPage: React.FC = () => {
   };
 
   const handleSimulatorClick = () => {
-    // Only allow simulator if user is already a Pro user or has a secret override
-    // For production, you might want to hide this behind a more secure check
     const newCount = simulatorClicks + 1;
     setSimulatorClicks(newCount);
     if (newCount === 5) {
-      if (!isProUser) {
-        pushToast("Pro features required for simulator access", "warning");
-        setSimulatorClicks(0);
-        return;
-      }
+      setSimulatorClicks(0);
       setShowSimulator(true);
-      pushToast("Simulator mode enabled", "success");
+      pushToast("Developer mode enabled", "success");
     }
   };
 
@@ -733,36 +727,41 @@ const SettingsPage: React.FC = () => {
 
       {showSimulator && (
         <Card className="border-emerald-200 bg-emerald-50/30 dark:bg-emerald-950/10">
-          <h3 className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-4 flex items-center gap-2">
-            🚀 Admin Simulator
-          </h3>
-          <div className="space-y-4">
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-emerald-100 dark:border-emerald-800">
-              <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
-                This simulates the code generation that would normally happen on your server after a successful PayPal payment.
-              </p>
-              <div className="flex flex-col gap-2">
-                <div className="text-sm font-mono bg-slate-100 dark:bg-slate-800 p-2 rounded border border-slate-200 dark:border-slate-700 break-all">
-                  {generateUnlockCode(deviceId)}
-                </div>
-                <button
-                  onClick={handleCopyCode}
-                  className="px-4 py-2 bg-emerald-500 text-white text-xs font-bold rounded-lg hover:bg-emerald-600 transition-all"
-                >
-                  Copy Unique Pro Code
-                </button>
-              </div>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+              🛠 Developer Mode
+            </h3>
+            <button
+              onClick={() => setShowSimulator(false)}
+              className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            >
+              Close
+            </button>
+          </div>
+          <div className="space-y-3">
+            <div className="p-3 rounded-xl border border-emerald-100 dark:border-emerald-800 bg-white dark:bg-slate-900 text-xs text-slate-500 dark:text-slate-400">
+              Current plan: <span className="font-semibold text-slate-900 dark:text-slate-100">{proStatus.plan}</span>
+              {isProUser && <span className="ml-2 text-emerald-600 dark:text-emerald-400">✓ Pro active</span>}
             </div>
-            
-            {isProUser && (
+            {!isProUser ? (
+              <button
+                onClick={() => {
+                  unlockPro();
+                  pushToast("Pro unlocked for testing!", "success");
+                }}
+                className="w-full px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl transition-all active:scale-[0.98]"
+              >
+                ✦ Activate Pro (Owner bypass)
+              </button>
+            ) : (
               <button
                 onClick={() => {
                   resetPro();
-                  pushToast("Pro status reset", "success");
+                  pushToast("Reverted to Free tier", "success");
                 }}
-                className="w-full px-4 py-2 border border-red-200 text-red-600 text-xs font-medium rounded-lg hover:bg-red-50 transition-all"
+                className="w-full px-4 py-2.5 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm font-medium rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all active:scale-[0.98]"
               >
-                Reset Pro Status (for testing)
+                Revert to Free (for testing)
               </button>
             )}
           </div>
