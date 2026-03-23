@@ -43,3 +43,8 @@ deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
 publicDir = "dist"
 run = ["bash", "-c", "npm run server & npm run dev"]
+
+[userenv]
+
+[userenv.shared]
+VITE_RAZORPAY_KEY_ID = "rzp_live_SK09BiITz7FWki"
