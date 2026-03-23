@@ -22,55 +22,75 @@
   --error: #DC2626;
 }
 
+.dark {
+  --bg-primary: #000000;
+  --bg-secondary: #0A0A0A;
+  --bg-tertiary: #111111;
+
+  --brand-primary: #14b8a6;
+  --brand-secondary: #0d9488;
+  --brand-accent: #134e4a;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-paragraph: #71717A;
+  --text-muted: #52525B;
+  --text-disabled: #3F3F46;
+
+  --border-subtle: #1F1F23;
+
+  --button-primary-bg: #14b8a6;
+  --button-primary-text: #ffffff;
+  --button-primary-hover: #0d9488;
+
+  --button-secondary-bg: transparent;
+  --button-secondary-border: #27272A;
+  --button-secondary-text: #FFFFFF;
+
+  --danger-bg: #450A0A;
+  --danger-text: #FCA5A5;
+
+  /* Map new theme to existing variable names for compatibility */
+  --app-bg: var(--bg-primary);
+  --card-bg: var(--bg-tertiary);
+  --sidebar-bg: var(--bg-secondary);
+  --hover-surface: var(--bg-tertiary);
+  --primary-text: var(--text-primary);
+  --secondary-text: var(--text-secondary);
+  --muted-text: var(--text-muted);
+  --disabled-text: var(--text-disabled);
+  --default-border: var(--border-subtle);
+  --subtle-divider: var(--border-subtle);
+  --brand-primary-val: var(--brand-primary);
+  --brand-hover: var(--brand-secondary);
+  --success: var(--brand-primary);
+  --error: var(--danger-text);
+
+  background-color: var(--bg-primary);
+  color: var(--text-paragraph);
+}
+
+/* Also apply for OS-level dark preference (before JS loads) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --bg-primary: #000000;
     --bg-secondary: #0A0A0A;
     --bg-tertiary: #111111;
-
     --brand-primary: #14b8a6;
     --brand-secondary: #0d9488;
     --brand-accent: #134e4a;
-
     --text-primary: #FFFFFF;
     --text-secondary: #A1A1AA;
     --text-paragraph: #71717A;
     --text-muted: #52525B;
     --text-disabled: #3F3F46;
-
     --border-subtle: #1F1F23;
-
-    --button-primary-bg: #14b8a6;
-    --button-primary-text: #ffffff;
-    --button-primary-hover: #0d9488;
-
-    --button-secondary-bg: transparent;
-    --button-secondary-border: #27272A;
-    --button-secondary-text: #FFFFFF;
-
     --danger-bg: #450A0A;
     --danger-text: #FCA5A5;
-
-    /* Map new theme to existing variable names for compatibility */
     --app-bg: var(--bg-primary);
     --card-bg: var(--bg-tertiary);
-    --sidebar-bg: var(--bg-secondary);
-    --hover-surface: var(--bg-tertiary);
     --primary-text: var(--text-primary);
-    --secondary-text: var(--text-secondary);
-    --muted-text: var(--text-muted);
-    --disabled-text: var(--text-disabled);
     --default-border: var(--border-subtle);
-    --subtle-divider: var(--border-subtle);
-    --brand-primary-val: var(--brand-primary);
-    --brand-hover: var(--brand-secondary);
-    --success: var(--brand-primary);
-    --error: var(--danger-text);
-  }
-
-  .dark {
-    background-color: var(--bg-primary);
-    color: var(--text-paragraph);
   }
 }
 
