@@ -1,18 +1,17 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { OAuth2Client } from "google-auth-library";
-import { db } from "../lib/db";
-import { users } from "../../shared/models/auth";
-import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "570018727628-r5tprinrvqhvsgbcpmiai35b7lora5re.apps.googleusercontent.com";
-const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_me";
+const JWT_SECRET = process.env.JWT_SECRET || "spendory-jwt-secret-change-in-production";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
   if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
     return res.status(200).end();
   }
 
@@ -37,35 +36,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const { email, name, sub: googleId } = payload;
-    let [user] = await db.select().from(users).where(eq(users.email, email));
+    const userId = `google_${googleId}`;
 
-    if (!user) {
-      const results = await db.insert(users).values({
-        email: email,
-        password: "GOOGLE_AUTH_" + googleId,
-        firstName: name?.split(" ")[0] || "User",
-        isPro: false,
-        proPlan: "Free"
-      }).returning();
-      user = results[0];
-    }
+    const token = jwt.sign(
+      { userId, email, name, provider: "google" },
+      JWT_SECRET,
+      { expiresIn: "30d" }
+    );
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
-
-    res.setHeader("Access-Control-Allow-Origin", "*");
     return res.json({
       success: true,
-      email: payload.email,
-      name: payload.name,
-      sub: payload.sub,
+      email,
+      name,
       token,
       user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        isPro: user.isPro,
-        proPlan: user.proPlan
-      }
+        id: userId,
+        email,
+        firstName: name?.split(" ")[0] || "User",
+        isPro: false,
+        proPlan: "Free",
+      },
     });
   } catch (err: any) {
     console.error("Google auth error:", err);

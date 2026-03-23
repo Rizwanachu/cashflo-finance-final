@@ -51,23 +51,38 @@ export function useAuth() {
   });
 
   const loginWithGoogleToken = async (idToken: string) => {
-    console.log("Google credential received", idToken);
-    
-    // Explicitly use the full URL if in development or if an API URL is provided
+    console.log("Google credential received");
+
     const rawApiUrl = import.meta.env.VITE_API_URL || "";
-    const apiUrl = rawApiUrl.replace(/\/$/, ""); // Remove trailing slash if present
-    const res = await fetch(`${apiUrl}/api/auth/google`, {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ idToken })
-    });
+    const apiUrl = rawApiUrl.replace(/\/$/, "");
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    let res: Response;
+    try {
+      res = await fetch(`${apiUrl}/api/auth/google`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({ idToken }),
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+    } catch (err: any) {
+      clearTimeout(timeoutId);
+      if (err.name === "AbortError") {
+        throw new Error("Sign-in timed out. Please try again.");
+      }
+      console.error("Network error during sign-in:", err);
+      throw new Error("Network error — check your connection and try again.");
+    }
 
     if (!res.ok) {
       const text = await res.text();
-      console.error("Auth server error raw response:", text);
+      console.error("Auth server error:", res.status, text);
       let errorMessage = "Google Sign-In failed";
       try {
         const errorData = JSON.parse(text);
