@@ -88,10 +88,8 @@ const Dashboard: React.FC = () => {
       year: "numeric"
     });
 
-  const statusFromTransaction = (tx: Transaction) => {
-    // Simple visual status similar to reference UI
-    if (tx.type === "income") return "Completed";
-    return "In progress";
+  const statusFromTransaction = (_tx: Transaction) => {
+    return "Completed";
   };
 
   const isFirstTimeUser = filteredTransactions.length === 0;
@@ -298,11 +296,7 @@ const Dashboard: React.FC = () => {
                     <span className="flex items-center gap-2">
                       <span>{formatDate(t.date)}</span>
                       <span
-                        className={`inline-flex px-2 py-0.5 rounded-full text-[10px] ${
-                          t.type === "income"
-                            ? "bg-zinc-100 dark:bg-[var(--brand-primary)]/10 text-zinc-900 dark:text-[var(--brand-primary)]"
-                            : "bg-red-50 dark:bg-[var(--danger-bg)] text-red-600 dark:text-[var(--danger-text)]"
-                        }`}
+                        className="inline-flex px-2 py-0.5 rounded-full text-[10px] bg-zinc-100 dark:bg-[var(--brand-primary)]/10 text-zinc-900 dark:text-[var(--brand-primary)]"
                       >
                         {statusFromTransaction(t)}
                       </span>

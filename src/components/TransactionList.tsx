@@ -114,7 +114,7 @@ const TransactionList: React.FC<Props> = ({
                 <div className="md:col-span-2 md:text-right hidden md:block text-xs text-slate-500 dark:text-[var(--text-paragraph)]">
                   {formatDate(t.date)}
                 </div>
-                <div className="md:col-span-1 md:text-right mt-2 md:mt-0 flex md:block justify-end gap-2">
+                <div className="md:col-span-1 md:text-right mt-2 md:mt-0 flex justify-end gap-2">
                   <button
                     onClick={() => onEdit(t)}
                     className="text-[11px] text-emerald-600 dark:text-[var(--brand-primary)] hover:text-emerald-700 dark:hover:text-[var(--brand-secondary)]"
