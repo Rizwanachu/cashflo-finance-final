@@ -10,10 +10,7 @@ import { useAccounts } from "../context/AccountsContext";
 import { Transaction, TransactionCategory, TransactionType } from "../types";
 import { AlertTriangle, CheckCircle2, ChevronDown, Eye, EyeOff, FileSpreadsheet, FileText, KeyRound, X } from "lucide-react";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).href;
+pdfjs.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 interface Props {
   onClose: () => void;
@@ -285,7 +282,8 @@ const ImportBankStatement: React.FC<Props> = ({ onClose }) => {
         ...(password ? { password } : {}),
       });
 
-      let pdf: pdfjs.PDFDocumentProxy;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let pdf: any;
       try {
         pdf = await loadingTask.promise;
       } catch (err: unknown) {

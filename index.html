@@ -32,6 +32,18 @@
   </head>
   <body>
     <script>
+      if (typeof Promise.withResolvers === 'undefined') {
+        Promise.withResolvers = function() {
+          var resolve, reject;
+          var promise = new Promise(function(res, rej) { resolve = res; reject = rej; });
+          return { promise: promise, resolve: resolve, reject: reject };
+        };
+      }
+      if (typeof structuredClone === 'undefined') {
+        structuredClone = function(obj) { return JSON.parse(JSON.stringify(obj)); };
+      }
+    </script>
+    <script>
       (function() {
         try {
           var stored = localStorage.getItem('spendory-theme-v1');
