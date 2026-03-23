@@ -5,7 +5,8 @@ import TransactionForm from "../components/TransactionForm";
 import TransactionList from "../components/TransactionList";
 import SearchFilterBar from "../components/SearchFilterBar";
 import CsvImport from "../components/CsvImport";
-import { Download, FileText, Upload } from "lucide-react";
+import ImportBankStatement from "../components/ImportBankStatement";
+import { Download, FileText, Upload, Landmark } from "lucide-react";
 import { useCurrency } from "../context/CurrencyContext";
 import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/exportCsv";
 import { useToast } from "../context/ToastContext";
@@ -31,6 +32,7 @@ const TransactionsPage: React.FC = () => {
   const [type, setType] = useState<TransactionType | "all">("all");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [showCsvImport, setShowCsvImport] = useState(false);
+  const [showBankImport, setShowBankImport] = useState(false);
 
   // Get all unique tags (Pro feature)
   const availableTags = useMemo(() => {
@@ -198,11 +200,35 @@ const TransactionsPage: React.FC = () => {
             <Download className="w-3.5 h-3.5" />
             <span className="inline">Import CSV</span>
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!isProUser) {
+                setLockedFeature("Import Bank Statement");
+                setShowGoProModal(true);
+                return;
+              }
+              setShowBankImport(!showBankImport);
+              setShowCsvImport(false);
+            }}
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
+              isProUser
+                ? "border-slate-200 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--bg-tertiary)] text-slate-700 dark:text-[var(--text-secondary)] hover:bg-slate-50 dark:hover:bg-[var(--bg-secondary)]"
+                : "border-slate-200 bg-slate-100 text-slate-900 hover:bg-slate-200"
+            }`}
+          >
+            <Landmark className="w-3.5 h-3.5" />
+            <span className="inline">{isProUser ? "Import Statement" : "Statement (Pro)"}</span>
+          </button>
         </div>
       </div>
 
       {showCsvImport && (
         <CsvImport onImportComplete={() => setShowCsvImport(false)} />
+      )}
+
+      {showBankImport && isProUser && (
+        <ImportBankStatement onClose={() => setShowBankImport(false)} />
       )}
 
       <TransactionList

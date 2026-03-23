@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ImportBankStatement from "../components/ImportBankStatement";
 import { useTheme } from "../context/ThemeContext";
 import { usePrivacy } from "../context/PrivacyContext";
 import { useAppLock } from "../context/AppLockContext";
@@ -48,6 +49,7 @@ const SettingsPage: React.FC = () => {
   const [showSimulator, setShowSimulator] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
   const [isRestoringPro, setIsRestoringPro] = useState(false);
+  const [showBankImport, setShowBankImport] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleRestorePro = async () => {
@@ -670,6 +672,27 @@ const SettingsPage: React.FC = () => {
             <FileText className="w-4 h-4" />
             <span className="inline">{isProUser ? "Export PDF Summary" : "PDF Summary (Pro)"}</span>
           </button>
+          <button
+            onClick={() => {
+              if (!isProUser) {
+                setLockedFeature("Import Bank Statement");
+                setShowGoProModal(true);
+                return;
+              }
+              setShowBankImport((v) => !v);
+            }}
+            className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all shadow-sm active:scale-[0.98] ${
+              isProUser
+                ? "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                : "border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400"
+            }`}
+          >
+            <Download className="w-4 h-4" />
+            <span className="inline">{isProUser ? "Import Bank Statement" : "Import Bank Statement (Pro)"}</span>
+          </button>
+          {showBankImport && isProUser && (
+            <ImportBankStatement onClose={() => setShowBankImport(false)} />
+          )}
         </div>
       </Card>
 

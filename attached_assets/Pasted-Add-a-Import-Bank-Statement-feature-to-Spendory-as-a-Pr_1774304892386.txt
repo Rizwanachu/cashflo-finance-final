@@ -1,0 +1,76 @@
+Add a "Import Bank Statement" feature to Spendory as a Pro feature. Here is exactly what to build:
+
+--- WHAT IT DOES ---
+User uploads their bank statement file (CSV, Excel, or PDF).
+The app parses all transactions automatically in the browser.
+No data is sent to any server — all processing happens locally.
+Parsed transactions are shown in a preview table before importing.
+User confirms, and all transactions are added to Spendory instantly.
+
+--- FILE TYPES TO SUPPORT ---
+Phase 1 (build now):
+- CSV files (.csv)
+- Excel files (.xlsx, .xls) using SheetJS library
+
+Phase 2 (build now if possible, else skip):
+- PDF files (.pdf) using PDF.js library
+
+--- LIBRARIES TO USE (all CDN, no install needed) ---
+- PapaParse for CSV: https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js
+- SheetJS for Excel: https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js
+- PDF.js for PDF: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js
+
+--- SMART COLUMN DETECTION ---
+After parsing the file, auto-detect these columns by matching common header names:
+- Date column: headers containing "date", "txn date", "value date", "transaction date"
+- Description column: headers containing "description", "narration", "particulars", "remarks", "details"
+- Debit column: headers containing "debit", "withdrawal", "dr", "amount (dr)"
+- Credit column: headers containing "credit", "deposit", "cr", "amount (cr)"
+- Amount column (single): headers containing "amount" (use negative for debit, positive for credit)
+
+If columns can't be detected automatically, show a simple column mapper UI where user selects which column is Date, Description, Amount.
+
+--- AUTO-CATEGORIZATION ---
+After parsing, auto-assign categories based on keywords in description:
+- "swiggy", "zomato", "food", "restaurant", "cafe", "hotel" → Food/Groceries
+- "uber", "ola", "rapido", "metro", "bus", "irctc", "flight", "indigo", "spicejet" → Transportation
+- "rent", "housing", "maintenance", "society" → Housing
+- "amazon", "flipkart", "myntra", "meesho", "nykaa" → Shopping
+- "netflix", "spotify", "prime", "hotstar", "youtube" → Entertainment
+- "salary", "credited by", "neft cr", "imps cr" → Income (mark as Income type)
+- "atm", "cash withdrawal" → Other
+- anything else → Uncategorized (user can fix manually)
+
+--- DUPLICATE DETECTION ---
+Before importing, check each parsed transaction against existing transactions.
+Match on: same date + same amount + similar description (within 80% similarity).
+If duplicate found, mark it with a yellow warning badge in the preview table.
+Allow user to uncheck duplicates before importing.
+
+--- PREVIEW UI ---
+After parsing, show a preview screen with:
+- Summary bar: "Found 47 transactions — 45 new, 2 duplicates"
+- Table with columns: Date | Description | Amount | Category | Type | Status
+- Each row is a checkbox (all checked by default, duplicates unchecked)
+- Category is an editable dropdown per row (user can fix before importing)
+- Import button at bottom: "Import X selected transactions"
+- Cancel button to go back
+
+--- WHERE TO ADD IT ---
+1. In the Transactions page, add a new button next to "Import CSV": "Import Bank Statement"
+2. In Settings → Data Management, add: "Import Bank Statement (Pro)"
+3. Show a Pro lock on the button for free users with tooltip: "Upgrade to Pro to import bank statements"
+
+--- SUPPORTED BANKS LIST ---
+Show users a help text listing supported banks:
+"Works with statements from: HDFC, SBI, ICICI, Axis, Kotak, Yes Bank, IDFC First, and most Indian banks that export CSV or Excel"
+
+--- PRIVACY NOTE ---
+Show a small note below the upload button:
+"Your file is processed entirely on your device. Nothing is uploaded to any server."
+
+--- DO NOT CHANGE ---
+- Do not touch existing manual transaction flow
+- Do not change Razorpay or PayPal integration
+- Do not change any other existing feature
+- Keep all dark theme styling consistent with the rest of the app
