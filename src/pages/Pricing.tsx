@@ -120,10 +120,10 @@ const Pricing: React.FC = () => {
           <div className="flex-1 space-y-4 mb-8">
             <div className="space-y-3">
               {[
-                { title: "Manual transactions", desc: "Add income and expenses" },
+                { title: "Up to 50 transactions", desc: "Add income and expenses" },
                 { title: "Basic dashboard", desc: "View your balance & summary" },
                 { title: "Transaction categories", desc: "Organize and track spending" },
-                { title: "CSV export", desc: "Export data upto 50 transactions" },
+                { title: "CSV import & export", desc: "Import or export up to 50 transactions" },
                 { title: "Google sign-in", desc: "Quick and secure access" },
                 { title: "No ads", desc: "Clean, focused interface" }
               ].map((f) => (

@@ -12,6 +12,7 @@ import { exportTransactionsToCsv, exportTransactionsToPdf } from "../utils/expor
 import { useToast } from "../context/ToastContext";
 import { useTheme } from "../context/ThemeContext";
 import { usePro } from "../context/ProContext";
+import { useFreeLimits } from "../context/FreeLimitsContext";
 
 const TransactionsPage: React.FC = () => {
   const { transactions, addTransaction, updateTransaction, deleteTransaction } =
@@ -20,6 +21,7 @@ const TransactionsPage: React.FC = () => {
   const { theme } = useTheme();
   const { pushToast } = useToast();
   const { isProUser, setShowGoProModal, setLockedFeature } = usePro();
+  const { hasReachedLimit, transactionCount, transactionLimit } = useFreeLimits();
   const [editing, setEditing] = useState<Transaction | null>(null);
   
   // Search and filter states
@@ -94,6 +96,11 @@ const TransactionsPage: React.FC = () => {
       setEditing(null);
       pushToast("Transaction updated.", "success");
     } else {
+      if (hasReachedLimit) {
+        setLockedFeature(`You've reached the ${transactionLimit}-transaction limit on the free plan.`);
+        setShowGoProModal(true);
+        return;
+      }
       addTransaction(tx);
       pushToast("Transaction added.", "success");
     }
