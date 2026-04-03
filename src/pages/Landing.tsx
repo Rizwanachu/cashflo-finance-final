@@ -12,9 +12,9 @@ import {
   ArrowRight,
   Smartphone,
   TrendingUp,
-  Mail,
   ChevronDown,
   Lock,
+  Instagram,
 } from "lucide-react";
 
 const FEATURES = [
@@ -100,12 +100,15 @@ const FAQ = [
   },
 ];
 
+const BTN_GREEN = "#059669";
+const BTN_GREEN_HOVER = "#047857";
+
 const FaqItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ borderBottom: "1px solid #1F1F23" }}>
       <button
-        className="w-full flex items-center justify-between py-5 text-left gap-4 group"
+        className="w-full flex items-center justify-between py-5 text-left gap-4"
         onClick={() => setOpen((v) => !v)}
       >
         <span
@@ -129,6 +132,16 @@ const FaqItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   );
 };
 
+const Logo: React.FC<{ size?: number }> = ({ size = 32 }) => (
+  <img
+    src="/logo.png"
+    alt="Spendory"
+    width={size}
+    height={size}
+    style={{ borderRadius: 8, display: "block" }}
+  />
+);
+
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const handleGetStarted = () => navigate("/login");
@@ -141,7 +154,8 @@ const Landing: React.FC = () => {
       style={{
         backgroundColor: "#000000",
         color: "#FFFFFF",
-        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif',
+        fontFamily:
+          'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif',
       }}
     >
       {/* ── Navbar ── */}
@@ -153,25 +167,21 @@ const Landing: React.FC = () => {
         }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: "#14b8a6" }}
-            >
-              <TrendingUp size={15} className="text-white" />
-            </div>
+          <div className="flex items-center gap-2.5">
+            <Logo size={32} />
             <span className="text-base font-bold tracking-tight">Spendory</span>
           </div>
 
           <nav className="hidden md:flex items-center gap-6">
             {[
-              { label: "Features", id: "features" },
-              { label: "Pricing", id: "pricing" },
-              { label: "Contact", id: "contact" },
+              { label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
+              { label: "Features", action: () => scrollTo("features") },
+              { label: "Pricing", action: () => scrollTo("pricing") },
+              { label: "Contact", action: () => scrollTo("contact") },
             ].map((l) => (
               <button
                 key={l.label}
-                onClick={() => scrollTo(l.id)}
+                onClick={l.action}
                 className="text-sm font-medium transition-colors hover:text-white"
                 style={{ color: "#71717A" }}
               >
@@ -183,13 +193,9 @@ const Landing: React.FC = () => {
           <button
             onClick={handleGetStarted}
             className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
-            style={{ backgroundColor: "#14b8a6", color: "#ffffff" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = "#0d9488")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = "#14b8a6")
-            }
+            style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
           >
             Get Started <ArrowRight size={13} />
           </button>
@@ -198,12 +204,11 @@ const Landing: React.FC = () => {
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden pt-24 pb-32 px-4 sm:px-6">
-        {/* Subtle radial glow */}
         <div
           className="absolute inset-0 -z-10 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(20,184,166,0.12) 0%, transparent 70%)",
+              "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(20,184,166,0.10) 0%, transparent 70%)",
           }}
         />
 
@@ -241,13 +246,9 @@ const Landing: React.FC = () => {
             <button
               onClick={handleGetStarted}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base transition-colors"
-              style={{ backgroundColor: "#14b8a6", color: "#ffffff" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "#0d9488")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "#14b8a6")
-              }
+              style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
             >
               Get Started — it's free <ArrowRight size={16} />
             </button>
@@ -279,7 +280,13 @@ const Landing: React.FC = () => {
       </section>
 
       {/* ── Stats strip ── */}
-      <section style={{ borderTop: "1px solid #1F1F23", borderBottom: "1px solid #1F1F23", backgroundColor: "#0A0A0A" }}>
+      <section
+        style={{
+          borderTop: "1px solid #1F1F23",
+          borderBottom: "1px solid #1F1F23",
+          backgroundColor: "#0A0A0A",
+        }}
+      >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
             { stat: "100%", label: "Data privacy" },
@@ -310,8 +317,7 @@ const Landing: React.FC = () => {
               Everything you need, nothing you don't
             </h2>
             <p className="max-w-xl mx-auto" style={{ color: "#71717A" }}>
-              Powerful features without the complexity of traditional finance
-              apps.
+              Powerful features without the complexity of traditional finance apps.
             </p>
           </div>
 
@@ -320,17 +326,13 @@ const Landing: React.FC = () => {
               <div
                 key={f.title}
                 className="rounded-xl p-6 transition-all"
-                style={{
-                  backgroundColor: "#111111",
-                  border: "1px solid #1F1F23",
-                }}
+                style={{ backgroundColor: "#111111", border: "1px solid #1F1F23" }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLDivElement).style.borderColor =
                     "rgba(20,184,166,0.3)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor =
-                    "#1F1F23";
+                  (e.currentTarget as HTMLDivElement).style.borderColor = "#1F1F23";
                 }}
               >
                 <div
@@ -339,10 +341,7 @@ const Landing: React.FC = () => {
                 >
                   <f.icon size={18} style={{ color: "#14b8a6" }} />
                 </div>
-                <h3
-                  className="font-semibold text-sm mb-2"
-                  style={{ color: "#FFFFFF" }}
-                >
+                <h3 className="font-semibold text-sm mb-2" style={{ color: "#FFFFFF" }}>
                   {f.title}
                 </h3>
                 <p className="text-xs leading-relaxed" style={{ color: "#52525B" }}>
@@ -357,12 +356,19 @@ const Landing: React.FC = () => {
       {/* ── Privacy callout ── */}
       <section
         className="py-20 px-4 sm:px-6"
-        style={{ backgroundColor: "#0A0A0A", borderTop: "1px solid #1F1F23", borderBottom: "1px solid #1F1F23" }}
+        style={{
+          backgroundColor: "#0A0A0A",
+          borderTop: "1px solid #1F1F23",
+          borderBottom: "1px solid #1F1F23",
+        }}
       >
         <div className="max-w-3xl mx-auto text-center">
           <div
             className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-6"
-            style={{ backgroundColor: "rgba(20,184,166,0.1)", border: "1px solid rgba(20,184,166,0.2)" }}
+            style={{
+              backgroundColor: "rgba(20,184,166,0.1)",
+              border: "1px solid rgba(20,184,166,0.2)",
+            }}
           >
             <ShieldCheck size={28} style={{ color: "#14b8a6" }} />
           </div>
@@ -427,9 +433,9 @@ const Landing: React.FC = () => {
               <button
                 onClick={handleGetStarted}
                 className="w-full py-3 rounded-xl font-semibold text-sm transition-colors"
-                style={{ backgroundColor: "#1F1F23", color: "#FFFFFF", border: "1px solid #27272A" }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#27272A")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1F1F23")}
+                style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
               >
                 Get started free
               </button>
@@ -440,14 +446,14 @@ const Landing: React.FC = () => {
               className="rounded-2xl p-8 flex flex-col relative overflow-hidden"
               style={{
                 backgroundColor: "#111111",
-                border: "1px solid rgba(20,184,166,0.4)",
-                boxShadow: "0 0 40px rgba(20,184,166,0.06)",
+                border: "1px solid rgba(5,150,105,0.4)",
+                boxShadow: "0 0 40px rgba(5,150,105,0.06)",
               }}
             >
               <div className="absolute top-4 right-4">
                 <span
                   className="px-2.5 py-1 rounded-full text-xs font-bold"
-                  style={{ backgroundColor: "#14b8a6", color: "#ffffff" }}
+                  style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
                 >
                   BEST VALUE
                 </span>
@@ -455,7 +461,7 @@ const Landing: React.FC = () => {
               <div className="mb-6">
                 <span
                   className="inline-block px-2.5 py-1 rounded-full text-xs font-bold mb-4"
-                  style={{ backgroundColor: "rgba(20,184,166,0.1)", color: "#14b8a6" }}
+                  style={{ backgroundColor: "rgba(5,150,105,0.1)", color: "#10b981" }}
                 >
                   PRO
                 </span>
@@ -469,7 +475,7 @@ const Landing: React.FC = () => {
               <ul className="space-y-3 mb-8 flex-1">
                 {PRO_FEATURES.map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm" style={{ color: "#A1A1AA" }}>
-                    <CheckCircle2 size={15} style={{ color: "#14b8a6", flexShrink: 0 }} />
+                    <CheckCircle2 size={15} style={{ color: "#10b981", flexShrink: 0 }} />
                     {f}
                   </li>
                 ))}
@@ -477,15 +483,12 @@ const Landing: React.FC = () => {
               <button
                 onClick={handleGetStarted}
                 className="w-full py-3 rounded-xl font-semibold text-sm transition-colors"
-                style={{ backgroundColor: "#14b8a6", color: "#ffffff" }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#0d9488")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#14b8a6")}
+                style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
               >
                 Upgrade to Pro — ₹249
               </button>
-              <p className="text-center text-xs mt-3" style={{ color: "#3F3F46" }}>
-                30-day refund guarantee
-              </p>
             </div>
           </div>
         </div>
@@ -505,11 +508,9 @@ const Landing: React.FC = () => {
               Frequently asked questions
             </h2>
           </div>
-          <div>
-            {FAQ.map((item) => (
-              <FaqItem key={item.q} {...item} />
-            ))}
-          </div>
+          {FAQ.map((item) => (
+            <FaqItem key={item.q} {...item} />
+          ))}
         </div>
       </section>
 
@@ -521,9 +522,12 @@ const Landing: React.FC = () => {
         <div className="max-w-2xl mx-auto text-center">
           <div
             className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-6"
-            style={{ backgroundColor: "rgba(20,184,166,0.1)", border: "1px solid rgba(20,184,166,0.2)" }}
+            style={{
+              backgroundColor: "rgba(5,150,105,0.1)",
+              border: "1px solid rgba(5,150,105,0.2)",
+            }}
           >
-            <Zap size={22} style={{ color: "#14b8a6" }} />
+            <Zap size={22} style={{ color: "#10b981" }} />
           </div>
           <h2
             className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4"
@@ -538,38 +542,50 @@ const Landing: React.FC = () => {
           <button
             onClick={handleGetStarted}
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-base transition-colors"
-            style={{ backgroundColor: "#14b8a6", color: "#ffffff" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#0d9488")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#14b8a6")}
+            style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
           >
             Get Started Free <ArrowRight size={16} />
           </button>
         </div>
       </section>
 
-      {/* ── Contact ── */}
+      {/* ── Contact / Instagram ── */}
       <section
         id="contact"
         className="py-16 px-4 sm:px-6"
         style={{ backgroundColor: "#0A0A0A", borderTop: "1px solid #1F1F23" }}
       >
         <div className="max-w-3xl mx-auto text-center">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-5"
+            style={{
+              backgroundColor: "rgba(20,184,166,0.08)",
+              border: "1px solid rgba(20,184,166,0.15)",
+            }}
+          >
+            <Instagram size={22} style={{ color: "#14b8a6" }} />
+          </div>
           <h2 className="text-2xl font-extrabold tracking-tight mb-3" style={{ color: "#FFFFFF" }}>
             Get in touch
           </h2>
-          <p className="mb-6" style={{ color: "#71717A" }}>
-            Have a question or feedback? We'd love to hear from you.
+          <p className="mb-6 max-w-sm mx-auto text-sm leading-relaxed" style={{ color: "#71717A" }}>
+            Have questions or need help? Follow us on Instagram for updates and support.
           </p>
           <a
-            href="mailto:support@spendory.app"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-colors"
+            href="https://www.instagram.com/spendoryapp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-colors"
             style={{
               border: "1px solid #27272A",
               color: "#A1A1AA",
               backgroundColor: "transparent",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(20,184,166,0.4)";
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                "rgba(20,184,166,0.4)";
               (e.currentTarget as HTMLAnchorElement).style.color = "#14b8a6";
             }}
             onMouseLeave={(e) => {
@@ -577,8 +593,8 @@ const Landing: React.FC = () => {
               (e.currentTarget as HTMLAnchorElement).style.color = "#A1A1AA";
             }}
           >
-            <Mail size={15} />
-            support@spendory.app
+            <Instagram size={16} />
+            @spendoryapp
           </a>
         </div>
       </section>
@@ -589,13 +605,8 @@ const Landing: React.FC = () => {
         style={{ backgroundColor: "#000000", borderTop: "1px solid #1F1F23" }}
       >
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div
-              className="w-7 h-7 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: "#14b8a6" }}
-            >
-              <TrendingUp size={13} className="text-white" />
-            </div>
+          <div className="flex items-center gap-2.5">
+            <Logo size={28} />
             <span className="font-bold text-sm" style={{ color: "#FFFFFF" }}>
               Spendory
             </span>
@@ -604,28 +615,21 @@ const Landing: React.FC = () => {
             </span>
           </div>
 
-          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm" style={{ color: "#52525B" }}>
-            <Link
-              to="/privacy"
-              className="transition-colors hover:text-white"
-              style={{ color: "#52525B" }}
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              to="/terms"
-              className="transition-colors hover:text-white"
-              style={{ color: "#52525B" }}
-            >
-              Terms of Service
-            </Link>
-            <Link
-              to="/refund"
-              className="transition-colors hover:text-white"
-              style={{ color: "#52525B" }}
-            >
-              Refund Policy
-            </Link>
+          <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+            {[
+              ["Privacy Policy", "/privacy"],
+              ["Terms of Service", "/terms"],
+              ["Refund Policy", "/refund"],
+            ].map(([label, to]) => (
+              <Link
+                key={label}
+                to={to}
+                className="transition-colors hover:text-white"
+                style={{ color: "#52525B" }}
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
 
           <p className="text-xs" style={{ color: "#3F3F46" }}>

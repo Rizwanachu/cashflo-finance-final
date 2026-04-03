@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, TrendingUp } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const DARK = {
   bg: "#000000",
@@ -29,10 +29,8 @@ const PublicTerms: React.FC = () => {
         style={{ backgroundColor: "rgba(0,0,0,0.85)", borderBottom: `1px solid ${DARK.border}` }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/landing" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: DARK.brand }}>
-              <TrendingUp size={15} className="text-white" />
-            </div>
+          <Link to="/landing" className="flex items-center gap-2.5">
+            <img src="/logo.png" alt="Spendory" width={32} height={32} style={{ borderRadius: 8 }} />
             <span className="text-base font-bold tracking-tight">Spendory</span>
           </Link>
           <Link
@@ -75,7 +73,7 @@ const PublicTerms: React.FC = () => {
             {
               title: "4. Pro Purchase & Refunds",
               body: "Spendory Pro is a one-time payment of ₹249 that unlocks advanced features permanently.",
-              list: ["We offer a 30-day money-back guarantee — see our Refund Policy for details.", "We reserve the right to modify Pro features at any time."],
+              list: ["All sales are final and non-refundable.", "We reserve the right to modify Pro features at any time."],
             },
             {
               title: "5. Disclaimer of Warranties",

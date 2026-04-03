@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, TrendingUp } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const DARK = {
   bg: "#000000",
@@ -30,10 +30,8 @@ const PublicPrivacy: React.FC = () => {
         style={{ backgroundColor: "rgba(0,0,0,0.85)", borderBottom: `1px solid ${DARK.border}` }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/landing" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: DARK.brand }}>
-              <TrendingUp size={15} className="text-white" />
-            </div>
+          <Link to="/landing" className="flex items-center gap-2.5">
+            <img src="/logo.png" alt="Spendory" width={32} height={32} style={{ borderRadius: 8 }} />
             <span className="text-base font-bold tracking-tight">Spendory</span>
           </Link>
           <Link

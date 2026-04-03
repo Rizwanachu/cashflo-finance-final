@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, TrendingUp } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const DARK = {
   bg: "#000000",
@@ -29,10 +29,8 @@ const RefundPolicy: React.FC = () => {
         style={{ backgroundColor: "rgba(0,0,0,0.85)", borderBottom: `1px solid ${DARK.border}` }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/landing" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: DARK.brand }}>
-              <TrendingUp size={15} className="text-white" />
-            </div>
+          <Link to="/landing" className="flex items-center gap-2.5">
+            <img src="/logo.png" alt="Spendory" width={32} height={32} style={{ borderRadius: 8 }} />
             <span className="text-base font-bold tracking-tight">Spendory</span>
           </Link>
           <Link
@@ -58,62 +56,39 @@ const RefundPolicy: React.FC = () => {
         <div className="space-y-4">
           {[
             {
-              title: "30-Day Money-Back Guarantee",
-              body: "We want you to be completely happy with Spendory Pro. If you upgrade to Pro and feel it isn't right for you, we offer a full refund within 30 days of your purchase — no questions asked.",
+              title: "All Sales Are Final",
+              body: "All purchases of Spendory Pro are non-refundable. By completing a purchase, you acknowledge and agree that the payment is final and no refunds will be issued.",
               list: null,
             },
             {
-              title: "How to Request a Refund",
-              body: null,
-              custom: (
-                <>
-                  <p className="text-sm leading-relaxed mb-3" style={{ color: DARK.textMuted }}>
-                    Email us at{" "}
-                    <a href="mailto:support@spendory.app" style={{ color: DARK.brand }}>
-                      support@spendory.app
-                    </a>{" "}
-                    and include:
-                  </p>
-                  <ul className="space-y-1.5">
-                    {[
-                      "Your payment transaction ID or order number",
-                      "The email address used during purchase",
-                      "A brief reason for the refund (optional but appreciated)",
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-sm" style={{ color: DARK.textMuted }}>
-                        <span style={{ color: DARK.brand, marginTop: 2 }}>·</span> {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-sm leading-relaxed mt-3" style={{ color: DARK.textMuted }}>
-                    Approved refunds are processed within <strong style={{ color: DARK.textSecondary }}>5–7 business days</strong> back to your original payment method.
-                  </p>
-                </>
-              ),
+              title: "Why We Have This Policy",
+              body: "Spendory Pro is a one-time payment for lifetime access to digital software features. Because the Pro features are unlocked and made available to you immediately upon purchase, we are unable to offer refunds.",
+              list: null,
             },
             {
-              title: "Eligibility",
+              title: "What You're Getting",
               body: null,
               list: [
-                "Refund requests must be submitted within 30 days of purchase.",
-                "Only the most recent Pro purchase is eligible per account.",
-                "Refunds are not available for purchases made more than 30 days ago.",
+                "Lifetime access to all current Pro features.",
+                "All future Pro feature updates at no extra cost.",
+                "Immediate activation — no waiting period.",
               ],
             },
             {
-              title: "After a Refund",
-              body: "Once your refund is processed, your account will revert to the Free tier. You will retain access to all your data (stored locally on your device) and all Free features.",
-              list: null,
-            },
-            {
-              title: "Contact",
+              title: "Questions",
               body: null,
               custom: (
                 <p className="text-sm leading-relaxed" style={{ color: DARK.textMuted }}>
-                  Questions about this policy?{" "}
-                  <a href="mailto:support@spendory.app" style={{ color: DARK.brand }}>
-                    support@spendory.app
+                  If you have questions about your purchase or need help with the app, reach us on Instagram at{" "}
+                  <a
+                    href="https://www.instagram.com/spendoryapp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: DARK.brand }}
+                  >
+                    @spendoryapp
                   </a>
+                  .
                 </p>
               ),
             },
