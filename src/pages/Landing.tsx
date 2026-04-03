@@ -83,14 +83,6 @@ const PRO_FEATURES = [
 
 const FAQ = [
   {
-    q: "Do I need an account to use Spendory?",
-    a: "No. The app works completely without an account. All features are available instantly without any sign-up. Gmail sign-in is only required to identify and protect your Pro access — your financial data stays on your device regardless.",
-  },
-  {
-    q: "Why do I need to sign in with Gmail for Pro?",
-    a: "Gmail sign-in is used only to verify your identity and link your one-time Pro purchase to you. It does not affect where your data is stored — everything remains local in your browser.",
-  },
-  {
     q: "Is my financial data safe?",
     a: "Absolutely. All your transactions and budgets are stored exclusively in your browser's local storage. Nothing is sent to our servers. We have zero access to your financial data.",
   },
@@ -108,8 +100,8 @@ const FAQ = [
   },
 ];
 
-const BTN_WHITE = "#FFFFFF";
-const BTN_WHITE_HOVER = "#E5E7EB";
+const BTN_GREEN = "#059669";
+const BTN_GREEN_HOVER = "#047857";
 
 const FaqItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   const [open, setOpen] = useState(false);
@@ -201,9 +193,9 @@ const Landing: React.FC = () => {
           <button
             onClick={handleGetStarted}
             className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
-            style={{ backgroundColor: BTN_WHITE, color: "#000000" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE_HOVER)}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE)}
+            style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
           >
             Get Started <ArrowRight size={13} />
           </button>
@@ -230,7 +222,7 @@ const Landing: React.FC = () => {
             }}
           >
             <Lock size={11} />
-            No account needed · Gmail only for Pro access
+            Privacy-first · Your data never leaves your device
           </div>
 
           <h1
@@ -254,9 +246,9 @@ const Landing: React.FC = () => {
             <button
               onClick={handleGetStarted}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base transition-colors"
-              style={{ backgroundColor: BTN_WHITE, color: "#000000" }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE_HOVER)}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE)}
+              style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
             >
               Get Started — it's free <ArrowRight size={16} />
             </button>
@@ -441,9 +433,9 @@ const Landing: React.FC = () => {
               <button
                 onClick={handleGetStarted}
                 className="w-full py-3 rounded-xl font-semibold text-sm transition-colors"
-                style={{ backgroundColor: BTN_WHITE, color: "#000000" }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE_HOVER)}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE)}
+                style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
               >
                 Get started free
               </button>
@@ -454,14 +446,14 @@ const Landing: React.FC = () => {
               className="rounded-2xl p-8 flex flex-col relative overflow-hidden"
               style={{
                 backgroundColor: "#111111",
-                border: "1px solid rgba(20,184,166,0.4)",
-                boxShadow: "0 0 40px rgba(20,184,166,0.06)",
+                border: "1px solid rgba(5,150,105,0.4)",
+                boxShadow: "0 0 40px rgba(5,150,105,0.06)",
               }}
             >
               <div className="absolute top-4 right-4">
                 <span
                   className="px-2.5 py-1 rounded-full text-xs font-bold"
-                  style={{ backgroundColor: "#FFFFFF", color: "#000000" }}
+                  style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
                 >
                   BEST VALUE
                 </span>
@@ -469,7 +461,7 @@ const Landing: React.FC = () => {
               <div className="mb-6">
                 <span
                   className="inline-block px-2.5 py-1 rounded-full text-xs font-bold mb-4"
-                  style={{ backgroundColor: "rgba(20,184,166,0.1)", color: "#14b8a6" }}
+                  style={{ backgroundColor: "rgba(5,150,105,0.1)", color: "#10b981" }}
                 >
                   PRO
                 </span>
@@ -483,7 +475,7 @@ const Landing: React.FC = () => {
               <ul className="space-y-3 mb-8 flex-1">
                 {PRO_FEATURES.map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-sm" style={{ color: "#A1A1AA" }}>
-                    <CheckCircle2 size={15} style={{ color: "#14b8a6", flexShrink: 0 }} />
+                    <CheckCircle2 size={15} style={{ color: "#10b981", flexShrink: 0 }} />
                     {f}
                   </li>
                 ))}
@@ -491,9 +483,9 @@ const Landing: React.FC = () => {
               <button
                 onClick={handleGetStarted}
                 className="w-full py-3 rounded-xl font-semibold text-sm transition-colors"
-                style={{ backgroundColor: BTN_WHITE, color: "#000000" }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE_HOVER)}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE)}
+                style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
               >
                 Upgrade to Pro — ₹249
               </button>
@@ -531,11 +523,11 @@ const Landing: React.FC = () => {
           <div
             className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-6"
             style={{
-              backgroundColor: "rgba(20,184,166,0.1)",
-              border: "1px solid rgba(20,184,166,0.2)",
+              backgroundColor: "rgba(5,150,105,0.1)",
+              border: "1px solid rgba(5,150,105,0.2)",
             }}
           >
-            <Zap size={22} style={{ color: "#14b8a6" }} />
+            <Zap size={22} style={{ color: "#10b981" }} />
           </div>
           <h2
             className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4"
@@ -550,9 +542,9 @@ const Landing: React.FC = () => {
           <button
             onClick={handleGetStarted}
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-base transition-colors"
-            style={{ backgroundColor: BTN_WHITE, color: "#000000" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE_HOVER)}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_WHITE)}
+            style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
           >
             Get Started Free <ArrowRight size={16} />
           </button>
