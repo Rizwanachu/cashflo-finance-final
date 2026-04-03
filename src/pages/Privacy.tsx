@@ -38,13 +38,13 @@ const Privacy: React.FC = () => {
               </section>
 
               <section>
-                <h2>No Accounts, No Tracking</h2>
+                <h2>Sign In &amp; Tracking</h2>
                 <p>
-                  We have eliminated the most common privacy risks by removing the need for accounts.
+                  Spendory uses Google Sign-In to verify your identity and protect your Pro access. Here's what that means for your privacy:
                 </p>
                 <ul>
-                  <li><strong>No Sign-up:</strong> You don't need to provide an email or phone number.</li>
-                  <li><strong>No Login:</strong> No passwords to manage or lose.</li>
+                  <li><strong>Google Sign-In:</strong> Required to use the app. We receive your Google account name and email to identify your session.</li>
+                  <li><strong>No Passwords:</strong> We never store passwords — authentication is handled entirely by Google.</li>
                   <li><strong>No Default Tracking:</strong> We don't use cookies or third-party trackers to follow you across the web.</li>
                 </ul>
               </section>

@@ -274,7 +274,7 @@ const Landing: React.FC = () => {
           </div>
 
           <p className="mt-5 text-xs" style={{ color: "#3F3F46" }}>
-            No credit card required · Works in your browser · 100% private
+            Sign in with Google · Works in your browser · 100% private
           </p>
         </div>
       </section>
@@ -419,7 +419,7 @@ const Landing: React.FC = () => {
                   ₹0
                 </div>
                 <div className="text-sm mt-1" style={{ color: "#52525B" }}>
-                  Always free, no credit card
+                  Always free · Google sign-in required
                 </div>
               </div>
               <ul className="space-y-3 mb-8 flex-1">

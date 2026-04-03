@@ -30,10 +30,10 @@ const TrustAndPrivacy: React.FC = () => {
             <CheckCircle2 className="w-5 h-5 text-slate-900 dark:text-slate-50 shrink-0 mt-0.5" />
             <div>
               <p className="font-medium text-slate-900 dark:text-slate-50 text-sm">
-                No accounts or logins required
+                Google sign-in to protect your access
               </p>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                Start immediately, no signup needed
+                Your financial data stays private on your device
               </p>
             </div>
           </div>

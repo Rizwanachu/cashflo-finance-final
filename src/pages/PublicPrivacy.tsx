@@ -82,19 +82,24 @@ const PublicPrivacy: React.FC = () => {
               ),
             },
             {
-              title: "No Accounts, No Tracking",
+              title: "Sign In & Tracking",
               content: (
-                <ul className="space-y-2">
-                  {[
-                    ["No Sign-up:", "You don't need to provide an email or phone number."],
-                    ["No Login:", "No passwords to manage or lose."],
-                    ["No Default Tracking:", "We don't use cookies or third-party trackers to follow you across the web."],
-                  ].map(([bold, rest]) => (
-                    <li key={bold} className="text-sm" style={{ color: DARK.textMuted }}>
-                      <strong style={{ color: DARK.textSecondary }}>{bold}</strong> {rest}
-                    </li>
-                  ))}
-                </ul>
+                <>
+                  <p className="text-sm leading-relaxed mb-3" style={{ color: DARK.textMuted }}>
+                    Spendory uses Google Sign-In to verify your identity and protect your Pro access.
+                  </p>
+                  <ul className="space-y-2">
+                    {[
+                      ["Google Sign-In:", "Required to use the app. We receive your Google account name and email to identify your session."],
+                      ["No Passwords:", "We never store passwords — authentication is handled entirely by Google."],
+                      ["No Default Tracking:", "We don't use cookies or third-party trackers to follow you across the web."],
+                    ].map(([bold, rest]) => (
+                      <li key={bold} className="text-sm" style={{ color: DARK.textMuted }}>
+                        <strong style={{ color: DARK.textSecondary }}>{bold}</strong> {rest}
+                      </li>
+                    ))}
+                  </ul>
+                </>
               ),
             },
             {

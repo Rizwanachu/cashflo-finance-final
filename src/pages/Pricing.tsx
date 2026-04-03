@@ -98,7 +98,7 @@ const Pricing: React.FC = () => {
       <SocialProofBanner location="pricing" />
       <div className="text-center mb-8 md:mb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-4 break-words">
-          Simple. Private. No ads. No signup.
+          Simple. Private. No ads.
         </h1>
         <p className="text-base md:text-lg text-slate-600 dark:text-slate-400">
           Your financial data never leaves your device.
@@ -124,7 +124,7 @@ const Pricing: React.FC = () => {
                 { title: "Basic dashboard", desc: "View your balance & summary" },
                 { title: "Transaction categories", desc: "Organize and track spending" },
                 { title: "CSV export", desc: "Export data upto 50 transactions" },
-                { title: "No signup required", desc: "Start immediately" },
+                { title: "Google sign-in", desc: "Quick and secure access" },
                 { title: "No ads", desc: "Clean, focused interface" }
               ].map((f) => (
                 <div key={f.title} className="flex items-start gap-3">

@@ -115,7 +115,7 @@ const Success: React.FC = () => {
 
         {/* Info */}
         <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-4">
-          Your unlock is permanent on this device. No account required.
+          Your Pro access is tied to your Google account and is permanent.
         </p>
       </div>
     </div>

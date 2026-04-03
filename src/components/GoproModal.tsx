@@ -207,7 +207,7 @@ const GoproModal: React.FC<GoproModalProps> = ({ isOpen, onClose, feature }) => 
 
           <div className="space-y-2 border-t border-slate-200 dark:border-[var(--border-subtle)] pt-4">
             <p className="text-xs text-slate-600 dark:text-slate-400 text-center">Your unlock is permanent on this device</p>
-            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">No account required</p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">Tied to your Google account</p>
             <p className="text-xs text-slate-600 dark:text-slate-400 text-center">Works offline</p>
           </div>
 

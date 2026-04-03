@@ -6,7 +6,7 @@ const ShareButton: React.FC = () => {
 
   const handleShare = () => {
     const url = window.location.origin;
-    const text = "Track your money privately with Spendory - no signup, no ads, no cloud.";
+    const text = "Track your money privately with Spendory - no ads, no cloud, financial data stays on your device.";
     
     if (navigator.share) {
       navigator.share({

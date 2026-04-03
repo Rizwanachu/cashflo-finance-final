@@ -19,7 +19,7 @@ const Onboarding: React.FC = () => {
         </h1>
         
         <p className="text-center text-slate-600 dark:text-slate-400 mb-8">
-          No signup. No cloud. No ads.
+          Google sign-in. No cloud. No ads.
         </p>
 
         <div className="space-y-6 mb-8">
