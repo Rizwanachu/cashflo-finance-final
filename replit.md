@@ -5,6 +5,22 @@ Production-ready private finance tracker with freemium model, PayPal Pro unlock,
 
 ## COMPLETED FEATURES
 
+### Public Landing Page ✅
+- Full public landing page at `/landing` (no login required)
+- Hero section with gradient headline and CTA buttons
+- Social proof strip (100% privacy, ₹0 to start, offline ready, 1× pay)
+- 8-feature grid (Analytics, Budgets, Recurring, Privacy, Export, Dark mode, Offline, Tags)
+- Privacy callout section (indigo gradient)
+- Pricing section: Free (₹0) vs Pro (₹249 one-time) with full feature lists
+- FAQ accordion section
+- Dark CTA section
+- Contact section with email link
+- Footer with Privacy Policy, Terms of Service, Refund Policy links
+- Standalone public pages: `/privacy`, `/terms`, `/refund` (no auth required)
+- Routing: unauthenticated users redirected from `/` → `/landing`; `/login` shows auth screen
+- Installed `@tailwindcss/typography` for prose styling on legal pages
+
+
 ### Phase 0: UX & Conversion Polish ✅
 - ✅ Subtle Pro badges on Tag Analytics, Advanced Filters
 - ✅ "Lifetime access. One-time payment." messaging in Go Pro modal
