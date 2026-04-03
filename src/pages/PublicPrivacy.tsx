@@ -30,12 +30,12 @@ const PublicPrivacy: React.FC = () => {
         style={{ backgroundColor: "rgba(0,0,0,0.85)", borderBottom: `1px solid ${DARK.border}` }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/landing" className="flex items-center gap-2.5">
+          <Link to="/home" className="flex items-center gap-2.5">
             <img src="/logo.png" alt="Spendory" width={32} height={32} style={{ borderRadius: 8 }} />
             <span className="text-base font-bold tracking-tight">Spendory</span>
           </Link>
           <Link
-            to="/landing"
+            to="/home"
             className="inline-flex items-center gap-1.5 text-sm transition-colors"
             style={{ color: DARK.textMuted }}
           >

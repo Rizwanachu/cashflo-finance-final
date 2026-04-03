@@ -36,7 +36,7 @@ const App: React.FC = () => {
       {isAuthenticated && !isOnboardingComplete && <Onboarding />}
       <Routes>
         {/* ── Always-public routes ── */}
-        <Route path="/landing" element={<Landing />} />
+        <Route path="/home" element={<Landing />} />
         <Route path="/privacy" element={<PublicPrivacy />} />
         <Route path="/terms" element={<PublicTerms />} />
         <Route path="/refund" element={<RefundPolicy />} />
@@ -62,7 +62,7 @@ const App: React.FC = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
           </>
         ) : (
-          <Route path="*" element={<Navigate to="/landing" replace />} />
+          <Route path="*" element={<Navigate to="/home" replace />} />
         )}
       </Routes>
     </>
