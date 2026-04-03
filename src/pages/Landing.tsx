@@ -100,8 +100,8 @@ const FAQ = [
   },
 ];
 
-const BTN_GREEN = "#059669";
-const BTN_GREEN_HOVER = "#047857";
+const BTN_GREEN = "#FFFFFF";
+const BTN_GREEN_HOVER = "#E4E4E7";
 
 const FaqItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
   const [open, setOpen] = useState(false);
@@ -193,7 +193,7 @@ const Landing: React.FC = () => {
           <button
             onClick={handleGetStarted}
             className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
-            style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+            style={{ backgroundColor: BTN_GREEN, color: "#000000" }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
           >
@@ -246,7 +246,7 @@ const Landing: React.FC = () => {
             <button
               onClick={handleGetStarted}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base transition-colors"
-              style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+              style={{ backgroundColor: BTN_GREEN, color: "#000000" }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
             >
@@ -433,7 +433,7 @@ const Landing: React.FC = () => {
               <button
                 onClick={handleGetStarted}
                 className="w-full py-3 rounded-xl font-semibold text-sm transition-colors"
-                style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+                style={{ backgroundColor: BTN_GREEN, color: "#000000" }}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
               >
@@ -453,7 +453,7 @@ const Landing: React.FC = () => {
               <div className="absolute top-4 right-4">
                 <span
                   className="px-2.5 py-1 rounded-full text-xs font-bold"
-                  style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+                  style={{ backgroundColor: BTN_GREEN, color: "#000000" }}
                 >
                   BEST VALUE
                 </span>
@@ -483,7 +483,7 @@ const Landing: React.FC = () => {
               <button
                 onClick={handleGetStarted}
                 className="w-full py-3 rounded-xl font-semibold text-sm transition-colors"
-                style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+                style={{ backgroundColor: BTN_GREEN, color: "#000000" }}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
               >
@@ -542,7 +542,7 @@ const Landing: React.FC = () => {
           <button
             onClick={handleGetStarted}
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-base transition-colors"
-            style={{ backgroundColor: BTN_GREEN, color: "#ffffff" }}
+            style={{ backgroundColor: BTN_GREEN, color: "#000000" }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN_HOVER)}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BTN_GREEN)}
           >
