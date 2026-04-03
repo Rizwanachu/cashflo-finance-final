@@ -61,7 +61,7 @@ const FEATURES = [
 ];
 
 const FREE_FEATURES = [
-  "Up to 50 transactions",
+  "Unlimited transactions",
   "Budget tracking",
   "Basic analytics & charts",
   "CSV import & export",

@@ -22,7 +22,7 @@ type ImportStep = "upload" | "mapping" | "preview" | "complete";
 const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
   const { theme } = useTheme();
   const { currency } = useCurrency();
-  const { addTransaction, transactions: existingTransactions } = useTransactions();
+  const { addTransaction } = useTransactions();
   const { pushToast } = useToast();
   const { isProUser } = usePro();
   const { accounts } = useAccounts();
@@ -44,10 +44,7 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
     accounts[0]?.id || ""
   );
 
-  const FREE_LIMIT = 50;
-  const maxTransactions = isProUser
-    ? Infinity
-    : Math.max(0, FREE_LIMIT - existingTransactions.length);
+  const maxTransactions = isProUser ? Infinity : 50;
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -166,10 +163,8 @@ const CsvImport: React.FC<Props> = ({ onImportComplete }) => {
           </h2>
 
           {!isProUser && (
-            <div className={`mb-4 rounded-lg p-3 text-sm ${maxTransactions === 0 ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300" : "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-200"}`}>
-              {maxTransactions === 0
-                ? "You've reached the 50-transaction limit. Upgrade to Pro to import more."
-                : `Free tier: You can import up to ${maxTransactions} more transaction${maxTransactions === 1 ? "" : "s"} (50 total limit).`}
+            <div className="mb-4 rounded-lg bg-slate-100 p-3 text-sm text-slate-900 dark:bg-slate-800 dark:text-slate-200">
+              Free tier: Limited to 50 transactions per import
             </div>
           )}
 
